@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage
+/storage/logs
 /vendor
 .phpunit.result.cache
 docker-compose.override.yml
