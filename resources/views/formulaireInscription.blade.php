@@ -27,12 +27,6 @@
                         <!-- A FAIRE (fiche 2, partie 1, question 2) : création du formulaire d'inscription -->
                         <!-- CORRIGÉ -->
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="nom" placeholder="Nom..." required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="prenom" placeholder="Prénom..." required>
-                        </div>
-                        <div class="mb-3">
                             <input type="email" class="form-control" name="email" placeholder="Adresse email..." required>
                         </div>
                         <div class="mb-3 row g-2 align-items-center">
@@ -47,32 +41,6 @@
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control col-auto" name="motDePasse2" placeholder="Confirmer le mot de passe..." required>                      
-                        </div>
-                        <div class="card mb-3 text-start">
-                            <div class="card-body">
-                                <h5 class="card-title">Conditions d'utilisation des données à caractère personnel :</h5>
-                                <p>
-                                    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par <strong>M. Tom DOGUET</strong> pour <strong>l'authentification des utilisateurs</strong>. La base légale du traitement est <strong>le consentement</strong>.
-                                    <br/><br/>
-                                    Les données collectées <strong>ne seront communiquées à aucun tiers</strong>.
-                                    <br/><br/>
-                                    Les données sont conservées pendant <strong>2 ans</strong>.
-                                    <br/><br/>
-                                    Vous pouvez accéder aux données vous concernant, les rectifier, demander leur effacement ou exercer votre droit à la limitation du traitement de vos données.
-                                    <br/><br/>
-                                    Consultez le site <a href="https://www.cnil.fr">cnil.fr</a> pour plus d’informations sur vos droits.
-                                    <br/><br/>
-                                    Pour exercer ces droits ou pour toute question sur le traitement de vos données dans ce dispositif, vous pouvez contacter <strong>notre délégué à la protection des données</strong> : <strong>Tom DOGUET to.doguet@gmail.com</strong>
-                                    <br/><br/>
-                                    Si vous estimez, après nous avoir contactés, que vos droits « Informatique et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3 form-check">
-                            <input class="form-check-input me-3" type="checkbox" required id="acceptation">
-                            <label class="form-check-label" for="acceptation">
-                                J'accepte les conditions d'utilisation de mes données à caractère personnel
-                            </label>                          
                         </div>
                     </div>
                     <div class="input-group d-grid gap-2">

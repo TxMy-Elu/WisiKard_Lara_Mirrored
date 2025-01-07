@@ -20,33 +20,29 @@ class Authentification
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // On vérifie la présence du cookie d'authentification
-		if(isset($_COOKIE["auth"])) {
-			// Tentative de déchiffrement du cookie de connexion
-			try {
-				// Récupération des infos du JWT contenus dans le cookie.
-				$cle = "T3mUjGjhC6WuxyNGR2rkUt2uQgrlFUHx";
-				$jwt = JWT::decode($_COOKIE["auth"], new Key($cle, 'HS256'));
-				$infosAuth = (array) $jwt;
-				// Vérification de l'existance du compte utilisateur à partir de l'ID de l'utilisateur contenu dans le JWT
-				if(Compte::where("idCompte", $infosAuth["sub"])->count() > 0) {
-					return $next($request);
-				}
-				else {
-					// Si l'utilisateur n'existe plus : on détruit le cookie d'authentification et retour à la page de connexion
-					setcookie("auth", "", time()-3600);
-					return redirect()->to('connexion')->send();
-				}
-			}
-			catch(Exception $ex) {
-				// Si le déchiffrement est un échec alors c'est que le cookie est malformé, on détruit le cookie et on renvoie vers la page de connexion
-				setcookie("auth", "", time()-3600);
-				return redirect()->to('connexion')->send();
-			}
-		}
-		else {
-			// Redirection vers la page de connexion :
+        if (isset($_COOKIE["auth"])) {
+            try {
+                $cle = "T3mUjGjhC6WuxyNGR2rkUt2uQgrlFUHx";
+                $jwt = JWT::decode($_COOKIE["auth"], new Key($cle, 'HS256'));
+                $infosAuth = (array) $jwt;
+
+                $compte = Compte::find($infosAuth["sub"]);
+                if ($compte) {
+                    // Check if the user is an admin
+                    $isAdmin = $compte->role === 'admin';
+                    session(['isAdmin' => $isAdmin]);
+
+                    return $next($request);
+                } else {
+                    setcookie("auth", "", time() - 3600);
+                    return redirect()->to('connexion')->send();
+                }
+            } catch (Exception $ex) {
+                setcookie("auth", "", time() - 3600);
+                return redirect()->to('connexion')->send();
+            }
+        } else {
             return redirect()->to('connexion')->send();
-		}
+        }
     }
 }

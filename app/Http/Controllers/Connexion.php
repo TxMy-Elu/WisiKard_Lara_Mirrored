@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Compte;
-use App\Models\Log;
+use App\Models\Logs;
 use App\Models\Reactivation;
-use PragmaRX\Google2FA\Google2FA;
-
-/* A FAIRE (fiche 3, partie 2, question 1) : inclure ci-dessous le use PHP pour la libriairie gérant l'A2F */
-
-// A FAIRE (fiche 3, partie 3, question 4) : inclure ci-dessous le use PHP pour la libriairie gérant le
+use App\Models\Compte;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class Connexion extends Controller
 {
@@ -29,7 +26,7 @@ class Connexion extends Controller
             $reactivation = Reactivation::where("codeReactivation", $code)->first();
             if ($reactivation !== null) {
                 if (Reactivation::estValide($code)) { // Pass the $code argument
-                    $utilisateur = Compte::find($reactivation->idCompte);
+                    $utilisateur = COmpte::find($reactivation->idCompte);
                     $utilisateur->reactiverCompte();
                     $reactivation->delete();
                     $messageAAfficher = "Votre compte a été réactivé avec succès";
@@ -62,9 +59,9 @@ class Connexion extends Controller
             $validationFormulaire = false;
         } else {
             $utilisateur = Compte::where("email", $_POST["email"])->first();
-            $tentativesRestantes = 5 - $utilisateur->tentativesCo; // Retrieve failed attempts from the database
+            $tentativesRestantes = 10 - $utilisateur->tentativesCo; // Retrieve failed attempts from the database
 
-            if ($utilisateur->estDesactive === 1) {
+            if ($utilisateur->estDesactiver === 1) {
                 $messagesErreur[] = "Votre compte a été désactivé";
                 $validationFormulaire = false;
             } else {
@@ -74,20 +71,19 @@ class Connexion extends Controller
                     $tentativesRestantes = 10 - $utilisateur->tentativesCo;
                     if ($utilisateur->tentativesCo >= 10) {
                         $utilisateur->desactiverCompte();
-                        $messagesErreur[] = "Votre compte a été désactivé après 5 tentatives échouées";
-
-                        $codeReactivation = Reactivation::creerCodeReactivation($utilisateur);
+                        $messagesErreur[] = "Votre compte a été désactivé après 10 tentatives échouées";
 
                         /*
+                        $codeReactivation = Reactivation::creerCodeReactivation($utilisateur);
+
                         $message = "Bonjour " . $utilisateur->prenomUtilisateur . " " . $utilisateur->nomUtilisateur . ",<br><br>";
                         $message .= "Votre compte a été désactivé suite à 5 tentatives de connexion échouées.<br>";
                         $message .= "Pour réactiver votre compte, veuillez cliquer sur <a href='http://172.17.0.12:9000/reactivation?code=" . $codeReactivation . "'>ce lien</a>.<br><br>";
                         $message .= "Cordialement,<br>L'équipe de développement";
-
                         Email::envoyerEmail($utilisateur->emailUtilisateur, "Réactivation de votre compte", $message);
-                        */
 
-                        Log::ecrireLog($utilisateur->email, "Désactivation");
+                        Log::ecrireLog($utilisateur->emailUtilisateur, "Désactivation");
+                        */
                     }
                     $utilisateur->save();
                     $validationFormulaire = false;
@@ -96,20 +92,30 @@ class Connexion extends Controller
                     $utilisateur->tentativesCo = 0; // Reset failed attempts on successful login
                     $utilisateur->save();
                     session()->put('connexion', $utilisateur->idCompte);
-                    Log::ecrireLog($utilisateur->email, "Connexion");
+                    Logs::ecrireLog($utilisateur->email, "Connexion");
                 }
             }
         }
 
-        if ($validationFormulaire === false) {
-            return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
+        if ($validationFormulaire === true) {
+            $cle = "T3mUjGjhC6WuxyNGR2rkUt2uQgrlFUHx";
+            $payload = [
+                "iss" => "http://172.0.0.1:9000",
+                "sub" => $utilisateur->idCompte,
+                "iat" => time(),
+                "exp" => time() + 3600 // 1 hour
+            ];
+            $jwt = JWT::encode($payload, $cle, 'HS256'); // Pass the algorithm as the third argument
+            setcookie("auth", $jwt, time() + 3600, "/", "", false, true);
+            Logs::ecrireLog($utilisateur->email, "Connexion réussie");
+            return redirect()->to('profil')->send();
         } else {
-            return view('profil', []);
+            Logs::ecrireLog($utilisateur->email, "Connexion échouée");
+            return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
 
-    public
-    function deconnexion()
+    public function deconnexion()
     {
         if (session()->has('connexion')) {
             session()->forget('connexion');
@@ -121,17 +127,12 @@ class Connexion extends Controller
         return redirect()->to('connexion')->send();
     }
 
-    public
-    function validationFormulaire()
+    public function validationFormulaire()
     {
-        if (isset($_POST["boutonVerificationCodeA2F"])) {
-            return $this->boutonVerificationCodeA2F();
+        if (isset($_POST["boutonConnexion"])) {
+            return $this->boutonConnexion();
         } else {
-            if (isset($_POST["boutonConnexion"])) {
-                return $this->boutonConnexion();
-            } else {
-                return redirect()->to('connexion')->send();
-            }
+            return redirect()->to('connexion')->send();
         }
     }
 }

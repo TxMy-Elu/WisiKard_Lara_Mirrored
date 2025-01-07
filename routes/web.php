@@ -26,6 +26,9 @@ Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->middleware([
 Route::get('/connexion', [Connexion::class, 'afficherFormulaireConnexion'])->middleware([NonAuthentifie::class])->name('connexion');
 Route::post('/connexion', [Connexion::class, 'validationFormulaire'])->middleware([NonAuthentifie::class])->name('validationFormulaireConnexion');
 
+Route::get('/inscription', [Inscription::class, 'afficherFormulaireInscription'])->name('inscription');
+Route::post('/inscription', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
+
 Route::get('/motDePasseOublie', [RecuperationCompte::class, 'afficherFormulaireRecuperation'])->name('motDePasseOublie');
 Route::post('/motDePasseOublie', [RecuperationCompte::class, 'boutonRecuperer'])->name('validationEmailMotDePasseOublie');
 

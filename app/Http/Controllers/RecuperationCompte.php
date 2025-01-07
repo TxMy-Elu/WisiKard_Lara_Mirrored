@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Log;
+use App\Models\Logs;
 use App\Models\Recuperation;
 use App\Models\Compte;
 
@@ -49,7 +49,7 @@ class RecuperationCompte extends Controller
                 // Send the email
                 Email::envoyerEmail($email, "Réinitialisation de mot de passe", "Bonjour,<br><br>Vous avez demandé à réinitialiser votre mot de passe. Pour ce faire, veuillez cliquer sur le lien suivant : <a href='" . $lien . "'>" . $lien . "</a>.<br><br>Cordialement,<br>L'équipe Auth-App");
 
-                Log::ecrireLog($email, "Un email de réinitialisation de mot de passe a été envoyé à l'adresse email " . $email . ".");
+                Logs::ecrireLog($email, "Un email de réinitialisation de mot de passe a été envoyé à l'adresse email " . $email . ".");
 
                 return view('confirmation', ["messageConfirmation" => "Un lien de réinitialisation a été envoyé à votre adresse email."]);
             }
@@ -88,8 +88,8 @@ class RecuperationCompte extends Controller
                 $utilisateurConcerne->motDePasseUtilisateur = password_hash($nouveauMotDePasse, PASSWORD_DEFAULT);
                 $utilisateurConcerne->save();
 
-                // Log the password change
-                Log::ecrireLog($utilisateurConcerne->emailUtilisateur, "Le mot de passe du compte associé à l'adresse email " . $utilisateurConcerne->email . " a été modifié.");
+                // Logs the password change
+                Logs::ecrireLog($utilisateurConcerne->emailUtilisateur, "Le mot de passe du compte associé à l'adresse email " . $utilisateurConcerne->email . " a été modifié.");
                 // Delete the recovery code
                 Recuperation::where("codeRecuperation", $_POST["boutonChangerMotDePasse"])->delete();
 

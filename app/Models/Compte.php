@@ -14,7 +14,7 @@ class Compte extends Model
 
     public function logs(): HasMany
     {
-        return $this->hasMany(Log::class);
+        return $this->hasMany(Logs::class);
     }
 
     public static function existeEmail($email) {
@@ -37,6 +37,15 @@ class Compte extends Model
         $this->estDesactiveUtilisateur = 0;
         $this->tentativesEchoueesUtilisateur = 0;
         $this->save();
+    }
+
+    public static function inscription($email, $motDePasseHache) {
+        $nouvelUtilisateur = new Compte();
+        $nouvelUtilisateur->email = $email;
+        $nouvelUtilisateur->password = $motDePasseHache;
+        $nouvelUtilisateur->role = "utilisateur";
+
+        $nouvelUtilisateur->save();
     }
 
 }
