@@ -1,23 +1,17 @@
 #------------------------------------------------------------
-#        Script MySQL.
-#------------------------------------------------------------
-
-
-#------------------------------------------------------------
 # Table: compte
 #------------------------------------------------------------
 
 CREATE TABLE compte
 (
-    idCompte      Int Auto_increment NOT NULL,
+    idCompte      Int AUTO_INCREMENT NOT NULL,
     email         Varchar(100)       NOT NULL,
     password      Varchar(500)       NOT NULL,
     role          Varchar(50)        NOT NULL,
     tentativesCo  Int                NOT NULL DEFAULT 0,
-    estDesactiver Bool               NOT NULL DEFAULT FALSE,
+    estDesactiver Boolean            NOT NULL DEFAULT FALSE,
     CONSTRAINT compte_PK PRIMARY KEY (idCompte)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: template
@@ -25,11 +19,10 @@ CREATE TABLE compte
 
 CREATE TABLE template
 (
-    idTemplate Int Auto_increment NOT NULL,
+    idTemplate Int AUTO_INCREMENT NOT NULL,
     nom        Varchar(50)        NOT NULL,
     CONSTRAINT template_PK PRIMARY KEY (idTemplate)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: carte
@@ -37,7 +30,7 @@ CREATE TABLE template
 
 CREATE TABLE carte
 (
-    idCarte       Int Auto_increment NOT NULL,
+    idCarte       Int AUTO_INCREMENT NOT NULL,
     nomEntreprise Varchar(255)       NOT NULL,
     titre         Varchar(150)       NOT NULL,
     tel           Varchar(25)        NOT NULL,
@@ -54,9 +47,8 @@ CREATE TABLE carte
     idTemplate    Int                NOT NULL,
     CONSTRAINT carte_PK PRIMARY KEY (idCarte),
     CONSTRAINT carte_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte),
-    CONSTRAINT carte_template0_FK FOREIGN KEY (idTemplate) REFERENCES template (idTemplate)
+    CONSTRAINT carte_template_FK FOREIGN KEY (idTemplate) REFERENCES template (idTemplate)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: employer
@@ -64,7 +56,7 @@ CREATE TABLE carte
 
 CREATE TABLE employer
 (
-    idEmp    Int Auto_increment NOT NULL,
+    idEmp    Int AUTO_INCREMENT NOT NULL,
     nom      Varchar(100)       NOT NULL,
     prenom   Varchar(100)       NOT NULL,
     fonction Varchar(100)       NOT NULL,
@@ -73,22 +65,20 @@ CREATE TABLE employer
     CONSTRAINT employer_carte_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte)
 ) ENGINE = InnoDB;
 
-
 #------------------------------------------------------------
 # Table: vue
 #------------------------------------------------------------
 
 CREATE TABLE vue
 (
-    idVue   Int Auto_increment NOT NULL,
+    idVue   Int AUTO_INCREMENT NOT NULL,
     date    Date               NOT NULL,
     idCarte Int                NOT NULL,
     idEmp   Int,
     CONSTRAINT vue_PK PRIMARY KEY (idVue),
     CONSTRAINT vue_carte_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte),
-    CONSTRAINT vue_employer0_FK FOREIGN KEY (idEmp) REFERENCES employer (idEmp)
+    CONSTRAINT vue_employer_FK FOREIGN KEY (idEmp) REFERENCES employer (idEmp)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: reactivation
@@ -96,14 +86,13 @@ CREATE TABLE vue
 
 CREATE TABLE reactivation
 (
-    idReactivation                  Int Auto_increment NOT NULL,
+    idReactivation                  Int AUTO_INCREMENT NOT NULL,
     codeReactivation                Varchar(32)        NOT NULL UNIQUE,
-    dateHeureExpirationReactivation Datetime           NOT NULL DEFAULT DATE_ADD(NOW(), INTERVAL 1 DAY),
+    dateHeureExpirationReactivation Datetime           NOT NULL,
     idCompte                        Int                NOT NULL,
     CONSTRAINT reactivation_PK PRIMARY KEY (idReactivation),
     CONSTRAINT reactivation_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: recuperation
@@ -111,14 +100,13 @@ CREATE TABLE reactivation
 
 CREATE TABLE recuperation
 (
-    idRecuperation                  Int Auto_increment NOT NULL,
+    idRecuperation                  Int AUTO_INCREMENT NOT NULL,
     codeRecuperation                Varchar(32)        NOT NULL UNIQUE,
-    dateHeureExpirationRecuperation Datetime           NOT NULL DEFAULT DATE_ADD(NOW(), INTERVAL 1 DAY),
+    dateHeureExpirationRecuperation Datetime           NOT NULL,
     idCompte                        Int                NOT NULL,
     CONSTRAINT recuperation_PK PRIMARY KEY (idRecuperation),
     CONSTRAINT recuperation_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: logs
@@ -126,7 +114,7 @@ CREATE TABLE recuperation
 
 CREATE TABLE logs
 (
-    idLog        Int Auto_increment NOT NULL,
+    idLog        Int AUTO_INCREMENT NOT NULL,
     typeAction   Varchar(500)       NOT NULL,
     dateHeureLog Datetime           NOT NULL,
     adresseIPLog Varchar(500)       NOT NULL,
@@ -135,19 +123,17 @@ CREATE TABLE logs
     CONSTRAINT logs_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte)
 ) ENGINE = InnoDB;
 
-
 #------------------------------------------------------------
 # Table: social
 #------------------------------------------------------------
 
 CREATE TABLE social
 (
-    idSocial Int          NOT NULL,
+    idSocial Int AUTO_INCREMENT NOT NULL,
     nom      Varchar(500) NOT NULL,
     lienLogo Varchar(500) NOT NULL,
     CONSTRAINT social_PK PRIMARY KEY (idSocial)
 ) ENGINE = InnoDB;
-
 
 #------------------------------------------------------------
 # Table: rediriger
@@ -155,11 +141,10 @@ CREATE TABLE social
 
 CREATE TABLE rediriger
 (
-    idSocial Int          NOT NULL,
-    idCarte  Int          NOT NULL,
+    idSocial Int NOT NULL,
+    idCarte  Int NOT NULL,
     lien     Varchar(500),
     CONSTRAINT rediriger_PK PRIMARY KEY (idSocial, idCarte),
     CONSTRAINT rediriger_social_FK FOREIGN KEY (idSocial) REFERENCES social (idSocial),
-    CONSTRAINT rediriger_carte0_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte)
+    CONSTRAINT rediriger_carte_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte)
 ) ENGINE = InnoDB;
-
