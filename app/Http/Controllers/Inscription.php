@@ -48,7 +48,11 @@ class Inscription extends Controller
 
                 // CORRIGÉ
                 $motDePasseHashe = password_hash($_POST["motDePasse1"], PASSWORD_BCRYPT);
-                Compte::inscription($_POST["email"], $motDePasseHashe);
+
+                var_dump($motDePasseHashe);
+                var_dump($_POST["email"]);
+                var_dump($_POST["role"]);
+                Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"]);
                 Logs::ecrireLog($_POST["email"], "Inscription");
 
                 return view('formulaireConnexion', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);

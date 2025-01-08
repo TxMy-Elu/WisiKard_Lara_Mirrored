@@ -39,11 +39,11 @@ class Compte extends Model
         $this->save();
     }
 
-    public static function inscription($email, $motDePasseHache) {
+    public static function inscription($email, $motDePasseHache, $role) {
         $nouvelUtilisateur = new Compte();
         $nouvelUtilisateur->email = $email;
         $nouvelUtilisateur->password = $motDePasseHache;
-        $nouvelUtilisateur->role = "utilisateur";
+        $nouvelUtilisateur->role = $role;
 
         $nouvelUtilisateur->save();
     }

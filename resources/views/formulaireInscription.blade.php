@@ -1,53 +1,84 @@
+<!-- formulaireConnexion.blade.php -->
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Inscription</title>
+    <title>Inscription</title>
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    </head>
-    <body class="align-items-center w-100">
-        @include('menuPrincipal')
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-        <main class="align-items-center w-100">
-            <form method="POST" action="{{ route('validationFormulaireInscription') }}" class="card w-50 mx-auto mt-5 mb-5">
-                @csrf
-                <div class="card-body align-items-center text-center">
-                    <h1 class="mb-3 card-title">
-                        Inscription
-                    </h1>
-                    @include('messageErreur')
-                    <div>
-                        <div class="mb-3">
-                            <i>Tous les champs sont obligatoires</i>
+        .shadow-red {
+            box-shadow: 5px 5px 5px rgba(255, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-white md:bg-zinc-900">
+<div class="flex justify-center items-center min-h-screen">
+    <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red">
+        <div class="headerLogo flex justify-center items-center">
+            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Logo WisiKard" class="w-32 md:w-48 lg:w-96">
+        </div>
+        <div class="justify-center mt-10">
+            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Wisikard</h1>
+            <div class="mt-10">
+                <form action="{{ route('validationFormulaireInscription') }}" method="post">
+                    @csrf
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
+                        <input type="email" name="email" id="email"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
+                    </div>
+                    <div class="mb-6">
+                        <div class="">
+                            <label for="motdepasse" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                            <input type="password" name="motDePasse1" id="motdepasse"
+                                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                   required>
                         </div>
-                        <!-- A FAIRE (fiche 2, partie 1, question 2) : création du formulaire d'inscription -->
-                        <!-- CORRIGÉ -->
-                        <div class="mb-3">
-                            <input type="email" class="form-control" name="email" placeholder="Adresse email..." required>
-                        </div>
-                        <div class="mb-3 row g-2 align-items-center">
-                            <div class="col">
-                                <input type="password" class="form-control col-auto" name="motDePasse1" placeholder="Mot de passe..." required>
-                            </div>
-                            <div class="col-auto">
-                                <span class="form-text col-auto">
-                                    Minimum 13 caractères
-                                </span> 
-                            </div>                         
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control col-auto" name="motDePasse2" placeholder="Confirmer le mot de passe..." required>                      
+                        <!-- Minimum 13 charactères indications-->
+                        <span class="text-sm text-gray-500">Minimum 12 charactères</span>
+                    </div>
+                    <div class="mb-6">
+                        <label for="motdepasse" class="block text-sm font-medium text-gray-700">Validation du mot de
+                            passe</label>
+                        <input type="password" name="motDePasse2" id="motdepasse"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
+                    </div>
+                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+
+                    <!-- selected role -->
+                    <div class="mb-4">
+                        <select name="role" id="role"
+                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required>
+
+                            <option value="starter">Starter</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+
+                        @include('messageErreur')
+
+                        <div class="mb-4">
+                            <button type="submit" name="boutonInscription"
+                                    class="w-full bg-red-900 text-white p-2 rounded-md">Inscription
+                            </button>
                         </div>
                     </div>
-                    <div class="input-group d-grid gap-2">
-                        <button class="btn btn-primary btn-lg" type="submit" name="boutonInscription">Valider</button>
-                    </div>
-                </div>
-            </form>
-        </main>
-    </body>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>
