@@ -110,7 +110,9 @@ class Connexion extends Controller
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
             return redirect()->to('profil')->send();
         } else {
-            Logs::ecrireLog($utilisateur->email, "Connexion échouée");
+            if (isset($utilisateur)) {
+                Logs::ecrireLog($utilisateur->email, "Connexion échouée");
+            }
             return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }

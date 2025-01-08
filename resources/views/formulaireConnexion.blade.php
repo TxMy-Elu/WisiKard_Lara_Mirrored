@@ -1,46 +1,73 @@
 <!-- formulaireConnexion.blade.php -->
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Connexion</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-</head>
-<body class="align-items-center w-100">
-@include('menuPrincipal')
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-<main class="align-items-center w-100">
-    <form method="POST" action="{{ route('validationFormulaireConnexion') }}" class="card w-50 mx-auto mt-5 mb-5">
-        @csrf
-        <div class="card-body align-items-center text-center">
-            <h1 class="mb-3 card-title">
-                Connexion
-            </h1>
-            @include('messageErreur')
-            @if(isset($tentativesRestantes))
-                <div class="alert alert-warning">
-                    Il vous reste {{ $tentativesRestantes }} tentatives avant que votre compte ne soit désactivé.
-                </div>
-            @endif
-            <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email" name="email" required>
-            </div>
-            <div class="mb-3">
-                <input type="password" class="form-control" placeholder="Mot de passe" name="motdepasse" required>
-            </div>
-            <div class="mb-3 d-grid gap-2">
-                <button class="btn btn-primary btn-lg" type="submit" name="boutonConnexion">Connexion</button>
-            </div>
-            <div class="d-flex flex-row align-items-center">
-                <a href="{{ route('inscription') }}" class="btn btn-secondary me-auto">S'inscrire</a>
-                <a href="{{ route('motDePasseOublie') }}">Mot de passe oublié ?</a>
+        .shadow-red {
+            box-shadow: 5px 5px 5px rgba(255, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-zinc-900">
+<div class="flex justify-center items-center h-screen">
+    <div class="bg-white w-1/4 h-4/6 p-4 rounded-[30px] shadow-red">
+        <div class="headerLogo flex justify-center items-center">
+            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Exemple d'image" class="w-96">
+        </div>
+        <div class="justify-center mt-10">
+            <h1 class="text-center text-2xl font-bold">Connexion Wisikard</h1>
+            <div class="mt-10">
+                <form action="{{ route('validationFormulaireConnexion') }}" method="post">
+                    <div class="mt-16">
+                        @csrf
+                        <div class="mb-6">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
+                            <input type="email" name="email" id="email"
+                                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                   required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="motdepasse" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                            <input type="password" name="motdepasse" id="motdepasse"
+                                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                   required>
+                        </div>
+                    </div>
+
+                    @include('messageErreur')
+                    @if(isset($tentativesRestantes))
+                        <div class="alert alert-warning">
+                            Il vous reste {{ $tentativesRestantes }} tentatives avant que votre compte ne soit
+                            désactivé.
+                        </div>
+                    @endif
+
+                    <div class="mt-4">
+                        <div class="mb-4 text-right">
+                            <a href="{{ route('motDePasseOublie') }}" class="text-red-900">Mot de passe oublié ?</a>
+                        </div>
+
+                        <div class="mb-4">
+                            <button type="submit" name="boutonConnexion"
+                                    class="w-full bg-red-900 text-white p-2 rounded-md ">Connexion
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
             </div>
         </div>
-    </form>
-</main>
+    </div>
+</div>
 </body>
 </html>
