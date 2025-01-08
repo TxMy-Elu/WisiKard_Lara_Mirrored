@@ -19,13 +19,13 @@
     </style>
 </head>
 <body class="bg-zinc-900">
-<div class="flex justify-center items-center h-screen">
-    <div class="bg-white w-1/4 h-4/6 p-4 rounded-[30px] shadow-red">
+<div class="flex justify-center items-center min-h-screen">
+    <div class="bg-white w-full max-w-md p-4 rounded-[30px] shadow-red mx-4">
         <div class="headerLogo flex justify-center items-center">
-            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Exemple d'image" class="w-96">
+            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Exemple d'image" class="w-48 md:w-96">
         </div>
         <div class="justify-center mt-10">
-            <h1 class="text-center text-2xl font-bold">Connexion Wisikard</h1>
+            <h1 class="text-center text-xl md:text-2xl font-bold">Connexion Wisikard</h1>
             <div class="mt-10">
                 <form action="{{ route('validationFormulaireConnexion') }}" method="post">
                     <div class="mt-16">
