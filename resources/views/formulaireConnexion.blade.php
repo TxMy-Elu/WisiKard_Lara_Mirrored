@@ -18,37 +18,34 @@
         }
     </style>
 </head>
-<body class="bg-zinc-900">
+<body class="bg-white md:bg-zinc-900">
 <div class="flex justify-center items-center min-h-screen">
-    <div class="bg-white w-full max-w-md p-4 rounded-[30px] shadow-red mx-4">
+    <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red">
         <div class="headerLogo flex justify-center items-center">
-            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Exemple d'image" class="w-48 md:w-96">
+            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Logo WisiKard" class="w-32 md:w-48 lg:w-96">
         </div>
         <div class="justify-center mt-10">
-            <h1 class="text-center text-xl md:text-2xl font-bold">Connexion Wisikard</h1>
+            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Connexion Wisikard</h1>
             <div class="mt-10">
                 <form action="{{ route('validationFormulaireConnexion') }}" method="post">
-                    <div class="mt-16">
-                        @csrf
-                        <div class="mb-6">
-                            <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
-                            <input type="email" name="email" id="email"
-                                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                   required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="motdepasse" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                            <input type="password" name="motdepasse" id="motdepasse"
-                                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                   required>
-                        </div>
+                    @csrf
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
+                        <input type="email" name="email" id="email"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="motdepasse" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                        <input type="password" name="motdepasse" id="motdepasse"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
                     </div>
 
                     @include('messageErreur')
                     @if(isset($tentativesRestantes))
                         <div class="alert alert-warning">
-                            Il vous reste {{ $tentativesRestantes }} tentatives avant que votre compte ne soit
-                            désactivé.
+                            Il vous reste {{ $tentativesRestantes }} tentatives avant que votre compte ne soit désactivé.
                         </div>
                     @endif
 
@@ -59,11 +56,10 @@
 
                         <div class="mb-4">
                             <button type="submit" name="boutonConnexion"
-                                    class="w-full bg-red-900 text-white p-2 rounded-md ">Connexion
+                                    class="w-full bg-red-900 text-white p-2 rounded-md">Connexion
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
