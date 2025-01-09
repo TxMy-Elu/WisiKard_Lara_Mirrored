@@ -17,7 +17,7 @@
     @include('menuAdmin')
     <div class="flex-1 md:ml-40"> <!-- Ajout de la marge gauche pour éviter le chevauchement -->
         <div class="min-h-screen p-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($entreprises as $entreprise)
                     <div class="custom-width bg-white rounded-lg shadow-lg p-4 flex flex-col">
                         <!-- Titre -->
