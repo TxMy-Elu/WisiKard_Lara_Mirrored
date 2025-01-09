@@ -1,5 +1,5 @@
 {{-- Menu Admin --}}
-
+<div>
 <nav class="bg-zinc-900 p-4 h-full w-36 fixed lg:block hidden" id="navbarNav">
     <div class="container mx-auto flex flex-col items-center">
         <a class="text-xl font-bold mb-4" href="#"></a>
@@ -51,3 +51,4 @@
         closeButton.classList.toggle('hidden');
     }
 </script>
+</div>

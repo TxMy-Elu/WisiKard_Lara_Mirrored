@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Carte extends Model
 {
-
     protected $table = 'carte';
     protected $primaryKey = 'idCarte';
     public $timestamps = false;
@@ -16,7 +16,7 @@ class Carte extends Model
 
     public function compte(): BelongsTo
     {
-        return $this->belongsTo(Compte::class);
+        return $this->belongsTo(Compte::class, 'idCompte');
     }
 
     public function template(): BelongsTo
@@ -38,5 +38,4 @@ class Carte extends Model
     {
         return $this->hasMany(Rediriger::class);
     }
-
 }

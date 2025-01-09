@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Logs;
-use App\Models\Reactivation;
+use App\Models\Carte;
 use App\Models\Compte;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class DashboardAdmin extends Controller
 {
     public function afficherDashboardAdmin()
     {
-        return view('dashboardAdmin', []);
+        $entreprises = Carte::all();
+        $compte = Compte::all();
+        return view('dashboardAdmin', ['entreprises' => $entreprises, 'compte' => $compte]);
     }
-
 }
