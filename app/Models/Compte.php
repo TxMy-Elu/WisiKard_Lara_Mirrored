@@ -33,6 +33,17 @@ class Compte extends Model
         }
     }
 
+    public static function estAdmin() {
+        $role = self::where("role", "admin")->count();
+
+        if ($role > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function desactiverCompte() {
         $this->estDesactiveUtilisateur = 1;
         $this->save();

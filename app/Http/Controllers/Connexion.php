@@ -108,7 +108,13 @@ class Connexion extends Controller
             $jwt = JWT::encode($payload, $cle, 'HS256'); // Pass the algorithm as the third argument
             setcookie("auth", $jwt, time() + 3600, "/", "", false, true);
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
-            return redirect()->to('profil')->send();
+
+            // si admin redirection vers la page admin sinon vers la page profil
+           if (Compte::estAdmin()) {
+                return redirect()->to('dashboardAdmin')->send();
+            } else {
+                return redirect()->to('profil')->send();
+            }
         } else {
             if (isset($utilisateur)) {
                 Logs::ecrireLog($utilisateur->email, "Connexion échouée");
