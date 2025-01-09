@@ -18,7 +18,9 @@
         }
     </style>
 </head>
-<body class="bg-white md:bg-zinc-900">
+<body class="bg-white md:bg-zinc-100">
+@include('menuAdmin'))
+
 <div class="flex justify-center items-center min-h-screen">
     <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red">
         <div class="headerLogo flex justify-center items-center">
@@ -45,7 +47,8 @@
                     @include('messageErreur')
                     @if(isset($tentativesRestantes))
                         <div class="alert alert-warning">
-                            Il vous reste {{ $tentativesRestantes }} tentatives avant que votre compte ne soit désactivé.
+                            Il vous reste {{ $tentativesRestantes }} tentatives avant que votre compte ne soit
+                            désactivé.
                         </div>
                     @endif
 

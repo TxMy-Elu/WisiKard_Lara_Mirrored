@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </head>
     <body class="align-items-center w-100">
-        @include('menuPrincipal')
+    @include('menuPrincipal')
 
         <main class="align-items-center w-100">
             <form method="POST" action="{{ route('validationChangementMotDePasse') }}" class="card w-50 mx-auto mt-5 mb-5">
