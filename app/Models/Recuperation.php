@@ -46,6 +46,7 @@ class Recuperation extends Model
 
         $nouvelleReactivation = new Recuperation();
         $nouvelleReactivation->codeRecuperation = $code;
+        $nouvelleReactivation->dateHeureExpirationRecuperation =now()->addDay();
         $nouvelleReactivation->idCompte = $compteUtilisateur->idCompte;
         $nouvelleReactivation->save();
 

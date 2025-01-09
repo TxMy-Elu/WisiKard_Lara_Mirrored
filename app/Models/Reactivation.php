@@ -61,6 +61,7 @@ class Reactivation extends Model
 
         $nouvelleReactivation = new Reactivation();
         $nouvelleReactivation->codeReactivation = $code;
+        $nouvelleReactivation->dateHeureExpirationReactivation =now()->addDay();
         $nouvelleReactivation->idCompte = $compteUtilisateur->idCompte;
         $nouvelleReactivation->save();
 

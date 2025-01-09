@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Logs;
@@ -26,7 +25,7 @@ class Connexion extends Controller
             $reactivation = Reactivation::where("codeReactivation", $code)->first();
             if ($reactivation !== null) {
                 if (Reactivation::estValide($code)) { // Pass the $code argument
-                    $utilisateur = COmpte::find($reactivation->idCompte);
+                    $utilisateur = Compte::find($reactivation->idCompte);
                     $utilisateur->reactiverCompte();
                     $reactivation->delete();
                     $messageAAfficher = "Votre compte a été réactivé avec succès";
@@ -73,17 +72,17 @@ class Connexion extends Controller
                         $utilisateur->desactiverCompte();
                         $messagesErreur[] = "Votre compte a été désactivé après 10 tentatives échouées";
 
-                        /*
                         $codeReactivation = Reactivation::creerCodeReactivation($utilisateur);
 
-                        $message = "Bonjour " . $utilisateur->prenomUtilisateur . " " . $utilisateur->nomUtilisateur . ",<br><br>";
-                        $message .= "Votre compte a été désactivé suite à 5 tentatives de connexion échouées.<br>";
+                        $message = "Bonjour,<br><br>";
+                        $message .= "Votre compte a été désactivé suite à 10 tentatives de connexion échouées.<br>";
                         $message .= "Pour réactiver votre compte, veuillez cliquer sur <a href='http://172.17.0.12:9000/reactivation?code=" . $codeReactivation . "'>ce lien</a>.<br><br>";
                         $message .= "Cordialement,<br>L'équipe de développement";
-                        Email::envoyerEmail($utilisateur->emailUtilisateur, "Réactivation de votre compte", $message);
-
-                        Log::ecrireLog($utilisateur->emailUtilisateur, "Désactivation");
-                        */
+                        if (Email::envoyerEmail($utilisateur->email, "Réactivation de votre compte", $message)) {
+                            Logs::ecrireLog($utilisateur->email, "Désactivation");
+                        } else {
+                            $messagesErreur[] = "Échec de l'envoi de l'email de réactivation.";
+                        }
                     }
                     $utilisateur->save();
                     $validationFormulaire = false;
