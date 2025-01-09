@@ -7,15 +7,42 @@ use App\Models\Carte;
 
 class DashboardAdmin extends Controller
 {
-    public function afficherDashboardAdmin()
+    public function afficherDashboardAdmin(Request $request)
     {
-        $entreprises = Carte::all();
+        $search = $request->input('search');
+        $entreprises = Carte::query()
+            ->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+            ->when($search, function ($query, $search) {
+                return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
+                    ->orWhere('compte.email', 'like', "%{$search}%");
+            })
+            ->select('carte.*', 'compte.email as compte_email')
+            ->get();
 
         foreach ($entreprises as $entreprise) {
             $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
         }
 
-        return view('dashboardAdmin', compact('entreprises'));
+        return view('dashboardAdmin', compact('entreprises', 'search'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $entreprises = Carte::query()
+            ->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+            ->when($search, function ($query, $search) {
+                return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
+                    ->orWhere('compte.email', 'like', "%{$search}%");
+            })
+            ->select('carte.*', 'compte.email as compte_email')
+            ->get();
+
+        foreach ($entreprises as $entreprise) {
+            $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
+        }
+
+        return response()->json($entreprises);
     }
 
     private function formatPhoneNumber($phoneNumber)

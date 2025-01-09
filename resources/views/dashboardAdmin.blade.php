@@ -1,3 +1,4 @@
+<!-- resources/views/dashboardAdmin.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -9,6 +10,15 @@
         .custom-width {
             width: 100%; /* Adjusted to be responsive */
         }
+        .search-icon {
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .box-shadow {
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        }
     </style>
 </head>
 <body class="align-items-center bg-gray-100 w-100">
@@ -17,6 +27,14 @@
     @include('menuAdmin')
     <div class="flex-1 md:ml-40"> <!-- Ajout de la marge gauche pour éviter le chevauchement -->
         <div class="min-h-screen p-4">
+            <form method="GET" action="{{ route('dashboardAdmin') }}" class="mb-4 flex items-center relative w-64">
+                <div class="search-icon">
+                    <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search..." class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow box-shadow">
+            </form>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($entreprises as $entreprise)
                     <div class="custom-width bg-white rounded-lg shadow-lg p-4 flex flex-col">
