@@ -15,11 +15,11 @@ class Employer extends Model
 
     public function carte(): BelongsTo
     {
-        return $this->belongsTo(Carte::class, 'idCarte', 'idCarte');
+        return $this->belongsTo(Carte::class);
     }
 
     public function vues(): HasMany
     {
-        return $this->hasMany(Vue::class, 'idEmp', 'idEmp');
+        return $this->hasMany(Vue::class);
     }
 }

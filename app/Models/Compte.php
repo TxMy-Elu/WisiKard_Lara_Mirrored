@@ -17,6 +17,11 @@ class Compte extends Model
         return $this->hasMany(Logs::class);
     }
 
+    public function cartes(): HasMany
+    {
+        return $this->hasMany(Carte::class );
+    }
+
     public static function existeEmail($email) {
         $nb = self::where("email", $email)->count();
 

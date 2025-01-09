@@ -16,27 +16,27 @@ class Carte extends Model
 
     public function compte(): BelongsTo
     {
-        return $this->belongsTo(Compte::class, 'idCompte', 'idCompte');
+        return $this->belongsTo(Compte::class);
     }
 
     public function template(): BelongsTo
     {
-        return $this->belongsTo(Template::class, 'idTemplate', 'idTemplate');
+        return $this->belongsTo(Template::class);
     }
 
     public function employeurs(): HasMany
     {
-        return $this->hasMany(Employer::class, 'idCarte', 'idCarte');
+        return $this->hasMany(Employer::class);
     }
 
     public function vues(): HasMany
     {
-        return $this->hasMany(Vue::class, 'idCarte', 'idCarte');
+        return $this->hasMany(Vue::class);
     }
 
     public function redirigers(): HasMany
     {
-        return $this->hasMany(Rediriger::class, 'idCarte', 'idCarte');
+        return $this->hasMany(Rediriger::class);
     }
 
 }

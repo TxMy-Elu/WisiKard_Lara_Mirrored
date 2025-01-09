@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Vue;
 
 class Vue extends Model
 {
@@ -16,11 +14,11 @@ class Vue extends Model
 
     public function carte(): BelongsTo
     {
-        return $this->belongsTo(Carte::class, 'idCarte', 'idCarte');
+        return $this->belongsTo(Carte::class);
     }
 
     public function employer(): BelongsTo
     {
-        return $this->belongsTo(Employer::class, 'idEmp', 'idEmp');
+        return $this->belongsTo(Employer::class);
     }
 }
