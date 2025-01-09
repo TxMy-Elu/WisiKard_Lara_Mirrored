@@ -4,38 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
 class Email extends Controller
 {
-    public static function envoyerEmail($destinataire, $sujet, $corpsMessage) {
-        $mail = new PHPMailer(true);
+     public static function envoyerEmail($destinataire, $sujet, $corpsMessage) {
+             ini_set('SMTP', 'mail.sendix.fr'); //A voir
+             ini_set('smtp_port', '25');
+             ini_set('sendmail_from', 'noreply@sendix.fr');
 
-        try {
-            $mail->isSMTP();
-            $mail->CharSet = "UTF-8";
-            $mail->Host = 'mail.gmx.com';
-            $mail->SMTPAuth = true;         
-            $mail->Username = 'barsiofr@gmx.fr';
-            $mail->Password = '0550002Dmail!';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port = 465;
+             $headers = "From: noreply@sendix.fr\r\n";
+             $headers .= "Reply-To: noreply@sendix.fr\r\n";
+             $headers .= "X-Mailer: PHP/" . phpversion();
+             $headers .= "MIME-Version: 1.0\r\n";
+             $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-            $mail->setFrom('avoir', 'WisiKard');
-            $mail->addAddress($destinataire);
+             $sujet = "=?UTF-8?B?" . base64_encode($sujet) . "?=";
 
-            $mail->isHTML(true);
-            $mail->Subject = $sujet;
-            $mail->Body = $corpsMessage;
-            $mail->AltBody = strip_tags($corpsMessage);
-
-            $mail->send();
-            return true;
-        }
-        catch (Exception $e) {
-            return false;
-        }
-    }
+             if (mail($destinataire, $sujet, $corpsMessage, $headers)) {
+                 return true;
+             } else {
+                 return false;
+             }
+         }
 }

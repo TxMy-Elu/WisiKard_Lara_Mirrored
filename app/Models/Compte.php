@@ -34,13 +34,13 @@ class Compte extends Model
     }
 
     public function desactiverCompte() {
-        $this->estDesactiveUtilisateur = 1;
+        $this->estDesactiver = 1;
         $this->save();
     }
 
     public function reactiverCompte() {
-        $this->estDesactiveUtilisateur = 0;
-        $this->tentativesEchoueesUtilisateur = 0;
+        $this->estDesactiver = 0;
+        $this->tentativesCo = 0;
         $this->save();
     }
 
