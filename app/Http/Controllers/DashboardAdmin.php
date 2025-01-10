@@ -53,11 +53,17 @@ class DashboardAdmin extends Controller
             ],
         ];
 
+        //nombre de vue au total
+        $totalViews = Vue::whereYear('date', $year)->count();
+
+        //nombre total d'entreprise
+        $totalEntreprise = Carte::count();
+
 
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month'));
+        return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
 
