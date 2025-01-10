@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Logs;
+use Illuminate\Support\Facades\DB;
 
 /* A FAIRE (fiche 2, partie 2, question 2) : inclure ci-dessous les use PHP pour les librairies gérant l'A2F */
 
@@ -12,8 +13,10 @@ class Inscription extends Controller
 {
     public function afficherFormulaireInscription()
     {
-        return view('formulaireInscription', []);
+        $roles = DB::table('compte')->select('role')->distinct()->get(); //Récupere tous les rôles dispo
+        return view('formulaireInscription', ['roles' => $roles]);
     }
+
 
     public function boutonInscription()
     {
@@ -57,6 +60,7 @@ class Inscription extends Controller
 
                 return view('formulaireConnexion', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
             }
+
         }
     }
 }

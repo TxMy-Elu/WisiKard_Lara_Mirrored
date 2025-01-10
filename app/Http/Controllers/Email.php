@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 class Email extends Controller
 {
      public static function envoyerEmail($destinataire, $sujet, $corpsMessage) {
-             ini_set('SMTP', 'mail.sendix.fr'); //A voir
+           /*  ini_set('SMTP', 'mail.sendix.fr'); //A voir
              ini_set('smtp_port', '25');
              ini_set('sendmail_from', 'noreply@sendix.fr');
-
+*/
              $headers = "From: noreply@sendix.fr\r\n";
              $headers .= "Reply-To: noreply@sendix.fr\r\n";
              $headers .= "X-Mailer: PHP/" . phpversion();

@@ -59,11 +59,12 @@
                         <select name="role" id="role"
                                 class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 required>
-
-                            <option value="starter">Starter</option>
-                            <option value="advanced">Advanced</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->role }}">{{ $role->role }}</option>
+                            @endforeach
                         </select>
                     </div>
+
                     <div class="mb-6">
 
                         @include('messageErreur')
