@@ -1,150 +1,248 @@
-#------------------------------------------------------------
-# Table: compte
-#------------------------------------------------------------
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : ven. 10 jan. 2025 à 09:48
+-- Version du serveur : 8.3.0
+-- Version de PHP : 8.2.18
 
-CREATE TABLE compte
-(
-    idCompte      Int AUTO_INCREMENT NOT NULL,
-    email         Varchar(100)       NOT NULL,
-    password      Varchar(500)       NOT NULL,
-    role          Varchar(50)        NOT NULL,
-    tentativesCo  Int                NOT NULL DEFAULT 0,
-    estDesactiver Boolean            NOT NULL DEFAULT FALSE,
-    CONSTRAINT compte_PK PRIMARY KEY (idCompte)
-) ENGINE = InnoDB;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-#------------------------------------------------------------
-# Table: template
-#------------------------------------------------------------
 
-CREATE TABLE template
-(
-    idTemplate Int AUTO_INCREMENT NOT NULL,
-    nom        Varchar(50)        NOT NULL,
-    CONSTRAINT template_PK PRIMARY KEY (idTemplate)
-) ENGINE = InnoDB;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-#------------------------------------------------------------
-# Table: carte
-#------------------------------------------------------------
+--
+-- Base de données : `wisikard2`
+--
 
-CREATE TABLE carte
-(
-    idCarte       Int AUTO_INCREMENT NOT NULL,
-    nomEntreprise Varchar(255)       NOT NULL,
-    titre         Varchar(150)       NOT NULL,
-    tel           Varchar(25)        NOT NULL,
-    ville         Varchar(255)       NOT NULL,
-    imgPres       Varchar(100),
-    imgLogo       Varchar(100),
-    pdf           Varchar(100),
-    nomBtnPdf     Varchar(100),
-    couleur1      Varchar(10),
-    couleur2      Varchar(10),
-    descirptif    Varchar(500),
-    LienCommande  Varchar(150),
-    idCompte      Int                NOT NULL,
-    idTemplate    Int                NOT NULL,
-    CONSTRAINT carte_PK PRIMARY KEY (idCarte),
-    CONSTRAINT carte_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte),
-    CONSTRAINT carte_template_FK FOREIGN KEY (idTemplate) REFERENCES template (idTemplate)
-) ENGINE = InnoDB;
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: employer
-#------------------------------------------------------------
+--
+-- Structure de la table `carte`
+--
 
-CREATE TABLE employer
-(
-    idEmp    Int AUTO_INCREMENT NOT NULL,
-    nom      Varchar(100)       NOT NULL,
-    prenom   Varchar(100)       NOT NULL,
-    fonction Varchar(100)       NOT NULL,
-    idCarte  Int,
-    CONSTRAINT employer_PK PRIMARY KEY (idEmp),
-    CONSTRAINT employer_carte_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte)
-) ENGINE = InnoDB;
+DROP TABLE IF EXISTS `carte`;
+CREATE TABLE IF NOT EXISTS `carte` (
+                                       `idCarte` int NOT NULL AUTO_INCREMENT,
+                                       `nomEntreprise` varchar(255) NOT NULL,
+    `titre` varchar(150) NOT NULL,
+    `tel` varchar(25) NOT NULL,
+    `ville` varchar(255) NOT NULL,
+    `imgPres` varchar(100) DEFAULT NULL,
+    `imgLogo` varchar(100) DEFAULT NULL,
+    `pdf` varchar(100) DEFAULT NULL,
+    `nomBtnPdf` varchar(100) DEFAULT NULL,
+    `couleur1` varchar(10) DEFAULT NULL,
+    `couleur2` varchar(10) DEFAULT NULL,
+    `descirptif` varchar(500) DEFAULT NULL,
+    `LienCommande` varchar(150) DEFAULT NULL,
+    `idCompte` int NOT NULL,
+    `idTemplate` int NOT NULL,
+    PRIMARY KEY (`idCarte`),
+    KEY `carte_compte_FK` (`idCompte`),
+    KEY `carte_template_FK` (`idTemplate`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-#------------------------------------------------------------
-# Table: vue
-#------------------------------------------------------------
+-- --------------------------------------------------------
 
-CREATE TABLE vue
-(
-    idVue   Int AUTO_INCREMENT NOT NULL,
-    date    Date               NOT NULL,
-    idCarte Int                NOT NULL,
-    idEmp   Int,
-    CONSTRAINT vue_PK PRIMARY KEY (idVue),
-    CONSTRAINT vue_carte_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte),
-    CONSTRAINT vue_employer_FK FOREIGN KEY (idEmp) REFERENCES employer (idEmp)
-) ENGINE = InnoDB;
+--
+-- Structure de la table `compte`
+--
 
-#------------------------------------------------------------
-# Table: reactivation
-#------------------------------------------------------------
+DROP TABLE IF EXISTS `compte`;
+CREATE TABLE IF NOT EXISTS `compte` (
+                                        `idCompte` int NOT NULL AUTO_INCREMENT,
+                                        `email` varchar(100) NOT NULL,
+    `password` varchar(500) NOT NULL,
+    `role` varchar(50) NOT NULL,
+    `tentativesCo` int NOT NULL DEFAULT '0',
+    `estDesactiver` tinyint(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`idCompte`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE reactivation
-(
-    idReactivation                  Int AUTO_INCREMENT NOT NULL,
-    codeReactivation                Varchar(32)        NOT NULL UNIQUE,
-    dateHeureExpirationReactivation Datetime           NOT NULL,
-    idCompte                        Int                NOT NULL,
-    CONSTRAINT reactivation_PK PRIMARY KEY (idReactivation),
-    CONSTRAINT reactivation_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte)
-) ENGINE = InnoDB;
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: recuperation
-#------------------------------------------------------------
+--
+-- Structure de la table `employer`
+--
 
-CREATE TABLE recuperation
-(
-    idRecuperation                  Int AUTO_INCREMENT NOT NULL,
-    codeRecuperation                Varchar(32)        NOT NULL UNIQUE,
-    dateHeureExpirationRecuperation Datetime           NOT NULL,
-    idCompte                        Int                NOT NULL,
-    CONSTRAINT recuperation_PK PRIMARY KEY (idRecuperation),
-    CONSTRAINT recuperation_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte)
-) ENGINE = InnoDB;
+DROP TABLE IF EXISTS `employer`;
+CREATE TABLE IF NOT EXISTS `employer` (
+                                          `idEmp` int NOT NULL AUTO_INCREMENT,
+                                          `nom` varchar(100) NOT NULL,
+    `prenom` varchar(100) NOT NULL,
+    `fonction` varchar(100) NOT NULL,
+    `idCarte` int DEFAULT NULL,
+    PRIMARY KEY (`idEmp`),
+    KEY `employer_carte_FK` (`idCarte`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-#------------------------------------------------------------
-# Table: logs
-#------------------------------------------------------------
+-- --------------------------------------------------------
 
-CREATE TABLE logs
-(
-    idLog        Int AUTO_INCREMENT NOT NULL,
-    typeAction   Varchar(500)       NOT NULL,
-    dateHeureLog Datetime           NOT NULL,
-    adresseIPLog Varchar(500)       NOT NULL,
-    idCompte     Int                NOT NULL,
-    CONSTRAINT logs_PK PRIMARY KEY (idLog),
-    CONSTRAINT logs_compte_FK FOREIGN KEY (idCompte) REFERENCES compte (idCompte)
-) ENGINE = InnoDB;
+--
+-- Structure de la table `logs`
+--
 
-#------------------------------------------------------------
-# Table: social
-#------------------------------------------------------------
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE IF NOT EXISTS `logs` (
+                                      `idLog` int NOT NULL AUTO_INCREMENT,
+                                      `typeAction` varchar(500) NOT NULL,
+    `dateHeureLog` datetime NOT NULL,
+    `adresseIPLog` varchar(500) NOT NULL,
+    `idCompte` int NOT NULL,
+    PRIMARY KEY (`idLog`),
+    KEY `logs_compte_FK` (`idCompte`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE social
-(
-    idSocial Int AUTO_INCREMENT NOT NULL,
-    nom      Varchar(500) NOT NULL,
-    lienLogo Varchar(500) NOT NULL,
-    CONSTRAINT social_PK PRIMARY KEY (idSocial)
-) ENGINE = InnoDB;
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: rediriger
-#------------------------------------------------------------
+--
+-- Structure de la table `reactivation`
+--
 
-CREATE TABLE rediriger
-(
-    idSocial Int NOT NULL,
-    idCarte  Int NOT NULL,
-    lien     Varchar(500),
-    CONSTRAINT rediriger_PK PRIMARY KEY (idSocial, idCarte),
-    CONSTRAINT rediriger_social_FK FOREIGN KEY (idSocial) REFERENCES social (idSocial),
-    CONSTRAINT rediriger_carte_FK FOREIGN KEY (idCarte) REFERENCES carte (idCarte)
-) ENGINE = InnoDB;
+DROP TABLE IF EXISTS `reactivation`;
+CREATE TABLE IF NOT EXISTS `reactivation` (
+                                              `idReactivation` int NOT NULL AUTO_INCREMENT,
+                                              `codeReactivation` varchar(32) NOT NULL,
+    `dateHeureExpirationReactivation` datetime NOT NULL,
+    `idCompte` int NOT NULL,
+    PRIMARY KEY (`idReactivation`),
+    UNIQUE KEY `codeReactivation` (`codeReactivation`),
+    KEY `reactivation_compte_FK` (`idCompte`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recuperation`
+--
+
+DROP TABLE IF EXISTS `recuperation`;
+CREATE TABLE IF NOT EXISTS `recuperation` (
+                                              `idRecuperation` int NOT NULL AUTO_INCREMENT,
+                                              `codeRecuperation` varchar(32) NOT NULL,
+    `dateHeureExpirationRecuperation` datetime NOT NULL,
+    `idCompte` int NOT NULL,
+    PRIMARY KEY (`idRecuperation`),
+    UNIQUE KEY `codeRecuperation` (`codeRecuperation`),
+    KEY `recuperation_compte_FK` (`idCompte`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rediriger`
+--
+
+DROP TABLE IF EXISTS `rediriger`;
+CREATE TABLE IF NOT EXISTS `rediriger` (
+                                           `idSocial` int NOT NULL,
+                                           `idCarte` int NOT NULL,
+                                           `lien` varchar(500) DEFAULT NULL,
+    PRIMARY KEY (`idSocial`,`idCarte`),
+    KEY `rediriger_carte_FK` (`idCarte`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `social`
+--
+
+DROP TABLE IF EXISTS `social`;
+CREATE TABLE IF NOT EXISTS `social` (
+                                        `idSocial` int NOT NULL AUTO_INCREMENT,
+                                        `nom` varchar(500) NOT NULL,
+    `lienLogo` varchar(500) NOT NULL,
+    PRIMARY KEY (`idSocial`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `template`
+--
+
+DROP TABLE IF EXISTS `template`;
+CREATE TABLE IF NOT EXISTS `template` (
+                                          `idTemplate` int NOT NULL AUTO_INCREMENT,
+                                          `nom` varchar(50) NOT NULL,
+    PRIMARY KEY (`idTemplate`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `vue`
+--
+
+DROP TABLE IF EXISTS `vue`;
+CREATE TABLE IF NOT EXISTS `vue` (
+                                     `idVue` int NOT NULL AUTO_INCREMENT,
+                                     `date` date NOT NULL,
+                                     `idCarte` int NOT NULL,
+                                     `idEmp` int DEFAULT NULL,
+                                     PRIMARY KEY (`idVue`),
+    KEY `vue_carte_FK` (`idCarte`),
+    KEY `vue_employer_FK` (`idEmp`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `carte`
+--
+ALTER TABLE `carte`
+    ADD CONSTRAINT `carte_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE,
+  ADD CONSTRAINT `carte_template_FK` FOREIGN KEY (`idTemplate`) REFERENCES `template` (`idTemplate`);
+
+--
+-- Contraintes pour la table `employer`
+--
+ALTER TABLE `employer`
+    ADD CONSTRAINT `employer_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `logs`
+--
+ALTER TABLE `logs`
+    ADD CONSTRAINT `logs_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `reactivation`
+--
+ALTER TABLE `reactivation`
+    ADD CONSTRAINT `reactivation_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `recuperation`
+--
+ALTER TABLE `recuperation`
+    ADD CONSTRAINT `recuperation_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `rediriger`
+--
+ALTER TABLE `rediriger`
+    ADD CONSTRAINT `rediriger_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
+  ADD CONSTRAINT `rediriger_social_FK` FOREIGN KEY (`idSocial`) REFERENCES `social` (`idSocial`);
+
+--
+-- Contraintes pour la table `vue`
+--
+ALTER TABLE `vue`
+    ADD CONSTRAINT `vue_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
+  ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -8,6 +8,7 @@ use App\Http\Controllers\Inscription;
 use App\Http\Controllers\Profil;
 use App\Http\Controllers\RecuperationCompte;
 use App\Http\Controllers\DashboardAdmin;
+use App\Http\Controllers\Entreprise;
 use App\Http\Middleware\Authentification;
 use App\Http\Middleware\NonAuthentifie;
 
@@ -42,3 +43,5 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 
 Route::get('/profil', [Profil::class, 'afficherPageProfil'])->middleware([Authentification::class])->name('profil');
 Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
+
+Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');

@@ -108,7 +108,11 @@
 
                         <!-- Buttons -->
                         <div class="flex flex-row-reverse mt-auto pt-4">
-                            <button class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer</button>
+                            <form action="{{ route('entreprise.destroy', $entreprise->idCarte) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer</button>
+                            </form>
                             <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>
                     </div>
