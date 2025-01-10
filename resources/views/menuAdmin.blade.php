@@ -15,12 +15,12 @@
                     </li>
                     <div class="mt-14">
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardAdmin') }}">
                                 <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="30" height="30">
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardAdminStatistique') }}">
                                 <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="30" height="30">
                             </a>
                         </li>
