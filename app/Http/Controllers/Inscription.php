@@ -6,9 +6,6 @@ use App\Models\Compte;
 use App\Models\Logs;
 use Illuminate\Support\Facades\DB;
 
-/* A FAIRE (fiche 2, partie 2, question 2) : inclure ci-dessous les use PHP pour les librairies gérant l'A2F */
-
-
 class Inscription extends Controller
 {
     public function afficherFormulaireInscription()
@@ -24,9 +21,6 @@ class Inscription extends Controller
             $validationFormulaire = true; // Booléen qui indique si les données du formulaire sont valides
             $messagesErreur = array(); // Tableau contenant les messages d'erreur à afficher
 
-            /* A FAIRE : vérification du formulaire d'inscription */
-
-            // CORRIGÉ
             if (Compte::existeEmail($_POST["email"])) {
                 $messagesErreur[] = "Cette adresse email a déjà été utilisée";
                 $validationFormulaire = false;
@@ -46,10 +40,6 @@ class Inscription extends Controller
 
             } else {
 
-                /* A FAIRE (fiche 2, partie 1, question 7) : on inscrit l'utilisateur dans la base + écriture dans les logs */
-
-
-                // CORRIGÉ
                 $motDePasseHashe = password_hash($_POST["motDePasse1"], PASSWORD_BCRYPT);
 
                 var_dump($motDePasseHashe);

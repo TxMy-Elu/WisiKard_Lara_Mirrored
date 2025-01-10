@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vue;
 use Illuminate\Http\Request;
 use App\Models\Carte;
+use DateTime;
 
 class DashboardAdmin extends Controller
 {
@@ -52,50 +53,18 @@ class DashboardAdmin extends Controller
             ],
         ];
 
-        // Weekly data
-        $weeklyData = null;
-        if ($month) {
-            $weeklyViews = Vue::selectRaw('YEAR(date) as annee, MONTH(date) as mois, WEEK(date) as semaine, COUNT(*) as nombre_de_vues')
-                ->whereYear('date', $year)
-                ->whereMonth('date', $month)
-                ->groupBy('annee', 'mois', 'semaine')
-                ->orderBy('annee', 'asc')
-                ->orderBy('mois', 'asc')
-                ->orderBy('semaine', 'asc')
-                ->pluck('nombre_de_vues', 'semaine')
-                ->toArray();
-
-            $weeksInMonth = $this->getWeeksInMonth($year, $month);
-            $weeklyData = [
-                'labels' => $weeksInMonth,
-                'datasets' => [
-                    [
-                        'label' => 'Nombre de vue par semaine',
-                        'backgroundColor' => 'rgba(27, 153, 27, 0.2)',
-                        'borderColor' => 'rgba(27, 153, 27, 1)',
-                        'borderWidth' => 1,
-                        'data' => array_values(array_replace(array_fill(0, count($weeksInMonth), 0), $weeklyViews)),
-                    ],
-                ],
-            ];
-        }
 
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('dashboardAdminStatistique', compact('yearlyData', 'weeklyData', 'years', 'selectedYear', 'month'));
+        return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month'));
     }
 
-    private function getWeeksInMonth($year, $month)
-    {
-        $date = new \DateTime("$year-$month-01");
-        $weeks = [];
-        while ($date->format('m') == $month) {
-            $weeks[] = 'Week ' . $date->format('W');
-            $date->modify('+1 week');
-        }
-        return $weeks;
-    }
+
+
+
+
+
 
     private function formatPhoneNumber($phoneNumber)
     {

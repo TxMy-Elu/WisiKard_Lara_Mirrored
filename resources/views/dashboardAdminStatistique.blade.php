@@ -54,13 +54,6 @@
                     @endforeach
                 </select>
                 <label for="monthSelect" class="block text-sm font-medium text-gray-700 mt-4">Select Month</label>
-                <select name="month" id="monthSelect"
-                        class="custom-width p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="">All Months</option>
-                    @foreach(['01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April', '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August', '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'] as $key => $monthName)
-                        <option value="{{ $key }}" @if($key == $month) selected @endif>{{ $monthName }}</option>
-                    @endforeach
-                </select>
             </form>
         </div>
         <canvas id="yearChart" width="400" height="200"></canvas>
@@ -85,29 +78,7 @@
                     }
                 });
 
-                @if($month)
-                const weeklyData = @json($weeklyData);
-                const ctxWeek = document.getElementById('weekChart').getContext('2d');
-
-                // Weekly chart
-                let weekChart = new Chart(ctxWeek, {
-                    type: 'line',
-                    data: weeklyData,
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                @endif
-
                 document.getElementById('yearSelect').addEventListener('change', function () {
-                    document.getElementById('yearForm').submit();
-                });
-
-                document.getElementById('monthSelect').addEventListener('change', function () {
                     document.getElementById('yearForm').submit();
                 });
             });
