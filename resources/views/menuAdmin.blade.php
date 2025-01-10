@@ -1,10 +1,10 @@
 {{-- Menu Admin --}}
 <div>
     <nav class="bg-zinc-900 p-4 h-full w-24 fixed lg:block hidden navbar" id="navbarNav">
-        <div class="container mx-auto flex flex-col items-center">
+        <div class="container mx-auto flex flex-col items-center h-full">
             <a class="text-xl font-bold mb-4" href="#"></a>
-            <div class="w-full lg:flex lg:flex-col lg:items-center lg:w-auto">
-                <ul class="flex flex-col items-center lg:ml-0">
+            <div class="w-full lg:flex lg:flex-col lg:items-center lg:w-auto flex-grow">
+                <ul class="flex flex-col items-center lg:ml-0 flex-grow">
                     <li class="nav-item mb-4">
                         <button class="mb-14 px-3 py-2 border rounded text-gray-700 border-gray-700 hidden" type="button" id="closeNavbarButton" onclick="toggleNavbar()">
                             <svg class="w-6 h-6" fill="none" stroke="#ffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -30,6 +30,13 @@
                             </a>
                         </li>
                     </div>
+                </ul>
+                <ul class="flex flex-col items-center lg:ml-0 mt-auto">
+                    <li class="nav-item mb-4">
+                        <a class="nav-link p-2 hover:text-red-500" href="{{ route('deconnexion') }}">
+                            <img src="{{ asset('icons/log-out.svg') }}" alt="deconnexion" width="30" height="30">
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
