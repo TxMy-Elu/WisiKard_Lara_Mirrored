@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Logs;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;// pour role
 
 /* A FAIRE (fiche 2, partie 2, question 2) : inclure ci-dessous les use PHP pour les librairies gérant l'A2F */
 
