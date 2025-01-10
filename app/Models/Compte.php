@@ -58,6 +58,8 @@ class Compte extends Model
         $nouvelUtilisateur->role = $role;
 
         $nouvelUtilisateur->save();
+
+        return $nouvelUtilisateur->idCompte;
     }
 
 }

@@ -14,6 +14,16 @@ class Carte extends Model
     public $timestamps = false;
     public $incrementing = true;
 
+    use HasFactory;
+
+    protected $fillable = [
+        'nomEntreprise',
+        'titre',
+        'tel',
+        'ville',
+        'idCompte',
+        'idTemplate',
+    ];
     public function compte(): BelongsTo
     {
         return $this->belongsTo(Compte::class, 'idCompte');

@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Logs;
-
-/* A FAIRE (fiche 2, partie 2, question 2) : inclure ci-dessous les use PHP pour les librairies gérant l'A2F */
-
+use App\Models\Carte;
 
 class Inscription extends Controller
 {
@@ -15,15 +13,14 @@ class Inscription extends Controller
         return view('formulaireInscription', []);
     }
 
+    // app/Http/Controllers/Inscription.php
+
     public function boutonInscription()
     {
         if (isset($_POST["boutonInscription"])) {
-            $validationFormulaire = true; // Booléen qui indique si les données du formulaire sont valides
-            $messagesErreur = array(); // Tableau contenant les messages d'erreur à afficher
+            $validationFormulaire = true; // Boolean indicating if the form data is valid
+            $messagesErreur = array(); // Array containing error messages to display
 
-            /* A FAIRE : vérification du formulaire d'inscription */
-
-            // CORRIGÉ
             if (Compte::existeEmail($_POST["email"])) {
                 $messagesErreur[] = "Cette adresse email a déjà été utilisée";
                 $validationFormulaire = false;
@@ -37,25 +34,31 @@ class Inscription extends Controller
                 $validationFormulaire = false;
             }
 
-
             if ($validationFormulaire === false) {
                 return view('formulaireInscription', ["messagesErreur" => $messagesErreur]);
-
             } else {
-
-                /* A FAIRE (fiche 2, partie 1, question 7) : on inscrit l'utilisateur dans la base + écriture dans les logs */
-
-
-                // CORRIGÉ
                 $motDePasseHashe = password_hash($_POST["motDePasse1"], PASSWORD_BCRYPT);
 
-                var_dump($motDePasseHashe);
-                var_dump($_POST["email"]);
-                var_dump($_POST["role"]);
-                Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"]);
-                Logs::ecrireLog($_POST["email"], "Inscription");
+                // Account registration
+                $idCompte = Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"]);
+                if ($idCompte) {
+                    Logs::ecrireLog($_POST["email"], "Inscription");
 
-                return view('formulaireConnexion', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
+                    // Insert a default card
+                    Carte::create([
+                        'nomEntreprise' => 'Nom par défaut',
+                        'titre' => 'Titre par défaut',
+                        'tel' => '0000000000',
+                        'ville' => 'Ville par défaut',
+                        'idCompte' => $idCompte,
+                        'idTemplate' => 1 // Ensure this template exists
+                    ]);
+
+                    return redirect()->route('dashboardAdmin')->with('messageSucces', 'Inscription réussie, vous êtes maintenant connecté');
+                } else {
+                    $messagesErreur[] = "Erreur lors de l'inscription du compte.";
+                    return view('formulaireInscription', ["messagesErreur" => $messagesErreur]);
+                }
             }
         }
     }
