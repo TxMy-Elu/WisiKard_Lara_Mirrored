@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Logs;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;// pour role
 
 class Inscription extends Controller
 {
