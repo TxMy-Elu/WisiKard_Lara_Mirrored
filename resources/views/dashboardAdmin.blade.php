@@ -5,36 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .custom-width {
-            width: 100%; /* Adjusted to be responsive */
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .box-shadow {
-            box-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                z-index: 1000;
-            }
-
-            .content {
-                margin-top: 60px; /* Adjust based on the height of the navbar */
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body class="align-items-center bg-gray-100 w-100">
 
@@ -44,14 +15,9 @@
 
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         @if($messageContent != "Aucun message disponible")
-            <div>
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <img src="{{ asset('icons/bell.svg') }}" alt="notification" width="30" height="30">
-                        <span class="text-xl font-bold ml-2">Notification :</span>
-                        <p>{{ $messageContent }}</p>
-                    </div>
-                </div>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Notification :</strong>
+                <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
         <div class="min-h-screen p-4">

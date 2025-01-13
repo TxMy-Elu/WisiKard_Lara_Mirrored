@@ -69,21 +69,53 @@ class DashboardAdmin extends Controller
         return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
-    public function afficherDernierMessage()
-    {
-        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
-
-        if ($message) {
-            $messageContent = $message->message;
-        } else {
-            $messageContent = 'Aucun message disponible';
-        }
-
-        return view('dashboardAdmin', ['message' => $messageContent]);
-    }
-
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
+    }
+
+    public function ajoutMessage(Request $request)
+    {
+        $message = $request->input('message');
+        $afficher = $request->input('afficher');
+
+        Message::create([
+            'message' => $message,
+            'afficher' => $afficher,
+        ]);
+
+        return redirect()->route('dashboardAdminMessage');
+    }
+
+    public function supprimerMessage(Request $request)
+    {
+        $message = Message::find($request->input('id'));
+        $message->delete();
+
+        return redirect()->route('dashboardAdminMessage');
+    }
+
+    public function toggleMessage($id)
+    {
+        $message = Message::find($id);
+        $message->afficher = !$message->afficher;
+        $message->save();
+
+        return redirect()->route('dashboardAdminMessage');
+    }
+
+    public function modifierMessage(Request $request, $id)
+    {
+        $message = Message::find($id);
+        $message->message = $request->input('message');
+        $message->save();
+
+        return redirect()->route('dashboardAdminMessage');
+    }
+
+    public function afficherAllMessage()
+    {
+        $messages = Message::all();
+        return view('dashboardAdminMessage', compact('messages'));
     }
 }

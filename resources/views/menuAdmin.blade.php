@@ -25,7 +25,7 @@
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardAdminMessage') }}">
                                 <img src="{{ asset('icons/send.svg') }}" alt="message" width="20" height="20">
                             </a>
                         </li>
