@@ -1,4 +1,3 @@
-<!-- formulaireConnexion.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -8,7 +7,6 @@
     <title>Connexion</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
 
     <style>
         body {

@@ -6,20 +6,9 @@ use App\Http\Controllers\DashboardClient;
 use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
+use \App\Http\Controllers\MessageHeader;
 use App\Http\Middleware\NonAuthentifie;
 use Illuminate\Support\Facades\Route;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->middleware([NonAuthentifie::class])->name('accueil');
 
@@ -51,3 +40,6 @@ Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entrepr
 
 Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
 Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
+
+Route::get('/message', [MessageHeader::class, 'afficherDernierMessage'])->name('message');
+

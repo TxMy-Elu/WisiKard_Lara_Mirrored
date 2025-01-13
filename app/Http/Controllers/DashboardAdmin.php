@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vue;
 use Illuminate\Http\Request;
 use App\Models\Carte;
+use App\Models\Message;
 
 class DashboardAdmin extends Controller
 {
@@ -24,7 +25,10 @@ class DashboardAdmin extends Controller
             $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
         }
 
-        return view('dashboardAdmin', compact('entreprises', 'search'));
+        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+        $messageContent = $message ? $message->message : 'Aucun message disponible';
+
+        return view('dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
     }
 
     public function statistique(Request $request)
@@ -63,6 +67,19 @@ class DashboardAdmin extends Controller
         $selectedYear = $year;
 
         return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
+    }
+
+    public function afficherDernierMessage()
+    {
+        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+
+        if ($message) {
+            $messageContent = $message->message;
+        } else {
+            $messageContent = 'Aucun message disponible';
+        }
+
+        return view('dashboardAdmin', ['message' => $messageContent]);
     }
 
     private function formatPhoneNumber($phoneNumber)
