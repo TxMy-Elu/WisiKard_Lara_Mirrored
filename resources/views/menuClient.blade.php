@@ -29,22 +29,17 @@
                                 <img src="{{ asset('icons/share-2.svg') }}" alt="message" width="20" height="20">
                             </a>
                         </li>
+                        <li class="nav-item mb-4">
+                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                                <img src="{{ asset('icons/user.svg') }}" alt="deconnexion" width="30" height="30">
+                            </a>
+                        </li>
+                        <li class="nav-item mb-4">
+                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                                <img src="{{ asset('icons/image.svg') }}" alt="deconnexion" width="30" height="30">
+                            </a>
+                        </li>
                     </div>
-                </ul>
-                <ul class="flex flex-col items-center lg:ml-0 mt-auto">
-                    <li class="nav-item mb-4">
-                        <a class="nav-link p-2 hover:text-red-500" href="#">
-                            <img src="{{ asset('icons/user.svg') }}" alt="deconnexion" width="30" height="30">
-                        </a>
-                    </li>
-                </ul>
-             <ul class="flex flex-col items-center lg:ml-0 mt-auto">
-                  <li class="nav-item mb-4">
-                       <a class="nav-link p-2 hover:text-red-500" href="#">
-                          <img src="{{ asset('icons/image.svg') }}" alt="deconnexion" width="30" height="30">
-                       </a>
-                  </li>
-             </ul>
             </div>
         </div>
     </nav>

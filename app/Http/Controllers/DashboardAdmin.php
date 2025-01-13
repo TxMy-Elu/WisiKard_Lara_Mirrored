@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Vue;
 use Illuminate\Http\Request;
 use App\Models\Carte;
-use DateTime;
 
 class DashboardAdmin extends Controller
 {
@@ -65,12 +64,6 @@ class DashboardAdmin extends Controller
 
         return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
-
-
-
-
-
-
 
     private function formatPhoneNumber($phoneNumber)
     {
