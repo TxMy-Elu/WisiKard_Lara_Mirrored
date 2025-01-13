@@ -6,7 +6,7 @@ use App\Models\Vue;
 use Illuminate\Http\Request;
 use App\Models\Carte;
 
-class DashboardAdmin extends Controller
+class DashboardClient extends Controller
 {
     public function afficherDashboardClient(Request $request)
     {

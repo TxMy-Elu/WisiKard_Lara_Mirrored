@@ -108,7 +108,7 @@ class Connexion extends Controller
             setcookie("auth", $jwt, time() + 3600, "/", "", false, true);
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
 
-            // si admin redirection vers la page admin sinon vers la page profil
+            // si admin redirection vers la page admin sinon vers la page dashboardClient
            if (Compte::estAdmin()) {
                 return redirect()->to('dashboardAdmin')->send();
             } else {
