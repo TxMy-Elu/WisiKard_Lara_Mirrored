@@ -8,15 +8,7 @@
     <title>Mot de passe oublié</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .shadow-red {
-            box-shadow: 5px 5px 5px rgba(255, 0, 0, 0.5);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body class="bg-white md:bg-zinc-900">
 <div class="flex justify-center items-center min-h-screen">
