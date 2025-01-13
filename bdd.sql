@@ -79,6 +79,8 @@ CREATE TABLE IF NOT EXISTS `employer` (
     `prenom` varchar(100) NOT NULL,
     `fonction` varchar(100) NOT NULL,
     `idCarte` int DEFAULT NULL,
+    `mail` varchar(100) NOT NULL,
+    `telephone` varchar(100) NOT NULL,
     PRIMARY KEY (`idEmp`),
     KEY `employer_carte_FK` (`idCarte`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
