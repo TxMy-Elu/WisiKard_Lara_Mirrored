@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB; // pour role
 
 class Employe extends Controller
 {
-    public function afficherFormulaireInscEmpl()
+    public function afficherFormulaireInscEmpl(Request $request)
     {
         return view('formulaireEmploye', []);
     }

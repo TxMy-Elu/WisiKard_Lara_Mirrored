@@ -31,7 +31,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardClient/{id}', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
 
     Route::get('/inscriptionEmp', [Employe::class, 'afficherDashboardClient'])->name('inscriptionEmp');
-    Route::post('/inscriptionEmp', [Employe::class, 'boutonInscription'])->name('validationFormulaireInscription');
+    Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
 
     Route::post('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
     Route::get('/dashboardAdminStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardAdminStatistique');
