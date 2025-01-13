@@ -7,10 +7,9 @@ use App\Models\Employer;
 
 class DashboardClient extends Controller
 {
-    public function afficherDashboardClient(Request $request, $id)
+    public function afficherDashboardClient(Request $request)
     {
-        // Utilisez l'ID du compte pour afficher les informations spécifiques au client
-        return view('dashboardClient', ['idCompte' => $id]);
+        return view('dashboardClient');
     }
 
     public function employer()

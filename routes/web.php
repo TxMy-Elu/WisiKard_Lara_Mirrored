@@ -28,13 +28,18 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
     Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
-    Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
+    Route::get('/dashboardClient/{id}', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
+
+    Route::get('/inscriptionEmp', [Employe::class, 'afficherDashboardClient'])->name('inscriptionEmp');
+    Route::post('/inscriptionEmp', [Employe::class, 'boutonInscription'])->name('validationFormulaireInscription');
+
     Route::post('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
     Route::get('/dashboardAdminStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardAdminStatistique');
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
     Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
+    Route::post('/employe', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
     Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
     Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
 });
