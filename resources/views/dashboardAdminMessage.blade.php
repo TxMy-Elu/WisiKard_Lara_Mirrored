@@ -11,55 +11,105 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<body class="align-items-center bg-gray-100 w-100">
+<body class="bg-gray-100 w-full">
 
 <div class="flex flex-col md:flex-row">
     @include('menuAdmin')
 
     <div class="flex-1 md:ml-24 content">
-        <div class="flex flex-col pr-4">
-            @foreach($messages as $message)
-                <div class="flex items-center justify-between m-2 p-2 bg-white rounded shadow w-full">
-                    <div class="flex-grow">
-                        <p id="message-{{ $message->id }}">{{ $message->message }}</p>
-                        <form id="edit-form-{{ $message->id }}" action="{{ route('modifierMessage', $message->id) }}" method="POST" class="hidden">
-                            @csrf
-                            @method('PUT')
-                            <input type="text" name="message" value="{{ $message->message }}" class="border p-2 rounded w-full">
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2">Enregistrer</button>
-                            <button type="button" onclick="cancelEdit({{ $message->id }})" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Annuler</button>
-                        </form>
-                    </div>
-                    <div class="flex items-center">
-                        <button type="button" onclick="toggleEdit({{ $message->id }})" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Modifier</button>
-                        <form action="{{ route('toggleMessage', $message->id) }}" method="POST" class="flex items-center">
-                            @csrf
-                            @method('PATCH')
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="afficher" {{ $message->afficher ? 'checked' : '' }} onchange="this.form.submit()">
-                                <span class="slider"></span>
-                            </label>
-                        </form>
-                    </div>
+
+        <div class="min-h-screen p-4">
+
+            <div class="flex flex-col md:flex-row justify-between items-center pb-4">
+
+                <!-- Link to the add information form -->
+                <div class="flex items-center w-full md:w-auto">
+                    <button type="button" onclick="openAddModal()" class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Ajouter une Information
+                    </button>
                 </div>
-            @endforeach
+            </div>
+
+            <div class="flex flex-col pr-4">
+                @foreach($messages as $message)
+                    <div class="flex items-center justify-between m-2 p-2 bg-white rounded shadow w-full">
+                        <div class="flex-grow">
+                            <p id="message-{{ $message->id }}">{{ $message->message }}</p>
+                        </div>
+                        <div class="flex items-center">
+                            <button type="button" onclick="toggleEdit({{ $message->id }})" class="bg-indigo-500 text-white px-4 py-2 rounded mr-2">Modifier</button>
+                            <form action="{{ route('toggleMessage', $message->id) }}" method="POST" class="flex items-center">
+                                @csrf
+                                @method('PATCH')
+                                <label class="toggle-switch">
+                                    <input type="checkbox" name="afficher" {{ $message->afficher ? 'checked' : '' }} onchange="this.form.submit()">
+                                    <span class="slider"></span>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- Edit Modal Structure -->
+<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded shadow-lg w-1/2">
+        <h2 class="text-xl mb-4">Modifier le message</h2>
+        <form id="edit-form-modal" action="" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="text" name="message" id="modal-message" class="border p-2 rounded w-full mb-4">
+            <div class="flex justify-end">
+                <button type="button" onclick="closeModal('editModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Modal Structure -->
+<div id="addModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded shadow-lg w-1/2">
+        <h2 class="text-xl mb-4">Ajouter une Information</h2>
+        <form id="add-form-modal" action="{{ route('ajoutMessage') }}" method="POST">
+            @csrf
+            <input type="text" name="message" id="add-modal-message" class="border p-2 rounded w-full mb-4">
+            <div class="flex justify-end">
+                <button type="button" onclick="closeModal('addModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
+            </div>
+        </form>
     </div>
 </div>
 
 <script>
     function toggleEdit(messageId) {
         const messageElement = document.getElementById(`message-${messageId}`);
-        const editForm = document.getElementById(`edit-form-${messageId}`);
-        messageElement.classList.toggle('hidden');
-        editForm.classList.toggle('hidden');
+        const modal = document.getElementById('editModal');
+        const modalMessage = document.getElementById('modal-message');
+        const modalForm = document.getElementById('edit-form-modal');
+
+        modalMessage.value = messageElement.textContent.trim();
+        modalForm.action = `/modifierMessage/${messageId}`;
+        modal.classList.remove('hidden');
     }
 
-    function cancelEdit(messageId) {
-        const messageElement = document.getElementById(`message-${messageId}`);
-        const editForm = document.getElementById(`edit-form-${messageId}`);
-        messageElement.classList.remove('hidden');
-        editForm.classList.add('hidden');
+    function openAddModal() {
+        const modal = document.getElementById('addModal');
+        modal.classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.add('hidden');
     }
 </script>
 

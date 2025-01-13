@@ -35,6 +35,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
+    Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
     Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
     Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
 });
