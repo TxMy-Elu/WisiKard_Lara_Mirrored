@@ -41,8 +41,6 @@ Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('rea
 
 Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
 
-Route::get('/profil', [Profil::class, 'afficherPageProfil'])->middleware([Authentification::class])->name('profil');
-
 Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
 Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
 
