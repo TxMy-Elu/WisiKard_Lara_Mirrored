@@ -40,6 +40,8 @@
 
 <div class="flex flex-col md:flex-row">
     @include('menuClient')
+
+
 </div>
 
 </body>

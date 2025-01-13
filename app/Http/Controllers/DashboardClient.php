@@ -9,6 +9,9 @@ class DashboardClient extends Controller
 
     public function afficherDashboardClient(Request $request)
     {
+
+
+
         return view('dashboardClient', []);
     }
 }

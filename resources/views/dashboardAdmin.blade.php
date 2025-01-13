@@ -40,11 +40,25 @@
 
 <div class="flex flex-col md:flex-row">
     @include('menuAdmin')
+
+
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
+        @if($messageContent != "Aucun message disponible")
+            <div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <img src="{{ asset('icons/bell.svg') }}" alt="notification" width="30" height="30">
+                        <span class="text-xl font-bold ml-2">Notification :</span>
+                        <p>{{ $messageContent }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="min-h-screen p-4">
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <!-- Search bar -->
-                <form method="GET" action="{{ route('dashboardAdmin') }}" class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
+                <form method="GET" action="{{ route('dashboardAdmin') }}"
+                      class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
                     <div class="search-icon pl-2">
                         <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
@@ -53,13 +67,17 @@
                         </svg>
                     </div>
                     <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search..."
-                           class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow"> <!-- Adjusted padding-left to pl-10 -->
+                           class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow">
+                    <!-- Adjusted padding-left to pl-10 -->
                 </form>
                 <!-- Link to the registration form -->
                 <div class="flex items-center w-full md:w-auto">
-                    <a href="{{ route('inscription') }}" class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    <a href="{{ route('inscription') }}"
+                       class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4v16m8-8H4"></path>
                         </svg>
                         Ajouter une entreprise
                     </a>
@@ -108,10 +126,12 @@
 
                         <!-- Buttons -->
                         <div class="flex flex-row-reverse mt-auto pt-4">
-                            <form action="{{ route('entreprise.destroy', $entreprise->idCarte) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
+                            <form action="{{ route('entreprise.destroy', $entreprise->idCarte) }}" method="POST"
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer</button>
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
+                                </button>
                             </form>
                             <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>

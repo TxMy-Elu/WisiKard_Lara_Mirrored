@@ -193,6 +193,19 @@ CREATE TABLE IF NOT EXISTS `vue` (
     KEY `vue_employer_FK` (`idEmp`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE IF NOT EXISTS `message` (
+                         id INT AUTO_INCREMENT PRIMARY KEY,
+                         message VARCHAR(500) NOT NULL,
+                         afficher BOOLEAN NOT NULL
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 --
 -- Contraintes pour les tables déchargées
 --
