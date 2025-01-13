@@ -77,11 +77,10 @@ class DashboardAdmin extends Controller
     public function ajoutMessage(Request $request)
     {
         $message = $request->input('message');
-        $afficher = $request->input('afficher');
 
         Message::create([
             'message' => $message,
-            'afficher' => $afficher,
+            'afficher' => true, // or false, depending on your requirement
         ]);
 
         return redirect()->route('dashboardAdminMessage');
@@ -95,6 +94,8 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage');
     }
 
+
+
     public function toggleMessage($id)
     {
         $message = Message::find($id);
@@ -104,14 +105,15 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage');
     }
 
-    public function modifierMessage(Request $request, $id)
+    public function modifierMessage(Request $request)
     {
-        $message = Message::find($id);
+        $message = Message::find($request->input('id'));
         $message->message = $request->input('message');
         $message->save();
 
         return redirect()->route('dashboardAdminMessage');
     }
+
 
     public function afficherAllMessage()
     {

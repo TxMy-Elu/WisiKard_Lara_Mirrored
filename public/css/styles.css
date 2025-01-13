@@ -60,7 +60,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color:  #ff5757;
     transition: .4s;
     border-radius: 34px;
 }
@@ -78,7 +78,7 @@ body {
 }
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #62ff57;
 }
 
 input:checked + .slider:before {
