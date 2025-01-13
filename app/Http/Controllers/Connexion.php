@@ -112,7 +112,7 @@ class Connexion extends Controller
            if (Compte::estAdmin()) {
                 return redirect()->to('dashboardAdmin')->send();
             } else {
-                return redirect()->to('profil')->send();
+                return redirect()->to('dashboardClient')->send();
             }
         } else {
             if (isset($utilisateur)) {
