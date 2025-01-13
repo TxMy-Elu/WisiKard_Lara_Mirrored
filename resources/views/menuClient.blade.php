@@ -19,28 +19,28 @@
                     </li>
                     <div class="mt-14">
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
                                 <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="30" height="30">
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
                                 <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="30" height="30">
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
                                 <img src="{{ asset('icons/share-2.svg') }}" alt="message" width="20" height="20">
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
-                                <img src="{{ asset('icons/user.svg') }}" alt="deconnexion" width="30" height="30">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmployer') }}">
+                                <img src="{{ asset('icons/user.svg') }}" alt="user" width="30" height="30">
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="#">
-                                <img src="{{ asset('icons/image.svg') }}" alt="deconnexion" width="30" height="30">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
+                                <img src="{{ asset('icons/image.svg') }}" alt="image" width="30" height="30">
                             </a>
                         </li>
                     </div>

@@ -48,3 +48,6 @@ Route::post('/dashboardClient', [DashboardClient::class, 'afficherDashboardClien
 
 Route::get('/dashboardAdminStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardAdminStatistique');
 Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
+
+Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
+Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
