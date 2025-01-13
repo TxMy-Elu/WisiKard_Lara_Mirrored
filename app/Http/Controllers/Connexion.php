@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Reactivation;
-use App\Models\Compte;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class Connexion extends Controller
 {
@@ -109,10 +109,10 @@ class Connexion extends Controller
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
 
             // si admin redirection vers la page admin sinon vers la page dashboardClient
-           if (Compte::estAdmin()) {
-                return redirect()->to('dashboardAdmin')->send();
+            if ($utilisateur->role === 'admin') {
+                return redirect()->route('dashboardAdmin')->send();
             } else {
-                return redirect()->to('dashboardClient')->send();
+                return redirect()->route('dashboardClient')->send();
             }
         } else {
             if (isset($utilisateur)) {
@@ -121,6 +121,7 @@ class Connexion extends Controller
             return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
+
 
     public function deconnexion()
     {

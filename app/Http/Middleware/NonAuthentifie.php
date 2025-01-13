@@ -31,7 +31,7 @@ class NonAuthentifie
 				// Vérification de l'existance du compte utilisateur à partir de l'ID de l'utilisateur contenu dans le JWT
 				if(Compte::where("idCompte", $infosAuth["sub"])->count() > 0) {
                     // L'utilisateur déjà authentifié n'a pas à accéder à cette page et doit être redirigé vers son profil
-                    return redirect()->to('profil')->send();
+                    return redirect()->to('dashboardClient')->send();
 				}
 				else {
 					// Si l'utilisateur n'existe plus : on détruit le cookie d'authentification
