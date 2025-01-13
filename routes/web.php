@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Connexion;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardClient;
@@ -7,6 +6,7 @@ use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
 use \App\Http\Controllers\MessageHeader;
+use App\Http\Controllers\Employe;
 use App\Http\Middleware\NonAuthentifie;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +31,7 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
 
 Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
-Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
+Route::get('/dashboardClient/{id}', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
 
 Route::post('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
 
@@ -43,3 +43,5 @@ Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('emplo
 
 Route::get('/message', [MessageHeader::class, 'afficherDernierMessage'])->name('message');
 
+Route::get('/inscriptionEmp', [Employe::class, 'afficherFormulaireInscEmpl'])->name('inscriptionEmp');
+Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');

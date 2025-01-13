@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Compte;
@@ -112,7 +111,8 @@ class Connexion extends Controller
             if ($utilisateur->role === 'admin') {
                 return redirect()->route('dashboardAdmin')->send();
             } else {
-                return redirect()->route('dashboardClient')->send();
+                $id = $utilisateur->idCompte;
+                return redirect()->route('dashboardClient', ['id' => $id])->send();
             }
         } else {
             if (isset($utilisateur)) {
@@ -121,7 +121,6 @@ class Connexion extends Controller
             return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
-
 
     public function deconnexion()
     {

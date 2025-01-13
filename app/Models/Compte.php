@@ -54,5 +54,15 @@ class Compte extends Model
 
         return $nouvelUtilisateur->idCompte;
     }
+      public static function employe($nom, $prenom, $fonction)
+        {
+            // Créez un nouvel employé et enregistrez-le dans la base de données
+            $employe = new Employer();
+            $employe->nom = $nom;
+            $employe->prenom = $prenom;
+            $employe->fonction = $fonction;
+            $employe->save();
 
+            return $employe;
+        }
 }
