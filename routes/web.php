@@ -7,7 +7,6 @@ use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
 use App\Http\Middleware\NonAuthentifie;
-use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
 
@@ -38,10 +37,12 @@ Route::middleware([Authentification::class])->group(function () {
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
     Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
-    Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
     Route::post('/employe', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
+
+    Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
     Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
     Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
     Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
+
 });
 

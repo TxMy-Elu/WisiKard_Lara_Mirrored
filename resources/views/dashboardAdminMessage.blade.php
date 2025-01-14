@@ -21,7 +21,6 @@
         <div class="min-h-screen p-4">
 
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
-
                 <!-- Link to the add information form -->
                 <div class="flex items-center w-full md:w-auto">
                     <button type="button" onclick="openAddModal()" class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
@@ -35,13 +34,13 @@
                 </div>
             </div>
 
-            <div class="flex flex-col pr-4">
+            <div class="flex flex-col space-y-4">
                 @foreach($messages as $message)
-                    <div class="flex items-center justify-between m-2 p-2 bg-white rounded shadow w-full">
-                        <div class="flex-grow">
+                    <div class="flex flex-col md:flex-row items-center justify-between p-2 bg-white rounded shadow w-full">
+                        <div class="flex-grow text-center md:text-left">
                             <p id="message-{{ $message->id }}">{{ $message->message }}</p>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center mt-2 md:mt-0">
                             <button type="button" onclick="toggleEdit({{ $message->id }})" class="bg-indigo-500 text-white px-4 py-2 rounded mr-2">Modifier</button>
                             <form action="{{ route('toggleMessage', $message->id) }}" method="POST" class="flex items-center">
                                 @csrf
@@ -61,12 +60,12 @@
 
 <!-- Edit Modal Structure -->
 <div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded shadow-lg w-1/2">
+    <div class="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2">
         <h2 class="text-xl mb-4">Modifier le message</h2>
         <form id="edit-form-modal" action="" method="POST">
             @csrf
             @method('PUT')
-            <input type="text" name="message" id="modal-message" class="border p-2 rounded w-full mb-4">
+            <textarea name="message" id="modal-message" class="border p-2 rounded w-full mb-4" rows="4"></textarea>
             <div class="flex justify-end">
                 <button type="button" onclick="closeModal('editModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
@@ -77,11 +76,11 @@
 
 <!-- Add Modal Structure -->
 <div id="addModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded shadow-lg w-1/2">
+    <div class="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2">
         <h2 class="text-xl mb-4">Ajouter une Information</h2>
         <form id="add-form-modal" action="{{ route('ajoutMessage') }}" method="POST">
             @csrf
-            <input type="text" name="message" id="add-modal-message" class="border p-2 rounded w-full mb-4">
+            <textarea name="message" id="add-modal-message" class="border p-2 rounded w-full mb-4" rows="4"></textarea>
             <div class="flex justify-end">
                 <button type="button" onclick="closeModal('addModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
