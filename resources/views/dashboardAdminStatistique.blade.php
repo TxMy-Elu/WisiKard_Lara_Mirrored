@@ -10,87 +10,104 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-</head>
-<body class="align-items-center bg-gray-100 w-100">
+    <style>
+        .custom-select {
+            appearance: none;
+            background-color: #f9fafb;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            color: #1a202c;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
 
-<div class="flex flex-col md:flex-row">
+        .custom-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+            outline: none;
+        }
+
+        .custom-select:hover {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+<div class="flex flex-col">
     @include('menuAdmin')
 
-    <div class="mx-auto p-6">
-        <!-- compteur de nombre de vue total -->
-        <div class="flex justify-center">
-            <div class="w-96 h-60 p-4 bg-white rounded-lg border flex flex-col ">
+    <div class="flex-1 md:ml-24 p-6">
+        <div class="w-full mx-auto p-6 bg-white rounded-lg shadow-md mb-6">
+            <div class="mb-4 flex justify-center">
+                <label for="yearSelect" class="block text-sm font-medium text-gray-700 mr-4">Select Year</label>
+                <form id="yearForm" action="{{ route('dashboardAdminStatistique') }}" method="get" class="flex items-center">
+                    <select name="year" id="yearSelect"
+                            class="custom-select w-32 text-center">
+                        @foreach($years as $year)
+                            <option value="{{ $year }}"
+                                    @if($year == $selectedYear) selected @endif>{{ $year }}</option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6">
+            <!-- Compteur de nombre de vues total -->
+            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col">
                 <div class="mb-4">
-                    <p class="text-center font-bold text-2xl ">Nombre de vues</p>
+                    <p class="text-center font-bold text-2xl">Nombre de vues</p>
                     <p class="text-center text-xl">Global</p>
                 </div>
                 <div class="flex flex-grow justify-center items-center">
                     <h1 class="text-7xl font-bold text-red-900">{{ $totalViews }}</h1>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="mx-auto p-6">
-        <!-- compteur de nombre de vue total -->
-        <div class="flex justify-center">
-            <div class="w-96 h-60 p-4 bg-white rounded-lg border flex flex-col ">
+            <!-- Compteur de nombre d'entreprises -->
+            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col">
                 <div class="mb-4">
-                    <p class="text-center font-bold text-2xl ">Nombre d'Entreprises</p>
+                    <p class="text-center font-bold text-2xl">Nombre d'Entreprises</p>
                     <p class="text-center text-xl">Global</p>
                 </div>
                 <div class="flex flex-grow justify-center items-center">
                     <h1 class="text-7xl font-bold text-red-900">{{ $totalEntreprise }}</h1>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <!-- Graph -->
+            <div class="w-full md:w-2/3 p-6 bg-white rounded-lg border shadow-md">
+                <canvas id="yearChart" width="100" height="50"></canvas>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const yearlyData = @json($yearlyData);
+                        const ctxYear = document.getElementById('yearChart').getContext('2d');
 
-    <div class="mx-auto p-6">
-        <div class="mb-4">
-            <label for="yearSelect" class="block text-sm font-medium text-gray-700">Select Year</label>
-            <form id="yearForm" action="{{ route('dashboardAdminStatistique') }}" method="get">
-                <select name="year" id="yearSelect"
-                        class="custom-width p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    @foreach($years as $year)
-                        <option value="{{ $year }}"
-                                @if($year == $selectedYear) selected @endif>{{ $year }}</option>
-                    @endforeach
-                </select>
-                <label for="monthSelect" class="block text-sm font-medium text-gray-700 mt-4">Select
-                    Month</label>
-            </form>
-        </div>
-        <canvas id="yearChart" width="400" height="200"></canvas>
-        @if($month)
-            <canvas id="weekChart" width="400" height="200" class="mt-6"></canvas>
-        @endif
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const yearlyData = @json($yearlyData);
-                const ctxYear = document.getElementById('yearChart').getContext('2d');
-
-                // Yearly chart
-                let yearChart = new Chart(ctxYear, {
-                    type: 'line',
-                    data: yearlyData,
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
+                        // Yearly chart
+                        let yearChart = new Chart(ctxYear, {
+                            type: 'line',
+                            data: yearlyData,
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
                             }
-                        }
-                    }
-                });
+                        });
 
-                document.getElementById('yearSelect').addEventListener('change', function () {
-                    document.getElementById('yearForm').submit();
-                });
-            });
-        </script>
+                        document.getElementById('yearSelect').addEventListener('change', function () {
+                            document.getElementById('yearForm').submit();
+                        });
+                    });
+                </script>
+            </div>
+        </div>
     </div>
-
 </div>
 
 </body>
