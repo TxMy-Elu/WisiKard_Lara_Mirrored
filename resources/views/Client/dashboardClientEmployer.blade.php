@@ -16,7 +16,7 @@
         <div class="min-h-screen p-4">
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <!-- Search bar -->
-                <form method="GET" action="{{ route('dashboardAdmin') }}"
+                <form method="GET" action="{{ route('dashboardClientEmploye') }}"
                       class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
                     <div class="search-icon pl-2">
                         <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -29,6 +29,7 @@
                            class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow">
                     <!-- Adjusted padding-left to pl-10 -->
                 </form>
+
                 <!-- Link to the registration form -->
                 <div class="flex items-center w-full md:w-auto">
                     <a href="{{ route('afficherFormulaireInscEmpl') }}"

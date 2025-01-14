@@ -14,14 +14,17 @@
         }
     </style>
 </head>
+<a href="{{ route('dashboardClientEmployer') }}" class="bg-red-900 text-white p-2 rounded-md absolute top-2 left-2">Retour</a>
 <body class="bg-white md:bg-zinc-900">
 <div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red">
+    <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red relative">
         <div class="headerLogo flex justify-center items-center">
             <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Logo WisiKard" class="w-32 md:w-48 lg:w-96">
         </div>
         <div class="justify-center mt-10">
-            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Employé</h1>
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Employé</h1>
+            </div>
             <div class="mt-10">
                 @if(session('success'))
                     <div class="alert alert-success">

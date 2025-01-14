@@ -11,48 +11,63 @@ use App\Models\Social;
 
 class DashboardClient extends Controller
 {
-    public function afficherDashboardClient(Request $request)
-    {
-        // Récupérer l'ID de l'utilisateur connecté
-        $idCompte = session('connexion');
+     public function afficherDashboardClient(Request $request)
+        {
+            // Récupérer l'ID de l'utilisateur connecté
+            $idCompte = session('connexion');
 
-        // Récupérer les informations du compte
-        $compte = Compte::find($idCompte);
+            // Récupérer les informations du compte
+            $compte = Compte::find($idCompte);
 
-        // Récupérer les cartes associées au compte
-        $cartes = Carte::where('idCompte', $idCompte)->get();
+            // Vérifier le rôle de l'utilisateur
+            if ($compte->role === 'employe') {
+                return redirect()->route('dashboardClientEmploye');
+            }
 
-        // Récupérer les employés associés au compte
-        $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $idCompte)
-            ->select('employer.*')
-            ->get();
+            // Récupérer les cartes associées au compte
+            $cartes = Carte::where('idCompte', $idCompte)->get();
 
-        // Récupérer l'idCarte associé au compte connecté
-        $idCarte = $cartes->first()->idCarte;
+            // Récupérer les employés associés au compte
+            $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+                ->where('carte.idCompte', $idCompte)
+                ->select('employer.*')
+                ->get();
 
-        return view('client.dashboardClientEmployer', [
-            'compte' => $compte,
-            'cartes' => $cartes,
-            'employes' => $employes,
-            'idCarte' => $idCarte // Passez l'idCarte à la vue
-        ]);
-    }
+            // Récupérer l'idCarte associé au compte connecté
+            $idCarte = $cartes->first()->idCarte;
 
-    public function employer()
-    {
-        $idCompte = session('connexion');
+            // Récupérer les informations de la carte
+            $carte = Carte::find($idCarte);
 
-        // Récupérer les employés associés à la carte du compte connecté
-        $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $idCompte)
-            ->select('employer.*')
-            ->get();
+            return view('client.dashboardClient', [
+                'compte' => $compte,
+                'cartes' => $cartes,
+                'employes' => $employes,
+                'carte' => $carte // Passez les informations de la carte à la vue
+            ]);
+        }
 
-        return view('client.dashboardClientEmployer', [
-            'employes' => $employes
-        ]);
-    }
+     public function employer(Request $request)
+        {
+            $idCompte = session('connexion');
+            $search = $request->input('search');
+
+            // Récupérer les employés associés à la carte du compte connecté
+            $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+                ->where('carte.idCompte', $idCompte)
+                ->when($search, function ($query, $search) {
+                    return $query->where('employer.nom', 'like', "%{$search}%")
+                        ->orWhere('employer.prenom', 'like', "%{$search}%")
+                        ->orWhere('employer.fonction', 'like', "%{$search}%");
+                })
+                ->select('employer.*')
+                ->get();
+
+            return view('client.dashboardClientEmployer', [
+                'employes' => $employes,
+                'search' => $search
+            ]);
+        }
 
     public function ajoutEmployer(Request $request)
     {
@@ -128,7 +143,6 @@ class DashboardClient extends Controller
         ]);
     }
 
-
     public function updateSocialLink(Request $request)
     {
         $request->validate([
@@ -159,10 +173,4 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
-
-
-
-
-
 }
-
