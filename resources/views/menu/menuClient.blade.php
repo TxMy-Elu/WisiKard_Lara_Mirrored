@@ -24,7 +24,7 @@
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
                                 <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="30" height="30">
                             </a>
                         </li>
