@@ -3,8 +3,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Logs;
-use App\Models\Employer; // Ajoutez cette ligne pour importer le modèle Employer
+use App\Models\Employer;
 use Illuminate\Support\Facades\DB; // pour role
+use Illuminate\Http\Request;
 
 class Employe extends Controller
 {
@@ -13,7 +14,7 @@ class Employe extends Controller
         return view('formulaireEmploye', []);
     }
 
-    public function boutonInscriptionEmploye()
+    public function boutonInscriptionEmploye(Request $request)
     {
         if (isset($_POST["boutonInscriptionEmploye"])) {
             $validationFormulaire = true; // Booléen qui indique si les données du formulaire sont valides
@@ -22,14 +23,15 @@ class Employe extends Controller
             if ($validationFormulaire === false) {
                 return view('formulaireEmploye', ["messagesErreur" => $messagesErreur]);
             } else {
-                $motDePasseHashe = password_hash($_POST["motDePasse1"], PASSWORD_BCRYPT);
 
                 // Créez un nouvel employé
-                $employe = new Employer();
-                $employe->nom = $_POST["nom"];
-                $employe->prenom = $_POST["prenom"];
-                $employe->fonction = $_POST["fonction"];
-                $employe->save();
+                 $employe = new Employer();
+                 $employe->nom = $request->input('nom');
+                 $employe->prenom = $request->input('prenom');
+                 $employe->fonction = $request->input('fonction');
+                 $employe->mail = $request->input('email');
+                 $employe->telephone = $request->input('telephone');
+                 $employe->save();
 
                 // Récupérer l'ID du compte à partir de la session ou des données du formulaire
                 $idCompte = session('connexion'); // ou $_POST['idCompte'] si vous passez l'ID du compte via le formulaire

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Carte;
 use App\Models\Employer;
 use App\Models\Compte;
+use App\Models\Logs;
 
 class DashboardClient extends Controller
 {
@@ -44,8 +45,17 @@ class DashboardClient extends Controller
 
     public function destroy($id)
     {
-        $employer = Employer::findOrFail($id);
-        $employer->delete();
+         $employer = Employer::findOrFail($id);
+         $idCompte = $employer->idCarte; // Récup l'ID du compte associé à l'employé
+         $employer->delete();
+
+         // Récup l'email du compte pour les logs
+         $compte = Compte::find($idCompte);
+         if ($compte) {
+             $emailUtilisateur = $compte->email;
+             // Écrire dans les logs
+             Logs::ecrireLog($emailUtilisateur, "Suppression Employe");
+         }
 
         return redirect()->route('dashboardClientEmployer')->with('success', 'L\'employé a été supprimé avec succès.');
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\RecuperationCompte;
 use App\Http\Middleware\NonAuthentifie;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Employe;
 
 // Routes publiques (accessibles sans authentification)
 Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->middleware([NonAuthentifie::class])->name('accueil');
@@ -30,9 +31,8 @@ Route::middleware([Authentification::class])->group(function () {
 
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
 
-    Route::get('/inscriptionEmp', [Employe::class, 'afficherDashboardClient'])->name('inscriptionEmp');
+    Route::get('/inscriptionEmp', [Employe::class, 'afficherFormulaireInscEmpl'])->name('afficherFormulaireInscEmpl');
     Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
-
     Route::get('/dashboardAdminStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardAdminStatistique');
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
     Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
