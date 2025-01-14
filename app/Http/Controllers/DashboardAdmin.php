@@ -105,13 +105,13 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage');
     }
 
-    public function modifierMessage(Request $request)
+    public function modifierMessage(Request $request, $id)
     {
-        $message = Message::find($request->input('id'));
+        $message = Message::findOrFail($id);
         $message->message = $request->input('message');
         $message->save();
 
-        return redirect()->route('dashboardAdminMessage');
+        return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
 

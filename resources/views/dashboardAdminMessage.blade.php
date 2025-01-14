@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col p-4 space-y-4">
+            <div class="flex flex-col space-y-4">
                 @foreach($messages as $message)
                     <div class="flex flex-col md:flex-row items-center justify-between p-2 bg-white rounded shadow w-full">
                         <div class="flex-grow text-center md:text-left">
@@ -65,7 +65,7 @@
         <form id="edit-form-modal" action="" method="POST">
             @csrf
             @method('PUT')
-            <input type="text" name="message" id="modal-message" class="border p-2 rounded w-full mb-4">
+            <textarea name="message" id="modal-message" class="border p-2 rounded w-full mb-4" rows="4"></textarea>
             <div class="flex justify-end">
                 <button type="button" onclick="closeModal('editModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
@@ -80,7 +80,7 @@
         <h2 class="text-xl mb-4">Ajouter une Information</h2>
         <form id="add-form-modal" action="{{ route('ajoutMessage') }}" method="POST">
             @csrf
-            <input type="text" name="message" id="add-modal-message" class="border p-2 rounded w-full mb-4">
+            <textarea name="message" id="add-modal-message" class="border p-2 rounded w-full mb-4" rows="4"></textarea>
             <div class="flex justify-end">
                 <button type="button" onclick="closeModal('addModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
@@ -114,4 +114,3 @@
 
 </body>
 </html>
-
