@@ -10,30 +10,6 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <style>
-        .custom-select {
-            appearance: none;
-            background-color: #f9fafb;
-            border: 1px solid #cbd5e0;
-            border-radius: 0.375rem;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            color: #1a202c;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        .custom-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
-            outline: none;
-        }
-
-        .custom-select:hover {
-            background-color: #f1f5f9;
-        }
-    </style>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
@@ -41,19 +17,17 @@
     @include('menuAdmin')
 
     <div class="flex-1 md:ml-24 p-6">
-        <div class="w-full mx-auto p-6 bg-white rounded-lg shadow-md mb-6">
-            <div class="mb-4 flex justify-center">
-                <label for="yearSelect" class="block text-sm font-medium text-gray-700 mr-4">Select Year</label>
-                <form id="yearForm" action="{{ route('dashboardAdminStatistique') }}" method="get" class="flex items-center">
-                    <select name="year" id="yearSelect"
-                            class="custom-select w-32 text-center">
-                        @foreach($years as $year)
-                            <option value="{{ $year }}"
-                                    @if($year == $selectedYear) selected @endif>{{ $year }}</option>
-                        @endforeach
-                    </select>
-                </form>
+        <div class="w-full md:w-1/3 mx-auto p-6 bg-white rounded-lg border shadow-md mb-6 flex flex-col justify-between items-center">
+            <div class="mb-4 w-full text-center">
+                <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Select Year</label>
             </div>
+            <form id="yearForm" action="{{ route('dashboardAdminStatistique') }}" method="get" class="flex items-center w-full justify-center">
+                <select name="year" id="yearSelect" class="custom-select w-32 text-center">
+                    @foreach($years as $year)
+                        <option value="{{ $year }}" @if($year == $selectedYear) selected @endif>{{ $year }}</option>
+                    @endforeach
+                </select>
+            </form>
         </div>
 
         <div class="flex flex-wrap justify-center gap-6">
@@ -80,7 +54,7 @@
             </div>
 
             <!-- Graph -->
-            <div class="w-full md:w-2/3 p-6 bg-white rounded-lg border shadow-md">
+            <div class="w-full md:w-2/3 p-6 bg-white rounded-lg border shadow-md flex justify-center items-center">
                 <canvas id="yearChart" width="100" height="50"></canvas>
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
