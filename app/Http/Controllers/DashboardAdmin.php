@@ -83,7 +83,7 @@ class DashboardAdmin extends Controller
             'afficher' => true, // or false, depending on your requirement
         ]);
 
-        return redirect()->route('admin.dashboardAdminMessage');
+        return redirect()->route('dashboardAdminMessage');
     }
 
     public function supprimerMessage(Request $request)
@@ -91,7 +91,7 @@ class DashboardAdmin extends Controller
         $message = Message::find($request->input('id'));
         $message->delete();
 
-        return redirect()->route('admin.dashboardAdminMessage');
+        return redirect()->route('dashboardAdminMessage');
     }
 
 
@@ -102,7 +102,7 @@ class DashboardAdmin extends Controller
         $message->afficher = !$message->afficher;
         $message->save();
 
-        return redirect()->route('admin.dashboardAdminMessage');
+        return redirect()->route('dashboardAdminMessage');
     }
 
     public function modifierMessage(Request $request, $id)
@@ -111,7 +111,7 @@ class DashboardAdmin extends Controller
         $message->message = $request->input('message');
         $message->save();
 
-        return redirect()->route('admin.dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
+        return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
 
