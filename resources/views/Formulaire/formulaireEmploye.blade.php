@@ -23,6 +23,18 @@
         <div class="justify-center mt-10">
             <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Employé</h1>
             <div class="mt-10">
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if(isset($messagesErreur) && count($messagesErreur) > 0)
+                    <div class="alert alert-danger">
+                        @foreach($messagesErreur as $erreur)
+                            <p>{{ $erreur }}</p>
+                        @endforeach
+                    </div>
+                @endif
                 <form action="{{ route('validationFormulaireInscriptionEmploye') }}" method="post">
                     @csrf
                     <div class="mb-6">
