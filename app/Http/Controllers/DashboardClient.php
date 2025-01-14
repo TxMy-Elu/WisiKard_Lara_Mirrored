@@ -1,11 +1,13 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Rediriger;
 use Illuminate\Http\Request;
 use App\Models\Carte;
 use App\Models\Employer;
 use App\Models\Compte;
 use App\Models\Logs;
+use App\Models\Social;
 
 class DashboardClient extends Controller
 {
@@ -59,4 +61,68 @@ class DashboardClient extends Controller
 
         return redirect()->route('client.dashboardClientEmployer')->with('success', 'L\'employé a été supprimé avec succès.');
     }
+
+    public function social()
+    {
+        $idCompte = session('connexion');
+        $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
+
+        // Récupérer tous les réseaux sociaux
+        $allSocial = Social::all();
+
+        // Récupérer les réseaux sociaux activés pour l'entreprise
+        $activatedSocial = Rediriger::where('idCarte', $idCarte)
+            ->join('social', 'rediriger.idSocial', '=', 'social.idSocial')
+            ->select('social.idSocial', 'rediriger.activer', 'rediriger.lien')
+            ->get();
+
+        // Créer un tableau associatif pour les réseaux sociaux activés
+        $activatedSocialArray = [];
+        foreach ($activatedSocial as $social) {
+            $activatedSocialArray[$social->idSocial] = ['activer' => $social->activer, 'lien' => $social->lien];
+        }
+
+        return view('client.dashboardClientSocial', [
+            'allSocial' => $allSocial,
+            'activatedSocial' => $activatedSocialArray,
+            'idCarte' => $idCarte // Passez la variable $idCarte à la vue
+        ]);
+    }
+
+
+    public function updateSocialLink(Request $request)
+    {
+        $request->validate([
+            'idSocial' => 'required|integer',
+            'idCarte' => 'required|integer',
+            'lien' => 'nullable|url'
+        ]);
+
+        // Vérifiez si un enregistrement existe déjà
+        $rediriger = Rediriger::where('idSocial', $request->idSocial)
+            ->where('idCarte', $request->idCarte)
+            ->first();
+
+        if ($rediriger) {
+            // Mettre à jour le lien existant
+            $rediriger->lien = $request->lien;
+            $rediriger->activer = $request->has('activer') ? 1 : 0; // Activer ou désactiver en fonction de la présence du champ
+            $rediriger->save();
+        } else {
+            // Créer un nouvel enregistrement
+            Rediriger::create([
+                'idSocial' => $request->idSocial,
+                'idCarte' => $request->idCarte,
+                'lien' => $request->lien,
+                'activer' => $request->has('activer') ? 1 : 0 // Activer par défaut si le champ est présent
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
+    }
+
+
+
+
+
 }
