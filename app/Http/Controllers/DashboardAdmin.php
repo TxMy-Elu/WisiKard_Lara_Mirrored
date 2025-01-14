@@ -51,7 +51,7 @@ class DashboardAdmin extends Controller
                     'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
                     'borderColor' => 'rgba(153, 27, 27, 1)',
                     'borderWidth' => 1,
-                    'data' => array_values(array_replace(array_fill(0, 12, 0), $yearlyViews)),
+                    'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
                 ],
             ],
         ];
