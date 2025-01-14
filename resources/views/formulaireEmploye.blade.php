@@ -25,6 +25,7 @@
             <div class="mt-10">
                 <form action="{{ route('validationFormulaireInscriptionEmploye') }}" method="post">
                     @csrf
+                    <input type="hidden" name="idCarte" value="{{ $idCarte }}">
                     <div class="mb-6">
                         <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
                         <input type="text" name="nom" id="nom"

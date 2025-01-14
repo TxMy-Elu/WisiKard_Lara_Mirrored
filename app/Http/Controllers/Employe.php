@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Employer;
+use App\Models\Carte;
 use Illuminate\Support\Facades\DB; // pour role
 use Illuminate\Http\Request;
 
@@ -11,7 +12,15 @@ class Employe extends Controller
 {
     public function afficherFormulaireInscEmpl(Request $request)
     {
-        return view('formulaireEmploye', []);
+        // Récupérer l'ID de l'utilisateur connecté
+        $idCompte = session('connexion');
+
+        // Récupérer l'idCarte associé au compte connecté
+        $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
+
+        return view('formulaireEmploye', [
+            'idCarte' => $idCarte
+        ]);
     }
 
     public function boutonInscriptionEmploye(Request $request)
@@ -23,20 +32,25 @@ class Employe extends Controller
             if ($validationFormulaire === false) {
                 return view('formulaireEmploye', ["messagesErreur" => $messagesErreur]);
             } else {
-
                 // Créez un nouvel employé
-                 $employe = new Employer();
-                 $employe->nom = $request->input('nom');
-                 $employe->prenom = $request->input('prenom');
-                 $employe->fonction = $request->input('fonction');
-                 $employe->mail = $request->input('email');
-                 $employe->telephone = $request->input('telephone');
-                 $employe->save();
+                $employe = new Employer();
+                $employe->nom = $request->input('nom');
+                $employe->prenom = $request->input('prenom');
+                $employe->fonction = $request->input('fonction');
+                $employe->mail = $request->input('email');
+                $employe->telephone = $request->input('telephone');
+                $employe->idCarte = $request->input('idCarte'); // Associer l'idCarte
+                $employe->save();
 
-                // Récupérer l'ID du compte à partir de la session ou des données du formulaire
-                $idCompte = session('connexion'); // ou $_POST['idCompte'] si vous passez l'ID du compte via le formulaire
+                $idCompte = session('connexion'); // ou $request->input('idCompte') si vous passez l'ID du compte via le formulaire
 
-                Logs::ecrireLog($idCompte, "Inscription Employe"); // Utilisez l'ID du compte pour les logs
+                // Récupérer l'email du compte pour les logs
+                $compte = Compte::find($idCompte);
+                if ($compte) {
+                    $emailUtilisateur = $compte->email;
+                    // Écrire dans les logs
+                    Logs::ecrireLog($emailUtilisateur, "Inscription Employe");
+                }
 
                 return view('formulaireEmploye', ["messageSucces" => "Employé inscrit !"]);
             }

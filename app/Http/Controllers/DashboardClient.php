@@ -26,37 +26,43 @@ class DashboardClient extends Controller
             ->select('employer.*')
             ->get();
 
-        return view('dashboardClient', [
+        // Récupérer l'idCarte associé au compte connecté
+        $idCarte = $cartes->first()->idCarte;
+
+        return view('dashboardClientEmployer', [
             'compte' => $compte,
             'cartes' => $cartes,
-            'employes' => $employes
+            'employes' => $employes,
+            'idCarte' => $idCarte // Passez l'idCarte à la vue
         ]);
     }
 
-    public function employer()
+    public function employer($idCarte)
     {
-        $employes = Employer::query()
-            ->join('carte', 'employer.idEmp', '=', 'carte.idCarte')
-            ->join('compte', 'carte.idCarte', '=', 'compte.idCompte')
-            ->select('employer.*', 'compte.email as compte_email')
-            ->get();
-        return view('dashboardClientEmployer', ['employes' => $employes]);
+        // Récupérer les employés ayant le même idCarte
+        $employes = Employer::where('idCarte', $idCarte)->get();
+
+        return view('dashboardClientEmployer', [
+            'employes' => $employes,
+            'idCarte' => $idCarte // Passez la variable idCarte à la vue
+        ]);
     }
 
     public function destroy($id)
     {
-         $employer = Employer::findOrFail($id);
-         $idCompte = $employer->idCarte; // Récup l'ID du compte associé à l'employé
-         $employer->delete();
+        $employer = Employer::findOrFail($id);
+        $idCarte = $employer->idCarte; // Récupérer l'ID de la carte associée à l'employé
+        $employer->delete();
 
-         // Récup l'email du compte pour les logs
-         $compte = Compte::find($idCompte);
-         if ($compte) {
-             $emailUtilisateur = $compte->email;
-             // Écrire dans les logs
-             Logs::ecrireLog($emailUtilisateur, "Suppression Employe");
-         }
+        // Récupérer l'email du compte pour les logs
+        $compte = Compte::find($idCarte);
+        if ($compte) {
+            $emailUtilisateur = $compte->email;
+            // Écrire dans les logs
+            Logs::ecrireLog($emailUtilisateur, "Suppression Employe");
+        }
 
-        return redirect()->route('dashboardClientEmployer')->with('success', 'L\'employé a été supprimé avec succès.');
+        return redirect()->route('dashboardClientEmployer', ['idCarte' => $idCarte])->with('success', 'L\'employé a été supprimé avec succès.');
     }
 }
+

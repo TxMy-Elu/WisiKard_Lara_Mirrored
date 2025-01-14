@@ -1,4 +1,4 @@
-{{-- Menu Client --}}
+<!-- Menu Client -->
 <div>
     <nav class="bg-zinc-900 p-4 h-full w-24 fixed lg:block hidden navbar" id="navbarNav">
         <div class="container mx-auto flex flex-col items-center h-full">
@@ -34,7 +34,7 @@
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmployer') }}">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye', ['idCarte' => $idCarte]) }}">
                                 <img src="{{ asset('icons/user.svg') }}" alt="user" width="30" height="30">
                             </a>
                         </li>
