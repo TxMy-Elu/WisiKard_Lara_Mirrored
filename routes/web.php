@@ -37,7 +37,7 @@ Route::middleware([Authentification::class])->group(function () {
 
     // Dashboard Client
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
-    Route::get('/dashboardClientStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardClientStatistique');
+    Route::get('/dashboardClientStatistique', [DashboardClient::class, 'statistique'])->name('dashboardClientStatistique');
     Route::get('/dashboardClientEmployer/{idCarte}', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
     Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
     Route::get('/dashboardClientEmploye', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');

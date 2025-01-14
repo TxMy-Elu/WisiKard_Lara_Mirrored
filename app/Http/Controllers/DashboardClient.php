@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rediriger;
+use App\Models\Vue;
 use Illuminate\Http\Request;
 use App\Models\Carte;
 use App\Models\Employer;
@@ -160,6 +161,49 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
 
+    public function statistique(Request $request)
+    {
+        $session = session('connexion');
+
+        // Récupérer l'année et le mois à partir de la requête
+        $year = $request->query('year', date('Y'));
+        $month = $request->query('month', null);
+
+        // Données annuelles
+        $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
+
+        $yearlyData = [
+            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par mois',
+                    'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
+                    'borderColor' => 'rgba(153, 27, 27, 1)',
+                    'borderWidth' => 1,
+                    'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
+                ],
+            ],
+        ];
+
+        // Nombre total de vues en fonction de l'année et de l'idCarte
+        $totalViewsCard = Vue::whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->count();
+
+
+        // Années disponibles pour la sélection
+        $years = range(date('Y'), date('Y') - 10);
+        $selectedYear = $year;
+
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViewsCard'));
+    }
 
 
 
