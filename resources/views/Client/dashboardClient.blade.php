@@ -10,7 +10,7 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col md:flex-row">
-    @include('menuClient')
+    @include('menu.menuClient')
     <div class="flex-1 md:ml-24 content p-4"> <!-- Added mt-16 for top margin -->
         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
             <h1 class="text-2xl font-bold mb-4">Informations du Compte</h1>

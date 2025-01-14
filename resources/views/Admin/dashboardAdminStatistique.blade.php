@@ -14,14 +14,15 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col">
-    @include('menuAdmin')
+    @include('menu.menuAdmin')
 
     <div class="flex-1 md:ml-24 p-6">
         <div class="w-full md:w-1/3 mx-auto p-6 bg-white rounded-lg border shadow-md mb-6 flex flex-col justify-between items-center">
             <div class="mb-4 w-full text-center">
                 <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez l'année</label>
             </div>
-            <form id="yearForm" action="{{ route('dashboardAdminStatistique') }}" method="get" class="flex items-center w-full justify-center">
+            <form id="yearForm" action="{{ route('dashboardAdminStatistique') }}" method="get"
+                  class="flex items-center w-full justify-center">
                 <select name="year" id="yearSelect" class="custom-select w-32 text-center">
                     @foreach($years as $year)
                         <option value="{{ $year }}" @if($year == $selectedYear) selected @endif>{{ $year }}</option>

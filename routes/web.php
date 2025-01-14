@@ -6,23 +6,25 @@ use App\Http\Controllers\DashboardClient;
 use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
+use App\Http\Controllers\Employe;
 use App\Http\Middleware\NonAuthentifie;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Employe;
 
 // Routes publiques (accessibles sans authentification)
-Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->middleware([NonAuthentifie::class])->name('accueil');
-Route::get('/connexion', [Connexion::class, 'afficherFormulaireConnexion'])->middleware([NonAuthentifie::class])->name('connexion');
-Route::post('/connexion', [Connexion::class, 'validationFormulaire'])->middleware([NonAuthentifie::class])->name('validationFormulaireConnexion');
-Route::get('/inscription', [Inscription::class, 'afficherFormulaireInscription'])->name('inscription');
-Route::post('/inscription', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
-Route::get('/motDePasseOublie', [RecuperationCompte::class, 'afficherFormulaireRecuperation'])->name('motDePasseOublie');
-Route::post('/motDePasseOublie', [RecuperationCompte::class, 'boutonRecuperer'])->name('validationEmailMotDePasseOublie');
-Route::get('/reinitialisation', [RecuperationCompte::class, 'afficherFormulaireChangementMotDePasse'])->name('reinitialisation');
-Route::post('/reinitialisation', [RecuperationCompte::class, 'boutonChangerMotDePasse'])->name('validationChangementMotDePasse');
-Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('reactivation');
-Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
+
+    Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->name('accueil');
+    Route::get('/connexion', [Connexion::class, 'afficherFormulaireConnexion'])->name('connexion');
+    Route::post('/connexion', [Connexion::class, 'validationFormulaire'])->name('validationFormulaireConnexion');
+    Route::get('/inscription', [Inscription::class, 'afficherFormulaireInscription'])->name('inscription');
+    Route::post('/inscription', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
+    Route::get('/motDePasseOublie', [RecuperationCompte::class, 'afficherFormulaireRecuperation'])->name('motDePasseOublie');
+    Route::post('/motDePasseOublie', [RecuperationCompte::class, 'boutonRecuperer'])->name('validationEmailMotDePasseOublie');
+    Route::get('/reinitialisation', [RecuperationCompte::class, 'afficherFormulaireChangementMotDePasse'])->name('reinitialisation');
+    Route::post('/reinitialisation', [RecuperationCompte::class, 'boutonChangerMotDePasse'])->name('validationChangementMotDePasse');
+    Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('reactivation');
+    Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
+
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
 Route::middleware([Authentification::class])->group(function () {
@@ -43,6 +45,4 @@ Route::middleware([Authentification::class])->group(function () {
     Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
     Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
     Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
-
 });
-

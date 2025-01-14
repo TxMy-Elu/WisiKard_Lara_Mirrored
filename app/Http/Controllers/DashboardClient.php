@@ -26,7 +26,7 @@ class DashboardClient extends Controller
             ->select('employer.*')
             ->get();
 
-        return view('dashboardClient', [
+        return view('client.dashboardClient', [
             'compte' => $compte,
             'cartes' => $cartes,
             'employes' => $employes
@@ -40,7 +40,7 @@ class DashboardClient extends Controller
             ->join('compte', 'carte.idCarte', '=', 'compte.idCompte')
             ->select('employer.*', 'compte.email as compte_email')
             ->get();
-        return view('dashboardClientEmployer', ['employes' => $employes]);
+        return view('client.dashboardClientEmployer', ['employes' => $employes]);
     }
 
     public function destroy($id)
@@ -57,6 +57,6 @@ class DashboardClient extends Controller
              Logs::ecrireLog($emailUtilisateur, "Suppression Employe");
          }
 
-        return redirect()->route('dashboardClientEmployer')->with('success', 'L\'employé a été supprimé avec succès.');
+        return redirect()->route('client.dashboardClientEmployer')->with('success', 'L\'employé a été supprimé avec succès.');
     }
 }

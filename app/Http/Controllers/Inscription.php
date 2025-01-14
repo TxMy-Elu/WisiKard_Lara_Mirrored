@@ -11,14 +11,14 @@ class Inscription extends Controller
     public function afficherFormulaireInscription()
     {
         $roles = DB::table('compte')->select('role')->distinct()->get(); //Récupere tous les rôles dispo
-        return view('formulaireInscription', ['roles' => $roles]);
+        return view('formulaire..formulaireInscription', ['roles' => $roles]);
     }
 
 
     public function boutonInscription()
     {
         if (isset($_POST["boutonInscription"])) {
-            $validationFormulaire = true; // Booléen qui indique si les données du formulaire sont valides
+            $validationFormulaire = true; // Booléen qui indique si les données du Formulaire sont valides
             $messagesErreur = array(); // Tableau contenant les messages d'erreur à afficher
 
             if (Compte::existeEmail($_POST["email"])) {
@@ -36,7 +36,7 @@ class Inscription extends Controller
 
 
             if ($validationFormulaire === false) {
-                return view('formulaireInscription', ["messagesErreur" => $messagesErreur]);
+                return view('formulaire.formulaireInscription', ["messagesErreur" => $messagesErreur]);
 
             } else {
 
@@ -45,7 +45,7 @@ class Inscription extends Controller
                 Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"]);
                 Logs::ecrireLog($_POST["email"], "Inscription");
 
-                return view('formulaireConnexion', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
+                return view('formulaire.formulaireConnexion', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
             }
 
         }

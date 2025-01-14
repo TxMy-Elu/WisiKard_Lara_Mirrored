@@ -28,7 +28,7 @@ class DashboardAdmin extends Controller
         $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-        return view('dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
+        return view('admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
     }
 
     public function statistique(Request $request)
@@ -66,7 +66,7 @@ class DashboardAdmin extends Controller
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
+        return view('admin.dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -83,7 +83,7 @@ class DashboardAdmin extends Controller
             'afficher' => true, // or false, depending on your requirement
         ]);
 
-        return redirect()->route('dashboardAdminMessage');
+        return redirect()->route('admin.dashboardAdminMessage');
     }
 
     public function supprimerMessage(Request $request)
@@ -91,7 +91,7 @@ class DashboardAdmin extends Controller
         $message = Message::find($request->input('id'));
         $message->delete();
 
-        return redirect()->route('dashboardAdminMessage');
+        return redirect()->route('admin.dashboardAdminMessage');
     }
 
 
@@ -102,7 +102,7 @@ class DashboardAdmin extends Controller
         $message->afficher = !$message->afficher;
         $message->save();
 
-        return redirect()->route('dashboardAdminMessage');
+        return redirect()->route('admin.dashboardAdminMessage');
     }
 
     public function modifierMessage(Request $request, $id)
@@ -111,13 +111,13 @@ class DashboardAdmin extends Controller
         $message->message = $request->input('message');
         $message->save();
 
-        return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
+        return redirect()->route('admin.dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
 
     public function afficherAllMessage()
     {
         $messages = Message::all();
-        return view('dashboardAdminMessage', compact('messages'));
+        return view('admin.dashboardAdminMessage', compact('messages'));
     }
 }

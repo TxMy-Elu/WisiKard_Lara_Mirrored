@@ -12,7 +12,7 @@ class Connexion extends Controller
 {
     public function afficherFormulaireConnexion()
     {
-        return view('formulaireConnexion', []);
+        return view('formulaire.formulaireConnexion', []);
     }
 
     public function validationFormulaire()
@@ -95,7 +95,7 @@ class Connexion extends Controller
             if (isset($utilisateur)) {
                 Logs::ecrireLog($utilisateur->email, "Connexion échouée");
             }
-            return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
+            return view('formulaire.formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
 
