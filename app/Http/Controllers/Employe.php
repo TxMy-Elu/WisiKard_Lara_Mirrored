@@ -18,10 +18,7 @@ class Employe extends Controller
         // Récupérer l'idCarte associé au compte connecté
         $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
 
-        return view('formulaireEmploye', [
-            'idCarte' => $idCarte
-        ]);
-        return view('formulaire.formulaireEmploye', []);
+        return view('formulaire.formulaireEmploye', ["idCarte" => $idCarte]);
     }
 
     public function boutonInscriptionEmploye(Request $request)
@@ -40,7 +37,10 @@ class Employe extends Controller
                 $employe->fonction = $request->input('fonction');
                 $employe->mail = $request->input('email');
                 $employe->telephone = $request->input('telephone');
-                $employe->idCarte = $request->input('idCarte'); // Associer l'idCarte
+
+                $session = session('connexion');
+                $employe->idCarte = Carte::where('idCompte', $session)->first()->idCarte;
+
                 $employe->save();
 
                 $idCompte = session('connexion'); // ou $request->input('idCompte') si vous passez l'ID du compte via le formulaire

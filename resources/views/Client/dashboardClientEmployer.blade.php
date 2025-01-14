@@ -10,7 +10,7 @@
 <body class="align-items-center bg-gray-100 w-100">
 
 <div class="flex flex-col md:flex-row">
-    @include('menuClient', ['idCarte' => $idCarte])
+
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         <div class="min-h-screen p-4">

@@ -31,8 +31,7 @@ class DashboardClient extends Controller
         // Récupérer l'idCarte associé au compte connecté
         $idCarte = $cartes->first()->idCarte;
 
-        return view('dashboardClientEmployer', [
-        return view('client.dashboardClient', [
+        return view('client.dashboardClientEmployer', [
             'compte' => $compte,
             'cartes' => $cartes,
             'employes' => $employes,
@@ -40,21 +39,49 @@ class DashboardClient extends Controller
         ]);
     }
 
-    public function employer($idCarte)
+    public function employer()
     {
-        // Récupérer les employés ayant le même idCarte
-        $employes = Employer::where('idCarte', $idCarte)->get();
+        $idCompte = session('connexion');
 
-        return view('dashboardClientEmployer', [
-            'employes' => $employes,
-            'idCarte' => $idCarte // Passez la variable idCarte à la vue
-        ]);
-        $employes = Employer::query()
-            ->join('carte', 'employer.idEmp', '=', 'carte.idCarte')
-            ->join('compte', 'carte.idCarte', '=', 'compte.idCompte')
-            ->select('employer.*', 'compte.email as compte_email')
+        // Récupérer les employés associés à la carte du compte connecté
+        $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $idCompte)
+            ->select('employer.*')
             ->get();
-        return view('client.dashboardClientEmployer', ['employes' => $employes]);
+
+        return view('client.dashboardClientEmployer', [
+            'employes' => $employes
+        ]);
+    }
+
+    public function ajoutEmployer(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'tel' => 'required|string|max:20',
+            'idCarte' => 'required|integer'
+        ]);
+
+        // Créer un nouvel employé
+        Employer::create([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'tel' => $request->tel,
+            'idCarte' => $request->idCarte
+        ]);
+
+        // Récupérer l'email du compte pour les logs
+        $compte = Compte::find($request->idCarte);
+        if ($compte) {
+            $emailUtilisateur = $compte->email;
+            // Écrire dans les logs
+            Logs::ecrireLog($emailUtilisateur, "Ajout Employe");
+        }
+
+        return redirect()->back()->with('success', 'L\'employé a été ajouté avec succès.');
     }
 
     public function destroy($id)
