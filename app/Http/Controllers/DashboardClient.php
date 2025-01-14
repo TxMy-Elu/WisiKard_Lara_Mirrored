@@ -4,17 +4,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Carte;
 use App\Models\Employer;
+use App\Models\Compte;
 
 class DashboardClient extends Controller
 {
-    public function afficherDashboardClient(Request $request, $id)
+    public function afficherDashboardClient(Request $request)
     {
-        $compte = Compte::find($id);
+        // Récupérer l'ID de l'utilisateur connecté
+        $idCompte = session('connexion');
 
-        return view('dashboardClient', ['compte' => $compte]);
+        // Récupérer les informations du compte
+        $compte = Compte::find($idCompte);
+
+        // Récupérer les cartes associées au compte
+        $cartes = Carte::where('idCompte', $idCompte)->get();
+
+        // Récupérer les employés associés au compte
+        $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $idCompte)
+            ->select('employer.*')
+            ->get();
+
+        return view('dashboardClient', [
+            'compte' => $compte,
+            'cartes' => $cartes,
+            'employes' => $employes
+        ]);
     }
-
-
 
     public function employer()
     {

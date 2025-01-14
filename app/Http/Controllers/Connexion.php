@@ -89,7 +89,7 @@ class Connexion extends Controller
                 return redirect()->route('dashboardAdmin');
             } else {
                 $id = $utilisateur->idCompte;
-                return redirect()->route('dashboardClient', ['id' => $id])->send();
+                return redirect()->route('dashboardClient')->send();
             }
         } else {
             if (isset($utilisateur)) {
@@ -98,6 +98,7 @@ class Connexion extends Controller
             return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
+
 
 
 

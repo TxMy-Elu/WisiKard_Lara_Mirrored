@@ -27,8 +27,8 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
     Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
-    Route::get('/dashboardClient/{id}', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
-    Route::post('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
+
+    Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
 
     Route::get('/inscriptionEmp', [Employe::class, 'afficherDashboardClient'])->name('inscriptionEmp');
     Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
