@@ -86,7 +86,7 @@ class Connexion extends Controller
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
 
             if ($utilisateur->role === 'admin') {
-                return redirect()->route('dashboardAdmin')->send();
+                return redirect()->route('dashboardAdmin');
             } else {
                 $id = $utilisateur->idCompte;
                 return redirect()->route('dashboardClient', ['id' => $id])->send();
@@ -98,6 +98,8 @@ class Connexion extends Controller
             return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
+
+
 
     public function deconnexion()
     {

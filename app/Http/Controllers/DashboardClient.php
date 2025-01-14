@@ -7,10 +7,14 @@ use App\Models\Employer;
 
 class DashboardClient extends Controller
 {
-    public function afficherDashboardClient(Request $request)
+    public function afficherDashboardClient(Request $request, $id)
     {
-        return view('dashboardClient');
+        $compte = Compte::find($id);
+
+        return view('dashboardClient', ['compte' => $compte]);
     }
+
+
 
     public function employer()
     {
