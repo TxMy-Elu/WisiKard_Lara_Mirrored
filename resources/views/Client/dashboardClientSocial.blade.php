@@ -7,37 +7,41 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<body class="align-items-center bg-gray-100 w-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-<div class="flex flex-col md:flex-row">
+<div class="flex flex-col md:flex-row flex-1">
     @include('menu.menuClient')
-    <div class="flex-1 md:ml-24 content">
-        <div class="flex flex-wrap justify-center bg-gray-100 p-10">
+    <div class="flex-1 md:ml-24 p-6">
+        <div class="p-6">
             @if(session('success'))
-                <div class="alert alert-success">
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                     {{ session('success') }}
                 </div>
             @endif
-            @foreach($allSocial as $reseau)
-                <div class="custom-width bg-white rounded-lg shadow-lg p-4 flex flex-col">
-                    <div class="flex items-center mb-2">
-                        {!! html_entity_decode($reseau->lienLogo) !!}
-                        <p class="text-lg font-semibold ml-2">{{ $reseau->nom }}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($allSocial as $reseau)
+                    <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
+                        <div class="flex items-center mb-4">
+                            {!! $reseau->lienLogo !!}
+                            <p class="text-lg font-semibold ml-2">{{ $reseau->nom }}</p>
+                        </div>
+                        <form action="{{ route('client.updateSocialLink') }}" method="POST" class="flex flex-col">
+                            @csrf
+                            <input type="hidden" name="idSocial" value="{{ $reseau->idSocial }}">
+                            <input type="hidden" name="idCarte" value="{{ $idCarte }}">
+                            <input type="text" name="lien" value="{{ isset($activatedSocial[$reseau->idSocial]) ? $activatedSocial[$reseau->idSocial]['lien'] : '' }}" class="border border-gray-300 p-2 rounded mb-2 w-full" placeholder="Lien du réseau social">
+                            <div class="flex items-center mb-2">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="{{ $reseau->idSocial }}" name="activer" {{ isset($activatedSocial[$reseau->idSocial]) && $activatedSocial[$reseau->idSocial]['activer'] ? 'checked' : '' }}>
+                                    <span class="slider"></span>
+                                </label>
+                                <label for="{{ $reseau->idSocial }}" class="text-sm ml-2">Activer</label>
+                            </div>
+                            <button type="submit" class="bg-indigo-500 text-white p-2 rounded">Mettre à jour</button>
+                        </form>
                     </div>
-                    <form action="{{ route('client.updateSocialLink') }}" method="POST" class="flex items-center">
-                        @csrf
-                        <input type="hidden" name="idSocial" value="{{ $reseau->idSocial }}">
-                        <input type="hidden" name="idCarte" value="{{ $idCarte }}">
-                        <input type="text" name="lien" value="{{ isset($activatedSocial[$reseau->idSocial]) ? $activatedSocial[$reseau->idSocial]['lien'] : '' }}" class="border p-2 flex-1" placeholder="Lien du réseau social">
-                        <input type="hidden" name="activer" value="{{ isset($activatedSocial[$reseau->idSocial]) && $activatedSocial[$reseau->idSocial]['activer'] ? 1 : 0 }}">
-                        <button type="submit" class="bg-blue-500 text-white p-2 ml-2 rounded">Mettre à jour</button>
-                    </form>
-                    <div class="flex items-center mt-2">
-                        <input type="checkbox" id="{{ $reseau->idSocial }}" class="toggle toggle-success" {{ isset($activatedSocial[$reseau->idSocial]) && $activatedSocial[$reseau->idSocial]['activer'] ? 'checked' : '' }}>
-                        <label for="{{ $reseau->idSocial }}" class="ml-2">Activer</label>
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 </div>
