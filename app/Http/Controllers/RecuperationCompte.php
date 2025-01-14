@@ -41,7 +41,7 @@ class RecuperationCompte extends Controller
 
                 if (!$utilisateur) {
                     $messagesErreur[] = "Aucun compte trouvé pour cette adresse email.";
-                    return view('formulaireRecuperation', ["messagesErreur" => $messagesErreur]);
+                    return view('formulaire.formulaireRecuperation', ["messagesErreur" => $messagesErreur]);
                 } else {
                     $codeRecuperation = Recuperation::creerCodeRecuperation($utilisateur);
                     $lien = url('/reinitialisation?code=' . $codeRecuperation);
@@ -53,7 +53,7 @@ class RecuperationCompte extends Controller
                         return view('confirmation', ["messageConfirmation" => "Un lien de réinitialisation a été envoyé à votre adresse email."]);
                     } else {
                         $messagesErreur[] = "Échec de l'envoi de l'email de réinitialisation.";
-                        return view('formulaireRecuperation', ["messagesErreur" => $messagesErreur]);
+                        return view('formulaire.formulaireRecuperation', ["messagesErreur" => $messagesErreur]);
                     }
                 }
             }
@@ -83,7 +83,7 @@ class RecuperationCompte extends Controller
                 }
 
                 if ($validationFormulaire === false) {
-                    return view('formulaireChangementMotDePasse', ["messagesErreur" => $messagesErreur, "codeRecuperation" => $_POST["boutonChangerMotDePasse"]]);
+                    return view('formulaire.formulaireChangementMotDePasse', ["messagesErreur" => $messagesErreur, "codeRecuperation" => $_POST["boutonChangerMotDePasse"]]);
                 } else {
                     $utilisateurConcerne = Compte::find(Recuperation::where("codeRecuperation", $_POST["boutonChangerMotDePasse"])->first()->idCompte);
 

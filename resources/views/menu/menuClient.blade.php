@@ -29,8 +29,8 @@
                             </a>
                         </li>
                         <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
-                                <img src="{{ asset('icons/share-2.svg') }}" alt="message" width="20" height="20">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientSocial') }}">
+                                <img src="{{ asset('icons/share-2.svg') }}" alt="social" width="20" height="20">
                             </a>
                         </li>
                         <li class="nav-item mb-4">

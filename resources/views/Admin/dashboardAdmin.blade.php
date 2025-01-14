@@ -10,12 +10,13 @@
 <body class="align-items-center bg-gray-100 w-100 ">
 
 <div class="flex flex-col md:flex-row">
-    @include('menuAdmin')
+    @include('menu.menuAdmin')
 
 
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         @if($messageContent != "Aucun message disponible")
-            <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative" role="alert">
+            <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
+                 role="alert">
                 <strong class="font-bold">Information :</strong>
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>

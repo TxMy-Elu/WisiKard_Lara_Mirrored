@@ -21,16 +21,17 @@ class Employe extends Controller
         return view('formulaireEmploye', [
             'idCarte' => $idCarte
         ]);
+        return view('formulaire.formulaireEmploye', []);
     }
 
     public function boutonInscriptionEmploye(Request $request)
     {
         if (isset($_POST["boutonInscriptionEmploye"])) {
-            $validationFormulaire = true; // Booléen qui indique si les données du formulaire sont valides
+            $validationFormulaire = true; // Booléen qui indique si les données du Formulaire sont valides
             $messagesErreur = array(); // Tableau contenant les messages d'erreur à afficher
 
             if ($validationFormulaire === false) {
-                return view('formulaireEmploye', ["messagesErreur" => $messagesErreur]);
+                return view('formulaire.formulaireEmploye', ["messagesErreur" => $messagesErreur]);
             } else {
                 // Créez un nouvel employé
                 $employe = new Employer();
@@ -43,6 +44,8 @@ class Employe extends Controller
                 $employe->save();
 
                 $idCompte = session('connexion'); // ou $request->input('idCompte') si vous passez l'ID du compte via le formulaire
+                // Récupérer l'ID du compte à partir de la session ou des données du Formulaire
+                $idCompte = session('connexion'); // ou $_POST['idCompte'] si vous passez l'ID du compte via le Formulaire
 
                 // Récupérer l'email du compte pour les logs
                 $compte = Compte::find($idCompte);
@@ -52,7 +55,7 @@ class Employe extends Controller
                     Logs::ecrireLog($emailUtilisateur, "Inscription Employe");
                 }
 
-                return view('formulaireEmploye', ["messageSucces" => "Employé inscrit !"]);
+                return view('formulaire.formulaireEmploye', ["messageSucces" => "Employé inscrit !"]);
             }
         }
     }

@@ -14,7 +14,7 @@
 <body class="bg-gray-100 w-full">
 
 <div class="flex flex-col md:flex-row">
-    @include('menuAdmin')
+    @include('menu.menuAdmin')
 
     <div class="flex-1 md:ml-24 content">
 
@@ -23,7 +23,8 @@
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <!-- Link to the add information form -->
                 <div class="flex items-center w-full md:w-auto">
-                    <button type="button" onclick="openAddModal()" class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
+                    <button type="button" onclick="openAddModal()"
+                            class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -41,12 +42,16 @@
                             <p id="message-{{ $message->id }}">{{ $message->message }}</p>
                         </div>
                         <div class="flex items-center mt-2 md:mt-0">
-                            <button type="button" onclick="toggleEdit({{ $message->id }})" class="bg-indigo-500 text-white px-4 py-2 rounded mr-2">Modifier</button>
-                            <form action="{{ route('toggleMessage', $message->id) }}" method="POST" class="flex items-center">
+                            <button type="button" onclick="toggleEdit({{ $message->id }})"
+                                    class="bg-indigo-500 text-white px-4 py-2 rounded mr-2">Modifier
+                            </button>
+                            <form action="{{ route('toggleMessage', $message->id) }}" method="POST"
+                                  class="flex items-center">
                                 @csrf
                                 @method('PATCH')
                                 <label class="toggle-switch">
-                                    <input type="checkbox" name="afficher" {{ $message->afficher ? 'checked' : '' }} onchange="this.form.submit()">
+                                    <input type="checkbox" name="afficher"
+                                           {{ $message->afficher ? 'checked' : '' }} onchange="this.form.submit()">
                                     <span class="slider"></span>
                                 </label>
                             </form>
@@ -67,7 +72,9 @@
             @method('PUT')
             <textarea name="message" id="modal-message" class="border p-2 rounded w-full mb-4" rows="4"></textarea>
             <div class="flex justify-end">
-                <button type="button" onclick="closeModal('editModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
+                <button type="button" onclick="closeModal('editModal')"
+                        class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler
+                </button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
             </div>
         </form>
@@ -82,7 +89,9 @@
             @csrf
             <textarea name="message" id="add-modal-message" class="border p-2 rounded w-full mb-4" rows="4"></textarea>
             <div class="flex justify-end">
-                <button type="button" onclick="closeModal('addModal')" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler</button>
+                <button type="button" onclick="closeModal('addModal')"
+                        class="bg-red-500 text-white px-4 py-2 rounded mr-2">Annuler
+                </button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enregistrer</button>
             </div>
         </form>

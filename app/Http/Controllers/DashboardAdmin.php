@@ -28,7 +28,7 @@ class DashboardAdmin extends Controller
         $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-        return view('dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
+        return view('admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
     }
 
     public function statistique(Request $request)
@@ -66,7 +66,7 @@ class DashboardAdmin extends Controller
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
+        return view('admin.dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -118,6 +118,6 @@ class DashboardAdmin extends Controller
     public function afficherAllMessage()
     {
         $messages = Message::all();
-        return view('dashboardAdminMessage', compact('messages'));
+        return view('admin.dashboardAdminMessage', compact('messages'));
     }
 }
