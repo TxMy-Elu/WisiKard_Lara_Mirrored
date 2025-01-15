@@ -3,83 +3,58 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inscription Employé</title>
+    <title>Modifier Employé</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .shadow-red {
-            box-shadow: 5px 5px 5px rgba(255, 0, 0, 0.5);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<a href="{{ route('dashboardClientEmployer') }}" class="bg-red-900 text-white p-2 rounded-md absolute top-2 left-2">Retour</a>
-<body class="bg-white md:bg-zinc-900">
-<div class="flex justify-center items-center min-h-screen">
-    <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red relative">
-        <div class="headerLogo flex justify-center items-center">
-            <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Logo WisiKard" class="w-32 md:w-48 lg:w-96">
-        </div>
-        <div class="justify-center mt-10">
-            <div class="flex justify-between items-center mb-4">
-                <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Employé</h1>
+<body class="align-items-center bg-gray-100 w-100">
+<div class="flex flex-col md:flex-row">
+    @include('menu.menuClient')
+    <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
+        <div class="min-h-screen p-4">
+            <!-- Messages de succès ou d'erreur -->
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Succès!</strong>
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Erreur!</strong>
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
+            <div class="flex flex-col md:flex-row justify-between items-center pb-4">
+                <h1 class="text-2xl font-semibold">Modifier Employé</h1>
             </div>
-            <div class="mt-10">
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if(isset($messagesErreur) && count($messagesErreur) > 0)
-                    <div class="alert alert-danger">
-                        @foreach($messagesErreur as $erreur)
-                            <p>{{ $erreur }}</p>
-                        @endforeach
-                    </div>
-                @endif
-                <form action="{{ route('validationFormulaireInscriptionEmploye') }}" method="post">
-                    @csrf
-                    <div class="mb-6">
-                        <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
-                        <input type="text" name="nom" id="nom"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
-                        <input type="text" name="prenom" id="prenom"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="fonction" class="block text-sm font-medium text-gray-700">Fonction actuelle</label>
-                        <input type="text" name="fonction" id="fonction"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="email"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="telephone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-                        <input type="text" name="telephone" id="telephone"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
-                    </div>
-                    <div class="mb-6">
-                        @include('messageErreur')
-                        <div class="mb-4">
-                            <button type="submit" name="boutonInscriptionEmploye"
-                                    class="w-full bg-red-900 text-white p-2 rounded-md">Inscrire
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <form action="{{ route('employe.modifier.post', $employe->idEmp) }}" method="POST" class="bg-white p-4 rounded-lg shadow-lg">
+                @csrf
+                @method('POST')
+                <div class="mb-4">
+                    <label for="nom" class="block text-gray-700 text-sm font-bold mb-2">Nom:</label>
+                    <input type="text" id="nom" name="nom" value="{{ $employe->nom }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="prenom" class="block text-gray-700 text-sm font-bold mb-2">Prénom:</label>
+                    <input type="text" id="prenom" name="prenom" value="{{ $employe->prenom }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ $employe->mail }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="tel" class="block text-gray-700 text-sm font-bold mb-2">Téléphone:</label>
+                    <input type="text" id="tel" name="tel" value="{{ $employe->telephone }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="fonction" class="block text-gray-700 text-sm font-bold mb-2">Fonction:</label>
+                    <input type="text" id="fonction" name="fonction" value="{{ $employe->fonction }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
