@@ -12,7 +12,7 @@
 <div class="flex flex-col md:flex-row">
 
     @include('menu.menuClient')
-    <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
+    <div class="flex-1 md:ml-24 content"><br/> <!-- Adjusted margin-left to match the new menu width -->
         <div class="min-h-screen p-4">
             <!-- Messages de succès ou d'erreur -->
             @if(session('success'))
@@ -26,6 +26,13 @@
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Erreur!</strong>
                     <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
+
+            @if(isset($error))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Erreur!</strong>
+                    <span class="block sm:inline">{{ $error }}</span>
                 </div>
             @endif
 
@@ -57,7 +64,7 @@
                         Ajouter un employe
                     </a>
                 </div>
-            </div>
+            </div><br/>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($employes as $employe)

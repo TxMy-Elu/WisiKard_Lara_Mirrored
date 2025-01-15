@@ -38,11 +38,11 @@
                                 <img src="{{ asset('icons/user.svg') }}" alt="user" width="30" height="30">
                             </a>
                         </li>
-                        <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
-                                <img src="{{ asset('icons/image.svg') }}" alt="image" width="30" height="30">
-                            </a>
-                        </li>
+                         <li class="nav-item mb-4">
+                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientPDF') }}">
+                                 <img src="{{ asset('icons/image.svg') }}" alt="image" width="30" height="30">
+                             </a>
+                          </li>
                     </div>
                 </ul>
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">

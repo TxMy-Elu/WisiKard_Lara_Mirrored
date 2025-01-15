@@ -60,6 +60,11 @@
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
                 </div>
             </form>
+
+            <!-- Bouton Retour -->
+            <div class="mt-4">
+                <a href="{{ route('dashboardClientEmploye') }}" class="w-full bg-red-900 text-white p-2 rounded-md text-center">Retour</a>
+            </div>
         </div>
     </div>
 </div>

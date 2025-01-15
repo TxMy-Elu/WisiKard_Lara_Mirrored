@@ -64,6 +64,15 @@ class DashboardClient extends Controller
                 ->select('employer.*')
                 ->get();
 
+            // Vérif si des résultats sont trouvés
+                if ($employes->isEmpty() && !empty($search)) {
+                    return view('client.dashboardClientEmploye', [
+                        'employes' => $employes,
+                        'search' => $search,
+                        'error' => 'Aucun résultat trouvé pour votre recherche.'
+                    ]);
+                }
+
             return view('client.dashboardClientEmploye', [
                 'employes' => $employes,
                 'search' => $search
@@ -304,5 +313,58 @@ class DashboardClient extends Controller
         }
     }
 
+    public function afficherDashboardClientPDF()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        return view('client.dashboardClientPDF', compact('carte'));
+    }
+
+    public function uploadFile(Request $request)
+     {
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png,mp4,mov,avi',
+        ]);
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $entrepriseName = str_slug($carte->nomEntreprise, '_');
+        $file = $request->file('file');
+        $fileType = $file->getClientOriginalExtension();
+        $filePath = '';
+
+        switch ($fileType) {
+           case 'pdf':
+              $filePath = public_path("entreprises/{$entrepriseName}/pdf");
+              break;
+           case 'jpg':
+           case 'jpeg':
+           case 'png':
+               $filePath = public_path("entreprises/{$entrepriseName}/images");
+               break;
+           case 'mp4':
+           case 'mov':
+           case 'avi':
+               $filePath = public_path("entreprises/{$entrepriseName}/videos");
+               break;
+           default:>
+              return redirect()->back()->with('error', 'Type de fichier non supporté.');
+        }
+
+       if (!File::exists($filePath)) {
+           File::makeDirectory($filePath, 0755, true);
+       }
+
+       $fileName = time() . '.' . $fileType;
+       $file->move($filePath, $fileName);
+
+        return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+     }
 
 }
