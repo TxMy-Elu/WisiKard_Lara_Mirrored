@@ -22,18 +22,21 @@ class Templates extends Controller
         // Prend tout les infos de la carte et les envoie à la vue
         $carte = Carte::find($idCompte);
         $compte = Compte::find($idCompte);
-        $social = Rediriger::where('idCarte', $carte->idCarte)->get();
+        $logoSocial = Social::all();
+        $social = Rediriger::where('idCarte', $carte->idCarte)
+            ->where('activer', 1)
+            ->get();
         $vue = Vue::where('idCarte', $carte->idCarte)->get();
         $template = Template::where('idTemplate', $idTemplate)->get();
 
 
         switch ($idTemplate) {
             case 1:
-                return view('templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template'));
+                return view('templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             case 2:
-                return view('templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template'));
+                return view('templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             case 3:
-                return view('templates.peche', compact('carte', 'compte', 'social', 'vue', 'template'));
+                return view('templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             default:
                 return abort(404, 'Template not found');
         }
