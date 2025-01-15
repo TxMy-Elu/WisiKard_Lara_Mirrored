@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `social` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `template`
+-- Structure de la table `templates`
 --
 
 DROP TABLE IF EXISTS `template`;
