@@ -7,6 +7,7 @@ use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
 use App\Http\Controllers\Employe;
+use App\Http\Controllers\Templates;
 use App\Http\Middleware\NonAuthentifie;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,10 @@ Route::get('/reinitialisation', [RecuperationCompte::class, 'afficherFormulaireC
 Route::post('/reinitialisation', [RecuperationCompte::class, 'boutonChangerMotDePasse'])->name('validationChangementMotDePasse');
 Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('reactivation');
 Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
+
+//Routes templates
+Route::get('/templates', [Templates::class, 'afficherTemplates'])->name('templates');
+
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
 Route::middleware([Authentification::class])->group(function () {

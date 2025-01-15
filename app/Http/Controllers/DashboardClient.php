@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Vue;
 use Illuminate\Http\Request;
@@ -23,9 +24,39 @@ class DashboardClient extends Controller
         // Récupérer les informations du compte
         $compte = Compte::find($idCompte);
 
+
         // Vérifier le rôle de l'utilisateur
         if ($compte->role === 'employe') {
             return redirect()->route('dashboardClientEmploye');
+           
+
+            // Récupérer les cartes associées au compte
+            $cartes = Carte::where('idCompte', $idCompte)->get();
+
+            // Récupérer les employés associés au compte
+            $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+                ->where('carte.idCompte', $idCompte)
+                ->select('employer.*')
+                ->get();
+
+            // Récupérer l'idCarte associé au compte connecté
+            $idCarte = $cartes->first()->idCarte;
+
+            // Récupérer les informations de la carte
+            $carte = Carte::find($idCarte);
+
+            //message
+            $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+            $messageContent = $message ? $message->message : 'Aucun message disponible';
+
+            return view('client.dashboardClient', [
+                'compte' => $compte,
+                'cartes' => $cartes,
+                'employes' => $employes,
+                'carte' => $carte, // Passez les informations de la carte à la vue
+                'messageContent' => $messageContent
+            ]);
+
         }
 
         // Récupérer les cartes associées au compte
