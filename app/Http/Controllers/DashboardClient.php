@@ -179,9 +179,9 @@ class DashboardClient extends Controller
     {
         $session = session('connexion');
 
-        // Récupérer l'année et le mois à partir de la requête
+        // Récupérer l'année et la semaine à partir de la requête
         $year = $request->query('year', date('Y'));
-        $month = $request->query('month', null);
+        $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
 
         // Données annuelles
         $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
@@ -211,13 +211,24 @@ class DashboardClient extends Controller
             ->where('carte.idCompte', $session)
             ->count();
 
+        // Nombre de vues par semaine
+        $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('week');
+
+        $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
 
         // Années disponibles pour la sélection
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViewsCard'));
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek'));
     }
+
+
+
 
 
 
