@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Vue;
 use Illuminate\Http\Request;
@@ -43,11 +44,16 @@ class DashboardClient extends Controller
             // Récupérer les informations de la carte
             $carte = Carte::find($idCarte);
 
+            //message
+            $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+            $messageContent = $message ? $message->message : 'Aucun message disponible';
+
             return view('client.dashboardClient', [
                 'compte' => $compte,
                 'cartes' => $cartes,
                 'employes' => $employes,
-                'carte' => $carte // Passez les informations de la carte à la vue
+                'carte' => $carte, // Passez les informations de la carte à la vue
+                'messageContent' => $messageContent
             ]);
         }
 
