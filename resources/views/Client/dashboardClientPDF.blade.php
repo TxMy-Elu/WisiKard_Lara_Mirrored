@@ -1,4 +1,3 @@
-<!-- resources/views/client/dashboardClientPDF.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -7,6 +6,78 @@
     <title>Dashboard Client PDF</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <style>
+        .image-container {
+            width: 200px; /* Largeur fixe */
+            height: 200px; /* Hauteur fixe */
+            overflow: hidden; /* Cache les parties débordantes */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0; /* Couleur de fond optionnelle */
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Conserver les proportions de l'image */
+        }
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: thin; /* Largeur fine pour la barre de défilement */
+            scrollbar-color: #d1d5db #2c2c2c; /* Couleur de la barre de défilement */
+        }
+        .carousel::-webkit-scrollbar {
+            height: 8px; /* Hauteur de la barre de défilement */
+        }
+        .carousel::-webkit-scrollbar-thumb {
+            background: #888; /* Couleur de la barre de défilement */
+        }
+        .pdf-container {
+            width: 100%;
+            height: 500px; /* Hauteur fixe pour le conteneur PDF */
+            overflow: auto;
+            border: 1px solid #ccc;
+        }
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+        }
+        .card {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .card-title {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .slider-container {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .slider-title {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .logo-container {
+            width: 100%; /* Largeur du conteneur du logo */
+            max-width: 300px; /* Largeur maximale du logo */
+            height: auto; /* Hauteur automatique pour conserver les proportions */
+            margin: 0 auto; /* Marge automatique pour centrer le logo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-title {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
@@ -31,35 +102,113 @@
 
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
-                <div>
+                <div class="mb-4">
                     <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner un fichier :</label>
                     <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".pdf,.jpg,.jpeg,.png">
                 </div>
+                <div class="mb-4">
+                    <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
+                    <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="mb-4">
+                    <label for="logo" class="block text-sm font-medium text-gray-700">Sélectionner un logo :</label>
+                    <input type="file" id="logo" name="logo" class="mt-1 block w-full" accept=".jpg,.jpeg,.png">
+                </div>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Télécharger</button>
             </form>
-
-            @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/pdf")))
-                <div class="mt-4">
-                    <h2 class="text-xl font-bold mb-2">Fichiers PDF téléchargés</h2>
-                    <ul>
-                        @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/pdf")) as $file)
-                            <li><a href="{{ asset("entreprises/{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" target="_blank">{{ $file->getFilename() }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/images")))
-                <div class="mt-4">
-                    <h2 class="text-xl font-bold mb-2">Images téléchargées</h2>
-                    <ul>
-                        @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/images")) as $file)
-                            <li><a href="{{ asset("entreprises/{$carte->nomEntreprise}/images/" . $file->getFilename()) }}" target="_blank">{{ $file->getFilename() }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
         </div>
+
+        <!-- Card pour le logo -->
+        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpg")) ||
+           File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpeg")) ||
+           File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.png")))
+            <div class="mt-4">
+                  <h2 class="text-xl font-bold mb-2">Logo</h2>
+                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="card">
+                        <div class="card-title">
+                    @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpg")))
+                        <img src="{{ asset("entreprises/{$carte->nomEntreprise}/logos/logo.jpg") }}" alt="Logo" class="w-full h-auto">
+                    @elseif(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpeg")))
+                        <img src="{{ asset("entreprises/{$carte->nomEntreprise}/logos/logo.jpeg") }}" alt="Logo" class="w-full h-auto">
+                    @elseif(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.png")))
+                        <img src="{{ asset("entreprises/{$carte->nomEntreprise}/logos/logo.png") }}" alt="Logo" class="w-full h-auto">
+                    @endif  </div>
+
+                </div>
+            </div>
+        @endif
+
+        <!-- Card pour les images -->
+        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/images")))
+            <div class="mt-4">
+                <h2 class="text-xl font-bold mb-2">Images téléchargées</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/images")) as $file)
+                        <div class="card">
+                            <div class="card-title">
+                                <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
+                            </div>
+                            <img src="{{ asset("entreprises/{$carte->nomEntreprise}/images/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-full h-auto">
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        <!-- Card pour les PDF -->
+        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/pdf")))
+            <div class="mt-4">
+                <h2 class="text-xl font-bold mb-2">Fichiers PDF téléchargés</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/pdf")) as $file)
+                        <div class="card">
+                            <div class="card-title">
+                                <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
+                            </div>
+                            <div class="pdf-container">
+                                <iframe src="{{ asset("entreprises/{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" width="100%" height="500" style="border: none;"></iframe>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        <!-- Card pour les vidéos YouTube -->
+        @if(!empty($youtubeUrls))
+            <div class="mt-4">
+                <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    @foreach($youtubeUrls as $youtubeUrl)
+                        <div class="card">
+                            <div class="card-title">
+                                <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
+                            </div>
+                            <div class="video-container">
+                                <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        <!-- Card pour le slider -->
+        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/slider")))
+            <div class="mt-4">
+                <h2 class="text-xl font-bold mb-2 slider-title">Slider</h2>
+                <div class="slider-container">
+                    <div class="carousel space-x-4 p-4 bg-white rounded-lg shadow-md">
+                        @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/slider")) as $file)
+                            <div class="image-container bg-gray-100 rounded-lg shadow-md">
+                                <img src="{{ asset("entreprises/{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-full h-full object-cover">
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 

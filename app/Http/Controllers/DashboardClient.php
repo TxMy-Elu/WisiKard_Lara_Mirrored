@@ -1,18 +1,17 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use App\Models\Carte;
 use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Vue;
-use Illuminate\Http\Request;
-use App\Models\Carte;
-use App\Models\Employer;
 use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Social;
-// Pour uploadFile
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
+use App\Models\Employer;
 
 class DashboardClient extends Controller
 {
@@ -326,13 +325,22 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-        return view('client.dashboardClientPDF', compact('carte'));
+        // Lire les URLs YouTube enregistrées
+        $videosPath = public_path("entreprises/{$carte->nomEntreprise}/videos/videos.json");
+        $youtubeUrls = [];
+        if (File::exists($videosPath)) {
+            $youtubeUrls = json_decode(File::get($videosPath), true);
+        }
+
+        return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls'));
     }
 
     public function uploadFile(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:pdf,jpg,jpeg,png',
+            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'youtube_url' => 'nullable|url',
+            'logo' => 'nullable|file|mimes:jpg,jpeg,png'
         ]);
 
         $idCompte = session('connexion');
@@ -343,31 +351,71 @@ class DashboardClient extends Controller
         }
 
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $file = $request->file('file');
-        $fileType = $file->getClientOriginalExtension();
-        $filePath = '';
 
-        switch ($fileType) {
-            case 'pdf':
-                $filePath = public_path("entreprises/{$entrepriseName}/pdf");
-                break;
-            case 'jpg':
-            case 'jpeg':
-            case 'png':
-                $filePath = public_path("entreprises/{$entrepriseName}/images");
-                break;
-            default:
-                return redirect()->back()->with('error', 'Type de fichier non supporté.');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileType = $file->getClientOriginalExtension();
+            $filePath = '';
+
+            switch ($fileType) {
+                case 'pdf':
+                    $filePath = public_path("entreprises/{$entrepriseName}/pdf");
+                    break;
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                    $filePath = public_path("entreprises/{$entrepriseName}/images");
+                    break;
+                default:
+                    return redirect()->back()->with('error', 'Type de fichier non supporté.');
+            }
+
+            if (!File::exists($filePath)) {
+                File::makeDirectory($filePath, 0755, true);
+            }
+
+            $fileName = time() . '.' . $fileType;
+            $file->move($filePath, $fileName);
+
+            return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
         }
 
-        if (!File::exists($filePath)) {
-            File::makeDirectory($filePath, 0755, true);
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logoType = $logo->getClientOriginalExtension();
+            $logoPath = public_path("entreprises/{$entrepriseName}/logos");
+
+            if (!File::exists($logoPath)) {
+                File::makeDirectory($logoPath, 0755, true);
+            }
+
+            $logoFileName = 'logo.' . $logoType;
+            $logo->move($logoPath, $logoFileName);
+
+            return redirect()->back()->with('success', 'Logo téléchargé avec succès.');
         }
 
-        $fileName = time() . '.' . $fileType;
-        $file->move($filePath, $fileName);
+        if ($request->filled('youtube_url')) {
+            $youtubeUrl = $request->input('youtube_url');
+            $videosPath = public_path("entreprises/{$entrepriseName}/videos");
 
-        return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+            if (!File::exists($videosPath)) {
+                File::makeDirectory($videosPath, 0755, true);
+            }
+
+            $videosFile = $videosPath . '/videos.json';
+            $videosData = [];
+
+            if (File::exists($videosFile)) {
+                $videosData = json_decode(File::get($videosFile), true);
+            }
+
+            $videosData[] = $youtubeUrl;
+            File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
+
+            return redirect()->back()->with('success', 'URL YouTube enregistrée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
     }
 }
-
