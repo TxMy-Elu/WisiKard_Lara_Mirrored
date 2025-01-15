@@ -179,9 +179,12 @@ class DashboardClient extends Controller
     {
         $session = session('connexion');
 
-        // Récupérer l'année et le mois à partir de la requête
+        // Récupérer l'année et la semaine à partir de la requête
         $year = $request->query('year', date('Y'));
-        $month = $request->query('month', null);
+        $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
+
+        // Récupérer l'idCarte associé au compte connecté
+        $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
 
         // Données annuelles
         $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
@@ -205,18 +208,61 @@ class DashboardClient extends Controller
             ],
         ];
 
+
+        // Données annuelles par employer
+        $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
+            ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->whereYear('date', $year)
+            ->where('carte.idCarte', $idCarte)
+            ->groupBy('nom')
+            ->pluck('count', 'nom')
+            ->toArray();
+
+        // Generation de couleurs aléatoires pour les graphiques
+        $colors = [];
+        foreach ($employerViews as $key => $value) {
+            do {
+                $r = mt_rand(0, 255);
+                $g = mt_rand(0, 255);
+                $b = mt_rand(0, 255);
+            } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
+            $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
+        }
+
+        $employerData = [
+            'labels' => array_keys($employerViews),
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par employer',
+                    'backgroundColor' => $colors,
+                    'borderColor' => 'rgba(153, 27, 27, 0.1)',
+                    'borderWidth' => 1,
+                    'data' => array_values($employerViews),
+                ],
+            ],
+        ];
+
         // Nombre total de vues en fonction de l'année et de l'idCarte
         $totalViewsCard = Vue::whereYear('date', $year)
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
             ->where('carte.idCompte', $session)
             ->count();
 
+        // Nombre de vues par semaine
+        $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('week');
+
+        $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
 
         // Années disponibles pour la sélection
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViewsCard'));
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'employerData'));
     }
 
     public function afficherFormulaireModifEmpl($id)
@@ -257,6 +303,9 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'employé.');
         }
     }
+
+
+
 
 
 
