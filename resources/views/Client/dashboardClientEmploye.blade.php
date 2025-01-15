@@ -14,6 +14,21 @@
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         <div class="min-h-screen p-4">
+            <!-- Messages de succès ou d'erreur -->
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Succès!</strong>
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Erreur!</strong>
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
+
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <!-- Search bar -->
                 <form method="GET" action="{{ route('dashboardClientEmploye') }}"
@@ -60,6 +75,12 @@
                                 <div class="mb-4">
                                     <p class="text-lg text-gray-500">{{ $employe->fonction  }}</p>
                                 </div>
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500">{{ $employe->telephone  }}</p>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500">{{ $employe->mail  }}</p>
+                                </div>
                             </div>
                             <!-- QR Code (you can replace with an actual QR code image) -->
                             <div class="flex justify-center mb-4">
@@ -77,7 +98,7 @@
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
                                 </button>
                             </form>
-                            <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                            <a href="{{ route('employe.modifier', $employe->idEmp) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>
                     </div>
                 @endforeach
