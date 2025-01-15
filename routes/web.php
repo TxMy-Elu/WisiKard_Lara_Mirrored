@@ -26,8 +26,13 @@ Route::post('/reinitialisation', [RecuperationCompte::class, 'boutonChangerMotDe
 Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('reactivation');
 Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
 
-//Routes templates
-Route::get('/templates', [Templates::class, 'afficherTemplates'])->name('templates');
+//Routes Templates
+Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
+
+//Route Iframe
+Route::get('/Templates/Iframe/pomme', [Templates::class, 'iframePomme'])->name('Templates.pomme');
+Route::get('/Templates/Iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.peche');
+Route::get('/Templates/Iframe/fraise', [Templates::class, 'iframeFraise'])->name('Templates.fraise');
 
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
