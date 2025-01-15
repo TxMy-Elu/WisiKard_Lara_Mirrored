@@ -24,39 +24,9 @@ class DashboardClient extends Controller
         // Récupérer les informations du compte
         $compte = Compte::find($idCompte);
 
-
         // Vérifier le rôle de l'utilisateur
         if ($compte->role === 'employe') {
             return redirect()->route('dashboardClientEmploye');
-           
-
-            // Récupérer les cartes associées au compte
-            $cartes = Carte::where('idCompte', $idCompte)->get();
-
-            // Récupérer les employés associés au compte
-            $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-                ->where('carte.idCompte', $idCompte)
-                ->select('employer.*')
-                ->get();
-
-            // Récupérer l'idCarte associé au compte connecté
-            $idCarte = $cartes->first()->idCarte;
-
-            // Récupérer les informations de la carte
-            $carte = Carte::find($idCarte);
-
-            //message
-            $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
-            $messageContent = $message ? $message->message : 'Aucun message disponible';
-
-            return view('client.dashboardClient', [
-                'compte' => $compte,
-                'cartes' => $cartes,
-                'employes' => $employes,
-                'carte' => $carte, // Passez les informations de la carte à la vue
-                'messageContent' => $messageContent
-            ]);
-
         }
 
         // Récupérer les cartes associées au compte
@@ -74,11 +44,16 @@ class DashboardClient extends Controller
         // Récupérer les informations de la carte
         $carte = Carte::find($idCarte);
 
+        // Récupérer le message
+        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+        $messageContent = $message ? $message->message : 'Aucun message disponible';
+
         return view('client.dashboardClient', [
             'compte' => $compte,
             'cartes' => $cartes,
             'employes' => $employes,
-            'carte' => $carte // Passez les informations de la carte à la vue
+            'carte' => $carte, // Passez les informations de la carte à la vue
+            'messageContent' => $messageContent
         ]);
     }
 
@@ -357,8 +332,7 @@ class DashboardClient extends Controller
     public function uploadFile(Request $request)
     {
         $request->validate([
-            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
-            'youtube_url' => 'nullable|url'
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png',
         ]);
 
         $idCompte = session('connexion');
@@ -369,40 +343,31 @@ class DashboardClient extends Controller
         }
 
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $file = $request->file('file');
+        $fileType = $file->getClientOriginalExtension();
+        $filePath = '';
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileType = $file->getClientOriginalExtension();
-            $filePath = '';
-
-            switch ($fileType) {
-                case 'pdf':
-                    $filePath = public_path("entreprises/{$entrepriseName}/pdf");
-                    break;
-                case 'jpg':
-                case 'jpeg':
-                case 'png':
-                    $filePath = public_path("entreprises/{$entrepriseName}/images");
-                    break;
-                default:
-                    return redirect()->back()->with('error', 'Type de fichier non supporté.');
-            }
-
-            if (!File::exists($filePath)) {
-                File::makeDirectory($filePath, 0755, true);
-            }
-
-            $fileName = time() . '.' . $fileType;
-            $file->move($filePath, $fileName);
-
-            return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+        switch ($fileType) {
+            case 'pdf':
+                $filePath = public_path("entreprises/{$entrepriseName}/pdf");
+                break;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+                $filePath = public_path("entreprises/{$entrepriseName}/images");
+                break;
+            default:
+                return redirect()->back()->with('error', 'Type de fichier non supporté.');
         }
 
-        if ($request->filled('youtube_url')) {
-            $youtubeUrl = $request->input('youtube_url');
-            return redirect()->back()->with('youtube_url', $youtubeUrl)->with('success', 'URL YouTube enregistrée avec succès.');
+        if (!File::exists($filePath)) {
+            File::makeDirectory($filePath, 0755, true);
         }
 
-        return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
+        $fileName = time() . '.' . $fileType;
+        $file->move($filePath, $fileName);
+
+        return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
     }
 }
+

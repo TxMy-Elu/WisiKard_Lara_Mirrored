@@ -35,17 +35,28 @@
                     <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner un fichier :</label>
                     <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".pdf,.jpg,.jpeg,.png">
                 </div>
-                <div>
-                    <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
-                    <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
-                </div>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Télécharger</button>
             </form>
 
-            @if(session('youtube_url'))
+            @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/pdf")))
                 <div class="mt-4">
-                    <h2 class="text-xl font-bold mb-2">Vidéo YouTube</h2>
-                    <iframe width="560" height="315" src="{{ str_replace('watch?v=', 'embed/', session('youtube_url')) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <h2 class="text-xl font-bold mb-2">Fichiers PDF téléchargés</h2>
+                    <ul>
+                        @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/pdf")) as $file)
+                            <li><a href="{{ asset("entreprises/{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" target="_blank">{{ $file->getFilename() }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/images")))
+                <div class="mt-4">
+                    <h2 class="text-xl font-bold mb-2">Images téléchargées</h2>
+                    <ul>
+                        @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/images")) as $file)
+                            <li><a href="{{ asset("entreprises/{$carte->nomEntreprise}/images/" . $file->getFilename()) }}" target="_blank">{{ $file->getFilename() }}</a></li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
         </div>
