@@ -236,7 +236,7 @@ class DashboardClient extends Controller
                 [
                     'label' => 'Nombre de vues par employer',
                     'backgroundColor' => $colors,
-                    'borderColor' => 'rgba(153, 27, 27, 0.1)',
+                    'borderColor' => 'rgba(0, 0, 0, 0.1)',
                     'borderWidth' => 1,
                     'data' => array_values($employerViews),
                 ],

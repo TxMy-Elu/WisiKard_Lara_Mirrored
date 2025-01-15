@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Graph -->
         <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col justify-center items-center">
             <!-- titre du graph-->
