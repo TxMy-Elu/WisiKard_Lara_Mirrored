@@ -78,8 +78,9 @@
                     @endif
                 </div>
             </div>
-        
-            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col justify-center items-center">
+
+            <!-- Graph -->
+            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col justify-center items-center mx-auto">
                 <!-- titre du graph-->
                 <div class="mb-4">
                     <p class="text-center font-bold text-2xl">Nombres de vues</p>
@@ -89,9 +90,7 @@
                 @if(empty($employerData['datasets'][0]['data']))
                     <p>Aucune donnée disponible pour le graphique.</p>
                 @else
-                    <div class="flex justify-center items-center w-full">
-                        <canvas id="yearChart" width="100" height="50"></canvas>
-                    </div>
+                    <canvas id="yearChart" width="100" height="50"></canvas>
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {
                             const employerData = @json($employerData);
