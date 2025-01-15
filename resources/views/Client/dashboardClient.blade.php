@@ -1,3 +1,4 @@
+<!-- resources/views/client/dashboardClient.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -11,16 +12,14 @@
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
-
-    <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
-        @if($messageContent != "Aucun message disponible" || empty($messageContent))
-            <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
-                 role="alert">
+    <div class="flex-1 md:ml-24 p-4">
+        @if($messageContent != "Aucun message disponible" && !empty($messageContent))
+            <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zinc-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">Information :</strong>
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
-        <div class="min-h-screen p-4">
+
         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
             <h1 class="text-2xl font-bold mb-4">Informations du Compte</h1>
             <p class="mb-2"><strong>Email:</strong> {{ $compte->email }}</p>
