@@ -79,34 +79,44 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Graph -->
-        <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex justify-center items-center">
-            <canvas id="yearChart" width="100" height="50"></canvas>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const employerData = @json($employerData);
-                    const ctxYear = document.getElementById('yearChart').getContext('2d');
+        <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col justify-center items-center">
+            <!-- titre du graph-->
+            <div class="mb-4">
+                <p class="text-center font-bold text-2xl">Nombres de vues</p>
+                <p class="text-center text-xl">Par employes</p>
+            </div>
 
-                    // employer chart
-                    let employe = new Chart(ctxYear, {
-                        type: 'pie',
-                        data: employerData,
-                        options: {
-                            scales: {
-                                x: {
-                                    display: false
-                                },
-                                y: {
-                                    display: false
+            @if(empty($employerData['datasets'][0]['data']))
+                <p>Aucune donnée disponible pour le graphique.</p>
+            @else
+                <canvas id="yearChart" width="100" height="50"></canvas>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const employerData = @json($employerData);
+                        const ctxYear = document.getElementById('yearChart').getContext('2d');
+
+                        // employer chart
+                        let employe = new Chart(ctxYear, {
+                            type: 'pie',
+                            data: employerData,
+                            options: {
+                                scales: {
+                                    x: {
+                                        display: false
+                                    },
+                                    y: {
+                                        display: false
+                                    }
                                 }
                             }
-                        }
+                        });
                     });
-                });
-            </script>
-            
+                </script>
+            @endif
         </div>
+
     </div>
 </div>
 
