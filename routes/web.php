@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // Routes publiques (accessibles sans authentification)
+
 Route::get('/', [App\Http\Controllers\Connexion::class, 'afficherFormulaireConnexion'])->name('accueil');
 Route::get('/connexion', [App\Http\Controllers\Connexion::class, 'afficherFormulaireConnexion'])->name('connexion');
 Route::post('/connexion', [App\Http\Controllers\Connexion::class, 'validationFormulaire'])->name('validationFormulaireConnexion');
@@ -26,6 +27,14 @@ Route::get('/reinitialisation', [App\Http\Controllers\RecuperationCompte::class,
 Route::post('/reinitialisation', [App\Http\Controllers\RecuperationCompte::class, 'boutonChangerMotDePasse'])->name('validationChangementMotDePasse');
 Route::get('/reactivation', [App\Http\Controllers\Connexion::class, 'reactivationCompte'])->name('reactivation');
 Route::get('/deconnexion', [App\Http\Controllers\Connexion::class, 'deconnexion'])->name('deconnexion');
+
+//Routes Templates
+Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
+
+//Route Iframe
+Route::get('/Templates/Iframe/pomme', [Templates::class, 'iframePomme'])->name('Templates.pomme');
+Route::get('/Templates/Iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.peche');
+Route::get('/Templates/Iframe/fraise', [Templates::class, 'iframeFraise'])->name('Templates.fraise');
 
 // Routes templates
 Route::get('/templates', [App\Http\Controllers\Templates::class, 'afficherTemplates'])->name('templates');

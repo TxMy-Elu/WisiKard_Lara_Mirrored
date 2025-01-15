@@ -1,3 +1,12 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : mer. 15 jan. 2025 à 14:58
+-- Version du serveur : 8.3.0
+-- Version de PHP : 8.2.18
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -32,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `couleur2` varchar(10) DEFAULT NULL,
     `descirptif` varchar(500) DEFAULT NULL,
     `LienCommande` varchar(150) DEFAULT NULL,
+    `lienQr` varchar(500) NOT NULL,
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
     PRIMARY KEY (`idCarte`),
@@ -95,6 +105,20 @@ CREATE TABLE IF NOT EXISTS `logs` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE IF NOT EXISTS `message` (
+                                         `id` int NOT NULL AUTO_INCREMENT,
+                                         `message` varchar(500) NOT NULL,
+    `afficher` tinyint(1) NOT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `reactivation`
 --
 
@@ -137,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `rediriger` (
                                            `idSocial` int NOT NULL,
                                            `idCarte` int NOT NULL,
                                            `lien` varchar(500) DEFAULT NULL,
-    `activer` tinyint(1) NOT NULL DEFAULT 0,
+    `activer` tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (`idSocial`,`idCarte`),
     KEY `rediriger_carte_FK` (`idCarte`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -159,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `social` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `templates`
+-- Structure de la table `template`
 --
 
 DROP TABLE IF EXISTS `template`;
@@ -189,17 +213,6 @@ CREATE TABLE IF NOT EXISTS `vue` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `message`
---
-
-DROP TABLE IF EXISTS `message`;
-CREATE TABLE IF NOT EXISTS `message` (
-                                         id INT AUTO_INCREMENT PRIMARY KEY,
-                                         message VARCHAR(500) NOT NULL,
-    afficher BOOLEAN NOT NULL
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
 -- Contraintes pour les tables déchargées
 --
 
@@ -208,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 --
 ALTER TABLE `carte`
     ADD CONSTRAINT `carte_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE,
-    ADD CONSTRAINT `carte_template_FK` FOREIGN KEY (`idTemplate`) REFERENCES `template` (`idTemplate`);
+  ADD CONSTRAINT `carte_template_FK` FOREIGN KEY (`idTemplate`) REFERENCES `template` (`idTemplate`);
 
 --
 -- Contraintes pour la table `employer`
@@ -239,15 +252,14 @@ ALTER TABLE `recuperation`
 --
 ALTER TABLE `rediriger`
     ADD CONSTRAINT `rediriger_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
-    ADD CONSTRAINT `rediriger_social_FK` FOREIGN KEY (`idSocial`) REFERENCES `social` (`idSocial`);
+  ADD CONSTRAINT `rediriger_social_FK` FOREIGN KEY (`idSocial`) REFERENCES `social` (`idSocial`);
 
 --
 -- Contraintes pour la table `vue`
 --
 ALTER TABLE `vue`
     ADD CONSTRAINT `vue_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
-    ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
-
+  ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

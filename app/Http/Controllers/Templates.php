@@ -34,14 +34,29 @@ class Templates extends Controller
 
         switch ($idTemplate) {
             case 1:
-                return view('templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             case 2:
-                return view('templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
+                return view('Templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             case 3:
-                return view('templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
+                return view('Templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             default:
                 return abort(404, 'Template not found');
         }
+    }
+
+    public function iframePomme()
+    {
+        return view('Templates.Iframe.pomme');
+    }
+
+    public function iframeFraise()
+    {
+        return view('Templates.Iframe.fraise');
+    }
+
+    public function iframePeche()
+    {
+        return view('Templates.Iframe.peche');
     }
 
 }
