@@ -104,9 +104,19 @@
                         </div>
                     </div>
                 @endforeach
+
+                <!-- QR Code (you can replace with an actual QR code image) -->
+                    <div class="bg-zinc-900 w-80 h-80 flex justify-center items-center">
+                        <img src="https://quickchart.io/qr?text=google.com&size=200" alt="QR Code">
+                    </div>
+
+
             </div>
         </div>
     </div>
+
+
+
 </div>
 
 </body>
