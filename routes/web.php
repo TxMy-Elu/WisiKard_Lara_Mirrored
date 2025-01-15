@@ -11,6 +11,7 @@ use App\Http\Middleware\NonAuthentifie;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
 
+
 // Routes publiques (accessibles sans authentification)
 Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->name('accueil');
 Route::get('/connexion', [Connexion::class, 'afficherFormulaireConnexion'])->name('connexion');
@@ -38,9 +39,9 @@ Route::middleware([Authentification::class])->group(function () {
     // Dashboard Client
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
     Route::get('/dashboardClientStatistique', [DashboardClient::class, 'statistique'])->name('dashboardClientStatistique');
-    Route::get('/dashboardClientEmployer/{idCarte}', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
-    Route::get('/dashboardClientEmployer', [DashboardClient::class, 'employer'])->name('dashboardClientEmployer');
+    Route::get('/dashboardClientEmploye/{idCarte}', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');
     Route::get('/dashboardClientEmploye', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');
+    //Route::get('/dashboardClientEmploye', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');
     Route::get('/dashboardClientSocial', [DashboardClient::class, 'social'])->name('dashboardClientSocial');
     Route::post('/updateSocialLink', [DashboardClient::class, 'updateSocialLink'])->name('client.updateSocialLink');
 
@@ -52,4 +53,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::post('/employe', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
+    Route::get('/employe/modifier/{id}', [DashboardClient::class, 'afficherFormulaireModifEmpl'])->name('employe.modifier');
+    Route::post('/employe/modifier/{id}', [DashboardClient::class, 'modifierEmploye'])->name('employe.modifier.post');
+
 });
