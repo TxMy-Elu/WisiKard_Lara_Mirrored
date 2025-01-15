@@ -75,6 +75,30 @@
             </div>
         </div>
 
+        <!-- Graph -->
+        <div class="w-full md:w-2/3 p-6 bg-white rounded-lg border shadow-md flex justify-center items-center">
+            <canvas id="yearChart" width="100" height="50"></canvas>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const employerData = @json($employerData);
+                    const ctxYear = document.getElementById('yearChart').getContext('2d');
+
+                    // Yearly chart
+                    let yearChart = new Chart(ctxYear, {
+                        type: 'pie',
+                        data: employerData,
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+
+
     </div>
 </div>
 

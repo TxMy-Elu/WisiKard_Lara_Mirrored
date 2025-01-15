@@ -183,6 +183,9 @@ class DashboardClient extends Controller
         $year = $request->query('year', date('Y'));
         $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
 
+        // Récupérer l'idCarte associé au compte connecté
+        $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
+
         // Données annuelles
         $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
             ->whereYear('date', $year)
@@ -201,6 +204,39 @@ class DashboardClient extends Controller
                     'borderColor' => 'rgba(153, 27, 27, 1)',
                     'borderWidth' => 1,
                     'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
+                ],
+            ],
+        ];
+
+
+        // Données annuelles par employer
+        $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
+            ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->whereYear('date', $year)
+            ->where('carte.idCarte', $idCarte)
+            ->groupBy('nom')
+            ->pluck('count', 'nom')
+            ->toArray();
+
+        // Generate dynamic colors
+        $colors = [];
+        foreach ($employerViews as $key => $value) {
+            $r = mt_rand(127, 255);
+            $g = mt_rand(127, 255);
+            $b = mt_rand(127, 255);
+            $colors[] = sprintf('rgba(%d, %d, %d, 0.45)', $r, $g, $b);
+        }
+
+        $employerData = [
+            'labels' => array_keys($employerViews),
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par employer',
+                    'backgroundColor' => $colors,
+                    'borderColor' => 'rgba(153, 27, 27, 1)',
+                    'borderWidth' => 1,
+                    'data' => array_values($employerViews),
                 ],
             ],
         ];
@@ -224,7 +260,7 @@ class DashboardClient extends Controller
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek'));
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'employerData'));
     }
 
 
