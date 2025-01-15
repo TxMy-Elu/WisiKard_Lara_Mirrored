@@ -33,10 +33,21 @@
                 @csrf
                 <div>
                     <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner un fichier :</label>
-                    <input type="file" id="file" name="file" class="mt-1 block w-full" required>
+                    <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+                <div>
+                    <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
+                    <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
                 </div>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Télécharger</button>
             </form>
+
+            @if(session('youtube_url'))
+                <div class="mt-4">
+                    <h2 class="text-xl font-bold mb-2">Vidéo YouTube</h2>
+                    <iframe width="560" height="315" src="{{ str_replace('watch?v=', 'embed/', session('youtube_url')) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            @endif
         </div>
     </div>
 </div>

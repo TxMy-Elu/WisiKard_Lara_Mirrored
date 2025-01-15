@@ -9,78 +9,78 @@ use App\Models\Employer;
 use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Social;
-//Pour uploadFile
+// Pour uploadFile
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
 class DashboardClient extends Controller
 {
-     public function afficherDashboardClient(Request $request)
-        {
-            // Récupérer l'ID de l'utilisateur connecté
-            $idCompte = session('connexion');
+    public function afficherDashboardClient(Request $request)
+    {
+        // Récupérer l'ID de l'utilisateur connecté
+        $idCompte = session('connexion');
 
-            // Récupérer les informations du compte
-            $compte = Compte::find($idCompte);
+        // Récupérer les informations du compte
+        $compte = Compte::find($idCompte);
 
-            // Vérifier le rôle de l'utilisateur
-            if ($compte->role === 'employe') {
-                return redirect()->route('dashboardClientEmploye');
-            }
-
-            // Récupérer les cartes associées au compte
-            $cartes = Carte::where('idCompte', $idCompte)->get();
-
-            // Récupérer les employés associés au compte
-            $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-                ->where('carte.idCompte', $idCompte)
-                ->select('employer.*')
-                ->get();
-
-            // Récupérer l'idCarte associé au compte connecté
-            $idCarte = $cartes->first()->idCarte;
-
-            // Récupérer les informations de la carte
-            $carte = Carte::find($idCarte);
-
-            return view('client.dashboardClient', [
-                'compte' => $compte,
-                'cartes' => $cartes,
-                'employes' => $employes,
-                'carte' => $carte // Passez les informations de la carte à la vue
-            ]);
+        // Vérifier le rôle de l'utilisateur
+        if ($compte->role === 'employe') {
+            return redirect()->route('dashboardClientEmploye');
         }
 
-     public function employer(Request $request)
-        {
-            $idCompte = session('connexion');
-            $search = $request->input('search');
+        // Récupérer les cartes associées au compte
+        $cartes = Carte::where('idCompte', $idCompte)->get();
 
-            // Récupérer les employés associés à la carte du compte connecté
-            $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-                ->where('carte.idCompte', $idCompte)
-                ->when($search, function ($query, $search) {
-                    return $query->where('employer.nom', 'like', "%{$search}%")
-                        ->orWhere('employer.prenom', 'like', "%{$search}%")
-                        ->orWhere('employer.fonction', 'like', "%{$search}%");
-                })
-                ->select('employer.*')
-                ->get();
+        // Récupérer les employés associés au compte
+        $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $idCompte)
+            ->select('employer.*')
+            ->get();
 
-            // Vérif si des résultats sont trouvés
-                if ($employes->isEmpty() && !empty($search)) {
-                    return view('client.dashboardClientEmploye', [
-                        'employes' => $employes,
-                        'search' => $search,
-                        'error' => 'Aucun résultat trouvé pour votre recherche.'
-                    ]);
-                }
+        // Récupérer l'idCarte associé au compte connecté
+        $idCarte = $cartes->first()->idCarte;
 
+        // Récupérer les informations de la carte
+        $carte = Carte::find($idCarte);
+
+        return view('client.dashboardClient', [
+            'compte' => $compte,
+            'cartes' => $cartes,
+            'employes' => $employes,
+            'carte' => $carte // Passez les informations de la carte à la vue
+        ]);
+    }
+
+    public function employer(Request $request)
+    {
+        $idCompte = session('connexion');
+        $search = $request->input('search');
+
+        // Récupérer les employés associés à la carte du compte connecté
+        $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $idCompte)
+            ->when($search, function ($query, $search) {
+                return $query->where('employer.nom', 'like', "%{$search}%")
+                    ->orWhere('employer.prenom', 'like', "%{$search}%")
+                    ->orWhere('employer.fonction', 'like', "%{$search}%");
+            })
+            ->select('employer.*')
+            ->get();
+
+        // Vérif si des résultats sont trouvés
+        if ($employes->isEmpty() && !empty($search)) {
             return view('client.dashboardClientEmploye', [
                 'employes' => $employes,
-                'search' => $search
+                'search' => $search,
+                'error' => 'Aucun résultat trouvé pour votre recherche.'
             ]);
         }
+
+        return view('client.dashboardClientEmploye', [
+            'employes' => $employes,
+            'search' => $search
+        ]);
+    }
 
     public function ajoutEmployer(Request $request)
     {
@@ -220,8 +220,7 @@ class DashboardClient extends Controller
             ],
         ];
 
-
-        // Données annuelles par employer
+        // Données annuelles par employé
         $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
             ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
@@ -231,7 +230,7 @@ class DashboardClient extends Controller
             ->pluck('count', 'nom')
             ->toArray();
 
-        // Generation de couleurs aléatoires pour les graphiques
+        // Génération de couleurs aléatoires pour les graphiques
         $colors = [];
         foreach ($employerViews as $key => $value) {
             do {
@@ -246,7 +245,7 @@ class DashboardClient extends Controller
             'labels' => array_keys($employerViews),
             'datasets' => [
                 [
-                    'label' => 'Nombre de vues par employer',
+                    'label' => 'Nombre de vues par employé',
                     'backgroundColor' => $colors,
                     'borderColor' => 'rgba(0, 0, 0, 0.1)',
                     'borderWidth' => 1,
@@ -302,7 +301,7 @@ class DashboardClient extends Controller
             $employe->fonction = $request->fonction;
             $employe->save();
 
-            // Récup l'email du compte pour les logs
+            // Récupérer l'email du compte pour les logs
             $compte = Compte::find($employe->idCarte);
             if ($compte) {
                 $emailUtilisateur = $compte->email;
@@ -327,7 +326,8 @@ class DashboardClient extends Controller
     public function uploadFile(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:pdf,jpg,jpeg,png,mp4,mov,avi',
+            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'youtube_url' => 'nullable|url'
         ]);
 
         $idCompte = session('connexion');
@@ -338,36 +338,40 @@ class DashboardClient extends Controller
         }
 
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $file = $request->file('file');
-        $fileType = $file->getClientOriginalExtension();
-        $filePath = '';
 
-        switch ($fileType) {
-            case 'pdf':
-                $filePath = public_path("entreprises/{$entrepriseName}/pdf");
-                break;
-            case 'jpg':
-            case 'jpeg':
-            case 'png':
-                $filePath = public_path("entreprises/{$entrepriseName}/images");
-                break;
-            case 'mp4':
-            case 'mov':
-            case 'avi':
-            case 'mkv':
-                $filePath = public_path("entreprises/{$entrepriseName}/videos");
-                break;
-            default:
-                return redirect()->back()->with('error', 'Type de fichier non supporté.');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileType = $file->getClientOriginalExtension();
+            $filePath = '';
+
+            switch ($fileType) {
+                case 'pdf':
+                    $filePath = public_path("entreprises/{$entrepriseName}/pdf");
+                    break;
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                    $filePath = public_path("entreprises/{$entrepriseName}/images");
+                    break;
+                default:
+                    return redirect()->back()->with('error', 'Type de fichier non supporté.');
+            }
+
+            if (!File::exists($filePath)) {
+                File::makeDirectory($filePath, 0755, true);
+            }
+
+            $fileName = time() . '.' . $fileType;
+            $file->move($filePath, $fileName);
+
+            return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
         }
 
-        if (!File::exists($filePath)) {
-            File::makeDirectory($filePath, 0755, true);
+        if ($request->filled('youtube_url')) {
+            $youtubeUrl = $request->input('youtube_url');
+            return redirect()->back()->with('youtube_url', $youtubeUrl)->with('success', 'URL YouTube enregistrée avec succès.');
         }
 
-        $fileName = time() . '.' . $fileType;
-        $file->move($filePath, $fileName);
-
-        return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+        return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
     }
 }
