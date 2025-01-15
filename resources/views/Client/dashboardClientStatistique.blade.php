@@ -18,27 +18,32 @@
 
     <div class="flex-1 md:ml-24 p-6">
         <div class="w-full md:w-1/3 mx-auto p-6 bg-white rounded-lg border shadow-md mb-6 flex flex-col justify-between items-center">
-            <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get" class="flex flex-col items-center w-full">
+            <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
+                  class="flex flex-col items-center w-full">
                 <div class="mb-4 w-full text-center">
                     <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez l'année</label>
-                    <select name="year" id="yearSelect" class="custom-select w-32 text-center mb-4" onchange="updateWeekToCurrent()">
+                    <select name="year" id="yearSelect" class="custom-select w-32 text-center mb-4"
+                            onchange="updateWeekToCurrent()">
                         @foreach($years as $year)
                             <option value="{{ $year }}" @if($year == $selectedYear) selected @endif>{{ $year }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-4 w-full text-center">
-                    <label for="weekSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez la semaine</label>
+                    <label for="weekSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez la
+                        semaine</label>
                 </div>
                 <div class="flex items-center w-full justify-center">
                     <input type="hidden" name="week" id="weekInput" value="{{ $selectedWeek }}">
-                    <button type="button" onclick="changeWeek(-1)" class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-l">
+                    <button type="button" onclick="changeWeek(-1)"
+                            class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-l">
                         &lt;
                     </button>
                     <span id="weekDisplay" class="bg-transparent text-red-600 font-bold py-2 px-4">
                 {{ $selectedWeek ? $selectedWeek : date('W') }}
             </span>
-                    <button type="button" onclick="changeWeek(1)" class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-r">
+                    <button type="button" onclick="changeWeek(1)"
+                            class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-r">
                         &gt;
                     </button>
                 </div>
@@ -76,29 +81,32 @@
         </div>
 
         <!-- Graph -->
-        <div class="w-full md:w-2/3 p-6 bg-white rounded-lg border shadow-md flex justify-center items-center">
+        <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex justify-center items-center">
             <canvas id="yearChart" width="100" height="50"></canvas>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const employerData = @json($employerData);
                     const ctxYear = document.getElementById('yearChart').getContext('2d');
 
-                    // Yearly chart
-                    let yearChart = new Chart(ctxYear, {
+                    // employer chart
+                    let employe = new Chart(ctxYear, {
                         type: 'pie',
                         data: employerData,
                         options: {
                             scales: {
+                                x: {
+                                    display: false
+                                },
                                 y: {
-                                    beginAtZero: true
+                                    display: false
                                 }
                             }
                         }
                     });
                 });
             </script>
-
-
+            
+        </div>
     </div>
 </div>
 
@@ -129,7 +137,7 @@
     }
 
     // Function to get the current week number
-    Date.prototype.getWeek = function() {
+    Date.prototype.getWeek = function () {
         var onejan = new Date(this.getFullYear(), 0, 1);
         return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
     };

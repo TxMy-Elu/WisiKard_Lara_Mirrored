@@ -219,13 +219,15 @@ class DashboardClient extends Controller
             ->pluck('count', 'nom')
             ->toArray();
 
-        // Generate dynamic colors
+        // Generation de couleurs aléatoires pour les graphiques
         $colors = [];
         foreach ($employerViews as $key => $value) {
-            $r = mt_rand(127, 255);
-            $g = mt_rand(127, 255);
-            $b = mt_rand(127, 255);
-            $colors[] = sprintf('rgba(%d, %d, %d, 0.45)', $r, $g, $b);
+            do {
+                $r = mt_rand(0, 255);
+                $g = mt_rand(0, 255);
+                $b = mt_rand(0, 255);
+            } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
+            $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
         }
 
         $employerData = [
@@ -234,7 +236,7 @@ class DashboardClient extends Controller
                 [
                     'label' => 'Nombre de vues par employer',
                     'backgroundColor' => $colors,
-                    'borderColor' => 'rgba(153, 27, 27, 1)',
+                    'borderColor' => 'rgba(153, 27, 27, 0.1)',
                     'borderWidth' => 1,
                     'data' => array_values($employerViews),
                 ],
