@@ -16,8 +16,10 @@ class Templates extends Controller
 {
     public function afficherTemplates(Request $request)
     {
-        $idTemplate = $request->query('idTemplate');
+
         $idCompte = $request->query('idCompte');
+
+        $idTemplate = Carte::where('idCompte', $idCompte)->value('idTemplate');
 
         // Prend tout les infos de la carte et les envoie à la vue
         $carte = Carte::find($idCompte);

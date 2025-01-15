@@ -53,7 +53,6 @@ class Compte extends Model
         $nouvelUtilisateur->email = $email;
         $nouvelUtilisateur->password = $motDePasseHache;
         $nouvelUtilisateur->role = $role;
-
         $nouvelUtilisateur->save();
 
         $entreprise = new Carte();
@@ -63,8 +62,9 @@ class Compte extends Model
         $entreprise->tel = "tel";
         $entreprise->ville = "ville";
         $entreprise->idTemplate = 1;
-
-
+        $entreprise->couleur1 = "#000000";
+        $entreprise->couleur2 = "#FFFFFF";
+        $entreprise->lienQr = "https://quickchart.io/qr?&dark=000000&light=FFFFFF&text=127.0.0.1:9000/templates?idCompte=" . $nouvelUtilisateur->idCompte;
         $entreprise->save();
 
         return $nouvelUtilisateur->idCompte;
