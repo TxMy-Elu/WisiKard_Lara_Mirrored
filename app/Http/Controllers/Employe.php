@@ -37,17 +37,19 @@ class Employe extends Controller
                 $employe->fonction = $request->input('fonction');
                 $employe->mail = $request->input('email');
                 $employe->telephone = $request->input('telephone');
+                $employe->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntreprise}/QR_Codes/QR_Code_{$idEmp}.svg";
 
                 $session = session('connexion');
                 $employe->idCarte = Carte::where('idCompte', $session)->first()->idCarte;
 
                 $employe->save();
+                Employer::QrCode($nouvelUtilisateur->idCompte, $nomEntreprise, $idEmp);
 
                 // Récupérer l'ID de l'employé nouvellement créé
                 $idEmp = $employe->idEmp;
 
                 // Appeler la méthode QrCodeEmploye avec les bons paramètres
-                $employe->QrCodeEmploye($session, 'nomEntreprise', $idEmp);
+                $employe->QrCodeEmploye($session, $employe->carte->nomEntreprise, $idEmp);
 
                 // Récupérer l'email du compte pour les logs
                 $compte = Compte::find($session);

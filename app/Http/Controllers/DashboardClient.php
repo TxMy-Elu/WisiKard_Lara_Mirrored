@@ -15,77 +15,77 @@ use App\Models\Employer;
 
 class DashboardClient extends Controller
 {
-     public function afficherDashboardClient(Request $request)
-      {
-          // Récupérer l'ID de l'utilisateur connecté
-          $idCompte = session('connexion');
+      public function afficherDashboardClient(Request $request)
+         {
+             // Récupérer l'ID de l'utilisateur connecté
+             $idCompte = session('connexion');
 
-          // Récupérer les informations du compte
-          $compte = Compte::find($idCompte);
+             // Récupérer les informations du compte
+             $compte = Compte::find($idCompte);
 
-          // Vérifier le rôle de l'utilisateur
-          if ($compte->role === 'employe') {
-              return redirect()->route('dashboardClientEmploye');
-          }
+             // Vérifier le rôle de l'utilisateur
+             if ($compte->role === 'employe') {
+                 return redirect()->route('dashboardClientEmploye');
+             }
 
-          // Récupérer les cartes associées au compte
-          $cartes = Carte::where('idCompte', $idCompte)->get();
+             // Récupérer les cartes associées au compte
+             $cartes = Carte::where('idCompte', $idCompte)->get();
 
-          // Récupérer les employés associés au compte
-          $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-              ->where('carte.idCompte', $idCompte)
-              ->select('employer.*')
-              ->get();
+             // Récupérer les employés associés au compte avec la relation carte
+             $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+                 ->where('carte.idCompte', $idCompte)
+                 ->select('employer.*')
+                 ->get();
 
-          // Récupérer l'idCarte associé au compte connecté
-          $idCarte = $cartes->first()->idCarte;
+             // Récupérer l'idCarte associé au compte connecté
+             $idCarte = $cartes->first()->idCarte;
 
-          // Récupérer les informations de la carte
-          $carte = Carte::find($idCarte);
+             // Récupérer les informations de la carte
+             $carte = Carte::find($idCarte);
 
-          // Récupérer le message
-          $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
-          $messageContent = $message ? $message->message : 'Aucun message disponible';
+             // Récupérer le message
+             $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+             $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-          return view('client.dashboardClient', [
-              'compte' => $compte,
-              'cartes' => $cartes,
-              'employes' => $employes,
-              'carte' => $carte, // Passez les informations de la carte à la vue
-              'messageContent' => $messageContent
-          ]);
-      }
+             return view('client.dashboardClient', [
+                 'compte' => $compte,
+                 'cartes' => $cartes,
+                 'employes' => $employes,
+                 'carte' => $carte, // Passez les informations de la carte à la vue
+                 'messageContent' => $messageContent
+             ]);
+         }
 
-      public function employer(Request $request)
-      {
-          $idCompte = session('connexion');
-          $search = $request->input('search');
+         public function employer(Request $request)
+         {
+             $idCompte = session('connexion');
+             $search = $request->input('search');
 
-          // Récupérer les employés associés à la carte du compte connecté
-          $employes = Employer::join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-              ->where('carte.idCompte', $idCompte)
-              ->when($search, function ($query, $search) {
-                  return $query->where('employer.nom', 'like', "%{$search}%")
-                      ->orWhere('employer.prenom', 'like', "%{$search}%")
-                      ->orWhere('employer.fonction', 'like', "%{$search}%");
-              })
-              ->select('employer.*')
-              ->get();
+             // Récupérer les employés associés à la carte du compte connecté avec la relation carte
+             $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
+                 ->where('carte.idCompte', $idCompte)
+                 ->when($search, function ($query, $search) {
+                     return $query->where('employer.nom', 'like', "%{$search}%")
+                         ->orWhere('employer.prenom', 'like', "%{$search}%")
+                         ->orWhere('employer.fonction', 'like', "%{$search}%");
+                 })
+                 ->select('employer.*')
+                 ->get();
 
-          // Vérif si des résultats sont trouvés
-          if ($employes->isEmpty() && !empty($search)) {
-              return view('client.dashboardClientEmploye', [
-                  'employes' => $employes,
-                  'search' => $search,
-                  'error' => 'Aucun résultat trouvé pour votre recherche.'
-              ]);
-          }
+             // Vérif si des résultats sont trouvés
+             if ($employes->isEmpty() && !empty($search)) {
+                 return view('client.dashboardClientEmploye', [
+                     'employes' => $employes,
+                     'search' => $search,
+                     'error' => 'Aucun résultat trouvé pour votre recherche.'
+                 ]);
+             }
 
-          return view('client.dashboardClientEmploye', [
-              'employes' => $employes,
-              'search' => $search
-          ]);
-      }
+             return view('client.dashboardClientEmploye', [
+                 'employes' => $employes,
+                 'search' => $search
+             ]);
+         }
 
     public function ajoutEmployer(Request $request)
     {
