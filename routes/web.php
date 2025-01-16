@@ -48,6 +48,7 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
     Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
     Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
+    Route::get('/refresh-qr-code/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
 
     // Dashboard Client
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
