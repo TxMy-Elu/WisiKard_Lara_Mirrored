@@ -22,6 +22,12 @@
                 <form action="{{ route('validationFormulaireInscription') }}" method="post">
                     @csrf
                     <div class="mb-6">
+                        <label for="entreprise" class="block text-sm font-medium text-gray-700">Nom de l'entreprise</label>
+                        <input type="text" name="entreprise" id="entreprise"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
+                    </div>
+                    <div class="mb-6">
                         <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
                         <input type="email" name="email" id="email"
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
