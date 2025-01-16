@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Client PDF</title>
+    <title>Dashboard Client Employe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
@@ -47,21 +47,21 @@
         </div>
 
         <!-- Card pour le logo -->
-        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpg")) ||
-           File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpeg")) ||
-           File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.png")))
+        @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg")) ||
+           File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpeg")) ||
+           File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png")))
             <div class="mt-4">
                 <br><br>
                 <h2 class="text-xl font-bold mb-2">Logo</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-white p-8 rounded-lg shadow-md">
                         <div class="text-center mb-2">
-                            @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpg")))
-                                <img src="{{ asset("entreprises/{$carte->nomEntreprise}/logos/logo.jpg") }}" alt="Logo" class="w-24 h-24 mx-auto">
-                            @elseif(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.jpeg")))
-                                <img src="{{ asset("entreprises/{$carte->nomEntreprise}/logos/logo.jpeg") }}" alt="Logo" class="w-24 h-24 mx-auto">
-                            @elseif(File::exists(public_path("entreprises/{$carte->nomEntreprise}/logos/logo.png")))
-                                <img src="{{ asset("entreprises/{$carte->nomEntreprise}/logos/logo.png") }}" alt="Logo" class="w-24 h-24 mx-auto">
+                            @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg")))
+                                <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg") }}" alt="Logo" class="w-24 h-24 mx-auto">
+                            @elseif(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpeg")))
+                                <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpeg") }}" alt="Logo" class="w-24 h-24 mx-auto">
+                            @elseif(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png")))
+                                <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png") }}" alt="Logo" class="w-24 h-24 mx-auto">
                             @endif
                         </div>
                     </div>
@@ -70,17 +70,17 @@
         @endif
 
         <!-- Card pour les images -->
-        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/images")))
+        @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/images")))
             <div class="mt-4">
                 <br><br>
                 <h2 class="text-xl font-bold mb-2">Images téléchargées</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/images")) as $file)
+                    @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/images")) as $file)
                         <div class="bg-white p-4 rounded-lg shadow-md">
                             <div class="text-center mb-3">
                                 <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
                             </div>
-                            <img src="{{ asset("entreprises/{$carte->nomEntreprise}/images/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-24 h-24 mx-auto">
+                            <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/images/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-24 h-24 mx-auto">
                         </div>
                     @endforeach
                 </div>
@@ -88,18 +88,18 @@
         @endif
 
         <!-- Card pour les PDF -->
-        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/pdf")))
+        @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf")))
             <div class="mt-4">
                 <br><br>
                 <h2 class="text-xl font-bold mb-2">Fichiers PDF téléchargés</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/pdf")) as $file)
+                    @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf")) as $file)
                         <div class="bg-white p-4 rounded-lg shadow-md">
                             <div class="text-center mb-2">
                                 <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
                             </div>
                             <div class="h-64 overflow-auto border rounded-lg">
-                                <iframe src="{{ asset("entreprises/{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" width="100%" height="100%" style="border: none;"></iframe>
+                                <iframe src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" width="100%" height="100%" style="border: none;"></iframe>
                             </div>
                         </div>
                     @endforeach
@@ -128,15 +128,15 @@
         @endif
 
         <!-- Card pour le slider -->
-        @if(File::exists(public_path("entreprises/{$carte->nomEntreprise}/slider")))
+        @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")))
             <div class="mt-4">
                 <br><br>
                 <h2 class="text-xl font-bold mb-2 slider-title">Slider</h2>
                 <div class="bg-white p-4 rounded-lg shadow-md">
                     <div class="flex space-x-4 overflow-x-auto">
-                        @foreach(File::files(public_path("entreprises/{$carte->nomEntreprise}/slider")) as $file)
+                        @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $file)
                             <div class="w-24 h-24 bg-gray-100 rounded-lg shadow-md flex items-center justify-center">
-                                <img src="{{ asset("entreprises/{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-full h-full object-cover">
+                                <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-full h-full object-cover">
                             </div>
                         @endforeach
                     </div>

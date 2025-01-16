@@ -43,6 +43,11 @@ class DashboardClient extends Controller
         // Récupérer les informations de la carte
         $carte = Carte::find($idCarte);
 
+        // Générer les QR codes pour chaque employé
+        $employes->each(function ($employe) {
+            $employe->qrCode = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idEmp=" . $employe->idEmp;
+        });
+
         // Récupérer le message
         $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
@@ -71,6 +76,11 @@ class DashboardClient extends Controller
             })
             ->select('employer.*')
             ->get();
+
+        // Générer les QR codes pour chaque employé
+        $employes->each(function ($employe) {
+            $employe->qrCode = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idEmp=" . $employe->idEmp;
+        });
 
         // Vérif si des résultats sont trouvés
         if ($employes->isEmpty() && !empty($search)) {
@@ -325,14 +335,18 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
         // Lire les URLs YouTube enregistrées
-        $videosPath = public_path("entreprises/{$carte->nomEntreprise}/videos/videos.json");
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
         $youtubeUrls = [];
         if (File::exists($videosPath)) {
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
-        return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls'));
+        return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte'));
     }
 
     public function uploadFile(Request $request)
@@ -350,21 +364,23 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
+        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-        if ($request->hasFile('file')) {
+        if ($request->hasFile('file')) { //IMG
             $file = $request->file('file');
             $fileType = $file->getClientOriginalExtension();
             $filePath = '';
 
             switch ($fileType) {
                 case 'pdf':
-                    $filePath = public_path("entreprises/{$entrepriseName}/pdf");
+                    $filePath = public_path("entreprises/{$folderName}/pdf");
                     break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
-                    $filePath = public_path("entreprises/{$entrepriseName}/images");
+                    $filePath = public_path("entreprises/{$folderName}/images");
                     break;
                 default:
                     return redirect()->back()->with('error', 'Type de fichier non supporté.');
@@ -380,10 +396,10 @@ class DashboardClient extends Controller
             return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
         }
 
-        if ($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) { //Logos
             $logo = $request->file('logo');
             $logoType = $logo->getClientOriginalExtension();
-            $logoPath = public_path("entreprises/{$entrepriseName}/logos");
+            $logoPath = public_path("entreprises/{$folderName}/logos");
 
             if (!File::exists($logoPath)) {
                 File::makeDirectory($logoPath, 0755, true);
@@ -395,9 +411,9 @@ class DashboardClient extends Controller
             return redirect()->back()->with('success', 'Logo téléchargé avec succès.');
         }
 
-        if ($request->filled('youtube_url')) {
+        if ($request->filled('youtube_url')) { //pour youtube
             $youtubeUrl = $request->input('youtube_url');
-            $videosPath = public_path("entreprises/{$entrepriseName}/videos");
+            $videosPath = public_path("entreprises/{$folderName}/videos");
 
             if (!File::exists($videosPath)) {
                 File::makeDirectory($videosPath, 0755, true);
