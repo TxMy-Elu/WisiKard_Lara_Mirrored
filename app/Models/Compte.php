@@ -87,7 +87,15 @@ class Compte extends Model
 
     public function QrCode($id, $entreprise)
     {
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
+
+        $color1 = Carte::where('idCompte', $id)->first()->couleur1;
+        $color2 = Carte::where('idCompte', $id)->first()->couleur2;
+
+        //enleve le # pour le code couleur
+        $color1 = substr($color1, 1);
+        $color2 = substr($color2, 1);
+
+        $url = "https://quickchart.io/qr?size=300&dark=".$color1."&light=".$color2."&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
 
         $ch = curl_init();
 

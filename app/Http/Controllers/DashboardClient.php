@@ -43,6 +43,7 @@ class DashboardClient extends Controller
              // Récupérer les informations de la carte
              $carte = Carte::find($idCarte);
 
+
              // Récupérer le message
              $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
              $messageContent = $message ? $message->message : 'Aucun message disponible';
@@ -55,6 +56,30 @@ class DashboardClient extends Controller
                  'messageContent' => $messageContent
              ]);
          }
+
+        // recupere la couleur1 et la couleur2 de la carte
+        $couleur1 = $carte->couleur1;
+        $couleur2 = $carte->couleur2;
+
+        // Générer les QR codes pour chaque employé
+        $employes->each(function ($employe) {
+            $employe->qrCode = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idEmp=" . $employe->idEmp;
+        });
+
+        // Récupérer le message
+        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+        $messageContent = $message ? $message->message : 'Aucun message disponible';
+
+        return view('client.dashboardClient', [
+            'compte' => $compte,
+            'cartes' => $cartes,
+            'employes' => $employes,
+            'carte' => $carte, // Passez les informations de la carte à la vue
+            'messageContent' => $messageContent,
+            'couleur1' => $couleur1,
+            'couleur2' => $couleur2
+        ]);
+    }
 
          public function employer(Request $request)
          {
@@ -424,4 +449,27 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
     }
+
+
+    public function updateColor(Request $request)
+    {
+        $request->validate([
+            'couleur1' => 'required|string|max:7',
+            'couleur2' => 'required|string|max:7'
+        ]);
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $carte->couleur1 = $request->couleur1;
+        $carte->couleur2 = $request->couleur2;
+        $carte->save();
+
+        return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
+    }
+
 }

@@ -21,10 +21,23 @@
             </div>
         @endif
 
+        <!-- 1 form with picker color x2 -->
+        <form action="{{ route('dashboardClientColor') }}" method="POST" class="flex flex-col md:flex-row items-center">
+            @csrf
+            <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
+                <label for="color1" class="w-full md:w-1/2">Couleur 1 :</label>
+                <input type="color" name="couleur1" id="color1" class="w-full md:w-1/2" value="{{ $couleur1 }}">
+            </div>
+            <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
+                <label for="color2" class="w-full md:w-1/2">Couleur 2 :</label>
+                <input type="color" name="couleur2" id="color2" class="w-full md:w-1/2" value="{{ $couleur2 }}">
+            </div>
+            <button type="submit"
+                    class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
+                Enregistrer
+            </button>
+        </form>
 
-       <iframe src="{{ route('Templates.iframes.pomme') }}" width="100%" height="500px"></iframe>
-        <iframe src="{{ route('Templates.iframes.peche') }}" width="100%" height="500px"></iframe>
-        <iframe src="{{ route('Templates.iframes.fraise') }}" width="100%" height="500px"></iframe>
 
     </div>
 </div>
