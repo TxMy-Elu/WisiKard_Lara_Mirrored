@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -64,7 +63,7 @@ class Compte extends Model
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
-        $entreprise->lienQr = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idCompte=" . $nouvelUtilisateur->idCompte;
+
         $entreprise->save();
 
         return $nouvelUtilisateur->idCompte;
@@ -80,5 +79,37 @@ class Compte extends Model
         $employe->save();
 
         return $employe;
+    }
+
+
+    public function QrCode($id, $entreprise)
+    {
+
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idCompte=" . $id;
+
+        $ch = curl_init();
+
+        // Configurer les options cURL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        // Exécuter la requête cURL et obtenir le contenu
+        $content = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'Erreur cURL : ' . curl_error($ch);
+        } else {
+            // Fermer la session cURL
+            curl_close($ch);
+
+            // Chemin où enregistrer le fichier SVG
+            $filePath = public_path("entreprises/{$entreprise}/QR_Code");
+
+            // Enregistrer le contenu dans un fichier SVG
+            file_put_contents($filePath, $content);
+
+            echo 'QR code enregistré avec succès en tant que ' . $filePath;
+        }
     }
 }
