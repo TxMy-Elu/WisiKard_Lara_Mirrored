@@ -63,4 +63,40 @@ class Employe extends Controller
             }
         }
     }
+    public function QrCodeEmploye($id, $entreprise, $idEmp)
+    {
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idEmp=" . $idEmp;
+
+        $ch = curl_init();
+
+        // Configurer les options cURL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
+
+        // Exécuter la requête cURL et obtenir le contenu
+        $content = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            Log::error('Erreur cURL : ' . curl_error($ch));
+        } else {
+            // Fermer la session cURL
+            curl_close($ch);
+
+            // Chemin où enregistrer le fichier SVG
+            $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
+            $svgFilePath = "{$directoryPath}/QR_Code_{$idEmp}.svg";
+
+            // Créer le répertoire s'il n'existe pas
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0777, true);
+            }
+
+            // Enregistrer le contenu dans un fichier SVG
+            file_put_contents($svgFilePath, $content);
+
+            Log::info("QR Code généré et enregistré à : $svgFilePath");
+        }
+    }
 }

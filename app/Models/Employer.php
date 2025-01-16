@@ -23,4 +23,6 @@ class Employer extends Model
     {
         return $this->hasMany(Vue::class, 'idEmp');
     }
+
+
 }
