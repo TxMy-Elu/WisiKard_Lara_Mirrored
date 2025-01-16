@@ -67,9 +67,9 @@
                             </div>
                             <!-- QR Code (you can replace with an actual QR code image) -->
                             <div class="flex justify-center mb-4">
-                                <div class="w-28 h-28 bg-gray-200 flex items-center justify-center rounded">
+                                <div class="w-40 h-40 bg-gray-200 flex items-center justify-center rounded">
                                     <div class="bg-zinc-900 flex justify-center items-center">
-                                        <img src="{{ $entreprise->lienQr }}" alt="QR Code">
+                                        <img src="{{ $entreprise->lienQr }}" alt="QR Code" >
                                     </div>
                                 </div>
                             </div>
