@@ -46,7 +46,7 @@ class Compte extends Model
         $this->save();
     }
 
-    public static function inscription($email, $motDePasseHache, $role)
+    public static function inscription($email, $motDePasseHache, $role, $nomEntreprise)
     {
         $nouvelUtilisateur = new Compte();
         $nouvelUtilisateur->email = $email;
@@ -56,15 +56,19 @@ class Compte extends Model
 
         $entreprise = new Carte();
         $entreprise->idCompte = $nouvelUtilisateur->idCompte;
-        $entreprise->nomEntreprise = "nomEntreprise";
+        $entreprise->nomEntreprise = $nomEntreprise;
         $entreprise->titre = "titre";
         $entreprise->tel = "tel";
         $entreprise->ville = "ville";
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
-
+        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntreprise}/QR_Code.svg";
         $entreprise->save();
+
+        Compte::QrCode($nouvelUtilisateur->idCompte, $nomEntreprise);
+
+
 
         return $nouvelUtilisateur->idCompte;
     }
@@ -81,11 +85,9 @@ class Compte extends Model
         return $employe;
     }
 
-
     public function QrCode($id, $entreprise)
     {
-
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idCompte=" . $id;
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
 
         $ch = curl_init();
 
@@ -93,6 +95,7 @@ class Compte extends Model
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
 
         // Exécuter la requête cURL et obtenir le contenu
         $content = curl_exec($ch);
@@ -103,13 +106,17 @@ class Compte extends Model
             // Fermer la session cURL
             curl_close($ch);
 
-            // Chemin où enregistrer le fichier SVG
-            $filePath = public_path("entreprises/{$entreprise}/QR_Code");
+            // Chemin où enregistrer le fichier PNG
+            $directoryPath = public_path("entreprises/{$id}_{$entreprise}");
+            $pngFilePath = "{$directoryPath}/QR_Code.svg";
 
-            // Enregistrer le contenu dans un fichier SVG
-            file_put_contents($filePath, $content);
+            // Créer le répertoire s'il n'existe pas
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0777, true);
+            }
 
-            echo 'QR code enregistré avec succès en tant que ' . $filePath;
+            // Enregistrer le contenu dans un fichier PNG
+            file_put_contents($pngFilePath, $content);
         }
     }
 }
