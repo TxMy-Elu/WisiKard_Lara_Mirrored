@@ -6,6 +6,23 @@
     <title>Dashboard Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <style>
+        .qr-code-container {
+            width: 100px; /* Taille fixe pour le conteneur du QR code */
+            height: 100px;
+            background-color: #f1f1f1; /* Couleur de fond pour le conteneur */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Couper le contenu qui dépasse */
+            border-radius: 8px; /* Coins arrondis */
+        }
+
+        .qr-code-container img {
+            max-width: 100%; /* Assure que l'image s'adapte au conteneur */
+            max-height: 100%;
+        }
+    </style>
 </head>
 <body class="align-items-center bg-gray-100 w-100 ">
 
@@ -62,20 +79,30 @@
                                 <div class="mb-4">
                                     <p class="text-lg text-gray-600">{{ $entreprise->compte->email }}</p>
                                 </div>
-                            </div>
-                            <!-- QR Code (you can replace with an actual QR code image) -->
-                            <div class="flex justify-center mb-4">
-                                <div class="w-28 h-28 bg-gray-200 flex items-center justify-center rounded">
-                                    <div class="bg-zinc-900 flex justify-center items-center">
-                                        <img src="{{ $entreprise->lienQr }}" alt="QR Code">
-                                    </div>
+                                <!-- Phone number -->
+                                <div>
+                                    <p class="text-sm text-gray-600">{{ $entreprise->formattedTel }}</p>
                                 </div>
                             </div>
+                            <div class="flex flex-col">
+                            <!-- QR Code (you can replace with an actual QR code image) -->
+                            <div class="justify-center mb-2">
+                                <div class="qr-code-container">
+                                    <img src="{{ $entreprise->lienQr }}" alt="QR Code" class="max-w-full max-h-full">
+                                </div>
+                            </div>
+                            <!-- Refresh button -->
+                            <div class="flex justify-end">
+                                <a href="{{ route('refreshQrCode', $entreprise->compte->idCompte) }}" class="ml-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M4 20l16-16" />
+                                    </svg>
+                                </a>
+                            </div>
+                            </div>
                         </div>
-                        <!-- Phone number -->
-                        <div>
-                            <p class="text-sm text-gray-600">{{ $entreprise->formattedTel }}</p>
-                        </div>
+
+
 
                         @if($entreprise->compte->role == 'starter')
                             <div class="pt-4">
@@ -107,9 +134,6 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 
 </body>

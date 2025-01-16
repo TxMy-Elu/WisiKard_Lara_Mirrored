@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compte;
 use App\Models\Vue;
 use Illuminate\Http\Request;
 use App\Models\Carte;
@@ -119,5 +120,18 @@ class DashboardAdmin extends Controller
     {
         $messages = Message::all();
         return view('admin.dashboardAdminMessage', compact('messages'));
+    }
+
+    public function refreshQrCode($id)
+    {
+        $compte = Compte::find($id);
+        $carte = Carte::where('idCompte', $compte->idCompte)->first();
+        $compte->QrCode($compte->idCompte, $carte->nomEntreprise);
+
+        //update lienQr
+        $carte->lienQr = "/entreprises/{$compte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code.svg";
+        $carte->save();
+
+        return redirect()->route('dashboardAdmin');
     }
 }

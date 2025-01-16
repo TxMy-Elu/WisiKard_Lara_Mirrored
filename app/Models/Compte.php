@@ -63,7 +63,7 @@ class Compte extends Model
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
-        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntreprise}/QR_Code.svg";
+        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntreprise}/QR_Codes/QR_Code.svg";
         $entreprise->save();
 
         Compte::QrCode($nouvelUtilisateur->idCompte, $nomEntreprise);
@@ -107,7 +107,7 @@ class Compte extends Model
             curl_close($ch);
 
             // Chemin où enregistrer le fichier PNG
-            $directoryPath = public_path("entreprises/{$id}_{$entreprise}");
+            $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
             $pngFilePath = "{$directoryPath}/QR_Code.svg";
 
             // Créer le répertoire s'il n'existe pas
