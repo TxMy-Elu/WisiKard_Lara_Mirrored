@@ -52,4 +52,5 @@ class Inscription extends Controller
         // If the form is not submitted, display the form with roles
         return view('formulaire.formulaireInscription', ['roles' => $roles]);
     }
+
 }
