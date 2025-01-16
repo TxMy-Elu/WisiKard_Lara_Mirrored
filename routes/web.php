@@ -32,12 +32,11 @@ Route::get('/deconnexion', [App\Http\Controllers\Connexion::class, 'deconnexion'
 Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
 
 //Route Iframe
-Route::get('/Templates/Iframe/pomme', [Templates::class, 'iframePomme'])->name('Templates.pomme');
-Route::get('/Templates/Iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.peche');
-Route::get('/Templates/Iframe/fraise', [Templates::class, 'iframeFraise'])->name('Templates.fraise');
 
-// Routes templates
-Route::get('/templates', [App\Http\Controllers\Templates::class, 'afficherTemplates'])->name('templates');
+Route::get('/Templates/iframe/pomme', [Templates::class, 'iframePomme'])->name('Templates.iframes.pomme');
+Route::get('/Templates/iframe/fraise', [Templates::class, 'iframeFraise'])->name('Templates.iframes.fraise');
+Route::get('/Templates/iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.iframes.peche');
+
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
 Route::middleware([App\Http\Middleware\Authentification::class])->group(function () {
