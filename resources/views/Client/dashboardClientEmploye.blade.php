@@ -84,7 +84,8 @@
                                 </div>
                             </div>
                             <div class="flex justify-center mb-4">
-                                <img src="{{ $employe->qrCode }}" alt="QR Code" class="w-32 h-32">
+                                <img src="{{ $employe->lienQr }}" alt="QR Code" class="w-32 h-32">
+                                <p>{{ $employe->lienQr }}</p> <!-- Affichez le chemin pour vérification -->
                             </div>
                         </div>
                         <div class="flex flex-row-reverse mt-auto pt-4">
