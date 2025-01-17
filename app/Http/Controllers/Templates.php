@@ -39,8 +39,7 @@ class Templates extends Controller
                 return view('Templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
             case 3:
                 return view('Templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
-            default:
-                return abort(404, 'Template not found');
+
          }
 
         // return var_dump($carte, $idTemplate, $idCompte);

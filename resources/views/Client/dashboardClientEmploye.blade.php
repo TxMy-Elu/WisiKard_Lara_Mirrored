@@ -6,6 +6,23 @@
     <title>Dashboard Client Employe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <style>
+        .qr-code-container {
+            width: 100px; /* Taille fixe pour le conteneur du QR code */
+            height: 100px;
+            background-color: #f1f1f1; /* Couleur de fond pour le conteneur */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Couper le contenu qui dépasse */
+            border-radius: 8px; /* Coins arrondis */
+        }
+
+        .qr-code-container img {
+            max-width: 100%; /* Assure que l'image s'adapte au conteneur */
+            max-height: 100%;
+        }
+    </style>
 </head>
 <body class="align-items-center bg-gray-100 w-100">
 
@@ -84,8 +101,9 @@
                                 </div>
                             </div>
                             <div class="flex justify-center mb-4">
-                                <img src="{{ $employe->lienQr }}" alt="QR Code" class="w-32 h-32">
-                                <p>{{ $employe->lienQr }}</p> <!-- Affichez le chemin pour vérification -->
+                                <div class="qr-code-container">
+                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}" alt="QR Code" class="max-w-full max-h-full">
+                                </div>
                             </div>
                         </div>
                         <div class="flex flex-row-reverse mt-auto pt-4">

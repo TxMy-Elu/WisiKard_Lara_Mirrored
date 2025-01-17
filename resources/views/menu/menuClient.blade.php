@@ -5,7 +5,7 @@
             <a class="text-xl font-bold mb-4" href="#"></a>
             <div class="w-full lg:flex lg:flex-col lg:items-center lg:w-auto flex-grow">
                 <ul class="flex flex-col items-center lg:ml-0 flex-grow">
-                    <li class="nav-item mb-4">
+                    <li class="nav-item mb-8">
                         <button class="mb-14 px-3 py-2 border rounded text-gray-700 border-gray-700 hidden"
                                 type="button" id="closeNavbarButton" onclick="toggleNavbar()">
                             <svg class="w-6 h-6" fill="none" stroke="#ffff" viewBox="0 0 24 24"
@@ -18,37 +18,37 @@
                              width="40" height="40">
                     </li>
                     <div class="mt-14">
-                        <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
-                                <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="30" height="30">
+                        <li class="nav-item mb-8">
+                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClient') }}" title="Accueil">
+                                <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="35" height="35">
                             </a>
                         </li>
-                        <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
-                                <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="30" height="30">
+                        <li class="nav-item mb-8">
+                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientStatistique') }}" title="Statistiques">
+                                <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
                             </a>
                         </li>
-                        <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientSocial') }}">
-                                <img src="{{ asset('icons/share-2.svg') }}" alt="social" width="20" height="20">
+                        <li class="nav-item mb-8">
+                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientSocial') }}" title="Réseaux Sociaux">
+                                <img src="{{ asset('icons/share-2.svg') }}" alt="social" width="35" height="35">
                             </a>
                         </li>
-                        <li class="nav-item mb-4">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye')}}">
-                                <img src="{{ asset('icons/user.svg') }}" alt="user" width="30" height="30">
+                        <li class="nav-item mb-8">
+                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientEmploye')}}" title="Employés">
+                                <img src="{{ asset('icons/user.svg') }}" alt="user" width="35" height="35">
                             </a>
                         </li>
-                         <li class="nav-item mb-4">
-                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientPDF') }}">
-                                 <img src="{{ asset('icons/image.svg') }}" alt="image" width="30" height="30">
-                             </a>
-                          </li>
+                        <li class="nav-item mb-8">
+                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientPDF') }}" title="Contenue">
+                                <img src="{{ asset('icons/image.svg') }}" alt="image" width="35" height="35">
+                            </a>
+                        </li>
                     </div>
                 </ul>
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
-                    <li class="nav-item mb-4">
-                        <a class="nav-link p-2 hover:text-red-500" href="{{ route('deconnexion') }}">
-                            <img src="{{ asset('icons/log-out.svg') }}" alt="deconnexion" width="30" height="30">
+                    <li class="nav-item mb-8">
+                        <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('deconnexion') }}" title="Déconnexion">
+                            <img src="{{ asset('icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
                         </a>
                     </li>
                 </ul>

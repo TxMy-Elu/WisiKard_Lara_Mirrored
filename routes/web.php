@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Connexion;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardClient;
@@ -13,9 +12,7 @@ use App\Http\Middleware\Authentification;
 
 use Illuminate\Support\Facades\Route;
 
-
 // Routes publiques (accessibles sans authentification)
-
 Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->name('accueil');
 Route::get('/connexion', [Connexion::class, 'afficherFormulaireConnexion'])->name('connexion');
 Route::post('/connexion', [Connexion::class, 'validationFormulaire'])->name('validationFormulaireConnexion');
@@ -32,11 +29,9 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
 
 //Route Iframe
-
 Route::get('/Templates/iframe/pomme', [Templates::class, 'iframePomme'])->name('Templates.iframes.pomme');
 Route::get('/Templates/iframe/fraise', [Templates::class, 'iframeFraise'])->name('Templates.iframes.fraise');
 Route::get('/Templates/iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.iframes.peche');
-
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
 Route::middleware([App\Http\Middleware\Authentification::class])->group(function () {
@@ -57,8 +52,17 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::get('/dashboardClientEmploye', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');
     Route::get('/dashboardClientSocial', [DashboardClient::class, 'social'])->name('dashboardClientSocial');
     Route::post('/updateSocialLink', [DashboardClient::class, 'updateSocialLink'])->name('client.updateSocialLink');
-    Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
     Route::post('/dashboardClientPDF/upload', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.upload');
+
+    //PDF
+    Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
+    Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
+    Route::delete('/dashboardClientPDF/deleteLogo', [DashboardClient::class, 'deleteLogo'])->name('dashboardClientPDF.deleteLogo');
+    Route::delete('/dashboardClientPDF/deleteVideo/{index}', [DashboardClient::class, 'deleteVideo'])->name('dashboardClientPDF.deleteVideo');
+    Route::post('/dashboardClientPDF/uploadSlider', [DashboardClient::class, 'uploadSlider'])->name('dashboardClientPDF.uploadSlider');
+    Route::get('/dashboardClientPDF/afficherSlider', [DashboardClient::class, 'afficherSlider'])->name('dashboardClientPDF.afficherSlider');
+    Route::delete('/dashboardClientPDF/deleteSliderImage/{filename}', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
+    Route::post('/dashboardClientInfo', [DashboardClient::class, 'updateInfo'])->name('dashboardClientInfo');
 
     //color
     Route::post('/dashboardClientColor', [DashboardClient::class, 'updateColor'])->name('dashboardClientColor');
@@ -67,12 +71,11 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::get('/downloadQrCodes', [DashboardClient::class, 'downloadQrCodes'])->name('downloadQrCodes');
     Route::get('/downloadQrCodesColor', [DashboardClient::class, 'downloadQrCodesColor'])->name('downloadQrCodesColor');
 
-
     // Entreprise
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
 
     // Employe
-    Route::get('/inscriptionEmp', [Employe::class, 'afficherFormulaireInscEmpl'])->name('afficherFormulaireInscEmpl');
+    Route::get('/inscriptionEmp/{id}', [Employe::class, 'afficherFormulaireInscEmpl'])->name('afficherFormulaireInscEmpl');
     Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::post('/employe', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');

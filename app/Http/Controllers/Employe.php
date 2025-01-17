@@ -10,16 +10,13 @@ use Illuminate\Http\Request;
 
 class Employe extends Controller
 {
-    public function afficherFormulaireInscEmpl(Request $request)
-    {
-        // Récupérer l'ID de l'utilisateur connecté
-        $idCompte = session('connexion');
+      public function afficherFormulaireInscEmpl($id)
+      {
+          // Assuming you have a method to get the employee data
+          $employe = Employer::findOrFail($id); // Use the passed $id
 
-        // Récupérer l'idCarte associé au compte connecté
-        $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
-
-        return view('formulaire.formulaireEmploye', ["idCarte" => $idCarte]);
-    }
+          return view('formulaire.formulaireEmploye', compact('employe'));
+      }
 
     public function boutonInscriptionEmploye(Request $request)
     {
@@ -30,73 +27,18 @@ class Employe extends Controller
             if ($validationFormulaire === false) {
                 return view('formulaire.formulaireEmploye', ["messagesErreur" => $messagesErreur]);
             } else {
-                // Créez un nouvel employé
-                $employe = new Employer();
-                $employe->nom = $request->input('nom');
-                $employe->prenom = $request->input('prenom');
-                $employe->fonction = $request->input('fonction');
-                $employe->mail = $request->input('email');
-                $employe->telephone = $request->input('telephone');
-                $employe->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntreprise}/QR_Codes/QR_Code_{$idEmp}.svg";
-
-                $session = session('connexion');
-                $employe->idCarte = Carte::where('idCompte', $session)->first()->idCarte;
-
-                $employe->save();
-                Employer::QrCode($nouvelUtilisateur->idCompte, $nomEntreprise, $idEmp);
-
-                // Récupérer l'ID de l'employé nouvellement créé
-                $idEmp = $employe->idEmp;
-
-                // Appeler la méthode QrCodeEmploye avec les bons paramètres
-                $employe->QrCodeEmploye($session, $employe->carte->nomEntreprise, $idEmp);
-
-                // Récupérer l'email du compte pour les logs
-                $compte = Compte::find($session);
-                if ($compte) {
-                    $emailUtilisateur = $compte->email;
-                    // Écrire dans les logs
-                    Logs::ecrireLog($emailUtilisateur, "Inscription Employe");
-                }
+                // Appel de la méthode inscriptionEmploye du modèle Employer
+                Employer::inscriptionEmploye(
+                    $request->input('nom'),
+                    $request->input('prenom'),
+                    $request->input('fonction'),
+                    $request->input('email'),
+                    $request->input('telephone'),
+                    Carte::where('idCompte', session('connexion'))->first()->idCarte
+                );
 
                 return redirect()->back()->with('success', 'Employé inscrit avec succès !');
             }
-        }
-    }
-    public function QrCodeEmploye($id, $entreprise, $idEmp)
-    {
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idEmp=" . $idEmp;
-
-        $ch = curl_init();
-
-        // Configurer les options cURL
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
-
-        // Exécuter la requête cURL et obtenir le contenu
-        $content = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            Log::error('Erreur cURL : ' . curl_error($ch));
-        } else {
-            // Fermer la session cURL
-            curl_close($ch);
-
-            // Chemin où enregistrer le fichier SVG
-            $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
-            $svgFilePath = "{$directoryPath}/QR_Code_{$idEmp}.svg";
-
-            // Créer le répertoire s'il n'existe pas
-            if (!file_exists($directoryPath)) {
-                mkdir($directoryPath, 0777, true);
-            }
-
-            // Enregistrer le contenu dans un fichier SVG
-            file_put_contents($svgFilePath, $content);
-
-            Log::info("QR Code généré et enregistré à : $svgFilePath");
         }
     }
 }
