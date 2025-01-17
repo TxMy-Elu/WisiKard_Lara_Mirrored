@@ -18,14 +18,21 @@
 
     <div class="flex-1 md:ml-24 p-6">
         <div class="w-full md:w-1/3 mx-auto p-6 bg-white rounded-lg border shadow-md mb-6 flex flex-col justify-between items-center">
-            <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
+            <form id="yearMonthWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
                   class="flex flex-col items-center w-full">
                 <div class="mb-4 w-full text-center">
                     <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez l'année</label>
-                    <select name="year" id="yearSelect" class="custom-select w-32 text-center mb-4"
-                            onchange="updateWeekToCurrent()">
+                    <select name="year" id="yearSelect" class="custom-select w-32 text-center mb-4">
                         @foreach($years as $year)
                             <option value="{{ $year }}" @if($year == $selectedYear) selected @endif>{{ $year }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4 w-full text-center">
+                    <label for="monthSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez le mois</label>
+                    <select name="month" id="monthSelect" class="custom-select w-32 text-center mb-4">
+                        @foreach($months as $month)
+                            <option value="{{ $month }}" @if($month == $selectedMonth) selected @endif>{{ date('F', mktime(0, 0, 0, $month, 1)) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -47,6 +54,12 @@
                         &gt;
                     </button>
                 </div>
+                <div class="mt-4">
+                    <button type="button" onclick="updateStatistics()"
+                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Mettre à jour les statistiques
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -58,7 +71,18 @@
                     <p class="text-center text-xl">Global</p>
                 </div>
                 <div class="flex flex-grow justify-center items-center">
-                    <h1 class="text-7xl font-bold text-red-900">{{ $totalViewsCard }}</h1>
+                    <h1 class="text-7xl font-bold text-red-900" id="totalViewsCard">{{ $totalViewsCard }}</h1>
+                </div>
+            </div>
+
+            <!-- Compteur de nombre de vues total mois -->
+            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col">
+                <div class="mb-4">
+                    <p class="text-center font-bold text-2xl">Nombre de vues</p>
+                    <p class="text-center text-xl">Mois</p>
+                </div>
+                <div class="flex flex-grow justify-center items-center">
+                    <h1 class="text-7xl font-bold text-red-900" id="monthlyViewsCount">{{ $monthlyViews[$selectedMonth] ?? 0 }}</h1>
                 </div>
             </div>
 
@@ -69,13 +93,7 @@
                     <p class="text-center text-xl">Semaine</p>
                 </div>
                 <div class="flex flex-grow justify-center items-center">
-                    @if($selectedWeek)
-                        <h1 class="text-7xl font-bold text-red-900">{{ $weeklyViews[$selectedWeek] ?? 0 }}</h1>
-                    @else
-                        @foreach($weeklyViews as $week => $count)
-                            <p>Semaine {{ $week }} : {{ $count }} vues</p>
-                        @endforeach
-                    @endif
+                    <h1 class="text-7xl font-bold text-red-900" id="weeklyViewsCount">{{ $weeklyViews[$selectedWeek] ?? 0 }}</h1>
                 </div>
             </div>
 
@@ -84,7 +102,7 @@
                 <!-- titre du graph-->
                 <div class="mb-4">
                     <p class="text-center font-bold text-2xl">Nombres de vues</p>
-                    <p class="text-center text-xl">Par employes</p>
+                    <p class="text-center text-xl">Par employés</p>
                 </div>
 
                 @if(empty($employerData['datasets'][0]['data']))
@@ -131,7 +149,7 @@
         if (newWeek >= 0 && newWeek < 52) {
             weekInput.value = newWeek + 1;
             weekDisplay.innerText = newWeek + 1;
-            document.getElementById('yearWeekForm').submit();
+            updateStatistics();
         }
     }
 
@@ -142,8 +160,51 @@
 
         weekInput.value = currentWeek + 1;
         weekDisplay.innerText = currentWeek + 1;
-        document.getElementById('yearWeekForm').submit();
+        updateStatistics();
     }
+
+    function updateMonthToCurrent() {
+        let monthSelect = document.getElementById('monthSelect');
+        let currentMonth = new Date().getMonth() + 1; // Les mois JavaScript sont indexés à partir de 0
+
+        monthSelect.value = currentMonth;
+        updateStatistics();
+    }
+
+    function updateStatistics() {
+        let year = document.getElementById('yearSelect').value;
+        let month = document.getElementById('monthSelect').value;
+        let week = document.getElementById('weekInput').value;
+
+        fetch(`{{ route('dashboardClientStatistique') }}?year=${year}&month=${month}&week=${week}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('totalViewsCard').innerText = data.totalViewsCard;
+                document.getElementById('monthlyViewsCount').innerText = data.monthlyViews[data.selectedMonth] ?? 0;
+                document.getElementById('weeklyViewsCount').innerText = data.weeklyViews[data.selectedWeek] ?? 0;
+
+                // Update the employer chart
+                const employerData = data.employerData;
+                const ctxYear = document.getElementById('yearChart').getContext('2d');
+                let employe = new Chart(ctxYear, {
+                    type: 'pie',
+                    data: employerData,
+                    options: {
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            });
+    }
+
+    document.getElementById('monthSelect').addEventListener('change', updateStatistics);
+    document.getElementById('yearSelect').addEventListener('change', updateStatistics);
 
     // Function to get the current week number
     Date.prototype.getWeek = function () {

@@ -203,95 +203,119 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
+public function statistique(Request $request)
+{
+    $session = session('connexion');
 
-    public function statistique(Request $request)
-    {
-        $session = session('connexion');
+    // Récupérer l'année, la semaine et le mois à partir de la requête
+    $year = $request->query('year', date('Y'));
+    $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
+    $selectedMonth = $request->input('month', date('n')); // Utiliser le mois actuel par défaut
 
-        // Récupérer l'année et la semaine à partir de la requête
-        $year = $request->query('year', date('Y'));
-        $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
+    // Récupérer l'idCarte associé au compte connecté
+    $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
 
-        // Récupérer l'idCarte associé au compte connecté
-        $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
+    // Données annuelles
+    $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+        ->whereYear('date', $year)
+        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+        ->where('carte.idCompte', $session)
+        ->groupBy('month')
+        ->pluck('count', 'month')
+        ->toArray();
 
-        // Données annuelles
-        $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
-            ->whereYear('date', $year)
-            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $session)
-            ->groupBy('month')
-            ->pluck('count', 'month')
-            ->toArray();
-
-        $yearlyData = [
-            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            'datasets' => [
-                [
-                    'label' => 'Nombre de vues par mois',
-                    'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
-                    'borderColor' => 'rgba(153, 27, 27, 1)',
-                    'borderWidth' => 1,
-                    'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
-                ],
+    $yearlyData = [
+        'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        'datasets' => [
+            [
+                'label' => 'Nombre de vues par mois',
+                'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
+                'borderColor' => 'rgba(153, 27, 27, 1)',
+                'borderWidth' => 1,
+                'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
             ],
-        ];
+        ],
+    ];
 
-        // Données annuelles par employé
-        $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
-            ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
-            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-            ->whereYear('date', $year)
-            ->where('carte.idCarte', $idCarte)
-            ->groupBy('nom')
-            ->pluck('count', 'nom')
-            ->toArray();
+    // Données annuelles par employé
+    $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
+        ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
+        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+        ->whereYear('date', $year)
+        ->where('carte.idCarte', $idCarte)
+        ->groupBy('nom')
+        ->pluck('count', 'nom')
+        ->toArray();
 
-        // Génération de couleurs aléatoires pour les graphiques
-        $colors = [];
-        foreach ($employerViews as $key => $value) {
-            do {
-                $r = mt_rand(0, 255);
-                $g = mt_rand(0, 255);
-                $b = mt_rand(0, 255);
-            } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
-            $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
-        }
-
-        $employerData = [
-            'labels' => array_keys($employerViews),
-            'datasets' => [
-                [
-                    'label' => 'Nombre de vues par employé',
-                    'backgroundColor' => $colors,
-                    'borderColor' => 'rgba(0, 0, 0, 0.1)',
-                    'borderWidth' => 1,
-                    'data' => array_values($employerViews),
-                ],
-            ],
-        ];
-
-        // Nombre total de vues en fonction de l'année et de l'idCarte
-        $totalViewsCard = Vue::whereYear('date', $year)
-            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $session)
-            ->count();
-
-        // Nombre de vues par semaine
-        $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
-            ->whereYear('date', $year)
-            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $session)
-            ->groupBy('week');
-
-        $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
-
-        // Années disponibles pour la sélection
-        $years = range(date('Y'), date('Y') - 10);
-        $selectedYear = $year;
-
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'employerData'));
+    // Génération de couleurs aléatoires pour les graphiques
+    $colors = [];
+    foreach ($employerViews as $key => $value) {
+        do {
+            $r = mt_rand(0, 255);
+            $g = mt_rand(0, 255);
+            $b = mt_rand(0, 255);
+        } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
+        $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
     }
+
+    $employerData = [
+        'labels' => array_keys($employerViews),
+        'datasets' => [
+            [
+                'label' => 'Nombre de vues par employé',
+                'backgroundColor' => $colors,
+                'borderColor' => 'rgba(0, 0, 0, 0.1)',
+                'borderWidth' => 1,
+                'data' => array_values($employerViews),
+            ],
+        ],
+    ];
+
+    // Nombre total de vues en fonction de l'année et de l'idCarte
+    $totalViewsCard = Vue::whereYear('date', $year)
+        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+        ->where('carte.idCompte', $session)
+        ->count();
+
+    // Nombre de vues par semaine
+    $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
+        ->whereYear('date', $year)
+        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+        ->where('carte.idCompte', $session)
+        ->groupBy('week');
+
+    $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
+
+    // Nombre de vues par mois
+    $monthlyViewsQuery = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+        ->whereYear('date', $year)
+        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+        ->where('carte.idCompte', $session)
+        ->groupBy('month');
+
+    $monthlyViews = $monthlyViewsQuery->pluck('count', 'month')->toArray();
+
+    // Années disponibles pour la sélection
+    $years = range(date('Y'), date('Y') - 10);
+    $selectedYear = $year;
+
+    // Mois disponibles pour la sélection
+    $months = range(1, 12);
+    $selectedMonth = $selectedMonth;
+
+    if ($request->ajax()) {
+        return response()->json([
+            'totalViewsCard' => $totalViewsCard,
+            'monthlyViews' => $monthlyViews,
+            'weeklyViews' => $weeklyViews,
+            'selectedMonth' => $selectedMonth,
+            'selectedWeek' => $selectedWeek,
+            'employerData' => $employerData,
+        ]);
+    }
+
+    return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'monthlyViews', 'selectedMonth', 'months', 'employerData'));
+}
 
     public function afficherFormulaireModifEmpl($id)
     {
@@ -373,44 +397,65 @@ class DashboardClient extends Controller
         if ($request->hasFile('file')) { //IMG
             $file = $request->file('file');
             $fileType = $file->getClientOriginalExtension();
-            $filePath = '';
+            $mimeType = $file->getMimeType();
 
-            switch ($fileType) {
-                case 'pdf':
-                    $filePath = public_path("entreprises/{$folderName}/pdf");
-                    break;
-                case 'jpg':
-                case 'jpeg':
-                case 'png':
-                    $filePath = public_path("entreprises/{$folderName}/images");
-                    break;
-                default:
-                    return redirect()->back()->with('error', 'Type de fichier non supporté.');
+            // Vérifier le type MIME et l'extension
+            if (($fileType === 'pdf' && $mimeType === 'application/pdf') ||
+                ($fileType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($fileType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($fileType === 'png' && $mimeType === 'image/png')) {
+
+                $filePath = '';
+
+                switch ($fileType) {
+                    case 'pdf':
+                        $filePath = public_path("entreprises/{$folderName}/pdf");
+                        break;
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                        $filePath = public_path("entreprises/{$folderName}/images");
+                        break;
+                    default:
+                        return redirect()->back()->with('error', 'Type de fichier non supporté.');
+                }
+
+                if (!File::exists($filePath)) {
+                    File::makeDirectory($filePath, 0755, true);
+                }
+
+                $fileName = time() . '.' . $fileType;
+                $file->move($filePath, $fileName);
+
+                return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
-
-            if (!File::exists($filePath)) {
-                File::makeDirectory($filePath, 0755, true);
-            }
-
-            $fileName = time() . '.' . $fileType;
-            $file->move($filePath, $fileName);
-
-            return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
         }
 
         if ($request->hasFile('logo')) { //Logos
             $logo = $request->file('logo');
             $logoType = $logo->getClientOriginalExtension();
-            $logoPath = public_path("entreprises/{$folderName}/logos");
+            $mimeType = $logo->getMimeType();
 
-            if (!File::exists($logoPath)) {
-                File::makeDirectory($logoPath, 0755, true);
+            // Vérifier le type MIME et l'extension
+            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'png' && $mimeType === 'image/png')) {
+
+                $logoPath = public_path("entreprises/{$folderName}/logos");
+
+                if (!File::exists($logoPath)) {
+                    File::makeDirectory($logoPath, 0755, true);
+                }
+
+                $logoFileName = 'logo.' . $logoType;
+                $logo->move($logoPath, $logoFileName);
+
+                return redirect()->back()->with('success', 'Logo téléchargé avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
-
-            $logoFileName = 'logo.' . $logoType;
-            $logo->move($logoPath, $logoFileName);
-
-            return redirect()->back()->with('success', 'Logo téléchargé avec succès.');
         }
 
         if ($request->filled('youtube_url')) { //pour youtube
