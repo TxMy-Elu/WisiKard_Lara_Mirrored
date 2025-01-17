@@ -40,14 +40,17 @@ class DashboardClient extends Controller
         $couleur1 = $carte->couleur1;
         $couleur2 = $carte->couleur2;
 
-        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2'));
+        //titre / description
+        $titre = $carte->titre;
+        $description = $carte->descirptif;
+
+        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description'));
     }
 
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
     }
-
 
 
     public function employer(Request $request)
@@ -185,119 +188,120 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
-public function statistique(Request $request)
-{
-    $session = session('connexion');
 
-    // Récupérer l'année, la semaine et le mois à partir de la requête
-    $year = $request->query('year', date('Y'));
-    $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
-    $selectedMonth = $request->input('month', date('n')); // Utiliser le mois actuel par défaut
+    public function statistique(Request $request)
+    {
+        $session = session('connexion');
 
-    // Récupérer l'idCarte associé au compte connecté
-    $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
+        // Récupérer l'année, la semaine et le mois à partir de la requête
+        $year = $request->query('year', date('Y'));
+        $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
+        $selectedMonth = $request->input('month', date('n')); // Utiliser le mois actuel par défaut
 
-    // Données annuelles
-    $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
-        ->whereYear('date', $year)
-        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-        ->where('carte.idCompte', $session)
-        ->groupBy('month')
-        ->pluck('count', 'month')
-        ->toArray();
+        // Récupérer l'idCarte associé au compte connecté
+        $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
 
-    $yearlyData = [
-        'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-        'datasets' => [
-            [
-                'label' => 'Nombre de vues par mois',
-                'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
-                'borderColor' => 'rgba(153, 27, 27, 1)',
-                'borderWidth' => 1,
-                'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
+        // Données annuelles
+        $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
+
+        $yearlyData = [
+            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par mois',
+                    'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
+                    'borderColor' => 'rgba(153, 27, 27, 1)',
+                    'borderWidth' => 1,
+                    'data' => array_values(array_replace(array_fill(1, 12, 0), $yearlyViews)),
+                ],
             ],
-        ],
-    ];
+        ];
 
-    // Données annuelles par employé
-    $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
-        ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
-        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-        ->whereYear('date', $year)
-        ->where('carte.idCarte', $idCarte)
-        ->groupBy('nom')
-        ->pluck('count', 'nom')
-        ->toArray();
+        // Données annuelles par employé
+        $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
+            ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->whereYear('date', $year)
+            ->where('carte.idCarte', $idCarte)
+            ->groupBy('nom')
+            ->pluck('count', 'nom')
+            ->toArray();
 
-    // Génération de couleurs aléatoires pour les graphiques
-    $colors = [];
-    foreach ($employerViews as $key => $value) {
-        do {
-            $r = mt_rand(0, 255);
-            $g = mt_rand(0, 255);
-            $b = mt_rand(0, 255);
-        } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
-        $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
-    }
+        // Génération de couleurs aléatoires pour les graphiques
+        $colors = [];
+        foreach ($employerViews as $key => $value) {
+            do {
+                $r = mt_rand(0, 255);
+                $g = mt_rand(0, 255);
+                $b = mt_rand(0, 255);
+            } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
+            $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
+        }
 
-    $employerData = [
-        'labels' => array_keys($employerViews),
-        'datasets' => [
-            [
-                'label' => 'Nombre de vues par employé',
-                'backgroundColor' => $colors,
-                'borderColor' => 'rgba(0, 0, 0, 0.1)',
-                'borderWidth' => 1,
-                'data' => array_values($employerViews),
+        $employerData = [
+            'labels' => array_keys($employerViews),
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par employé',
+                    'backgroundColor' => $colors,
+                    'borderColor' => 'rgba(0, 0, 0, 0.1)',
+                    'borderWidth' => 1,
+                    'data' => array_values($employerViews),
+                ],
             ],
-        ],
-    ];
+        ];
 
-    // Nombre total de vues en fonction de l'année et de l'idCarte
-    $totalViewsCard = Vue::whereYear('date', $year)
-        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-        ->where('carte.idCompte', $session)
-        ->count();
+        // Nombre total de vues en fonction de l'année et de l'idCarte
+        $totalViewsCard = Vue::whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->count();
 
-    // Nombre de vues par semaine
-    $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
-        ->whereYear('date', $year)
-        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-        ->where('carte.idCompte', $session)
-        ->groupBy('week');
+        // Nombre de vues par semaine
+        $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('week');
 
-    $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
+        $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
 
-    // Nombre de vues par mois
-    $monthlyViewsQuery = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
-        ->whereYear('date', $year)
-        ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-        ->where('carte.idCompte', $session)
-        ->groupBy('month');
+        // Nombre de vues par mois
+        $monthlyViewsQuery = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('month');
 
-    $monthlyViews = $monthlyViewsQuery->pluck('count', 'month')->toArray();
+        $monthlyViews = $monthlyViewsQuery->pluck('count', 'month')->toArray();
 
-    // Années disponibles pour la sélection
-    $years = range(date('Y'), date('Y') - 10);
-    $selectedYear = $year;
+        // Années disponibles pour la sélection
+        $years = range(date('Y'), date('Y') - 10);
+        $selectedYear = $year;
 
-    // Mois disponibles pour la sélection
-    $months = range(1, 12);
-    $selectedMonth = $selectedMonth;
+        // Mois disponibles pour la sélection
+        $months = range(1, 12);
+        $selectedMonth = $selectedMonth;
 
-    if ($request->ajax()) {
-        return response()->json([
-            'totalViewsCard' => $totalViewsCard,
-            'monthlyViews' => $monthlyViews,
-            'weeklyViews' => $weeklyViews,
-            'selectedMonth' => $selectedMonth,
-            'selectedWeek' => $selectedWeek,
-            'employerData' => $employerData,
-        ]);
+        if ($request->ajax()) {
+            return response()->json([
+                'totalViewsCard' => $totalViewsCard,
+                'monthlyViews' => $monthlyViews,
+                'weeklyViews' => $weeklyViews,
+                'selectedMonth' => $selectedMonth,
+                'selectedWeek' => $selectedWeek,
+                'employerData' => $employerData,
+            ]);
+        }
+
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'monthlyViews', 'selectedMonth', 'months', 'employerData'));
     }
-
-    return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'monthlyViews', 'selectedMonth', 'months', 'employerData'));
-}
 
     public function afficherFormulaireModifEmpl($id)
     {
@@ -522,6 +526,27 @@ public function statistique(Request $request)
             echo file_get_contents($url);
         }, 'QR_Code.svg');
 
+    }
+
+    public function updateInfo(Request $request)
+    {
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'descirptif' => 'required|string|max:255',
+        ]);
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $carte->titre = $request->titre;
+        $carte->descirptif = $request->descirptif;
+        $carte->save();
+
+        return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
 
 

@@ -73,6 +73,26 @@
                         <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                     </div>
                 </div>
+
+                <!-- title / description form -->
+                <div class="w-[1950px] bg-white rounded-lg shadow-lg p-4 mt-4">
+                    <form action="{{ route('dashboardClientInfo') }}" method="POST">
+                        @csrf
+                        <div class="flex flex-col">
+                            <label for="title" class="text-lg font-semibold">Titre</label>
+                            <input type="text" name="titre" id="title" class="w-full p-2 border border-gray-300 rounded-lg"
+                                   value="{{ $titre }}">
+                        </div>
+                        <div class="flex flex-col mt-4">
+                            <label for="descirptif" class="text-lg font-semibold">Description</label>
+                            <textarea name="descirptif" id="descirptif"
+                                      class="w-full p-2 border border-gray-300 rounded-lg">{{ $description }}</textarea>
+                        </div>
+                        <button type="submit"
+                                class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <!-- QR Code -->
@@ -139,10 +159,7 @@
                         </svg>
                     </a>
                 </div>
-
             </div>
-
-
         </div>
 
 
