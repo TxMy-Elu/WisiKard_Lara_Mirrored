@@ -459,4 +459,41 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
     }
 
+    public function downloadQrCodesColor()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        // Définir le nom de l'entreprise
+        $entrepriseName = $carte->nomEntreprise;
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $qrCodesPath = public_path("entreprises/{$folderName}/QR_Codes/QR_Code.svg");
+
+        if (!File::exists($qrCodesPath)) {
+            return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
+        }
+
+
+        return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
+    }
+
+    public function downloadQrCodes()
+    {
+        $idCompte = session('connexion');
+
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $idCompte;
+
+        return response()->streamDownload(function () use ($url) {
+            echo file_get_contents($url);
+        }, 'QR_Code.svg');
+
+    }
+
+
 }

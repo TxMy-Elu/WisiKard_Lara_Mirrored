@@ -63,6 +63,11 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     //color
     Route::post('/dashboardClientColor', [DashboardClient::class, 'updateColor'])->name('dashboardClientColor');
 
+    //QrCode download (downloadQrCodes / downloadQrCodesColor )
+    Route::get('/downloadQrCodes', [DashboardClient::class, 'downloadQrCodes'])->name('downloadQrCodes');
+    Route::get('/downloadQrCodesColor', [DashboardClient::class, 'downloadQrCodesColor'])->name('downloadQrCodesColor');
+
+
     // Entreprise
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
 

@@ -95,7 +95,7 @@ class Compte extends Model
         $color1 = substr($color1, 1);
         $color2 = substr($color2, 1);
 
-        $url = "https://quickchart.io/qr?size=300&dark=".$color1."&light=".$color2."&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
+        $url = "https://quickchart.io/qr?size=300&dark=".$color1."&light=".$color2."&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
 
         $ch = curl_init();
 
