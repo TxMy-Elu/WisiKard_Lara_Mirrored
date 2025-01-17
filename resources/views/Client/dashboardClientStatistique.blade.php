@@ -16,6 +16,10 @@
 <div class="flex flex-col">
     @include('menu.menuClient')
 
+
+
+
+    
     <div class="flex-1 md:ml-24 p-6">
         <div class="w-full md:w-1/3 mx-auto p-6 bg-white rounded-lg border shadow-md mb-6 flex flex-col justify-between items-center">
             <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
