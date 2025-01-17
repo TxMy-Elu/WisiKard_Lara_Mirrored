@@ -703,7 +703,6 @@ class DashboardClient extends Controller
              return redirect()->back()->with('error', 'Image de slider non trouvée.');
          }
      }
- }
 
     public function updateInfo(Request $request)
     {
@@ -725,5 +724,9 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
+
+ }
+
+
 
 
