@@ -175,8 +175,8 @@ CREATE TABLE IF NOT EXISTS `rediriger` (
 DROP TABLE IF EXISTS `social`;
 CREATE TABLE IF NOT EXISTS `social` (
                                         `idSocial` int NOT NULL AUTO_INCREMENT,
-                                        `nom` varchar(500) NOT NULL,
-    `lienLogo` varchar(500) NOT NULL,
+                                        `nom` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `lienLogo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
     PRIMARY KEY (`idSocial`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

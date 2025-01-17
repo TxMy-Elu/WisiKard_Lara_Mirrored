@@ -38,6 +38,18 @@
             </button>
         </form>
 
+        <!-- bouton pour telecharger les QR_Codes -->
+        <a href="{{ route('downloadQrCodes') }}"
+           class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
+            Télécharger les QR Codes (noir et blanc)
+        </a>
+
+        <!-- bouton pour telecharger les QR_Codes en couleur -->
+        <a href="{{ route('downloadQrCodesColor') }}"
+           class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
+            Télécharger les QR Codes (couleur)
+        </a>
+
 
     </div>
 </div>
