@@ -20,9 +20,9 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-5 grid-rows-8 gap-5">
+        <div class="parent">
             <!-- Carte (div1) -->
-            <div class="col-start-1 col-end-3 row-start-1 row-end-3 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
+            <div class="div1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                 <div class="flex justify-between">
                     <!-- Title and other information -->
                     <div class="flex flex-col">
@@ -72,7 +72,7 @@
             </div>
 
             <!-- QR Code (div2) -->
-            <div class="col-start-5 col-end-6 row-start-1 row-end-5 bg-white rounded-lg shadow-lg p-4 flex flex-col">
+            <div class="div2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
                 <div class="mb-4 flex flex-col items-center">
                     <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/QR_Codes/QR_Code.svg' }}"
@@ -138,7 +138,7 @@
             </div>
 
             <!-- Title / Description Form (div3) -->
-            <div class="col-start-1 col-end-5 row-start-3 row-end-5 bg-white rounded-lg shadow-lg p-4">
+            <div class="div3 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ route('dashboardClientInfo') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
@@ -158,7 +158,7 @@
             </div>
 
             <!-- sheck box template (div4) -->
-            <div class="col-start-1 col-end-6 row-start-5 row-end-7 bg-white rounded-lg shadow-lg p-4">
+            <div class="div4 bg-white rounded-lg shadow-lg p-4">
                 <form action="" method="POST">
                     @csrf
                     <div class="flex flex-col">
@@ -187,16 +187,9 @@
                     </div>
                 </form>
             </div>
-
-
-
         </div>
     </div>
-
-
-            </div>
-        </div>
-    </div>
+</div>
 
 </body>
 </html>
