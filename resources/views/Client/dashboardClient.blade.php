@@ -7,6 +7,8 @@
     <title>Dashboard Client</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/@tippyjs/core/dist/tippy.css">
+    <script src="https://unpkg.com/@tippyjs/core/dist/tippy.umd.js"></script>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
@@ -20,38 +22,8 @@
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
-        {{--
 
-                <form action="{{ route('dashboardClientColor') }}" method="POST" class="flex flex-col md:flex-row items-center">
-                    @csrf
-                    <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
-                        <label for="color1" class="w-full md:w-1/2">Couleur 1 :</label>
-                        <input type="color" name="couleur1" id="color1" class="w-full md:w-1/2" value="{{ $couleur1 }}">
-                    </div>
-                    <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
-                        <label for="color2" class="w-full md:w-1/2">Couleur 2 :</label>
-                        <input type="color" name="couleur2" id="color2" class="w-full md:w-1/2" value="{{ $couleur2 }}">
-                    </div>
-                    <button type="submit"
-                            class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
-                        Enregistrer
-                    </button>
-                </form>
-
-
-                <a href="{{ route('downloadQrCodes') }}"
-                   class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
-                    Télécharger les QR Codes (noir et blanc)
-                </a>
-
-
-                <a href="{{ route('downloadQrCodesColor') }}"
-                   class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
-                    Télécharger les QR Codes (couleur)
-                </a>
-                    --}}
-
-        <div class="flex flex-wrap -mx-4">
+        <div class="flex flex-wrap justify-between">
             <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4">
                 <div class="w-[600px] h-[350px] bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                     <div class="flex justify-between">
@@ -104,7 +76,7 @@
             </div>
 
             <!-- QR Code -->
-            <div class="flex flex-col w-[400px] bg-white rounded-lg shadow-lg mx-auto p-4">
+            <div class="flex flex-col w-[400px] bg-white rounded-lg shadow-lg p-4">
                 <!-- QR Code Image -->
                 <div class="mb-4 flex flex-col items-center">
                     <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/QR_Codes/QR_Code.svg' }}"
