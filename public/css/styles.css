@@ -10,6 +10,9 @@ body {
 .custom-width {
     width: 100%;
 }
+.custom-width-client {
+    width: 100%;
+}
 
 /* search-icon class for positioning the search icon */
 .search-icon {

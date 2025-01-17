@@ -18,52 +18,30 @@ class DashboardClient extends Controller
 {
     public function afficherDashboardClient(Request $request)
     {
-        // Récupérer l'ID de l'utilisateur connecté
+        // Récupérer l'id du compte connecté
         $idCompte = session('connexion');
 
-        // Récupérer les informations du compte
-        $compte = Compte::find($idCompte);
+        // Recueperer les informations de la carte
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-        // Vérifier le rôle de l'utilisateur
-        if ($compte->role === 'employe') {
-            return redirect()->route('dashboardClientEmploye');
-        }
-
-        // Récupérer les cartes associées au compte
-        $cartes = Carte::where('idCompte', $idCompte)->get();
-
-        // Récupérer les employés associés au compte avec la relation carte
-        $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $idCompte)
-            ->select('employer.*')
-            ->get();
-
-        // Récupérer l'idCarte associé au compte connecté
-        $idCarte = $cartes->first()->idCarte;
-
-        // Récupérer les informations de la carte
-        $carte = Carte::find($idCarte);
-
-    // recupere la couleur1 et la couleur2 de la carte
-        $couleur1 = $carte->couleur1;
-        $couleur2 = $carte->couleur2;
-
-        // Générer les QR codes pour chaque employé
-        $employes->each(function ($employe) {
-            $employe->qrCode = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idEmp=" . $employe->idEmp;
-        });
+        // Recueperer les informations du compte
+        $compte = Compte::where('idCompte', $idCompte)->first();
 
         // Récupérer le message
         $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-        return view('client.dashboardClient', ['compte' => $compte,
-            'cartes' => $cartes,
-            'employes' => $employes,
-            'carte' => $carte, // Passez les informations de la carte à la vue
-            'messageContent' => $messageContent,
-            'couleur1' => $couleur1,
-            'couleur2' => $couleur2]);
+        // Formater le numéro de téléphone
+        if ($carte) {
+            $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
+        }
+
+        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte'));
+    }
+
+    private function formatPhoneNumber($phoneNumber)
+    {
+        return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
     }
 
 

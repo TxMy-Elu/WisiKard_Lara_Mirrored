@@ -20,35 +20,93 @@
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
+        {{--
 
-        <!-- 1 form with picker color x2 -->
-        <form action="{{ route('dashboardClientColor') }}" method="POST" class="flex flex-col md:flex-row items-center">
-            @csrf
-            <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
-                <label for="color1" class="w-full md:w-1/2">Couleur 1 :</label>
-                <input type="color" name="couleur1" id="color1" class="w-full md:w-1/2" value="{{ $couleur1 }}">
+                <form action="{{ route('dashboardClientColor') }}" method="POST" class="flex flex-col md:flex-row items-center">
+                    @csrf
+                    <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
+                        <label for="color1" class="w-full md:w-1/2">Couleur 1 :</label>
+                        <input type="color" name="couleur1" id="color1" class="w-full md:w-1/2" value="{{ $couleur1 }}">
+                    </div>
+                    <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
+                        <label for="color2" class="w-full md:w-1/2">Couleur 2 :</label>
+                        <input type="color" name="couleur2" id="color2" class="w-full md:w-1/2" value="{{ $couleur2 }}">
+                    </div>
+                    <button type="submit"
+                            class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
+                        Enregistrer
+                    </button>
+                </form>
+
+
+                <a href="{{ route('downloadQrCodes') }}"
+                   class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
+                    Télécharger les QR Codes (noir et blanc)
+                </a>
+
+
+                <a href="{{ route('downloadQrCodesColor') }}"
+                   class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
+                    Télécharger les QR Codes (couleur)
+                </a>
+                    --}}
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+
+            <div class="custom-width-client bg-white rounded-lg shadow-lg p-4 flex justify-between">
+                <div class="flex justify-between">
+                    <!-- Title -->
+                    <div class="flex flex-col">
+                        <!-- Company and email -->
+                        <div class="flex flex-col">
+                            <div class="mb-4">
+                                <p class="text-xl font-semibold">{{ $carte->nomEntreprise }}</p>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-lg text-gray-600">{{ $carte->compte->email }}</p>
+                            </div>
+                            <!-- Phone number -->
+                            <div class="mb-4">
+                                <p class="text-sm text-gray-600">{{ $carte->formattedTel }}</p>
+                            </div>
+                            <!-- adresse-->
+                            <div>
+                                <p class="text-sm text-gray-600">{{ $carte->ville }}</p>
+                            </div>
+                            @if($carte->compte->role == 'starter')
+                                <div class="pt-4">
+                                    <div class="bg-blue-500 bg-opacity-65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                        <p class="text-slate-50 text-base">Starter</p>
+                                    </div>
+                                </div>
+                            @elseif($carte->compte->role == 'advanced')
+                                <div class="pt-4">
+                                    <div class="bg-violet-500 bg-opacity-65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                        <p class="text-slate-50 text-base">Advanced</p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Logo -->
+                    <div class="justify-center mb-2">
+                        <div class="w-28">
+                            <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.jpg' }}"
+                                 alt="Logo"
+                                 class="w-28">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-row-reverse mt-auto pt-4">
+                    <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                </div>
             </div>
-            <div class="flex flex-col md:flex-row items-center w-full md:w-1/2">
-                <label for="color2" class="w-full md:w-1/2">Couleur 2 :</label>
-                <input type="color" name="couleur2" id="color2" class="w-full md:w-1/2" value="{{ $couleur2 }}">
-            </div>
-            <button type="submit"
-                    class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
-                Enregistrer
-            </button>
-        </form>
 
-        <!-- bouton pour telecharger les QR_Codes -->
-        <a href="{{ route('downloadQrCodes') }}"
-           class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
-            Télécharger les QR Codes (noir et blanc)
-        </a>
-
-        <!-- bouton pour telecharger les QR_Codes en couleur -->
-        <a href="{{ route('downloadQrCodesColor') }}"
-           class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white mt-4 md:mt-0">
-            Télécharger les QR Codes (couleur)
-        </a>
+        </div>
 
 
     </div>
