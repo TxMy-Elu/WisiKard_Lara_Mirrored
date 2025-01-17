@@ -10,16 +10,13 @@ use Illuminate\Http\Request;
 
 class Employe extends Controller
 {
-    public function afficherFormulaireInscEmpl(Request $request)
-    {
-        // Récupérer l'ID de l'utilisateur connecté
-        $idCompte = session('connexion');
+      public function afficherFormulaireInscEmpl($id)
+      {
+          // Assuming you have a method to get the employee data
+          $employe = Employer::findOrFail($id); // Use the passed $id
 
-        // Récupérer l'idCarte associé au compte connecté
-        $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
-
-        return view('formulaire.formulaireEmploye', ["idCarte" => $idCarte]);
-    }
+          return view('formulaire.formulaireEmploye', compact('employe'));
+      }
 
     public function boutonInscriptionEmploye(Request $request)
     {
