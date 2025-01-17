@@ -156,9 +156,47 @@
                     </button>
                 </form>
             </div>
+
+            <!-- sheck box template (div4) -->
+            <div class="col-start-1 col-end-6 row-start-5 row-end-7 bg-white rounded-lg shadow-lg p-4">
+                <form action="" method="POST">
+                    @csrf
+                    <div class="flex flex-col">
+                        <label for="template" class="text-lg font-semibold">Template</label>
+                        <!-- radio button x3 (div4) -->
+                        <div class="flex justify-center items-center space-x-10 mt-4">
+                            <div class="flex flex-col items-center">
+                                <input type="radio" name="template" id="template1" value="1" class="mb-2">
+                                <label for="template1"></label>
+                                <!-- template gradient  -->
+                                <div class="w-80 h-96 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg"></div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <input type="radio" name="template" id="template2" value="2" class="mb-2">
+                                <label for="template2"></label>
+                                <!-- template gradient  -->
+                                <div class="w-80 h-96 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg"></div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <input type="radio" name="template" id="template3" value="3" class="mb-2">
+                                <label for="template3"></label>
+                                <!-- template gradient  -->
+                                <div class="w-80 h-96 bg-gradient-to-r from-purple-500 to-red-500 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
         </div>
     </div>
-</div>
+
+
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
