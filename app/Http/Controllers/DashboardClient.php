@@ -36,7 +36,11 @@ class DashboardClient extends Controller
             $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
         }
 
-        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte'));
+        // couleur
+        $couleur1 = $carte->couleur1;
+        $couleur2 = $carte->couleur2;
+
+        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -478,6 +482,8 @@ public function statistique(Request $request)
         $carte->couleur1 = $request->couleur1;
         $carte->couleur2 = $request->couleur2;
         $carte->save();
+
+        Compte::QrCode($idCompte, $carte->nomEntreprise);
 
         return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
     }

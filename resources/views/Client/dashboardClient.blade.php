@@ -51,62 +51,98 @@
                 </a>
                     --}}
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-
-
-            <div class="custom-width-client bg-white rounded-lg shadow-lg p-4 flex justify-between">
-                <div class="flex justify-between">
-                    <!-- Title -->
-                    <div class="flex flex-col">
-                        <!-- Company and email -->
-                        <div class="flex flex-col">
-                            <div class="mb-4">
-                                <p class="text-xl font-semibold">{{ $carte->nomEntreprise }}</p>
-                            </div>
-                            <div class="mb-4">
-                                <p class="text-lg text-gray-600">{{ $carte->compte->email }}</p>
-                            </div>
-                            <!-- Phone number -->
-                            <div class="mb-4">
-                                <p class="text-sm text-gray-600">{{ $carte->formattedTel }}</p>
-                            </div>
-                            <!-- adresse-->
-                            <div>
-                                <p class="text-sm text-gray-600">{{ $carte->ville }}</p>
-                            </div>
-                            @if($carte->compte->role == 'starter')
-                                <div class="pt-4">
-                                    <div class="bg-blue-500 bg-opacity-65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
-                                        <p class="text-slate-50 text-base">Starter</p>
-                                    </div>
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4">
+                    <div class="w-[600px] h-[350px] bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
+                        <div class="flex justify-between">
+                            <!-- Title and other information -->
+                            <div class="flex flex-col">
+                                <div class="mb-4">
+                                    <p class="text-xl font-semibold">{{ $carte->nomEntreprise }}</p>
                                 </div>
-                            @elseif($carte->compte->role == 'advanced')
-                                <div class="pt-4">
-                                    <div class="bg-violet-500 bg-opacity-65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
-                                        <p class="text-slate-50 text-base">Advanced</p>
-                                    </div>
+                                <div class="mb-4">
+                                    <p class="text-lg text-gray-600">{{ $carte->compte->email }}</p>
                                 </div>
-                            @endif
+                                <!-- Phone number -->
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-600">{{ $carte->formattedTel }}</p>
+                                </div>
+                                <!-- Address -->
+                                <div>
+                                    <p class="text-sm text-gray-600">{{ $carte->ville }}</p>
+                                </div>
+                                @if($carte->compte->role == 'starter')
+                                    <div class="pt-4">
+                                        <div class="bg-blue-500 bg-opacity-65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                            <p class="text-slate-50 text-base">Starter</p>
+                                        </div>
+                                    </div>
+                                @elseif($carte->compte->role == 'advanced')
+                                    <div class="pt-4">
+                                        <div class="bg-violet-500 bg-opacity-65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                            <p class="text-slate-50 text-base">Advanced</p>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Logo -->
+                            <div class="justify-center mb-2">
+                                <div class="w-28">
+                                    <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.jpg' }}"
+                                         alt="Logo"
+                                         class="w-28">
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Logo -->
-                    <div class="justify-center mb-2">
-                        <div class="w-28">
-                            <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.jpg' }}"
-                                 alt="Logo"
-                                 class="w-28">
+                        <!-- Buttons -->
+                        <div class="flex flex-row-reverse mt-auto pt-4">
+                            <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Buttons -->
-                <div class="flex flex-row-reverse mt-auto pt-4">
-                    <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                <!-- QR Code -->
+                <div class="flex flex-col w-[400px] bg-white rounded-lg shadow-lg mx-auto p-4">
+                    <!-- QR Code Image -->
+                    <div class="mb-4 flex flex-col items-center">
+                        <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/QR_Codes/QR_Code.svg' }}" alt="QR Code" class="w-full max-w-xs">
+                    </div>
+
+                    <!-- Form for Color Selection -->
+                    <form action="{{ route('dashboardClientColor') }}" method="POST" class="flex flex-col items-center w-full">
+                        @csrf
+                        <div class="flex">
+                        <div class="flex flex-col w-full mb-4">
+                            <label for="color1" class="w-full text-center mb-2">Pixel :</label>
+                            <input type="color" name="couleur1" id="color1" class="w-40 mx-auto" value="{{ $couleur1 }}">
+                        </div>
+                        <div class="flex flex-col w-full mb-4">
+                            <label for="color2" class="w-full text-center mb-2">Fond :</label>
+                            <input type="color" name="couleur2" id="color2" class="w-40 mx-auto" value="{{ $couleur2 }}">
+                        </div>
+                        </div>
+                        <button type="submit" class="w-full px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
+                            Enregistrer
+                        </button>
+                    </form>
+
+                    <!-- Download Buttons -->
+                    <div class="flex flex-col items-center w-full mt-4 space-y-4">
+                        <a href="{{ route('downloadQrCodes') }}" class="w-full px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
+                            Télécharger les QR Codes (noir et blanc)
+                        </a>
+                        <a href="{{ route('downloadQrCodesColor') }}" class="w-full px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
+                            Télécharger les QR Codes (couleur)
+                        </a>
+                    </div>
                 </div>
+
+
+
             </div>
 
-        </div>
 
 
     </div>
