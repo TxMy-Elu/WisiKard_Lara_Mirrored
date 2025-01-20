@@ -30,28 +30,30 @@
 
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24 content"><br/>
+
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                 role="alert">
+                <strong class="font-bold">Succès!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Erreur!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
+        @if(isset($error))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Erreur!</strong>
+                <span class="block sm:inline">{{ $error }}</span>
+            </div>
+        @endif
+
         <div class="min-h-screen p-4">
-            @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Succès!</strong>
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Erreur!</strong>
-                    <span class="block sm:inline">{{ session('error') }}</span>
-                </div>
-            @endif
-
-            @if(isset($error))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Erreur!</strong>
-                    <span class="block sm:inline">{{ $error }}</span>
-                </div>
-            @endif
-
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <form method="GET" action="{{ route('dashboardClientEmploye') }}"
                       class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
@@ -77,7 +79,8 @@
                         Ajouter un employe
                     </a>
                 </div>
-            </div><br/>
+            </div>
+            <br/>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($employes as $employe)
@@ -102,7 +105,21 @@
                             </div>
                             <div class="flex justify-center mb-4">
                                 <div class="qr-code-container">
-                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}" alt="QR Code" class="max-w-full max-h-full">
+                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
+                                         alt="QR Code" class="max-w-full max-h-full">
+                                </div>
+                                <div class="flex justify-end ">
+                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }} " class="ml-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-repeat mr-4">
+                                            <polyline points="17 1 21 5 17 9"></polyline>
+                                            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                            <polyline points="7 23 3 19 7 15"></polyline>
+                                            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +128,8 @@
                                   onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer</button>
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
+                                </button>
                             </form>
                             <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>

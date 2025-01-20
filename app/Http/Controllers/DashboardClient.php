@@ -725,6 +725,15 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
 
+    public function refreshQrCodeEmp($id,$idEmp)
+    {
+        $compte = Compte::find($id);
+        $carte = Carte::where('idCompte', $compte->idCompte)->first();
+        (new Employe)->QrCode($id, $carte->nomEntreprise, $idEmp);
+
+        return redirect()->route('dashboardClientEmploye')->with('success', 'QR Code rafraîchi avec succès.');
+    }
+
  }
 
 
