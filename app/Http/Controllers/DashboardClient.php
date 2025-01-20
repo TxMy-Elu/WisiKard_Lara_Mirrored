@@ -619,11 +619,12 @@ class DashboardClient extends Controller
         }
     }
 
-    public function uploadSlider(Request $request)
-    {
-        $request->validate([
-            'slider_image' => 'required|file|mimes:jpg,jpeg,png',
-        ]);
+     public function uploadSlider(Request $request)
+     {
+         $request->validate([
+             'slider_images' => 'required|array',
+             'slider_images.*' => 'file|mimes:jpg,jpeg,png',
+         ]);
 
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -636,34 +637,35 @@ class DashboardClient extends Controller
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
-        $sliderImage = $request->file('slider_image');
-        $sliderImageType = $sliderImage->getClientOriginalExtension();
-        $mimeType = $sliderImage->getMimeType();
+         $sliderPath = public_path("entreprises/{$folderName}/slider");
 
-        // Vérifier le type MIME et l'extension
-        if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
-            ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
-            ($sliderImageType === 'png' && $mimeType === 'image/png')) {
+         if (!File::exists($sliderPath)) {
+             File::makeDirectory($sliderPath, 0755, true);
+         }
 
-            $sliderPath = public_path("entreprises/{$folderName}/slider");
+         foreach ($request->file('slider_images') as $sliderImage) {
+             $sliderImageType = $sliderImage->getClientOriginalExtension();
+             $mimeType = $sliderImage->getMimeType();
 
-            if (!File::exists($sliderPath)) {
-                File::makeDirectory($sliderPath, 0755, true);
-            }
+             // Vérifier le type MIME et l'extension
+             if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
+                 ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                 ($sliderImageType === 'png' && $mimeType === 'image/png')) {
 
-            $sliderFileName = time() . '.' . $sliderImageType;
-            $sliderImage->move($sliderPath, $sliderFileName);
+                 $sliderFileName = time() . '_' . uniqid() . '.' . $sliderImageType;
+                 $sliderImage->move($sliderPath, $sliderFileName);
+             } else {
+                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+             }
+         }
 
-            return redirect()->back()->with('success', 'Image de slider téléchargée avec succès.');
-        } else {
-            return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-        }
-    }
+         return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
+     }
 
-    public function afficherSlider()
-    {
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
+     public function afficherSlider()
+     {
+         $idCompte = session('connexion');
+         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
