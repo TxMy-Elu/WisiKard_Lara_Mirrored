@@ -67,7 +67,7 @@
 
                 <!-- Buttons -->
                 <div class="flex flex-row-reverse mt-auto pt-4">
-                    <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                    <a href="{{ route('formulaireEntreprise') }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                 </div>
             </div>
 
