@@ -1,4 +1,3 @@
-<!-- formulaireConnexion.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -19,7 +18,7 @@
         <div class="justify-center mt-10">
             <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Wisikard</h1>
             <div class="mt-10">
-                <form action="{{ route('validationFormulaireInscription') }}" method="post">
+                <form action="{{ route('inscriptionEmploye.post') }}" method="post">
                     @csrf
                     <div class="mb-6">
                         <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
@@ -28,46 +27,35 @@
                                required>
                     </div>
                     <div class="mb-6">
-                        <div class="">
-                            <label for="motdepasse" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                            <input type="password" name="motDePasse1" id="motdepasse"
-                                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                   required>
-                        </div>
-                        <!-- Minimum 13 charactères indications-->
-                        <span class="text-sm text-gray-500">Minimum 12 charactères</span>
-                    </div>
-                    <div class="mb-6">
-                        <label for="motdepasse" class="block text-sm font-medium text-gray-700">Validation du mot de
-                            passe</label>
-                        <input type="password" name="motDePasse2" id="motdepasse"
+                        <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+                        <input type="text" name="nom" id="nom"
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                required>
                     </div>
-                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-
-                    <!-- selected role -->
-                    <div class="mb-4">
-                        <select name="role" id="role"
-                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->role }}">{{ $role->role }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <div class="mb-6">
-
+                        <label for="prenom" class="block text-sm font-medium text-gray-700">Prenom</label>
+                        <input type="text" name="prenom" id="prenom"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="tel" class="block text-sm font-medium text-gray-700">N° telephone</label>
+                        <input type="text" name="tel" id="tel"
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="fonction" class="block text-gray-700 text-sm mb-2">Fonction:</label>
+                        <input type="text" id="fonction" name="fonction" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div class="mb-6">
                         @include('messageErreur')
-
                         <div class="mb-4">
                             <button type="submit" name="boutonInscription"
                                     class="w-full bg-red-900 text-white p-2 rounded-md">Inscription
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

@@ -42,8 +42,8 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
     Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
     Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
-    Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
-    Route::get('/refresh-qr-code/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
+
+
 
     // Dashboard Client
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
@@ -74,11 +74,12 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     // Entreprise
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
 
-    // Employe
-    Route::get('/inscriptionEmp/{id}', [Employe::class, 'afficherFormulaireInscEmpl'])->name('afficherFormulaireInscEmpl');
+    // EmployeinscriptionEmp
+    Route::get('/inscriptionEmp', [Employe::class, 'afficherFormulaireInscEmpl'])->name('afficherFormInsEmploye');
+    Route::post('/inscriptionEmploye', [Employe::class, 'boutonInscriptionEmploye'])->name('inscriptionEmploye.post');
+    Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
+
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::post('/employe', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
-    Route::get('/employe/modifier/{id}', [DashboardClient::class, 'afficherFormulaireModifEmpl'])->name('employe.modifier');
-    Route::post('/employe/modifier/{id}', [DashboardClient::class, 'modifierEmploye'])->name('employe.modifier.post');
 });

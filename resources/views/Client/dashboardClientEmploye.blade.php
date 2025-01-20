@@ -67,7 +67,7 @@
                 </form>
 
                 <div class="flex items-center w-full md:w-auto">
-                    <a href="{{ route('afficherFormulaireInscEmpl') }}"
+                    <a href="{{ route('afficherFormInsEmploye') }}"
                        class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
@@ -113,7 +113,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer</button>
                             </form>
-                            <a href="{{ route('employe.modifier', $employe->idEmp) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                            <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>
                     </div>
                 @endforeach

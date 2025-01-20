@@ -91,8 +91,8 @@ class DashboardClient extends Controller
             'prenom' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'tel' => 'required|string|max:20',
-            'idCarte' => 'required|integer'
         ]);
+
 
         // Créer un nouvel employé
         Employer::create([
