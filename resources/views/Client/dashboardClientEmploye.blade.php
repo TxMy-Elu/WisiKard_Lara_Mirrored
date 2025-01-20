@@ -29,7 +29,7 @@
 <div class="flex flex-col md:flex-row">
 
     @include('menu.menuClient')
-    <div class="flex-1 md:ml-24 content"><br/>
+    <div class="flex-1 md:ml-24 content">
 
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
@@ -131,7 +131,7 @@
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
                                 </button>
                             </form>
-                            <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                            <a href="{{ route('employe.edit', $employe->idEmp) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                         </div>
                     </div>
                 @endforeach

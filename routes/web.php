@@ -84,6 +84,10 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::post('/inscriptionEmp', [Employe::class, 'boutonInscriptionEmploye'])->name('validationFormulaireInscriptionEmploye');
 
+    Route::get('/employe/{id}/edit', [Employe::class, 'edit'])->name('employe.edit');
+    Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
+
+
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::post('/employe', [Inscription::class, 'boutonInscription'])->name('validationFormulaireInscription');
 });
