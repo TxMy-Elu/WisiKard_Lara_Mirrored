@@ -894,6 +894,28 @@ class DashboardClient extends Controller
             return response()->json(['success' => false]);
         }
     }
+
+    public function updateCustomLink(Request $request){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    }
 }
 
 
