@@ -55,17 +55,15 @@
             </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                     {{-- @foreach() --}}
+                  @foreach($custom as $link)
                         <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
                             <div class="flex items-center mb-4">
 
-                                <p class="text-lg font-semibold ml-2">Nom</p>
+                                <p class="text-lg font-semibold ml-2"> {{$link->nom }}</p>
                             </div>
                             <form action="#" method="POST" class="flex flex-col">
                                 @csrf
-                                <input type="hidden" name="idSocial" value="">
-                                <input type="hidden" name="idCarte" value="}">
-                                <input type="text" name="lien" value="" class="border border-gray-300 p-2 rounded mb-2 w-full" placeholder="Lien du réseau social">
+                                <input type="text" name="lien" value="{{ $link->lien }}" class="border border-gray-300 p-2 rounded mb-2 w-full" placeholder="Lien du réseau social">
                                 <div class="flex items-center mb-2">
                                     <label class="toggle-switch">
                                         <input type="checkbox" id="" name="activer">
@@ -76,7 +74,7 @@
                                 <button type="submit" class="bg-indigo-500 text-white p-2 rounded">Mettre à jour</button>
                             </form>
                         </div>
-                    {{--@endforeach--}}
+                    @endforeach
                 </div>
 
 

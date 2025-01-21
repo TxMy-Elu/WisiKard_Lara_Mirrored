@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `custom_link` (
                                              `id_link` int NOT NULL AUTO_INCREMENT,
                                              `nom` varchar(150) NOT NULL,
     `lien` varchar(300) DEFAULT NULL,
+    `activer` tinyint(1) NOT NULL DEFAULT '0',
     `idCarte` int DEFAULT NULL,
     PRIMARY KEY (`id_link`),
     KEY `idCarte` (`idCarte`)

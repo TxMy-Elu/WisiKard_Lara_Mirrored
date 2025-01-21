@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
+use App\Models\Custom_link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -127,10 +128,14 @@ class DashboardClient extends Controller
             $activatedSocialArray[$social->idSocial] = ['activer' => $social->activer, 'lien' => $social->lien];
         }
 
+        //custom_link
+        $custom = Custom_link::where('idCarte', $idCarte)->get();
+
         return view('client.dashboardClientSocial', [
             'allSocial' => $allSocial,
             'activatedSocial' => $activatedSocialArray,
-            'idCarte' => $idCarte // Passez la variable $idCarte à la vue
+            'idCarte' => $idCarte, // Passez la variable $idCarte à la vue
+            'custom' => $custom
         ]);
     }
 
