@@ -58,6 +58,9 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::get('/refresh-qr-code/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
     Route::get('/refreshQrCodeEmp/{id}/{empId}', [DashboardClient::class, 'refreshQrCodeEmp'])->name('refreshQrCodeEmp');
 
+    Route::get('/formulaireEntreprise', [DashboardClient::class, 'afficherFormulaireEntreprise'])->name('formulaireEntreprise');
+    Route::post('/updateEntreprise', [DashboardClient::class, 'updateEntreprise'])->name('updateEntreprise');
+
     //PDF
     Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
@@ -71,6 +74,7 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::delete('/dashboardClientPDF/deleteSliderImage/{filename}', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
 
     //Route de tom
+    Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');
     Route::post('/dashboardClientInfo', [DashboardClient::class, 'updateInfo'])->name('dashboardClientInfo');
 
     //color

@@ -44,7 +44,10 @@ class DashboardClient extends Controller
         $titre = $carte->titre;
         $description = $carte->descirptif;
 
-        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description'));
+        //idTemplate
+        $idTemplate = Carte::where('idCompte', $idCompte)->first()->idTemplate;
+
+        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description', 'idTemplate'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -368,6 +371,7 @@ class DashboardClient extends Controller
         $files = File::files($folderPath);
         $maxNumber = 0;
 
+
         foreach ($files as $file) {
             $fileName = $file->getFilename();
             if (preg_match("/^(\d+)_/", $fileName, $matches)) {
@@ -467,6 +471,117 @@ public function uploadFile(Request $request)
          return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
      }
 
+    public function uploadFile(Request $request)
+    {
+        $request->validate([
+            'file' => 'nullable|file|mimes:mp4,pdf,jpg,jpeg,png',
+            'youtube_url' => 'nullable|url',
+            'logo' => 'nullable|file|mimes:jpg,jpeg,png'
+        ]);
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        if ($request->hasFile('file')) { // Fichiers MP4
+            $file = $request->file('file');
+            $fileType = $file->getClientOriginalExtension();
+            $mimeType = $file->getMimeType();
+
+            // Vérifier le type MIME et l'extension
+            if (($fileType === 'mp4' && $mimeType === 'video/mp4') ||
+                ($fileType === 'pdf' && $mimeType === 'application/pdf') ||
+                ($fileType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($fileType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($fileType === 'png' && $mimeType === 'image/png')) {
+
+                $filePath = '';
+
+                switch ($fileType) {
+                    case 'mp4':
+                        $filePath = public_path("entreprises/{$folderName}/videos");
+                        break;
+                    case 'pdf':
+                        $filePath = public_path("entreprises/{$folderName}/pdf");
+                        break;
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                        $filePath = public_path("entreprises/{$folderName}/images");
+                        break;
+                    default:
+                        return redirect()->back()->with('error', 'Type de fichier non supporté.');
+                }
+
+                if (!File::exists($filePath)) {
+                    File::makeDirectory($filePath, 0755, true);
+                }
+
+                $fileName = time() . '.' . $fileType;
+                $file->move($filePath, $fileName);
+
+                return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        }
+
+        if ($request->hasFile('logo')) { // Logos
+            $logo = $request->file('logo');
+            $logoType = $logo->getClientOriginalExtension();
+            $mimeType = $logo->getMimeType();
+
+            // Vérifier le type MIME et l'extension
+            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'png' && $mimeType === 'image/png')) {
+
+                $logoPath = public_path("entreprises/{$folderName}/logos");
+
+                if (!File::exists($logoPath)) {
+                    File::makeDirectory($logoPath, 0755, true);
+                }
+
+                $logoFileName = 'logo.' . $logoType;
+                $logo->move($logoPath, $logoFileName);
+
+                return redirect()->back()->with('success', 'Logo téléchargé avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        }
+
+        if ($request->filled('youtube_url')) { // URLs YouTube
+            $youtubeUrl = $request->input('youtube_url');
+            $videosPath = public_path("entreprises/{$folderName}/videos");
+
+            if (!File::exists($videosPath)) {
+                File::makeDirectory($videosPath, 0755, true);
+            }
+
+            $videosFile = $videosPath . '/videos.json';
+            $videosData = [];
+
+            if (File::exists($videosFile)) {
+                $videosData = json_decode(File::get($videosFile), true);
+            }
+
+            $videosData[] = $youtubeUrl;
+            File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
+
+            return redirect()->back()->with('success', 'URL YouTube enregistrée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
+    }
+
 
     public function updateColor(Request $request)
     {
@@ -526,6 +641,7 @@ public function uploadFile(Request $request)
         }, 'QR_Code.svg');
 
     }
+
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
@@ -548,6 +664,7 @@ public function uploadFile(Request $request)
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
+
     public function deleteLogo()
     {
         $idCompte = session('connexion');
@@ -578,69 +695,70 @@ public function uploadFile(Request $request)
         return redirect()->back()->with('success', 'Logo supprimé avec succès.');
     }
 
-   public function deleteVideo($index)
-     {
-         $idCompte = session('connexion');
-         $carte = Carte::where('idCompte', $idCompte)->first();
+    public function deleteVideo($index)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-         if (!$carte) {
-             return redirect()->back()->with('error', 'Carte non trouvée.');
-         }
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-         // Définir le nom de l'entreprise
-         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-         $folderName = "{$idCompte}_{$entrepriseName}";
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
 
-         if (File::exists($videosPath)) {
-             $videosData = json_decode(File::get($videosPath), true);
+        if (File::exists($videosPath)) {
+            $videosData = json_decode(File::get($videosPath), true);
 
-             if (isset($videosData[$index])) {
-                 unset($videosData[$index]);
-                 $videosData = array_values($videosData); // Réindexer le tableau
-                 File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
-                 return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
-             } else {
-                 return redirect()->back()->with('error', 'Vidéo YouTube non trouvée.');
-             }
-         } else {
-             return redirect()->back()->with('error', 'Fichier de vidéos non trouvé.');
-         }
-     }
+            if (isset($videosData[$index])) {
+                unset($videosData[$index]);
+                $videosData = array_values($videosData); // Réindexer le tableau
+                File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
+                return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'Vidéo YouTube non trouvée.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Fichier de vidéos non trouvé.');
+        }
+    }
 
-     public function uploadSlider(Request $request)
-     {
-         $request->validate([
-             'slider_images' => 'required|array',
-             'slider_images.*' => 'file|mimes:jpg,jpeg,png',
-         ]);
+    public function uploadSlider(Request $request)
+    {
+        $request->validate([
+            'slider_images' => 'required|array',
+            'slider_images.*' => 'file|mimes:jpg,jpeg,png',
+        ]);
 
-         $idCompte = session('connexion');
-         $carte = Carte::where('idCompte', $idCompte)->first();
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-         if (!$carte) {
-             return redirect()->back()->with('error', 'Carte non trouvée.');
-         }
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-         // Définir le nom de l'entreprise
-         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-         $folderName = "{$idCompte}_{$entrepriseName}";
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-         $sliderPath = public_path("entreprises/{$folderName}/slider");
+        $sliderPath = public_path("entreprises/{$folderName}/slider");
 
-         if (!File::exists($sliderPath)) {
-             File::makeDirectory($sliderPath, 0755, true);
-         }
+        if (!File::exists($sliderPath)) {
+            File::makeDirectory($sliderPath, 0755, true);
+        }
 
-         foreach ($request->file('slider_images') as $sliderImage) {
-             $sliderImageType = $sliderImage->getClientOriginalExtension();
-             $mimeType = $sliderImage->getMimeType();
+        foreach ($request->file('slider_images') as $sliderImage) {
+            $sliderImageType = $sliderImage->getClientOriginalExtension();
+            $mimeType = $sliderImage->getMimeType();
 
-             // Vérifier le type MIME et l'extension
-             if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
-                 ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                 ($sliderImageType === 'png' && $mimeType === 'image/png')) {
+            // Vérifier le type MIME et l'extension
+            if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($sliderImageType === 'png' && $mimeType === 'image/png')) {
+
 
                  $nextNumber = $this->getNextIncrementalNumber($sliderPath);
                  $sliderFileName = "{$nextNumber}_slider.{$sliderImageType}";
@@ -650,31 +768,38 @@ public function uploadFile(Request $request)
              }
          }
 
-         return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
-     }
+                $sliderFileName = time() . '_' . uniqid() . '.' . $sliderImageType;
+                $sliderImage->move($sliderPath, $sliderFileName);
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        }
 
-     public function afficherSlider()
-     {
-         $idCompte = session('connexion');
-         $carte = Carte::where('idCompte', $idCompte)->first();
+        return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
+    }
 
-         if (!$carte) {
-             return redirect()->back()->with('error', 'Carte non trouvée.');
-         }
+    public function afficherSlider()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-         // Définir le nom de l'entreprise
-         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-         $folderName = "{$idCompte}_{$entrepriseName}";
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-         $sliderPath = public_path("entreprises/{$folderName}/slider");
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-         if (File::exists($sliderPath)) {
-             $sliderImages = File::files($sliderPath);
-             return view('client.dashboardClientPDF', compact('sliderImages', 'carte', 'idCompte'));
-         } else {
-             return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
-         }
-     }
+        $sliderPath = public_path("entreprises/{$folderName}/slider");
+
+        if (File::exists($sliderPath)) {
+            $sliderImages = File::files($sliderPath);
+            return view('client.dashboardClientPDF', compact('sliderImages', 'carte', 'idCompte'));
+        } else {
+            return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
+        }
+    }
 
  public function deleteSliderImage($number)
  {
@@ -702,6 +827,29 @@ public function uploadFile(Request $request)
              break;
          }
      }
+
+    public function deleteSliderImage($filename)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $sliderPath = public_path("entreprises/{$folderName}/slider/{$filename}");
+
+        if (File::exists($sliderPath)) {
+            File::delete($sliderPath);
+            return redirect()->back()->with('success', 'Image de slider supprimée avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Image de slider non trouvée.');
+        }
+    }
 
      if ($fileToDelete) {
          File::delete($fileToDelete->getPathname());
@@ -733,7 +881,7 @@ public function uploadFile(Request $request)
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
 
-    public function refreshQrCodeEmp($id,$idEmp)
+    public function refreshQrCodeEmp($id, $idEmp)
     {
         $compte = Compte::find($id);
         $carte = Carte::where('idCompte', $compte->idCompte)->first();
@@ -742,7 +890,101 @@ public function uploadFile(Request $request)
         return redirect()->route('dashboardClientEmploye')->with('success', 'QR Code rafraîchi avec succès.');
     }
 
- }
+    public function afficherFormulaireEntreprise()
+    {
+        // Récupérer l'id du compte connecté
+        $idCompte = session('connexion');
+
+        // Recueperer les informations de la carte
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        // Recueperer les informations du compte
+        $compte = Compte::where('idCompte', $idCompte)->first();
+
+        // Formater le numéro de téléphone
+        if ($carte) {
+            $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
+        }
+
+        return view('formulaire.formulaireEntreprise', compact('carte', 'compte'));
+    }
+
+    public function updateEntreprise(Request $request)
+    {
+        $request->validate([
+            'nomEntreprise' => 'required|string|max:255',
+            'tel' => 'required|string|max:20',
+            'mail' => 'required|email|max:255',
+            'adresse' => 'required|string|max:255',
+        ]);
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        $compte = Compte::find($idCompte);
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $carte->nomEntreprise = $request->nomEntreprise;
+        $carte->tel = $request->tel;
+        $carte->ville = $request->adresse;
+
+
+        //si le nom de l'entreprise change, on change le nom du dossier
+        $nomEntreprise = Carte::where('idCompte', $idCompte)->first()->nomEntreprise;
+        if ($nomEntreprise != $request->nomEntreprise) {
+            $entrepriseName = Str::slug($request->nomEntreprise, '_');
+            $folderName = "{$idCompte}_{$entrepriseName}";
+            $oldFolderName = "{$idCompte}_" . Str::slug($nomEntreprise, '_');
+
+            // Renommer le dossier
+            $oldPath = public_path("entreprises/{$oldFolderName}");
+            $newPath = public_path("entreprises/{$folderName}");
+            File::move($oldPath, $newPath);
+
+        }
+
+        $carte->save();
+
+
+        $compte->email = $request->mail;
+        $compte->save();
+
+        return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
+    }
+
+    public function updateTemplate(Request $request)
+    {
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        switch ($request->idTemplate) {
+            case 1:
+                $carte->idTemplate = 1;
+                break;
+            case 2:
+                $carte->idTemplate = 2;
+                break;
+            case 3:
+                $carte->idTemplate = 3;
+                break;
+        }
+
+
+        $carte->save();
+
+        return redirect()->back()->with('success', 'Template mis à jour avec succès.');
+    }
+
+
+
+}
 
 
 
