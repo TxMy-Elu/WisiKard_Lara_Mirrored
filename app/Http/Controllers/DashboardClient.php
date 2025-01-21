@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
+use App\Models\Custom_link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -157,10 +158,14 @@ class DashboardClient extends Controller
             $activatedSocialArray[$social->idSocial] = ['activer' => $social->activer, 'lien' => $social->lien];
         }
 
+        //custom_link
+        $custom = Custom_link::where('idCarte', $idCarte)->get();
+
         return view('client.dashboardClientSocial', [
             'allSocial' => $allSocial,
             'activatedSocial' => $activatedSocialArray,
-            'idCarte' => $idCarte // Passez la variable $idCarte à la vue
+            'idCarte' => $idCarte, // Passez la variable $idCarte à la vue
+            'custom' => $custom
         ]);
     }
 
@@ -810,8 +815,30 @@ class DashboardClient extends Controller
             // Renommer le dossier
             $oldPath = public_path("entreprises/{$oldFolderName}");
             $newPath = public_path("entreprises/{$folderName}");
-            File::move($oldPath, $newPath);
 
+            // Vérifier si l'ancien dossier existe
+            if (File::exists($oldPath)) {
+                // Vérifier si le nouveau dossier existe déjà
+                if (File::exists($newPath)) {
+                    return redirect()->back()->with('error', 'Le dossier avec le nouveau nom existe déjà.');
+                }
+
+                // Renommer le dossier
+                File::move($oldPath, $newPath);
+            } else {
+                return redirect()->back()->with('error', 'Ancien dossier introuvable.');
+            }
+
+            // Mettre à jour les couleurs
+            $couleur1 = $carte->couleur1;
+            $couleur2 = $carte->couleur2;
+
+            // Renommer le lien QR
+            $lien = "/entreprises/1_" . $request->nomEntreprise . "/QR_Codes/QR_Code.svg";
+            $carte->lienQr = $lien;
+
+            // Sauvegarder les mises à jour sur l'objet carte
+            $carte->save();
         }
 
         $carte->save();
@@ -844,7 +871,6 @@ class DashboardClient extends Controller
                 $carte->idTemplate = 3;
                 break;
         }
-
 
         $carte->save();
 

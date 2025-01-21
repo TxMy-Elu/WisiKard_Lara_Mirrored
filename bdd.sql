@@ -211,20 +211,21 @@ CREATE TABLE IF NOT EXISTS `vue` (
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
-
---
--- Structure de la table `custom_link`
+-- Structure de la table custom_link
 --
 
-DROP TABLE IF EXISTS `custom_link`;
-CREATE TABLE IF NOT EXISTS `custom_link` (
-                                             `id_link` int NOT NULL AUTO_INCREMENT,
-                                             `nom` varchar(150) NOT NULL,
-    `lien` varchar(300) DEFAULT NULL,
-    `idCarte` int DEFAULT NULL,
-    PRIMARY KEY (`id_link`),
-    KEY `idCarte` (`idCarte`)
+DROP TABLE IF EXISTS custom_link;
+CREATE TABLE IF NOT EXISTS custom_link (
+      id_link int NOT NULL AUTO_INCREMENT,
+       nom varchar(150) NOT NULL,
+    lien varchar(300) DEFAULT NULL,
+    `activer` tinyint(1) NOT NULL DEFAULT '0',
+    idCarte int DEFAULT NULL,
+    PRIMARY KEY (id_link),
+    KEY idCarte (idCarte)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 -- --------------------------------------------------------
 
 --
@@ -275,6 +276,13 @@ ALTER TABLE `rediriger`
 ALTER TABLE `vue`
     ADD CONSTRAINT `vue_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
   ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
+
+--                                                                                                  --
+-- Contraintes pour la table `vue`
+--
+ALTER TABLE custom_link
+    ADD CONSTRAINT fk_custom_link_carte
+        FOREIGN KEY (idCarte) REFERENCES carte(idCarte);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

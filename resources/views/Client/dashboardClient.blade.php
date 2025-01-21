@@ -87,7 +87,7 @@
             <div class="div2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
                 <div class="mb-4 flex flex-col items-center">
-                    <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/QR_Codes/QR_Code.svg' }}"
+                    <img src="{{ $carte->lienQr }}"
                          alt="QR Code" class="w-full max-w-xs">
                 </div>
 
