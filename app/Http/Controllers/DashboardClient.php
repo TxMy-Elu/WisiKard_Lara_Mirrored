@@ -44,7 +44,10 @@ class DashboardClient extends Controller
         $titre = $carte->titre;
         $description = $carte->descirptif;
 
-        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description'));
+        //idTemplate
+        $idTemplate = Carte::where('idCompte', $idCompte)->first()->idTemplate;
+
+        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description', 'idTemplate'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -619,12 +622,12 @@ class DashboardClient extends Controller
         }
     }
 
-     public function uploadSlider(Request $request)
-     {
-         $request->validate([
-             'slider_images' => 'required|array',
-             'slider_images.*' => 'file|mimes:jpg,jpeg,png',
-         ]);
+    public function uploadSlider(Request $request)
+    {
+        $request->validate([
+            'slider_images' => 'required|array',
+            'slider_images.*' => 'file|mimes:jpg,jpeg,png',
+        ]);
 
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -637,35 +640,35 @@ class DashboardClient extends Controller
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
-         $sliderPath = public_path("entreprises/{$folderName}/slider");
+        $sliderPath = public_path("entreprises/{$folderName}/slider");
 
-         if (!File::exists($sliderPath)) {
-             File::makeDirectory($sliderPath, 0755, true);
-         }
+        if (!File::exists($sliderPath)) {
+            File::makeDirectory($sliderPath, 0755, true);
+        }
 
-         foreach ($request->file('slider_images') as $sliderImage) {
-             $sliderImageType = $sliderImage->getClientOriginalExtension();
-             $mimeType = $sliderImage->getMimeType();
+        foreach ($request->file('slider_images') as $sliderImage) {
+            $sliderImageType = $sliderImage->getClientOriginalExtension();
+            $mimeType = $sliderImage->getMimeType();
 
-             // Vérifier le type MIME et l'extension
-             if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
-                 ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                 ($sliderImageType === 'png' && $mimeType === 'image/png')) {
+            // Vérifier le type MIME et l'extension
+            if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($sliderImageType === 'png' && $mimeType === 'image/png')) {
 
-                 $sliderFileName = time() . '_' . uniqid() . '.' . $sliderImageType;
-                 $sliderImage->move($sliderPath, $sliderFileName);
-             } else {
-                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-             }
-         }
+                $sliderFileName = time() . '_' . uniqid() . '.' . $sliderImageType;
+                $sliderImage->move($sliderPath, $sliderFileName);
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        }
 
-         return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
-     }
+        return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
+    }
 
-     public function afficherSlider()
-     {
-         $idCompte = session('connexion');
-         $carte = Carte::where('idCompte', $idCompte)->first();
+    public function afficherSlider()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
@@ -790,7 +793,7 @@ class DashboardClient extends Controller
             $oldPath = public_path("entreprises/{$oldFolderName}");
             $newPath = public_path("entreprises/{$folderName}");
             File::move($oldPath, $newPath);
-            
+
         }
 
         $carte->save();
@@ -800,6 +803,34 @@ class DashboardClient extends Controller
         $compte->save();
 
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
+    }
+
+    public function updateTemplate(Request $request)
+    {
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        switch ($request->idTemplate) {
+            case 1:
+                $carte->idTemplate = 1;
+                break;
+            case 2:
+                $carte->idTemplate = 2;
+                break;
+            case 3:
+                $carte->idTemplate = 3;
+                break;
+        }
+
+
+        $carte->save();
+
+        return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
 
 

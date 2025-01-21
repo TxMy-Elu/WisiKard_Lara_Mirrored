@@ -69,6 +69,8 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::post('/dashboardClientPDF/uploadSlider', [DashboardClient::class, 'uploadSlider'])->name('dashboardClientPDF.uploadSlider');
     Route::get('/dashboardClientPDF/afficherSlider', [DashboardClient::class, 'afficherSlider'])->name('dashboardClientPDF.afficherSlider');
     Route::delete('/dashboardClientPDF/deleteSliderImage/{filename}', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
+
+    Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');
     Route::post('/dashboardClientInfo', [DashboardClient::class, 'updateInfo'])->name('dashboardClientInfo');
 
     //color

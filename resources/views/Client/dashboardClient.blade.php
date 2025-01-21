@@ -19,6 +19,18 @@
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Succès!</strong>
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Erreur!</strong>
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
 
         <div class="parent">
             <!-- Carte (div1) -->
@@ -159,26 +171,26 @@
 
             <!-- sheck box template (div4) -->
             <div class="div4 bg-white rounded-lg shadow-lg p-4">
-                <form action="" method="POST">
+                <form id="templateForm" action="{{ route('updateTemplate') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
                         <label for="template" class="text-lg font-semibold">Template</label>
                         <!-- radio button x3 (div4) -->
                         <div class="flex justify-center items-center space-x-10 mt-4">
                             <div class="flex flex-col items-center">
-                                <input type="radio" name="template" id="template1" value="1" class="mb-2">
+                                <input type="radio" name="idTemplate" id="template1" value="1" @if($idTemplate == 1) checked @endif class="mb-2" onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
                                 <div class="w-80 h-96 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg"></div>
                             </div>
                             <div class="flex flex-col items-center">
-                                <input type="radio" name="template" id="template2" value="2" class="mb-2">
+                                <input type="radio" name="idTemplate" id="template2" value="2" @if($idTemplate == 2) checked @endif class="mb-2" onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <!-- template gradient  -->
                                 <div class="w-80 h-96 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg"></div>
                             </div>
                             <div class="flex flex-col items-center">
-                                <input type="radio" name="template" id="template3" value="3" class="mb-2">
+                                <input type="radio" name="idTemplate" id="template3" value="3" @if($idTemplate == 3) checked @endif class="mb-2" onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
                                 <div class="w-80 h-96 bg-gradient-to-r from-purple-500 to-red-500 rounded-lg"></div>
@@ -187,6 +199,12 @@
                     </div>
                 </form>
             </div>
+
+            <script>
+                function submitTemplateForm() {
+                    document.getElementById('templateForm').submit();
+                }
+            </script>
         </div>
     </div>
 </div>
