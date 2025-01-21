@@ -768,6 +768,7 @@ class DashboardClient extends Controller
 
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
+        $compte = Compte::find($idCompte);
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
@@ -775,12 +776,32 @@ class DashboardClient extends Controller
 
         $carte->nomEntreprise = $request->nomEntreprise;
         $carte->tel = $request->tel;
-        $carte->mail = $request->mail;
         $carte->ville = $request->adresse;
+
+
+        //si le nom de l'entreprise change, on change le nom du dossier
+        $nomEntreprise = Carte::where('idCompte', $idCompte)->first()->nomEntreprise;
+        if ($nomEntreprise != $request->nomEntreprise) {
+            $entrepriseName = Str::slug($request->nomEntreprise, '_');
+            $folderName = "{$idCompte}_{$entrepriseName}";
+            $oldFolderName = "{$idCompte}_" . Str::slug($nomEntreprise, '_');
+
+            // Renommer le dossier
+            $oldPath = public_path("entreprises/{$oldFolderName}");
+            $newPath = public_path("entreprises/{$folderName}");
+            File::move($oldPath, $newPath);
+            
+        }
+
         $carte->save();
+
+
+        $compte->email = $request->mail;
+        $compte->save();
 
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
     }
+
 
 
 }

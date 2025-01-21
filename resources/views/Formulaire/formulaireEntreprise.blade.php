@@ -32,8 +32,8 @@
                 @csrf
                 @method('POST')
                 <div class="mb-4">
-                    <label for="nom" class="block text-gray-700 text-sm font-bold mb-2">Nom Entreprise:</label>
-                    <input type="text" id="nom" name="nom" value="{{ $carte->nomEntreprise }}"
+                    <label for="nomEntreprise" class="block text-gray-700 text-sm font-bold mb-2">Nom Entreprise:</label>
+                    <input type="text" id="nomEntreprise" name="nomEntreprise" value="{{ $carte->nomEntreprise }}"
                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
@@ -45,14 +45,13 @@
                     <input type="text" id="tel" name="tel" value="{{ $carte->tel }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
-                    <label for="adr" class="block text-gray-700 text-sm font-bold mb-2">adresse</label>
-                    <input type="text" id="adr" name="adr" value="{{ $carte->ville }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <label for="adresse" class="block text-gray-700 text-sm font-bold mb-2">adresse</label>
+                    <input type="text" id="adresse" name="adresse" value="{{ $carte->ville }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="flex items-center justify-between">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
