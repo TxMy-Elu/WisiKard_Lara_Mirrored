@@ -19,6 +19,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($allSocial as $reseau)
                     <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
@@ -89,9 +94,9 @@
                                    placeholder="Nom du réseau social">
                         </div>
                         <div class="flex flex-col mb-4">
-                            <label for="lienLogo" class="text-lg mb-2">Lien du logo:</label>
-                            <input type="text" name="lienLogo" id="lienLogo"
-                                   class="border border-gray-300 p-2 rounded w-full" placeholder="Lien du logo">
+                            <label for="lien" class="text-lg mb-2">Lien:</label>
+                            <input type="text" name="lien" id="lien"
+                                   class="border border-gray-300 p-2 rounded w-full" placeholder="Lien du reseau">
                         </div>
                         <button type="submit" class="bg-indigo-500 text-white text-base rounded px-10 py-2 ml-auto">
                             Ajouter
@@ -112,27 +117,7 @@
                     hiddenForm.classList.toggle('hidden');
                 });
             </script>
-            {{--
-        <div class="bg-white rounded-lg shadow-lg p-4 my-6">
-            <form action="#" method="POST" class="flex flex-col">
-                @csrf
-                @method('POST')
-                <div class="flex flex-col mb-4">
-                    <label for="nom" class="text-lg mb-2">Nom du réseau social:</label>
-                    <input type="text" name="nom" id="nom" class="border border-gray-300 p-2 rounded w-full"
-                           placeholder="Nom du réseau social">
-                </div>
-                <div class="flex flex-col mb-4">
-                    <label for="lienLogo" class="text-lg mb-2">Lien du logo:</label>
-                    <input type="text" name="lienLogo" id="lienLogo"
-                           class="border border-gray-300 p-2 rounded w-full" placeholder="Lien du logo">
-                </div>
-                <button type="submit" class="bg-indigo-500 text-white text-base rounded px-10 py-2 ml-auto">
-                    Ajouter
-                </button>
-            </form>
-        </div>
-        --}}
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($custom as $link)
