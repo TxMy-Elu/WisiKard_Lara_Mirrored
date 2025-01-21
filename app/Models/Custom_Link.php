@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Custom_Link extends Model
 {
-    protected $table = 'custom_link';
-    protected $primaryKey = 'id_link';
+    protected $table = 'custom_link'; // Vérifiez cette définition !
+    protected $primaryKey = 'id_link'; // Assurez-vous que cette colonne est correcte dans la table
     public $timestamps = false;
 
     protected $fillable = [
         'nom',
         'lien',
+        'activer',
         'idCarte'
     ];
 
     public function carte()
     {
-        return $this->belongsTo(Carte::class, 'idCarte');
+        return $this->belongsTo(Carte::class, 'idCarte', 'idCarte');
     }
 }

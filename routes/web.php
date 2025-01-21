@@ -78,7 +78,7 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');
     Route::post('/dashboardClientInfo', [DashboardClient::class, 'updateInfo'])->name('dashboardClientInfo');
 
-    //Route de Custom Link
+    //Custom Link
     Route::post('/dashboardClientCustomLink', [DashboardClient::class, 'updateCustomLink'])->name('dashboardClientCustomLink');
 
     //color

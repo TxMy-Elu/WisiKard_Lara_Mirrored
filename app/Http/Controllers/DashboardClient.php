@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Carte;
 use App\Models\Compte;
+use App\Models\Custom_link;
 use App\Models\Employer;
 use App\Models\Logs;
 use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
-use App\Models\Custom_link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -352,7 +352,8 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'employé.');
         }
     }
- public function updateColor(Request $request)
+
+    public function updateColor(Request $request)
     {
         $request->validate([
             'couleur1' => 'required|string|max:7',
@@ -410,6 +411,7 @@ class DashboardClient extends Controller
         }, 'QR_Code.svg');
 
     }
+
     public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
@@ -428,6 +430,7 @@ class DashboardClient extends Controller
 
         return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte'));
     }
+
     private function getNextIncrementalNumber($folderPath)//Pour les img du slider
     {
         $files = File::files($folderPath);
@@ -704,6 +707,7 @@ class DashboardClient extends Controller
             return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
         }
     }
+
     public function deleteSliderImage($filename)
     {
         $idCompte = session('connexion');
@@ -895,27 +899,39 @@ class DashboardClient extends Controller
         }
     }
 
-    public function updateCustomLink(Request $request){
+    public function updateCustomLink(Request $request)
+    {
+        // Récupération de la session
+        $session = session('connexion');
 
+        if (!$session) {
+            return redirect()->back()->withErrors(['error' => 'La session utilisateur est expirée ou invalide.']);
+        }
 
+        // Recherche de l'idCarte associé à l'utilisateur connecté
+        $carte = Carte::where('idCompte', $session)->first();
 
+        if (!$carte) {
+            return redirect()->back()->withErrors(['error' => 'Aucune carte associée à cet utilisateur trouvée.']);
+        }
 
+        // Validation des données reçues
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'lien' => 'required|url'
+        ]);
 
+        // Création du lien personnalisé
+        Custom_Link::create([
+            'nom' => $request->input('nom'),
+            'lien' => $request->input('lien'),
+            'activer' => 0,
+            'idCarte' => $carte->idCarte
+        ]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-        
+        return redirect()->back()->with('success', 'Lien personnalisé ajouté avec succès.');
     }
+
 }
 
 
