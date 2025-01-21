@@ -750,15 +750,30 @@ class DashboardClient extends Controller
             // Renommer le dossier
             $oldPath = public_path("entreprises/{$oldFolderName}");
             $newPath = public_path("entreprises/{$folderName}");
-            File::move($oldPath, $newPath);
 
-            // couleur
+            // Vérifier si l'ancien dossier existe
+            if (File::exists($oldPath)) {
+                // Vérifier si le nouveau dossier existe déjà
+                if (File::exists($newPath)) {
+                    return redirect()->back()->with('error', 'Le dossier avec le nouveau nom existe déjà.');
+                }
+
+                // Renommer le dossier
+                File::move($oldPath, $newPath);
+            } else {
+                return redirect()->back()->with('error', 'Ancien dossier introuvable.');
+            }
+
+            // Mettre à jour les couleurs
             $couleur1 = $carte->couleur1;
             $couleur2 = $carte->couleur2;
 
-            //renommage lien QR
+            // Renommer le lien QR
             $lien = "/entreprises/1_" . $request->nomEntreprise . "/QR_Codes/QR_Code.svg";
             $carte->lienQr = $lien;
+
+            // Sauvegarder les mises à jour sur l'objet carte
+            $carte->save();
         }
 
         $carte->save();
@@ -791,7 +806,6 @@ class DashboardClient extends Controller
                 $carte->idTemplate = 3;
                 break;
         }
-
 
         $carte->save();
 
