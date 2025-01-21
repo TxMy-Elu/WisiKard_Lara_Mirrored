@@ -213,6 +213,21 @@ CREATE TABLE IF NOT EXISTS `vue` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `custom_link`
+--
+
+DROP TABLE IF EXISTS `custom_link`;
+CREATE TABLE IF NOT EXISTS `custom_link` (
+                                             `id_link` int NOT NULL AUTO_INCREMENT,
+                                             `nom` varchar(150) NOT NULL,
+    `lien` varchar(300) DEFAULT NULL,
+    `idCarte` int DEFAULT NULL,
+    PRIMARY KEY (`id_link`),
+    KEY `idCarte` (`idCarte`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- --------------------------------------------------------
+
+--
 -- Contraintes pour les tables déchargées
 --
 
