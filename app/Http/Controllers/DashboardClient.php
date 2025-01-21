@@ -575,6 +575,26 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
+     public function deletePDF($filename)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $filePath = public_path("entreprises/{$folderName}/pdf/{$filename}");
+
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            return redirect()->back()->with('success', 'PDF supprimée avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'PDF non trouvée.');
+        }
+    }
 
     public function deleteLogo()
     {
@@ -870,14 +890,16 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
 
-    public function renamePdf(Request $request)
+ public function renamePdf(Request $request)
     {
         $currentFilename = $request->input('currentFilename');
         $newFilename = $request->input('newFilename');
         $idCarte = $request->input('idCarte');
 
+        // Chemin du fichier actuel
         $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
 
+        // Chemin du nouveau fichier
         $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
 
         // Renommer le fichier

@@ -61,10 +61,14 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     Route::get('/formulaireEntreprise', [DashboardClient::class, 'afficherFormulaireEntreprise'])->name('formulaireEntreprise');
     Route::post('/updateEntreprise', [DashboardClient::class, 'updateEntreprise'])->name('updateEntreprise');
 
-    //PDF
+    //IMAGE
     Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
+
+    //PDF
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
     Route::post('/dashboardClientPDF/renamePdf', [App\Http\Controllers\DashboardClientPDFController::class, 'renamePdf'])->name('dashboardClientPDF.renamePdf');
+    Route::delete('/dashboardClientPDF/deletePDF/{filename}', [DashboardClient::class, 'deletePDF'])->name('dashboardClientPDF.deletePDF');
+
     //Logo
     Route::delete('/dashboardClientPDF/deleteLogo', [DashboardClient::class, 'deleteLogo'])->name('dashboardClientPDF.deleteLogo');
     //Video
