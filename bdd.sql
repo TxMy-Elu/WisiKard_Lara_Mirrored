@@ -201,11 +201,11 @@ CREATE TABLE IF NOT EXISTS `template` (
 
 DROP TABLE IF EXISTS `vue`;
 CREATE TABLE IF NOT EXISTS `vue` (
-                                     `idVue` int NOT NULL AUTO_INCREMENT,
-                                     `date` date NOT NULL,
-                                     `idCarte` int NOT NULL,
-                                     `idEmp` int DEFAULT NULL,
-                                     PRIMARY KEY (`idVue`),
+    `idVue` int NOT NULL AUTO_INCREMENT,
+    `date` date NOT NULL,
+    `idCarte` int NOT NULL,
+    `idEmp` int DEFAULT NULL,
+    PRIMARY KEY (`idVue`),
     KEY `vue_carte_FK` (`idCarte`),
     KEY `vue_employer_FK` (`idEmp`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

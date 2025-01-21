@@ -352,7 +352,64 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'employé.');
         }
     }
+ public function updateColor(Request $request)
+    {
+        $request->validate([
+            'couleur1' => 'required|string|max:7',
+            'couleur2' => 'required|string|max:7'
+        ]);
 
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $carte->couleur1 = $request->couleur1;
+        $carte->couleur2 = $request->couleur2;
+        $carte->save();
+
+        Compte::QrCode($idCompte, $carte->nomEntreprise);
+
+        return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
+    }
+
+    public function downloadQrCodesColor()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        // Définir le nom de l'entreprise
+        $entrepriseName = $carte->nomEntreprise;
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $qrCodesPath = public_path("entreprises/{$folderName}/QR_Codes/QR_Code.svg");
+
+        if (!File::exists($qrCodesPath)) {
+            return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
+        }
+
+
+        return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
+    }
+
+    public function downloadQrCodes()
+    {
+        $idCompte = session('connexion');
+
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $idCompte;
+
+        return response()->streamDownload(function () use ($url) {
+            echo file_get_contents($url);
+        }, 'QR_Code.svg');
+
+    }
     public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
@@ -375,7 +432,6 @@ class DashboardClient extends Controller
     {
         $files = File::files($folderPath);
         $maxNumber = 0;
-
 
         foreach ($files as $file) {
             $fileName = $file->getFilename();
@@ -450,7 +506,6 @@ class DashboardClient extends Controller
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
         }
-
         if ($request->hasFile('logo')) { // Logos
             $logo = $request->file('logo');
             $logoType = $logo->getClientOriginalExtension();
@@ -500,66 +555,6 @@ class DashboardClient extends Controller
         return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
     }
 
-
-    public function updateColor(Request $request)
-    {
-        $request->validate([
-            'couleur1' => 'required|string|max:7',
-            'couleur2' => 'required|string|max:7'
-        ]);
-
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        $carte->couleur1 = $request->couleur1;
-        $carte->couleur2 = $request->couleur2;
-        $carte->save();
-
-        Compte::QrCode($idCompte, $carte->nomEntreprise);
-
-        return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
-    }
-
-    public function downloadQrCodesColor()
-    {
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        // Définir le nom de l'entreprise
-        $entrepriseName = $carte->nomEntreprise;
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $qrCodesPath = public_path("entreprises/{$folderName}/QR_Codes/QR_Code.svg");
-
-        if (!File::exists($qrCodesPath)) {
-            return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
-        }
-
-
-        return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
-    }
-
-    public function downloadQrCodes()
-    {
-        $idCompte = session('connexion');
-
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $idCompte;
-
-        return response()->streamDownload(function () use ($url) {
-            echo file_get_contents($url);
-        }, 'QR_Code.svg');
-
-    }
-
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
@@ -568,8 +563,6 @@ class DashboardClient extends Controller
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-
-        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -877,8 +870,30 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
 
+    public function renamePdf(Request $request)
+    {
+        $currentFilename = $request->input('currentFilename');
+        $newFilename = $request->input('newFilename');
+        $idCarte = $request->input('idCarte');
 
+        $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
 
+        $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
+
+        // Renommer le fichier
+        if (Storage::exists($currentPath)) {
+            Storage::move($currentPath, $newPath);
+
+            // Mettre à jour le nom du fichier dans la base de données
+            $carte = Carte::find($idCarte);
+            $carte->pdf = $newFilename;
+            $carte->save();
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
 }
 
 

@@ -64,7 +64,8 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
     //PDF
     Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
-     //Logo
+    Route::post('/dashboardClientPDF/renamePdf', [App\Http\Controllers\DashboardClientPDFController::class, 'renamePdf'])->name('dashboardClientPDF.renamePdf');
+    //Logo
     Route::delete('/dashboardClientPDF/deleteLogo', [DashboardClient::class, 'deleteLogo'])->name('dashboardClientPDF.deleteLogo');
     //Video
     Route::delete('/dashboardClientPDF/deleteVideo/{index}', [DashboardClient::class, 'deleteVideo'])->name('dashboardClientPDF.deleteVideo');
