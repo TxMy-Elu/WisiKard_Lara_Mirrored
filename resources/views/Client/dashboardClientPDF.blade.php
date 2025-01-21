@@ -50,23 +50,33 @@
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
-
+            <!-- Formulaire IMG -->
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
-                    <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner un fichier :</label>
+                    <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner une image :</label>
                     <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".mp4,.pdf,.jpg,.jpeg,.png">
                 </div>
+            <!-- Formulaire Youtube -->
                 <div class="mb-4">
                     <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
                     <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
                 </div>
+            <!-- Formulaire Logo -->
                 <div class="mb-4">
                     <label for="logo" class="block text-sm font-medium text-gray-700">Sélectionner un logo :</label>
                     <input type="file" id="logo" name="logo" class="mt-1 block w-full" accept=".jpg,.jpeg,.png">
                 </div>
             </form>
-
+          <!-- Formulaire PDF -->
+                   <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner un PDF :</label>
+                            <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".mp4,.pdf,.jpg,.jpeg,.png">
+                        </div>
+                    </form>
+            <!-- Formulaire slider -->
             <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
@@ -75,7 +85,10 @@
                 </div>
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
             </form>
+
+
         </div>
+
 
         <!-- Card pour le logo -->
         @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg")) ||
@@ -149,7 +162,7 @@
                             </div>
                             <div class="h-64 overflow-auto border rounded-lg">
                                 <iframe src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" width="100%" height="100%" style="border: none;"></iframe>
-                            </div>
+                          </div>
                         </div>
                     @endforeach
                 </div>
