@@ -752,6 +752,13 @@ class DashboardClient extends Controller
             $newPath = public_path("entreprises/{$folderName}");
             File::move($oldPath, $newPath);
 
+            // couleur
+            $couleur1 = $carte->couleur1;
+            $couleur2 = $carte->couleur2;
+
+            //renommage lien QR
+            $lien = "/entreprises/1_" . $request->nomEntreprise . "/QR_Codes/QR_Code.svg";
+            $carte->lienQr = $lien;
         }
 
         $carte->save();
