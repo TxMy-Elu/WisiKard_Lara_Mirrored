@@ -161,11 +161,24 @@ class DashboardClient extends Controller
         //custom_link
         $custom = Custom_link::where('idCarte', $idCarte)->get();
 
+        // Récupérer les liens personnalisés activés pour l'entreprise
+        $activatedCustomLinks = Custom_Link::where('idCarte', $idCarte)
+            ->select('id_link', 'activer', 'lien')
+            ->get();
+
+        // Créer un tableau associatif pour les liens personnalisés activés
+        $activatedCustomLinksArray = [];
+        foreach ($activatedCustomLinks as $link) {
+            $activatedCustomLinksArray[$link->id_link] = ['activer' => $link->activer, 'lien' => $link->lien];
+        }
+
+
         return view('client.dashboardClientSocial', [
             'allSocial' => $allSocial,
             'activatedSocial' => $activatedSocialArray,
             'idCarte' => $idCarte, // Passez la variable $idCarte à la vue
-            'custom' => $custom
+            'custom' => $custom,
+            'activatedCustomLinks' => $activatedCustomLinksArray
         ]);
     }
 
@@ -283,35 +296,35 @@ class DashboardClient extends Controller
 
         $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
 
-        // Nombre de vues par mois
-        $monthlyViewsQuery = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
-            ->whereYear('date', $year)
-            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $session)
-            ->groupBy('month');
-
-        $monthlyViews = $monthlyViewsQuery->pluck('count', 'month')->toArray();
-
         // Années disponibles pour la sélection
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        // Mois disponibles pour la sélection
-        $months = range(1, 12);
-        $selectedMonth = $selectedMonth;
+        //nombre de vue par mois sur l'année
+        $monthlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
 
-        if ($request->ajax()) {
-            return response()->json([
-                'totalViewsCard' => $totalViewsCard,
-                'monthlyViews' => $monthlyViews,
-                'weeklyViews' => $weeklyViews,
-                'selectedMonth' => $selectedMonth,
-                'selectedWeek' => $selectedWeek,
-                'employerData' => $employerData,
-            ]);
-        }
+        //graph de vue par mois
+        $monthlyData = [
+            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par mois',
+                    'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
+                    'borderColor' => 'rgba(153, 27, 27, 1)',
+                    'borderWidth' => 1,
+                    'data' => array_values(array_replace(array_fill(1, 12, 0), $monthlyViews)),
+                ],
+            ],
+        ];
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'monthlyViews', 'selectedMonth', 'months', 'employerData'));
+
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData'));
     }
 
     public function afficherFormulaireModifEmpl($id)
@@ -578,7 +591,8 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
-     public function deletePDF($filename)
+
+    public function deletePDF($filename)
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -893,11 +907,12 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
- public function renamePdf(Request $request)
-     {
-         $currentFilename = $request->input('currentFilename');
-         $newFilename = $request->input('newFilename');
-         $idCarte = $request->input('idCarte');
+
+    public function renamePdf(Request $request)
+    {
+        $currentFilename = $request->input('currentFilename');
+        $newFilename = $request->input('newFilename');
+        $idCarte = $request->input('idCarte');
 
          // Récupérer la carte associée à l'ID de la carte
          $carte = Carte::find($idCarte);
@@ -958,21 +973,20 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Lien personnalisé ajouté avec succès.');
     }
 
-    public function activeSocialLink(Request $request)
+    public function updateSocialLinkCustom(Request $request)
     {
 
-        // Rechercher le lien en fonction de l'ID
-        $customLink = Custom_Link::find($request->id_link);
+        // Vérifiez si un enregistrement existe déjà
+        $customLink = Custom_Link::where('id_link', $request->id_link)->first();
 
         if ($customLink) {
-            // Mise à jour de l'état
-            $customLink->activer = $request->has('activer') ? 1 : 0;
+            // Mettre à jour le lien existant
+            $customLink->lien = $request->lien;
+            $customLink->activer = $request->has('activer') ? 1 : 0; // Activer ou désactiver en fonction de la présence du champ
             $customLink->save();
-
-            return redirect()->back()->with('success', 'Lien activé/désactivé avec succès.');
-        } else {
-            return var_dump($customLink);
         }
+
+        return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
 
 }

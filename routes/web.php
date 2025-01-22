@@ -34,7 +34,7 @@ Route::get('/Templates/iframe/fraise', [Templates::class, 'iframeFraise'])->name
 Route::get('/Templates/iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.iframes.peche');
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
-Route::middleware([App\Http\Middleware\Authentification::class])->group(function () {
+Route::middleware([Authentification::class])->group(function () {
     // Dashboard Admin
     Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
     Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
@@ -84,7 +84,7 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
 
     //Custom Link
     Route::post('/dashboardClientCustomLink', [DashboardClient::class, 'updateCustomLink'])->name('dashboardClientCustomLink');
-    Route::post('/activeSocialLink', [DashboardClient::class, 'activeSocialLink'])->name('activeSocialLink');
+    Route::post('/activeSocialLink', [DashboardClient::class, 'updateSocialLinkCustom'])->name('activeSocialLink');
 
     //color
     Route::post('/dashboardClientColor', [DashboardClient::class, 'updateColor'])->name('dashboardClientColor');

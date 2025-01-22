@@ -16,113 +16,162 @@
 <div class="flex flex-col">
     @include('menu.menuClient')
 
-
-
-
-
-    <div class="flex-1 md:ml-24 p-6">
-        <div class="w-full md:w-1/3 mx-auto p-6 bg-white rounded-lg border shadow-md mb-6 flex flex-col justify-between items-center">
+    <div class="flex-1 md:ml-24 p-6 parentStat">
+        <!-- divStat1 -->
+        <div class="divStat1 card w-full flex items-center justify-center mx-auto p-6 bg-white rounded-lg border shadow-md">
             <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
-                  class="flex flex-col items-center w-full">
-                <div class="mb-4 w-full text-center">
-                    <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez l'année</label>
-                    <select name="year" id="yearSelect" class="custom-select w-32 text-center mb-4"
-                            onchange="updateWeekToCurrent()">
-                        @foreach($years as $year)
-                            <option value="{{ $year }}" @if($year == $selectedYear) selected @endif>{{ $year }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-4 w-full text-center">
-                    <label for="weekSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez la
-                        semaine</label>
-                </div>
-                <div class="flex items-center w-full justify-center">
-                    <input type="hidden" name="week" id="weekInput" value="{{ $selectedWeek }}">
-                    <button type="button" onclick="changeWeek(-1)"
-                            class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-l">
-                        &lt;
-                    </button>
-                    <span id="weekDisplay" class="bg-transparent text-red-600 font-bold py-2 px-4">
-                {{ $selectedWeek ? $selectedWeek : date('W') }}
-            </span>
-                    <button type="button" onclick="changeWeek(1)"
-                            class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-r">
-                        &gt;
-                    </button>
+                  class="flex items-center justify-center w-full">
+                <!-- Conteneur des champs année et semaine sur la même ligne avec ESPACE -->
+                <div class="flex items-center space-x-52">
+                    <!-- Bloc de sélection de l'année -->
+                    <div class="text-center">
+                        <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez
+                            l'année</label>
+                        <select name="year" id="yearSelect" class="custom-select w-32 text-center"
+                                onchange="updateWeekToCurrent()">
+                            @foreach($years as $year)
+                                <option value="{{ $year }}"
+                                        @if($year == $selectedYear) selected @endif>{{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Bloc de sélection de la semaine -->
+                    <div>
+                        <div class="text-center">
+                            <label for="weekSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez la
+                                semaine</label>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <input type="hidden" name="week" id="weekInput" value="{{ $selectedWeek }}">
+                            <button type="button" onclick="changeWeek(-1)"
+                                    class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-l">
+                                &lt;
+                            </button>
+                            <span id="weekDisplay" class="bg-transparent text-red-600 font-bold py-2 px-4">
+                        {{ $selectedWeek ? $selectedWeek : date('W') }}
+                    </span>
+                            <button type="button" onclick="changeWeek(1)"
+                                    class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-r">
+                                &gt;
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-6">
-            <!-- Compteur de nombre de vues total -->
-            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col">
-                <div class="mb-4">
-                    <p class="text-center font-bold text-2xl">Nombre de vues</p>
-                    <p class="text-center text-xl">Global</p>
-                </div>
-                <div class="flex flex-grow justify-center items-center">
-                    <h1 class="text-7xl font-bold text-red-900">{{ $totalViewsCard }}</h1>
-                </div>
+        <!-- divStat2-->
+        <!-- Compteur de nombre de vues total -->
+        <div class="divStat2 card w-full p-6 bg-white rounded-lg border shadow-md">
+            <div class="mb-4">
+                <p class="text-center font-bold text-2xl">Nombre de vues</p>
+                <p class="text-center text-xl">Global</p>
             </div>
-
-            <!-- Compteur de nombre de vues total semaine -->
-            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col">
-                <div class="mb-4">
-                    <p class="text-center font-bold text-2xl">Nombre de vues</p>
-                    <p class="text-center text-xl">Semaine</p>
-                </div>
-                <div class="flex flex-grow justify-center items-center">
-                    @if($selectedWeek)
-                        <h1 class="text-7xl font-bold text-red-900">{{ $weeklyViews[$selectedWeek] ?? 0 }}</h1>
-                    @else
-                        @foreach($weeklyViews as $week => $count)
-                            <p>Semaine {{ $week }} : {{ $count }} vues</p>
-                        @endforeach
-                    @endif
-                </div>
+            <div class="flex flex-grow justify-center items-center">
+                <h1 class="text-7xl font-bold text-red-900">{{ $totalViewsCard }}</h1>
             </div>
-
-            <!-- Graph -->
-            <div class="w-full md:w-1/3 p-6 bg-white rounded-lg border shadow-md flex flex-col justify-center items-center mx-auto">
-                <!-- titre du graph-->
-                <div class="mb-4">
-                    <p class="text-center font-bold text-2xl">Nombres de vues</p>
-                    <p class="text-center text-xl">Par employes</p>
-                </div>
-
-                @if(empty($employerData['datasets'][0]['data']))
-                    <p>Aucune donnée disponible pour le graphique.</p>
+        </div>
+        <!-- divStat3-->
+        <!-- Compteur de nombre de vues total semaine -->
+        <div class="divStat3 card w-full p-6 bg-white rounded-lg border shadow-md">
+            <div class="mb-4">
+                <p class="text-center font-bold text-2xl">Nombre de vues</p>
+                <p class="text-center text-xl">Semaine</p>
+            </div>
+            <div class="flex flex-grow justify-center items-center">
+                @if($selectedWeek)
+                    <h1 class="text-7xl font-bold text-red-900">{{ $weeklyViews[$selectedWeek] ?? 0 }}</h1>
                 @else
-                    <canvas id="yearChart" width="100" height="50"></canvas>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            const employerData = @json($employerData);
-                            const ctxYear = document.getElementById('yearChart').getContext('2d');
-
-                            // employer chart
-                            let employe = new Chart(ctxYear, {
-                                type: 'pie',
-                                data: employerData,
-                                options: {
-                                    scales: {
-                                        x: {
-                                            display: false
-                                        },
-                                        y: {
-                                            display: false
-                                        }
-                                    }
-                                }
-                            });
-                        });
-                    </script>
+                    @foreach($weeklyViews as $week => $count)
+                        <p>Semaine {{ $week }} : {{ $count }} vues</p>
+                    @endforeach
                 @endif
             </div>
         </div>
+
+        <!-- divStat4-->
+        <!-- Graph -->
+        <div class="divStat4 card w-full p-6 bg-white rounded-lg border shadow-md justify-center items-center mx-auto">
+            <!-- titre du graph-->
+            <div class="mb-4">
+                <p class="text-center font-bold text-2xl">Nombres de vues</p>
+                <p class="text-center text-xl">Par employes</p>
+            </div>
+
+            @if(empty($employerData['datasets'][0]['data']))
+                <p>Aucune donnée disponible pour le graphique.</p>
+            @else
+                <div class="chart-container">
+                    <canvas id="yearChart" class="chart-canvas"></canvas>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const employerData = @json($employerData);
+                        const ctxYear = document.getElementById('yearChart').getContext('2d');
+
+                        // employer chart
+                        let employe = new Chart(ctxYear, {
+                            type: 'pie',
+                            data: employerData,
+                            options: {
+                                scales: {
+                                    x: {
+                                        display: false
+                                    },
+                                    y: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            @endif
+        </div>
+        <!-- divStat5-->
+        <!-- Graph nombre de vue par mois -->
+        <div class="divStat5 card w-full p-6 bg-white rounded-lg border shadow-md">
+            <div class="mb-4">
+                <p class="text-center font-bold text-2xl">Nombres de vues</p>
+                <p class="text-center text-xl">Par mois</p>
+            </div>
+
+            <!-- Débogage des données -->
+
+            <!-- Vérification des données -->
+            @if(empty($monthlyData['datasets'][0]['data']))
+                <p>Aucune donnée disponible pour le graphique.</p>
+            @else
+                <div class="chart-container">
+                    <canvas id="monthChart" class="chart-canvas"></canvas>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const $monthlyData = @json($monthlyData);
+                        const ctxMonth = document.getElementById('monthChart').getContext('2d');
+
+                        // Création du graphique
+                        let month = new Chart(ctxMonth, {
+                            type: 'bar',
+                            data: $monthlyData,
+                            options: {
+                                scales: {
+                                    x: {
+                                        display: true
+                                    },
+                                    y: {
+                                        display: true
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            @endif
+        </div>
     </div>
 </div>
-
 </body>
 
 <script>

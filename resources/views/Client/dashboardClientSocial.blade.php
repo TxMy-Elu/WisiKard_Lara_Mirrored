@@ -84,8 +84,8 @@
 
                 <!-- Formulaire caché -->
 
-                <form action="{{ route('dashboardClientCustomLink') }}" method="POST" class="flex flex-col"
-                      id="hiddenForm">
+                <form action="{{ route('dashboardClientCustomLink') }}" method="POST" class="flex flex-col hidden" {{-- Ajout de "hidden" ici --}}
+                id="hiddenForm">
                     <div class="bg-white rounded-lg shadow-lg p-4 my-6">
                         @csrf
                         @method('POST')
@@ -104,6 +104,7 @@
                         </button>
                     </div>
                 </form>
+
             </div>
 
 
@@ -129,22 +130,17 @@
                         </div>
                         <form action="{{ route('activeSocialLink') }}" method="POST" class="flex flex-col">
                             @csrf
-                            <input type="hidden" name="id"
-                                   value="{{ $link->id }}"> {{-- Ajoutez ceci pour envoyer l'ID --}}
-                            <input type="text" name="lien" value="{{ $link->lien }}"
-                                   class="border border-gray-300 p-2 rounded mb-2 w-full"
-                                   placeholder="Lien du réseau social">
+                            <input type="hidden" name="id_link" value="{{ $link->id_link}}"> {{-- Ajoutez ceci pour envoyer l'ID --}}
+                            <input type="text" name="lien" value="{{ $link->lien }}" class="border border-gray-300 p-2 rounded mb-2 w-full" placeholder="Lien du réseau social">
                             <div class="flex justify-between">
                                 <div class="flex items-center mb-2">
                                     <label class="toggle-switch">
-                                        <input type="checkbox" id="{{ $link->id_link }}"
-                                               name="activer" {{ isset($activatedSocial[$reseau->idSocial]) && $activatedSocial[$reseau->idSocial]['activer'] ? 'checked' : '' }}>
+                                        <input type="checkbox" id="{{ $link->id_link }}" name="activer" {{ isset($activatedCustomLinks[$link->id_link]) && $activatedCustomLinks[$link->id_link]['activer'] ? 'checked' : '' }}>
                                         <span class="slider"></span>
                                     </label>
                                     <label for="activer-{{ $link->id }}" class="text-sm ml-2">Activer</label>
                                 </div>
-                                <button type="submit" class="bg-indigo-500 text-white p-2 rounded">Mettre à jour
-                                </button>
+                                <button type="submit" class="bg-indigo-500 text-white p-2 rounded">Mettre à jour</button>
                             </div>
                         </form>
                     </div>
