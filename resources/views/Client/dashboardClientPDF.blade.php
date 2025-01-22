@@ -244,64 +244,82 @@
                 </div>
             @endif
         </div>
-
-        <!-- Formulaire slider -->
-        <div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6"><!--mb-6 pour la margin en dessous / p-6 margin dans card mais au dessus selectionner img-->
-            <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                @csrf
-                <div class="mb-4">
-                    <label for="slider_image" class="block text-sm font-medium text-gray-700">Sélectionner des images pour le slider :</label>
-                    <input type="file" id="slider_image" name="slider_images[]" class="mt-1 block w-full" accept=".jpg,.jpeg,.png" multiple>
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-                </div>
-            </form>
-            <br>
-            <h2 class="text-xl font-bold mb-2">Images pour slider téléchargés</h2>
-            <!-- Card pour le slider -->
-            @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")))
-                <div class="mt-4">
-                    <h2 class="text-xl font-bold mb-2">Slider</h2>
-                    <div class="bg-white p-4 rounded-lg shadow-md relative square-card">
-                        <div class="box-border h-auto w-auto p-4 border-4 ">
-                            <div class="carousel">
-                                @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $index => $file)
-                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }} relative">
-                                        <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-full h-full object-cover">
-                                    </div>
-                                @endforeach
-                            <button class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full" onclick="prevSlide()">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                </svg>
-                            </button>
-                            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full" onclick="nextSlide()">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </button>
-                            <div class="box-border h-auto w-auto p-4 border-4 ">
-                                <button class="absolute bottom-2 -2 bg-green-500 text-white px-2 py-1 rounded-lg" onclick="toggleUploadForm()">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                    </svg>
-                                </button>
-                                @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $file)
-                                    <form action="{{ route('dashboardClientPDF.deleteSliderImage', ['filename' => $file->getFilename()]) }}" method="POST" class="absolute bottom-2 right-2 delete-button" id="deleteSliderForm_{{ $file->getFilename() }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteSliderForm_{{ $file->getFilename() }}')">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </form>
-                                @endforeach
+<!-- Formulaire slider -->
+<div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6">
+    <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        @csrf
+        <div class="mb-4">
+            <label for="slider_image" class="block text-sm font-medium text-gray-700">Sélectionner des images pour le slider :</label>
+            <input type="file" id="slider_image" name="slider_images[]" class="mt-1 block w-full" accept=".jpg,.jpeg,.png" multiple>
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+        </div>
+    </form>
+    <br>
+    <h2 class="text-xl font-bold mb-2">Images pour slider téléchargés</h2>
+    <!-- Card pour le slider -->
+    @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")))
+        <div class="mt-4">
+            <h2 class="text-xl font-bold mb-2">Slider</h2>
+            <div class="bg-white p-4 rounded-lg shadow-md relative square-card">
+                <div class="box-border h-auto w-auto p-4 border-4 ">
+                    <div class="carousel">
+                        @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $index => $file)
+                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }} relative">
+                                <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-full h-full object-cover">
                             </div>
-                        </div>
+                        @endforeach
+                    <button class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full" onclick="prevSlide()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full" onclick="nextSlide()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                    <div class="box-border h-auto w-auto p-4 border-4 ">
+                        <button class="absolute bottom-2 -2 bg-green-500 text-white px-2 py-1 rounded-lg" onclick="toggleUploadForm()">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </button>
+                        <button class="absolute bottom-2 right-2 bg-red-500 text-white px-2 py-1 rounded-lg" onclick="openDeleteModal()">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
-            @endif
+            </div>
         </div>
+    @endif
+</div>
+
+<!-- The Modal -->
+<div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
+        <span class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer" onclick="closeDeleteModal()">&times;</span>
+        <h2 class="text-xl font-bold mb-4">Sélectionnez l'image à supprimer</h2>
+        <form id="deleteForm" action="{{ route('dashboardClientPDF.deleteSliderImage') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" id="selectedFilename" name="filename">
+            <div class="mb-4 flex overflow-x-auto">
+                @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $file)
+                    <div class="flex-shrink-0 mr-4">
+                        <input type="radio" id="image_{{ $file->getFilename() }}" name="selectedImage" value="{{ $file->getFilename() }}" onclick="selectImage('{{ $file->getFilename() }}')" class="hidden">
+                        <label for="image_{{ $file->getFilename() }}" class="cursor-pointer">
+                            <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}" alt="{{ $file->getFilename() }}" class="w-24 h-24 object-cover">
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg" onclick="submitDeleteForm()">Supprimer</button>
+        </form>
+    </div>
+</div>
+
 
         <!-- Formulaire de téléchargement d'image pour le slider -->
         <div id="uploadForm" class="hidden mt-4 bg-white p-4 rounded-lg shadow-md">
@@ -363,17 +381,32 @@
             document.getElementById(formId).submit();
         }
     }
-
-    function toggleUploadForm() {
-        const form = document.getElementById('uploadForm');
-        form.classList.toggle('hidden');
+    function confirmDelete(formId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
+            document.getElementById(formId).submit();
+        }
     }
-
     function openRenameModal(currentFilename, idCarte) {
         document.getElementById('currentFilename').value = currentFilename;
         document.getElementById('idCarte').value = idCarte;
         document.getElementById('renameModal').style.display = 'block';
     }
+
+     function openDeleteModal() {
+         document.getElementById('deleteModal').classList.remove('hidden');
+     }
+
+     function closeDeleteModal() {
+         document.getElementById('deleteModal').classList.add('hidden');
+     }
+
+     function selectImage(filename) {
+         document.getElementById('selectedFilename').value = filename;
+     }
+
+     function submitDeleteForm() {
+         document.getElementById('deleteForm').submit();
+     }
 
     function closeRenameModal() {
         document.getElementById('renameModal').style.display = 'none';

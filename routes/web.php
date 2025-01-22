@@ -73,7 +73,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::delete('/dashboardClientPDF/deleteVideo/{index}', [DashboardClient::class, 'deleteVideo'])->name('dashboardClientPDF.deleteVideo');
     Route::post('/dashboardClientPDF/uploadSlider', [DashboardClient::class, 'uploadSlider'])->name('dashboardClientPDF.uploadSlider');
     Route::get('/dashboardClientPDF/afficherSlider', [DashboardClient::class, 'afficherSlider'])->name('dashboardClientPDF.afficherSlider');
-    Route::delete('/dashboardClientPDF/deleteSliderImage/{filename}', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
+    Route::delete('/dashboardClientPDF/deleteSliderImage', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
 
     // Personnalisation des Clients
     Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');

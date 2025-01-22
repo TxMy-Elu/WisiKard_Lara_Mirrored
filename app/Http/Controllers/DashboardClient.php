@@ -741,9 +741,9 @@ class DashboardClient extends Controller
             return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
         }
     }
-
-    public function deleteSliderImage($filename)
+    public function deleteSliderImage(Request $request)
     {
+        $filename = $request->input('filename');
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
