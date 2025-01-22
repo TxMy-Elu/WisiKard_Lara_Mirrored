@@ -333,39 +333,6 @@ class DashboardClient extends Controller
         return view('formulaire.formulaireModifEmploye', compact('employe'));
     }
 
-    public function modifierEmploye(Request $request, $id)
-    {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'tel' => 'required|string|max:20',
-            'fonction' => 'required|string|max:255',
-        ]);
-
-        try {
-            $employe = Employer::findOrFail($id);
-            $employe->nom = $request->nom;
-            $employe->prenom = $request->prenom;
-            $employe->mail = $request->email;
-            $employe->telephone = $request->tel;
-            $employe->fonction = $request->fonction;
-            $employe->save();
-
-            // Récupérer l'email du compte pour les logs
-            $compte = Compte::find($employe->idCarte);
-            if ($compte) {
-                $emailUtilisateur = $compte->email;
-                // Écrire dans les logs
-                Logs::ecrireLog($emailUtilisateur, "Modification Employe");
-            }
-
-            return redirect()->route('dashboardClientEmploye')->with('success', 'L\'employé a été modifié avec succès.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'employé.');
-        }
-    }
-
     public function updateColor(Request $request)
     {
         $request->validate([

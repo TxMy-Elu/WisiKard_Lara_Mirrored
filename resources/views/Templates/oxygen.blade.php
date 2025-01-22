@@ -133,7 +133,7 @@
     <div class='flex justify-center items-center mt-2'>
         <h1 class='text-2xl font-bold'>{{ $carte['titre'] }}</h1>
     </div>
-
+@if($employe != null)
     <div class='flex justify-center items-center mt-1'>
         <h2 class='text-lg font-light'>{{ $employe['nom'] }} {{ $employe['prenom'] }} - {{ $employe['fonction'] }}</h2>
     </div>
@@ -146,6 +146,7 @@
             {{ $employe['telephone'] }}
         </a>
     </div>
+    @endif
 
     <div class='flex justify-center items-center mt-2.5'>
         <p class='text-base text-center'>{{ $carte->descriptif }}</p>
@@ -193,6 +194,7 @@
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>Maps
         </a>
+
 
         <a href="{{ $carte['lienSite'] }}" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
