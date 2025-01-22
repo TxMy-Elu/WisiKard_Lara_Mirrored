@@ -444,23 +444,6 @@ class DashboardClient extends Controller
         return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte'));
     }
 
-    private function getNextIncrementalNumber($folderPath)//Pour les img du slider
-    {
-        $files = File::files($folderPath);
-        $maxNumber = 0;
-
-        foreach ($files as $file) {
-            $fileName = $file->getFilename();
-            if (preg_match("/^(\d+)_/", $fileName, $matches)) {
-                $number = (int)$matches[1];
-                if ($number > $maxNumber) {
-                    $maxNumber = $number;
-                }
-            }
-        }
-        return $maxNumber + 1;
-    }
-
     public function uploadFile(Request $request)
     {
         $request->validate([
@@ -591,6 +574,29 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
+    public function deleteSliderImage(Request $request)
+    {
+        $filenames = json_decode($request->input('filenames'), true);
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        // Définir le nom de l'entreprise
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        foreach ($filenames as $filename) {
+            $sliderPath = public_path("entreprises/{$folderName}/slider/{$filename}");
+            if (File::exists($sliderPath)) {
+                File::delete($sliderPath);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Images de slider supprimées avec succès.');
+    }
 
     public function deletePDF($filename)
     {
@@ -674,51 +680,71 @@ class DashboardClient extends Controller
         }
     }
 
-    public function uploadSlider(Request $request)
+  public function uploadSlider(Request $request)
+  {
+      $request->validate([
+          'slider_images' => 'required|array',
+          'slider_images.*' => 'file|mimes:jpg,jpeg,png',
+      ]);
+
+      $idCompte = session('connexion');
+      $carte = Carte::where('idCompte', $idCompte)->first();
+
+      if (!$carte) {
+          return redirect()->back()->with('error', 'Carte non trouvée.');
+      }
+
+      // Définir le nom de l'entreprise
+      $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+      $folderName = "{$idCompte}_{$entrepriseName}";
+
+      $sliderPath = public_path("entreprises/{$folderName}/slider");
+
+      if (!File::exists($sliderPath)) {
+          File::makeDirectory($sliderPath, 0755, true);
+      }
+
+      // Vérifier le nombre d'images existantes dans le dossier slider
+      $existingImages = File::files($sliderPath);
+      if (count($existingImages) >= 10) {
+          return redirect()->back()->with('error', 'Vous ne pouvez pas télécharger plus de 10 images pour le slider.');
+      }
+
+      foreach ($request->file('slider_images') as $sliderImage) {
+          $sliderImageType = $sliderImage->getClientOriginalExtension();
+          $mimeType = $sliderImage->getMimeType();
+
+          // Vérifier le type MIME et l'extension
+          if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
+              ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
+              ($sliderImageType === 'png' && $mimeType === 'image/png')) {
+
+              $sliderFileName = time() . '_' . uniqid() . '.' . $sliderImageType;
+              $sliderImage->move($sliderPath, $sliderFileName);
+          } else {
+              return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+          }
+      }
+
+      return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
+  }
+
+    private function getNextIncrementalNumber($folderPath)
     {
-        $request->validate([
-            'slider_images' => 'required|array',
-            'slider_images.*' => 'file|mimes:jpg,jpeg,png',
-        ]);
+        $files = File::files($folderPath);
+        $maxNumber = 0;
 
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        // Définir le nom de l'entreprise
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $sliderPath = public_path("entreprises/{$folderName}/slider");
-
-        if (!File::exists($sliderPath)) {
-            File::makeDirectory($sliderPath, 0755, true);
-        }
-
-        foreach ($request->file('slider_images') as $sliderImage) {
-            $sliderImageType = $sliderImage->getClientOriginalExtension();
-            $mimeType = $sliderImage->getMimeType();
-
-            // Vérifier le type MIME et l'extension
-            if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
-                ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($sliderImageType === 'png' && $mimeType === 'image/png')) {
-
-                $nextNumber = $this->getNextIncrementalNumber($sliderPath);
-                $sliderFileName = "{$nextNumber}_slider.{$sliderImageType}";
-                $sliderImage->move($sliderPath, $sliderFileName);
-            } else {
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+        foreach ($files as $file) {
+            $fileName = $file->getFilename();
+            if (preg_match("/^(\d+)_/", $fileName, $matches)) {
+                $number = (int)$matches[1];
+                if ($number > $maxNumber) {
+                    $maxNumber = $number;
+                }
             }
         }
-
-        return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
+        return $maxNumber + 1;
     }
-
-
     public function afficherSlider()
     {
         $idCompte = session('connexion');
@@ -739,29 +765,6 @@ class DashboardClient extends Controller
             return view('client.dashboardClientPDF', compact('sliderImages', 'carte', 'idCompte'));
         } else {
             return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
-        }
-    }
-    public function deleteSliderImage(Request $request)
-    {
-        $filename = $request->input('filename');
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        // Définir le nom de l'entreprise
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $sliderPath = public_path("entreprises/{$folderName}/slider/{$filename}");
-
-        if (File::exists($sliderPath)) {
-            File::delete($sliderPath);
-            return redirect()->back()->with('success', 'Image de slider supprimée avec succès.');
-        } else {
-            return redirect()->back()->with('error', 'Image de slider non trouvée.');
         }
     }
 
