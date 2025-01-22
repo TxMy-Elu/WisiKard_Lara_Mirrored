@@ -34,7 +34,7 @@ Route::get('/Templates/iframe/fraise', [Templates::class, 'iframeFraise'])->name
 Route::get('/Templates/iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.iframes.peche');
 
 // Routes protégées (accessibles uniquement aux utilisateurs authentifiés)
-Route::middleware([App\Http\Middleware\Authentification::class])->group(function () {
+Route::middleware([Authentification::class])->group(function () {
     // Dashboard Admin
     Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
     Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
