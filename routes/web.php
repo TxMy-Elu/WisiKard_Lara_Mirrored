@@ -80,6 +80,7 @@ Route::middleware([App\Http\Middleware\Authentification::class])->group(function
 
     //Custom Link
     Route::post('/dashboardClientCustomLink', [DashboardClient::class, 'updateCustomLink'])->name('dashboardClientCustomLink');
+    Route::post('/activeSocialLink', [DashboardClient::class, 'activeSocialLink'])->name('activeSocialLink');
 
     //color
     Route::post('/dashboardClientColor', [DashboardClient::class, 'updateColor'])->name('dashboardClientColor');

@@ -932,6 +932,23 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Lien personnalisé ajouté avec succès.');
     }
 
+    public function activeSocialLink(Request $request)
+    {
+
+        // Rechercher le lien en fonction de l'ID
+        $customLink = Custom_Link::find($request->id_link);
+
+        if ($customLink) {
+            // Mise à jour de l'état
+            $customLink->activer = $request->has('activer') ? 1 : 0;
+            $customLink->save();
+
+            return redirect()->back()->with('success', 'Lien activé/désactivé avec succès.');
+        } else {
+            return var_dump($customLink);
+        }
+    }
+
 }
 
 
