@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `nomBtnPdf` varchar(100) DEFAULT NULL,
     `couleur1` varchar(10) DEFAULT NULL,
     `couleur2` varchar(10) DEFAULT NULL,
-    `descirptif` varchar(500) DEFAULT NULL,
+    `descriptif` varchar(500) DEFAULT NULL,
     `LienCommande` varchar(150) DEFAULT NULL,
     `lienQr` varchar(500) NOT NULL,
     `idCompte` int NOT NULL,

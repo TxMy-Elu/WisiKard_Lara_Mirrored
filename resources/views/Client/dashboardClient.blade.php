@@ -160,7 +160,7 @@
                     </div>
                     <div class="flex flex-col mt-4">
                         <label for="descirptif" class="text-lg font-semibold">Description</label>
-                        <textarea name="descirptif" id="descirptif"
+                        <textarea name="descriptif" id="descriptif"
                                   class="w-full p-2 border border-gray-300 rounded-lg">{{ $description }}</textarea>
                     </div>
                     <button type="submit"
