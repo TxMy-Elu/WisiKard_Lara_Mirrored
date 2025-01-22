@@ -83,6 +83,7 @@
             </div>
         @endif
 
+
         <!-- Formulaire logo -->
         <div class="bg-white w-2/6 p-6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
@@ -100,7 +101,7 @@
                File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpeg")) ||
                File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png")))
                 <div class="mt-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 w-96 ">
                         <div class="bg-white p-8 rounded-lg shadow-md relative">
                             <div class="text-center mb-2">
                                 @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg")))
@@ -127,7 +128,7 @@
         </div>
 
         <!-- Formulaire IMG -->
-        <div class="bg-white w-2/6 p-6 rounded-lg shadow-md mb-6">
+        <div class="bg-white w-auto p-6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
@@ -141,9 +142,9 @@
             <!-- Card pour les images -->
             @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/images")))
                 <div class="mt-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3">
                         @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/images")) as $file)
-                            <div class="bg-white w-auto h-auto p-4 rounded-lg shadow-md relative">
+                            <div class="bg-white w-max h-max p-4 rounded-lg shadow-md relative">
                                 <div class="text-center mb-3">
                                     <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
                                 </div>
@@ -181,17 +182,28 @@
                 <div class="mt-4">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf")) as $file)
-                            <div class="bg-white p-4 rounded-lg shadow-md relative">
+                            <div class="bg-white w-max p-4 rounded-lg shadow-md relative">
                                 <div class="text-center mb-2">
                                     <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
                                 </div>
+                                <form action="{{ route('dashboardClientPDF.deletePDF' , ['filename' => $file->getFilename()]) }}" method="POST" class="absolute bottom-2 right-2" id="deletePDFForm">
+                                     @csrf
+                                      @method('DELETE')
+                                      <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deletePDFForm')">
+                                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
                                 <div class="w-96 h-80 overflow-auto border rounded-lg" onclick="openRenameModal('{{ $file->getFilename() }}', {{ $carte->idCarte }})">
                                     <iframe src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" width="100%" height="100%" style="border: none;"></iframe>
                                 </div>
                                 <button class="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2" onclick="openRenameModal('{{ $file->getFilename() }}', {{ $carte->idCarte }})">Renommer</button>
                             </div>
+
                         @endforeach
                     </div>
+
                 </div>
             @endif
         </div>
@@ -237,7 +249,7 @@
         </div>
 
         <!-- Formulaire slider -->
-        <div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6">
+        <div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6"><!--mb-6 pour la margin en dessous / p-6 margin dans card mais au dessus selectionner img-->
             <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
@@ -359,67 +371,6 @@
         form.classList.toggle('hidden');
     }
 
-    // Get the modal
-    var modal = document.getElementById("renameModal");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    function openRenameModal(filename, idCarte) {
-        document.getElementById('currentFilename').value = filename;
-        document.getElementById('idCarte').value = idCarte;
-        modal.style.display = "block";
-    }
-
-    function closeRenameModal() {
-        modal.style.display = "none";
-    }
-
-    function renameFile() {
-        const currentFilename = document.getElementById('currentFilename').value;
-        const newFilename = document.getElementById('newFilename').value;
-        const idCarte = document.getElementById('idCarte').value;
-
-        // Faites une requête AJAX pour renommer le fichier sur le serveur
-        fetch(`{{ route('dashboardClientPDF.renamePdf') }}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                currentFilename: currentFilename,
-                newFilename: newFilename,
-                idCarte: idCarte
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Fichier renommé avec succès!');
-                closeRenameModal();
-                // Mettre à jour l'affichage du fichier PDF
-                document.querySelector(`[onclick="openRenameModal('${currentFilename}', ${idCarte})"]`).innerHTML = newFilename;
-            } else {
-                alert('Erreur lors du renommage du fichier.');
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
 </script>
 
 </body>
