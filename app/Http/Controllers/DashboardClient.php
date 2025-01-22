@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Carte;
@@ -19,33 +18,20 @@ class DashboardClient extends Controller
 {
     public function afficherDashboardClient(Request $request)
     {
-        // Récupérer l'id du compte connecté
         $idCompte = session('connexion');
-
-        // Recueperer les informations de la carte
         $carte = Carte::where('idCompte', $idCompte)->first();
-
-        // Recueperer les informations du compte
         $compte = Compte::where('idCompte', $idCompte)->first();
-
-        // Récupérer le message
         $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-        // Formater le numéro de téléphone
         if ($carte) {
             $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
         }
 
-        // couleur
         $couleur1 = $carte->couleur1;
         $couleur2 = $carte->couleur2;
-
-        //titre / description
         $titre = $carte->titre;
         $description = $carte->descriptif;
-
-        //idTemplate
         $idTemplate = Carte::where('idCompte', $idCompte)->first()->idTemplate;
 
         return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description', 'idTemplate'));
@@ -56,13 +42,11 @@ class DashboardClient extends Controller
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
     }
 
-
     public function employer(Request $request)
     {
         $idCompte = session('connexion');
         $search = $request->input('search');
 
-        // Récupérer les employés associés à la carte du compte connecté avec la relation carte
         $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
             ->where('carte.idCompte', $idCompte)
             ->when($search, function ($query, $search) {
@@ -73,7 +57,6 @@ class DashboardClient extends Controller
             ->select('employer.*')
             ->get();
 
-        // Vérif si des résultats sont trouvés
         if ($employes->isEmpty() && !empty($search)) {
             return view('client.dashboardClientEmploye', [
                 'employes' => $employes,
@@ -97,8 +80,6 @@ class DashboardClient extends Controller
             'tel' => 'required|string|max:20',
         ]);
 
-
-        // Créer un nouvel employé
         Employer::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
@@ -107,11 +88,9 @@ class DashboardClient extends Controller
             'idCarte' => $request->idCarte
         ]);
 
-        // Récupérer l'email du compte pour les logs
         $compte = Compte::find($request->idCarte);
         if ($compte) {
             $emailUtilisateur = $compte->email;
-            // Écrire dans les logs
             Logs::ecrireLog($emailUtilisateur, "Ajout Employe");
         }
 
@@ -137,46 +116,36 @@ class DashboardClient extends Controller
         }
     }
 
-
     public function social()
     {
         $idCompte = session('connexion');
         $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
 
-        // Récupérer tous les réseaux sociaux
         $allSocial = Social::all();
-
-        // Récupérer les réseaux sociaux activés pour l'entreprise
         $activatedSocial = Rediriger::where('idCarte', $idCarte)
             ->join('social', 'rediriger.idSocial', '=', 'social.idSocial')
             ->select('social.idSocial', 'rediriger.activer', 'rediriger.lien')
             ->get();
 
-        // Créer un tableau associatif pour les réseaux sociaux activés
         $activatedSocialArray = [];
         foreach ($activatedSocial as $social) {
             $activatedSocialArray[$social->idSocial] = ['activer' => $social->activer, 'lien' => $social->lien];
         }
 
-        //custom_link
         $custom = Custom_link::where('idCarte', $idCarte)->get();
-
-        // Récupérer les liens personnalisés activés pour l'entreprise
         $activatedCustomLinks = Custom_Link::where('idCarte', $idCarte)
             ->select('id_link', 'activer', 'lien')
             ->get();
 
-        // Créer un tableau associatif pour les liens personnalisés activés
         $activatedCustomLinksArray = [];
         foreach ($activatedCustomLinks as $link) {
             $activatedCustomLinksArray[$link->id_link] = ['activer' => $link->activer, 'lien' => $link->lien];
         }
 
-
         return view('client.dashboardClientSocial', [
             'allSocial' => $allSocial,
             'activatedSocial' => $activatedSocialArray,
-            'idCarte' => $idCarte, // Passez la variable $idCarte à la vue
+            'idCarte' => $idCarte,
             'custom' => $custom,
             'activatedCustomLinks' => $activatedCustomLinksArray
         ]);
@@ -190,23 +159,20 @@ class DashboardClient extends Controller
             'lien' => 'nullable|url'
         ]);
 
-        // Vérifiez si un enregistrement existe déjà
         $rediriger = Rediriger::where('idSocial', $request->idSocial)
             ->where('idCarte', $request->idCarte)
             ->first();
 
         if ($rediriger) {
-            // Mettre à jour le lien existant
             $rediriger->lien = $request->lien;
-            $rediriger->activer = $request->has('activer') ? 1 : 0; // Activer ou désactiver en fonction de la présence du champ
+            $rediriger->activer = $request->has('activer') ? 1 : 0;
             $rediriger->save();
         } else {
-            // Créer un nouvel enregistrement
             Rediriger::create([
                 'idSocial' => $request->idSocial,
                 'idCarte' => $request->idCarte,
                 'lien' => $request->lien,
-                'activer' => $request->has('activer') ? 1 : 0 // Activer par défaut si le champ est présent
+                'activer' => $request->has('activer') ? 1 : 0
             ]);
         }
 
@@ -216,16 +182,11 @@ class DashboardClient extends Controller
     public function statistique(Request $request)
     {
         $session = session('connexion');
-
-        // Récupérer l'année, la semaine et le mois à partir de la requête
         $year = $request->query('year', date('Y'));
-        $selectedWeek = $request->input('week', date('W')); // Utiliser la semaine actuelle par défaut
-        $selectedMonth = $request->input('month', date('n')); // Utiliser le mois actuel par défaut
-
-        // Récupérer l'idCarte associé au compte connecté
+        $selectedWeek = $request->input('week', date('W'));
+        $selectedMonth = $request->input('month', date('n'));
         $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
 
-        // Données annuelles
         $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
             ->whereYear('date', $year)
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
@@ -247,7 +208,6 @@ class DashboardClient extends Controller
             ],
         ];
 
-        // Données annuelles par employé
         $employerViews = Vue::selectRaw('employer.nom as nom, COUNT(*) as count')
             ->join('employer', 'vue.idEmp', '=', 'employer.idEmp')
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
@@ -257,14 +217,13 @@ class DashboardClient extends Controller
             ->pluck('count', 'nom')
             ->toArray();
 
-        // Génération de couleurs aléatoires pour les graphiques
         $colors = [];
         foreach ($employerViews as $key => $value) {
             do {
                 $r = mt_rand(0, 255);
                 $g = mt_rand(0, 255);
                 $b = mt_rand(0, 255);
-            } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100)); // Exclude pink and green
+            } while (($r > 200 && $g < 100 && $b > 200) || ($r < 100 && $g > 200 && $b < 100));
             $colors[] = sprintf('rgba(%d, %d, %d, 0.755)', $r, $g, $b);
         }
 
@@ -281,13 +240,11 @@ class DashboardClient extends Controller
             ],
         ];
 
-        // Nombre total de vues en fonction de l'année et de l'idCarte
         $totalViewsCard = Vue::whereYear('date', $year)
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
             ->where('carte.idCompte', $session)
             ->count();
 
-        // Nombre de vues par semaine
         $weeklyViewsQuery = Vue::selectRaw('WEEK(date, 1) as week, COUNT(*) as count')
             ->whereYear('date', $year)
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
@@ -296,11 +253,9 @@ class DashboardClient extends Controller
 
         $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
 
-        // Années disponibles pour la sélection
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        //nombre de vue par mois sur l'année
         $monthlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
             ->whereYear('date', $year)
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
@@ -309,7 +264,6 @@ class DashboardClient extends Controller
             ->pluck('count', 'month')
             ->toArray();
 
-        //graph de vue par mois
         $monthlyData = [
             'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
             'datasets' => [
@@ -322,7 +276,6 @@ class DashboardClient extends Controller
                 ],
             ],
         ];
-
 
         return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData'));
     }
@@ -352,11 +305,9 @@ class DashboardClient extends Controller
             $employe->fonction = $request->fonction;
             $employe->save();
 
-            // Récupérer l'email du compte pour les logs
             $compte = Compte::find($employe->idCarte);
             if ($compte) {
                 $emailUtilisateur = $compte->email;
-                // Écrire dans les logs
                 Logs::ecrireLog($emailUtilisateur, "Modification Employe");
             }
 
@@ -394,12 +345,10 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Définir le nom de l'entreprise
         $entrepriseName = $carte->nomEntreprise;
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -408,7 +357,6 @@ class DashboardClient extends Controller
         if (!File::exists($qrCodesPath)) {
             return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
         }
-
 
         return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
     }
@@ -422,7 +370,6 @@ class DashboardClient extends Controller
         return response()->streamDownload(function () use ($url) {
             echo file_get_contents($url);
         }, 'QR_Code.svg');
-
     }
 
     public function afficherDashboardClientPDF()
@@ -430,11 +377,9 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
-        // Lire les URLs YouTube enregistrées
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
         $youtubeUrls = [];
         if (File::exists($videosPath)) {
@@ -444,136 +389,168 @@ class DashboardClient extends Controller
         return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte'));
     }
 
-    public function uploadFile(Request $request)
-    {
-        $request->validate([
-            'file' => 'nullable|file|mimes:mp4,pdf,jpg,jpeg,png',
-            'youtube_url' => 'nullable|url',
-            'logo' => 'nullable|file|mimes:jpg,jpeg,png'
-        ]);
+     public function uploadFile(Request $request)
+     {
+         $request->validate([
+             'file' => 'nullable|file|mimes:mp4,pdf,jpg,jpeg,png',
+             'youtube_url' => 'nullable|url',
+             'logo' => 'nullable|file|mimes:jpg,jpeg,png'
+         ]);
 
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
+         $idCompte = session('connexion');
+         $carte = Carte::where('idCompte', $idCompte)->first();
 
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
+         if (!$carte) {
+             return redirect()->back()->with('error', 'Carte non trouvée.');
+         }
 
-        // Définir le nom de l'entreprise
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
+         // Définir le nom de l'entreprise
+         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+         $folderName = "{$idCompte}_{$entrepriseName}";
 
-        if ($request->hasFile('file')) { // Fichiers MP4
-            $file = $request->file('file');
-            $fileType = $file->getClientOriginalExtension();
-            $mimeType = $file->getMimeType();
+         if ($request->hasFile('file')) { // Fichiers MP4
+             $file = $request->file('file');
+             $fileType = $file->getClientOriginalExtension();
+             $mimeType = $file->getMimeType();
 
-            // Vérifier le type MIME et l'extension
-            if (($fileType === 'mp4' && $mimeType === 'video/mp4') ||
-                ($fileType === 'pdf' && $mimeType === 'application/pdf') ||
-                ($fileType === 'jpg' && $mimeType === 'image/jpeg') ||
-                ($fileType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($fileType === 'png' && $mimeType === 'image/png')) {
+             // Vérifier le type MIME et l'extension
+             if (($fileType === 'mp4' && $mimeType === 'video/mp4') ||
+                 ($fileType === 'pdf' && $mimeType === 'application/pdf') ||
+                 ($fileType === 'jpg' && $mimeType === 'image/jpeg') ||
+                 ($fileType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                 ($fileType === 'png' && $mimeType === 'image/png')) {
 
-                $filePath = '';
+                 $filePath = '';
 
-                switch ($fileType) {
-                    case 'mp4':
-                        $filePath = public_path("entreprises/{$folderName}/videos");
-                        break;
-                    case 'pdf':
-                        $filePath = public_path("entreprises/{$folderName}/pdf");
-                        break;
-                    case 'jpg':
-                    case 'jpeg':
-                    case 'png':
-                        $filePath = public_path("entreprises/{$folderName}/images");
-                        break;
-                    default:
-                        return redirect()->back()->with('error', 'Type de fichier non supporté.');
-                }
+                 switch ($fileType) {
+                     case 'mp4':
+                         $filePath = public_path("entreprises/{$folderName}/videos");
+                         break;
+                     case 'pdf':
+                         $filePath = public_path("entreprises/{$folderName}/pdf");
+                         break;
+                     case 'jpg':
+                     case 'jpeg':
+                     case 'png':
+                         $filePath = public_path("entreprises/{$folderName}/images");
+                         break;
+                     default:
+                         return redirect()->back()->with('error', 'Type de fichier non supporté.');
+                 }
 
-                if (!File::exists($filePath)) {
-                    File::makeDirectory($filePath, 0755, true);
-                }
+                 if (!File::exists($filePath)) {
+                     File::makeDirectory($filePath, 0755, true);
+                 }
 
-                $fileName = time() . '.' . $fileType;
-                $file->move($filePath, $fileName);
+                 $fileName = time() . '.' . $fileType;
+                 $file->move($filePath, $fileName);
 
-                return redirect()->back()->with('success', 'Fichier téléchargé avec succès.');
+                 return redirect()->route('dashboardClientPDF')->with('success', 'Fichier téléchargé avec succès.');
+             } else {
+                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+             }
+         }
+
+         if ($request->hasFile('logo')) { // Logos
+             $logo = $request->file('logo');
+             $logoType = $logo->getClientOriginalExtension();
+             $mimeType = $logo->getMimeType();
+
+             // Vérifier le type MIME et l'extension
+             if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
+                 ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                 ($logoType === 'png' && $mimeType === 'image/png')) {
+
+                 $logoPath = public_path("entreprises/{$folderName}/logos");
+
+                 if (!File::exists($logoPath)) {
+                     File::makeDirectory($logoPath, 0755, true);
+                 }
+
+                 $logoFileName = 'logo.' . $logoType;
+                 $logo->move($logoPath, $logoFileName);
+
+                 return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
+             } else {
+                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+             }
+         }
+
+         if ($request->filled('youtube_url')) { // URLs YouTube
+             $youtubeUrl = $request->input('youtube_url');
+
+             // Vérifier si l'URL YouTube est valide
+             if (!preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)$/', $youtubeUrl)) {
+                 return redirect()->back()->with('error', 'URL YouTube non valide.');
+             }
+
+             $videosPath = public_path("entreprises/{$folderName}/videos");
+
+             if (!File::exists($videosPath)) {
+                 File::makeDirectory($videosPath, 0755, true);
+             }
+
+             $videosFile = $videosPath . '/videos.json';
+             $videosData = [];
+
+             if (File::exists($videosFile)) {
+                 $videosData = json_decode(File::get($videosFile), true);
+             }
+
+             $videosData[] = $youtubeUrl;
+             File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
+
+             return redirect()->route('dashboardClientPDF')->with('success', 'URL YouTube enregistrée avec succès.');
+         }
+
+         return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
+     }
+      public function deleteVideoFile($filename)
+      {
+          $idCompte = session('connexion');
+          $carte = Carte::where('idCompte', $idCompte)->first();
+
+          if (!$carte) {
+              return redirect()->back()->with('error', 'Carte non trouvée.');
+          }
+
+          // Définir le nom de l'entreprise
+          $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+          $folderName = "{$idCompte}_{$entrepriseName}";
+
+          $filePath = public_path("entreprises/{$folderName}/videos/{$filename}");
+
+          if (File::exists($filePath)) {
+              File::delete($filePath);
+              return redirect()->back()->with('success', 'Vidéo MP4 supprimée avec succès.');
+          } else {
+              return redirect()->back()->with('error', 'Vidéo MP4 non trouvée.');
+          }
+      }
+
+
+     public function deleteImage($filename)
+        {
+            $idCompte = session('connexion');
+            $carte = Carte::where('idCompte', $idCompte)->first();
+
+            if (!$carte) {
+                return redirect()->back()->with('error', 'Carte non trouvée.');
+            }
+            $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+            $folderName = "{$idCompte}_{$entrepriseName}";
+
+            $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
+
+            if (File::exists($filePath)) {
+                File::delete($filePath);
+                return redirect()->back()->with('success', 'Image supprimée avec succès.');
             } else {
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-            }
-        }
-        if ($request->hasFile('logo')) { // Logos
-            $logo = $request->file('logo');
-            $logoType = $logo->getClientOriginalExtension();
-            $mimeType = $logo->getMimeType();
-
-            // Vérifier le type MIME et l'extension
-            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'png' && $mimeType === 'image/png')) {
-
-                $logoPath = public_path("entreprises/{$folderName}/logos");
-
-                if (!File::exists($logoPath)) {
-                    File::makeDirectory($logoPath, 0755, true);
-                }
-
-                $logoFileName = 'logo.' . $logoType;
-                $logo->move($logoPath, $logoFileName);
-
-                return redirect()->back()->with('success', 'Logo téléchargé avec succès.');
-            } else {
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+                return redirect()->back()->with('error', 'Image non trouvée.');
             }
         }
 
-        if ($request->filled('youtube_url')) { // URLs YouTube
-            $youtubeUrl = $request->input('youtube_url');
-            $videosPath = public_path("entreprises/{$folderName}/videos");
 
-            if (!File::exists($videosPath)) {
-                File::makeDirectory($videosPath, 0755, true);
-            }
-
-            $videosFile = $videosPath . '/videos.json';
-            $videosData = [];
-
-            if (File::exists($videosFile)) {
-                $videosData = json_decode(File::get($videosFile), true);
-            }
-
-            $videosData[] = $youtubeUrl;
-            File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
-
-            return redirect()->back()->with('success', 'URL YouTube enregistrée avec succès.');
-        }
-
-        return redirect()->back()->with('error', 'Aucun fichier ou URL YouTube fourni.');
-    }
-
-    public function deleteImage($filename)
-    {
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
-
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-            return redirect()->back()->with('success', 'Image supprimée avec succès.');
-        } else {
-            return redirect()->back()->with('error', 'Image non trouvée.');
-        }
-    }
     public function deleteSliderImage(Request $request)
     {
         $filenames = json_decode($request->input('filenames'), true);
@@ -584,7 +561,6 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -628,7 +604,6 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -658,7 +633,6 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -669,7 +643,7 @@ class DashboardClient extends Controller
 
             if (isset($videosData[$index])) {
                 unset($videosData[$index]);
-                $videosData = array_values($videosData); // Réindexer le tableau
+                $videosData = array_values($videosData);
                 File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
                 return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
             } else {
@@ -680,54 +654,52 @@ class DashboardClient extends Controller
         }
     }
 
-  public function uploadSlider(Request $request)
-  {
-      $request->validate([
-          'slider_images' => 'required|array',
-          'slider_images.*' => 'file|mimes:jpg,jpeg,png',
-      ]);
+    public function uploadSlider(Request $request)
+    {
+        $request->validate([
+            'slider_images' => 'required|array',
+            'slider_images.*' => 'file|mimes:jpg,jpeg,png',
+        ]);
 
-      $idCompte = session('connexion');
-      $carte = Carte::where('idCompte', $idCompte)->first();
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-      if (!$carte) {
-          return redirect()->back()->with('error', 'Carte non trouvée.');
-      }
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-      // Définir le nom de l'entreprise
-      $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-      $folderName = "{$idCompte}_{$entrepriseName}";
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-      $sliderPath = public_path("entreprises/{$folderName}/slider");
+        $sliderPath = public_path("entreprises/{$folderName}/slider");
 
-      if (!File::exists($sliderPath)) {
-          File::makeDirectory($sliderPath, 0755, true);
-      }
+        if (!File::exists($sliderPath)) {
+            File::makeDirectory($sliderPath, 0755, true);
+        }
 
-      // Vérifier le nombre d'images existantes dans le dossier slider
-      $existingImages = File::files($sliderPath);
-      if (count($existingImages) >= 10) {
-          return redirect()->back()->with('error', 'Vous ne pouvez pas télécharger plus de 10 images pour le slider.');
-      }
+        $existingImages = File::files($sliderPath);
+        if (count($existingImages) >= 10) {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas télécharger plus de 10 images pour le slider.');
+        }
 
-      foreach ($request->file('slider_images') as $sliderImage) {
-          $sliderImageType = $sliderImage->getClientOriginalExtension();
-          $mimeType = $sliderImage->getMimeType();
+        foreach ($request->file('slider_images') as $sliderImage) {
+            $sliderImageType = $sliderImage->getClientOriginalExtension();
+            $mimeType = $sliderImage->getMimeType();
 
-          // Vérifier le type MIME et l'extension
-          if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
-              ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
-              ($sliderImageType === 'png' && $mimeType === 'image/png')) {
+            if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($sliderImageType === 'png' && $mimeType === 'image/png')) {
 
-              $sliderFileName = time() . '_' . uniqid() . '.' . $sliderImageType;
-              $sliderImage->move($sliderPath, $sliderFileName);
-          } else {
-              return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-          }
-      }
+                $nextNumber = $this->getNextIncrementalNumber($sliderPath);
+                $sliderFileName = "{$nextNumber}_slider.{$sliderImageType}";
+                $sliderImage->move($sliderPath, $sliderFileName);
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        }
 
-      return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
-  }
+        return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
+    }
 
     private function getNextIncrementalNumber($folderPath)
     {
@@ -745,6 +717,7 @@ class DashboardClient extends Controller
         }
         return $maxNumber + 1;
     }
+
     public function afficherSlider()
     {
         $idCompte = session('connexion');
@@ -754,7 +727,6 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Définir le nom de l'entreprise
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -800,16 +772,10 @@ class DashboardClient extends Controller
 
     public function afficherFormulaireEntreprise()
     {
-        // Récupérer l'id du compte connecté
         $idCompte = session('connexion');
-
-        // Recueperer les informations de la carte
         $carte = Carte::where('idCompte', $idCompte)->first();
-
-        // Recueperer les informations du compte
         $compte = Compte::where('idCompte', $idCompte)->first();
 
-        // Formater le numéro de téléphone
         if ($carte) {
             $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
         }
@@ -838,45 +804,35 @@ class DashboardClient extends Controller
         $carte->tel = $request->tel;
         $carte->ville = $request->adresse;
 
-
-        //si le nom de l'entreprise change, on change le nom du dossier
         $nomEntreprise = Carte::where('idCompte', $idCompte)->first()->nomEntreprise;
         if ($nomEntreprise != $request->nomEntreprise) {
             $entrepriseName = Str::slug($request->nomEntreprise, '_');
             $folderName = "{$idCompte}_{$entrepriseName}";
             $oldFolderName = "{$idCompte}_" . Str::slug($nomEntreprise, '_');
 
-            // Renommer le dossier
             $oldPath = public_path("entreprises/{$oldFolderName}");
             $newPath = public_path("entreprises/{$folderName}");
 
-            // Vérifier si l'ancien dossier existe
             if (File::exists($oldPath)) {
-                // Vérifier si le nouveau dossier existe déjà
                 if (File::exists($newPath)) {
                     return redirect()->back()->with('error', 'Le dossier avec le nouveau nom existe déjà.');
                 }
 
-                // Renommer le dossier
                 File::move($oldPath, $newPath);
             } else {
                 return redirect()->back()->with('error', 'Ancien dossier introuvable.');
             }
 
-            // Mettre à jour les couleurs
             $couleur1 = $carte->couleur1;
             $couleur2 = $carte->couleur2;
 
-            // Renommer le lien QR
             $lien = "/entreprises/1_" . $request->nomEntreprise . "/QR_Codes/QR_Code.svg";
             $carte->lienQr = $lien;
 
-            // Sauvegarder les mises à jour sur l'objet carte
             $carte->save();
         }
 
         $carte->save();
-
 
         $compte->email = $request->mail;
         $compte->save();
@@ -917,24 +873,18 @@ class DashboardClient extends Controller
         $newFilename = $request->input('newFilename');
         $idCarte = $request->input('idCarte');
 
-         // Récupérer la carte associée à l'ID de la carte
          $carte = Carte::find($idCarte);
 
          if (!$carte) {
              return redirect()->back()->with('error', 'Carte non trouvée.');
          }
 
-         // Chemin du fichier actuel
          $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
-
-         // Chemin du nouveau fichier
          $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
 
-         // Renommer le fichier
          if (File::exists($currentPath)) {
              File::move($currentPath, $newPath);
 
-             // Mettre à jour le nom du fichier dans la base de données
              $carte->pdf = $newFilename;
              $carte->save();
 
@@ -945,27 +895,23 @@ class DashboardClient extends Controller
      }
     public function updateCustomLink(Request $request)
     {
-        // Récupération de la session
         $session = session('connexion');
 
         if (!$session) {
             return redirect()->back()->withErrors(['error' => 'La session utilisateur est expirée ou invalide.']);
         }
 
-        // Recherche de l'idCarte associé à l'utilisateur connecté
         $carte = Carte::where('idCompte', $session)->first();
 
         if (!$carte) {
             return redirect()->back()->withErrors(['error' => 'Aucune carte associée à cet utilisateur trouvée.']);
         }
 
-        // Validation des données reçues
         $request->validate([
             'nom' => 'required|string|max:255',
             'lien' => 'required|url'
         ]);
 
-        // Création du lien personnalisé
         Custom_Link::create([
             'nom' => $request->input('nom'),
             'lien' => $request->input('lien'),
@@ -979,13 +925,11 @@ class DashboardClient extends Controller
     public function updateSocialLinkCustom(Request $request)
     {
 
-        // Vérifiez si un enregistrement existe déjà
         $customLink = Custom_Link::where('id_link', $request->id_link)->first();
 
         if ($customLink) {
-            // Mettre à jour le lien existant
             $customLink->lien = $request->lien;
-            $customLink->activer = $request->has('activer') ? 1 : 0; // Activer ou désactiver en fonction de la présence du champ
+            $customLink->activer = $request->has('activer') ? 1 : 0;
             $customLink->save();
         }
 
@@ -993,7 +937,3 @@ class DashboardClient extends Controller
     }
 
 }
-
-
-
-

@@ -14,9 +14,9 @@
             display: block;
         }
         .square-card {
-            width: 300px; /* Définissez la largeur souhaitée */
-            height: 300px; /* Définissez la hauteur souhaitée */
-            position: relative; /* Ajoutez cette ligne pour positionner le bouton de suppression */
+            width: 300px;
+            height: 300px;
+            position: relative;
         }
         .square-card img {
             width: 100%;
@@ -25,8 +25,8 @@
         }
         .delete-button {
             position: absolute;
-            bottom: 10px; /* Ajustez cette valeur pour positionner le bouton verticalement */
-            right: 10px; /* Ajustez cette valeur pour positionner le bouton horizontalement */
+            bottom: 10px;
+            right: 10px;
         }
         .modal {
             display: none;
@@ -84,13 +84,15 @@
         @endif
 
         <!-- Formulaire logo -->
-        <div class="bg-white w-2/6 p-6 rounded-lg shadow-md mb-6">
+        <div class="bg-white w-3/6 p-6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
                     <label for="logo" class="block text-sm font-medium text-gray-700">Sélectionner un logo :</label>
                     <input type="file" id="logo" name="logo" class="mt-1 block w-full" accept=".jpg,.jpeg,.png">
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                    <div class="flex p-4">
+                       <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                    </div>
                 </div>
             </form>
             <br>
@@ -127,13 +129,15 @@
         </div>
 
         <!-- Formulaire IMG -->
-        <div class="bg-white w-auto p-6 rounded-lg shadow-md mb-6">
+        <div class="bg-white w-3/6 p-6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
                     <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner une image :</label>
                     <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".mp4,.jpg,.jpeg,.png">
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                    <div class="flex p-4">
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                    </div>
                 </div>
             </form>
             <br>
@@ -165,14 +169,16 @@
         </div>
 
         <!-- Formulaire PDF -->
-        <div class="bg-white p-6 w-2/4 rounded-lg shadow-md mb-6">
+        <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="mb-4">
                     <label for="file" class="block text-sm font-medium text-gray-700">Sélectionner un fichier :</label>
                     <input type="file" id="file" name="file" class="mt-1 block w-full" accept=".pdf">
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-                </div>
+                    <div class="flex p-4">
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                    </div>
+                 </div>
             </form>
             <br>
             <h2 class="text-xl font-bold mb-2">Fichiers PDF téléchargés</h2>
@@ -205,47 +211,52 @@
             @endif
         </div>
 
-        <!-- Formulaire YouTube -->
-        <div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6">
-            <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                <div class="mb-4">
-                    <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
-                    <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-                </div>
-            </form>
-            <br>
-            <h2 class="text-xl font-bold mb-2">Vidéos téléchargées</h2>
-            <!-- Card pour les vidéos YouTube -->
-            @if(!empty($youtubeUrls))
-                <div class="mt-4">
-                    <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        @foreach($youtubeUrls as $index => $youtubeUrl)
-                            <div class="bg-white p-4 rounded-lg shadow-md relative">
-                                <div class="text-center mb-2">
-                                    <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
-                                </div>
-                                <div class="video-container"><br/>
-                                    <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                </div><br/>
-                                <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteVideoForm_{{ $index }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-        </div>
+
+<!-- Formulaire YouTube -->
+ <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
+     <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+         @csrf
+         <div class="mb-4">
+             <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
+             <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
+         </div>
+            <div class="flex p-4">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+             </div>
+       </form>
+     <br>
+     <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+     <!-- Card pour les vidéos YouTube -->
+     @if(!empty($youtubeUrls))
+         <div class="mt-4">
+             <br><br>
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                 @foreach($youtubeUrls as $index => $youtubeUrl)
+                     <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
+                         <div class="text-center mb-2">
+                             <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
+                         </div>
+                         <div class="video-container w-80 h-auto "><br/>
+                             <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         </div><br/>
+                         <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteVideoForm_{{ $index }}">
+                             @csrf
+                             @method('DELETE')
+                             <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
+                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                 </svg>
+                             </button>
+                         </form>
+                     </div>
+                 @endforeach
+             </div>
+         </div>
+     @endif
+ </div><br>
+
 <!-- Formulaire slider -->
-<div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6">
+<div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
     @if(session('error'))
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <strong class="font-bold">Erreur!</strong>
@@ -263,8 +274,9 @@
         <div class="mb-4">
             <label for="slider_image" class="block text-sm font-medium text-gray-700">Sélectionner des images pour le slider :</label>
             <input type="file" id="slider_image" name="slider_images[]" class="mt-1 block w-full" accept=".jpg,.jpeg,.png" multiple>
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-        </div>
+            <div class="flex p-4">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+             </div>
     </form>
     <br>
     <h2 class="text-xl font-bold mb-2">Images pour slider téléchargées</h2>
