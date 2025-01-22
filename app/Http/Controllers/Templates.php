@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carte;
 use App\Models\Compte;
+use App\Models\Custom_Link;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Template;
@@ -29,16 +30,17 @@ class Templates extends Controller
         $social = Rediriger::where('idCarte', $carte->idCarte)
             ->where('activer', 1)
             ->get();
+        $custom = Custom_Link::where('idCarte', $carte->idCarte) ->where('activer', 1)->get();
         $vue = Vue::where('idCarte', $carte->idCarte)->get();
         $template = Template::where('idTemplate', $idTemplate)->get();
 
         switch ($idTemplate) {
             case 1:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom'));
             case 2:
-                return view('Templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
+                return view('Templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom'));
             case 3:
-                return view('Templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial'));
+                return view('Templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom'));
 
          }
 
