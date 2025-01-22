@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `nomBtnPdf` varchar(100) DEFAULT NULL,
     `couleur1` varchar(10) DEFAULT NULL,
     `couleur2` varchar(10) DEFAULT NULL,
-    `descirptif` varchar(500) DEFAULT NULL,
+    `descriptif` varchar(500) DEFAULT NULL,
     `LienCommande` varchar(150) DEFAULT NULL,
     `lienQr` varchar(500) NOT NULL,
     `idCompte` int NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
 -- Déchargement des données de la table `carte`
 --
 
-INSERT INTO `carte` (`idCarte`, `nomEntreprise`, `titre`, `tel`, `ville`, `imgPres`, `imgLogo`, `pdf`, `nomBtnPdf`, `couleur1`, `couleur2`, `descirptif`, `LienCommande`, `lienQr`, `idCompte`, `idTemplate`) VALUES
+INSERT INTO `carte` (`idCarte`, `nomEntreprise`, `titre`, `tel`, `ville`, `imgPres`, `imgLogo`, `pdf`, `nomBtnPdf`, `couleur1`, `couleur2`, `descriptif`, `LienCommande`, `lienQr`, `idCompte`, `idTemplate`) VALUES
                                                                                                                                                                                                                   (1, 'LIDL', 'Titre1', '123456789044', 'OuiOui', 'imgPres1.jpg', 'imgLogo1.jpg', 'pdf1.pdf', 'Télécharger', '#ff0000', '#12173b', 'Description1', 'http://liencommande1.com', '/entreprises/1_LIDL/QR_Codes/QR_Code.svg', 1, 3),
                                                                                                                                                                                                                   (2, 'Entreprise2', 'Titre2', '987654321', 'Ville2', 'imgPres2.jpg', 'imgLogo2.jpg', 'pdf2.pdf', 'Télécharger', '#FF0000', '#00FF00', 'Description2', 'http://liencommande2.com', '/entreprises/2_Entreprise2/QR_Codes/QR_Code.svg', 2, 2),
                                                                                                                                                                                                                   (3, 'Entreprise3', 'Titre3', '111223344', 'Ville3', 'imgPres3.jpg', 'imgLogo3.jpg', 'pdf3.pdf', 'Télécharger', '#00FFFF', '#FF00FF', 'Description3', 'http://liencommande3.com', '/entreprises/3_Entreprise3/QR_Codes/QR_Code.svg', 3, 3),

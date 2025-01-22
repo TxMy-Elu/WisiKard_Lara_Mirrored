@@ -769,7 +769,7 @@ class DashboardClient extends Controller
     {
         $request->validate([
             'titre' => 'required|string|max:255',
-            'descirptif' => 'required|string|max:255',
+            'descriptif' => 'required|string|max:255',
         ]);
 
         $idCompte = session('connexion');
@@ -780,7 +780,7 @@ class DashboardClient extends Controller
         }
 
         $carte->titre = $request->titre;
-        $carte->descirptif = $request->descirptif;
+        $carte->descirptif = $request->descriptif;
         $carte->save();
 
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
