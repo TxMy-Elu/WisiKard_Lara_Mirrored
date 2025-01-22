@@ -893,34 +893,38 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
-
  public function renamePdf(Request $request)
-    {
-        $currentFilename = $request->input('currentFilename');
-        $newFilename = $request->input('newFilename');
-        $idCarte = $request->input('idCarte');
+     {
+         $currentFilename = $request->input('currentFilename');
+         $newFilename = $request->input('newFilename');
+         $idCarte = $request->input('idCarte');
 
-        // Chemin du fichier actuel
-        $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
+         // Récupérer la carte associée à l'ID de la carte
+         $carte = Carte::find($idCarte);
 
-        // Chemin du nouveau fichier
-        $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
+         if (!$carte) {
+             return redirect()->back()->with('error', 'Carte non trouvée.');
+         }
 
-        // Renommer le fichier
-        if (Storage::exists($currentPath)) {
-            Storage::move($currentPath, $newPath);
+         // Chemin du fichier actuel
+         $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
 
-            // Mettre à jour le nom du fichier dans la base de données
-            $carte = Carte::find($idCarte);
-            $carte->pdf = $newFilename;
-            $carte->save();
+         // Chemin du nouveau fichier
+         $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
 
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['success' => false]);
-        }
-    }
+         // Renommer le fichier
+         if (File::exists($currentPath)) {
+             File::move($currentPath, $newPath);
 
+             // Mettre à jour le nom du fichier dans la base de données
+             $carte->pdf = $newFilename;
+             $carte->save();
+
+             return redirect()->back()->with('success', 'Fichier renommé avec succès.');
+         } else {
+             return redirect()->back()->with('error', 'Fichier non trouvé.');
+         }
+     }
     public function updateCustomLink(Request $request)
     {
         // Récupération de la session

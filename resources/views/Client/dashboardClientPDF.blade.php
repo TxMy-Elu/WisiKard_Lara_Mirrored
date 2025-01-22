@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Client Employe</title>
+    <title>Dashboard Client PDF</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <style>
@@ -83,7 +83,6 @@
             </div>
         @endif
 
-
         <!-- Formulaire logo -->
         <div class="bg-white w-2/6 p-6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
@@ -155,7 +154,7 @@
                                     <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteImageForm_{{ $file->getFilename() }}')">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
+                                    </svg>
                                     </button>
                                 </form>
                             </div>
@@ -187,28 +186,26 @@
                                     <h3 class="text-lg font-bold">{{ $file->getFilename() }}</h3>
                                 </div>
                                 <form action="{{ route('dashboardClientPDF.deletePDF' , ['filename' => $file->getFilename()]) }}" method="POST" class="absolute bottom-2 right-2" id="deletePDFForm">
-                                     @csrf
-                                      @method('DELETE')
-                                      <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deletePDFForm')">
-                                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deletePDFForm')">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
                                 <div class="w-96 h-80 overflow-auto border rounded-lg" onclick="openRenameModal('{{ $file->getFilename() }}', {{ $carte->idCarte }})">
                                     <iframe src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf/" . $file->getFilename()) }}" width="100%" height="100%" style="border: none;"></iframe>
                                 </div>
                                 <button class="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2" onclick="openRenameModal('{{ $file->getFilename() }}', {{ $carte->idCarte }})">Renommer</button>
                             </div>
-
                         @endforeach
                     </div>
-
                 </div>
             @endif
         </div>
 
-        <!-- Formulaire Youtube -->
+        <!-- Formulaire YouTube -->
         <div class="bg-white p-6 w-2/6 rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 <div class="mb-4">
@@ -218,7 +215,7 @@
                 </div>
             </form>
             <br>
-            <h2 class="text-xl font-bold mb-2">Vidéos téléchargés</h2>
+            <h2 class="text-xl font-bold mb-2">Vidéos téléchargées</h2>
             <!-- Card pour les vidéos YouTube -->
             @if(!empty($youtubeUrls))
                 <div class="mt-4">
@@ -326,14 +323,15 @@
     <div class="modal-content">
         <span class="close" onclick="closeRenameModal()">&times;</span>
         <h2 class="text-xl font-bold mb-2">Renommer le fichier PDF</h2>
-        <form id="renameForm">
-            <input type="hidden" id="currentFilename">
-            <input type="hidden" id="idCarte">
+        <form id="renameForm" action="{{ route('dashboardClientPDF.renamePdf') }}" method="POST">
+            @csrf
+            <input type="hidden" id="currentFilename" name="currentFilename">
+            <input type="hidden" id="idCarte" name="idCarte">
             <div class="mb-4">
                 <label for="newFilename" class="block text-sm font-medium text-gray-700">Nouveau nom de fichier :</label>
                 <input type="text" id="newFilename" name="newFilename" class="mt-1 block w-full" required>
             </div>
-            <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-lg" onclick="renameFile()">Renommer</button>
+            <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-lg" onclick="submitRenameForm()">Renommer</button>
         </form>
     </div>
 </div>
@@ -371,6 +369,19 @@
         form.classList.toggle('hidden');
     }
 
+    function openRenameModal(currentFilename, idCarte) {
+        document.getElementById('currentFilename').value = currentFilename;
+        document.getElementById('idCarte').value = idCarte;
+        document.getElementById('renameModal').style.display = 'block';
+    }
+
+    function closeRenameModal() {
+        document.getElementById('renameModal').style.display = 'none';
+    }
+
+    function submitRenameForm() {
+        document.getElementById('renameForm').submit();
+    }
 </script>
 
 </body>
