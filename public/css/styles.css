@@ -187,3 +187,35 @@ input:checked + .slider:before {
 .div4 { grid-area: 3 / 1 / 5 / 6; }
 
 /* grid Statistique */
+.parentStat {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    height: 100%;
+}
+
+.divStat1 { grid-area: 1 / 1 / 2 / 3; }
+.divStat2 { grid-area: 1 / 4/ 2 / 5; }
+.divStat3 { grid-area: 2 / 4 / 3 / 5; }
+.divStat4 { grid-area: 3/ 1 / 6 / 3; }
+.divStat5 { grid-area: 3 / 3 / 6 / 6; }
+
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chart-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.chart-canvas {
+    max-height: 100%;
+    max-width: 100%;
+}

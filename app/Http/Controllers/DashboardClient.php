@@ -300,20 +300,31 @@ class DashboardClient extends Controller
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        // Mois disponibles pour la sélection
-        $months = range(1, 12);
+        //nombre de vue par mois sur l'année
+        $monthlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+            ->whereYear('date', $year)
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->where('carte.idCompte', $session)
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
 
-        if ($request->ajax()) {
-            return response()->json([
-                'totalViewsCard' => $totalViewsCard,
-                'weeklyViews' => $weeklyViews,
-                'selectedMonth' => $selectedMonth,
-                'selectedWeek' => $selectedWeek,
-                'employerData' => $employerData,
-            ]);
-        }
+        //graph de vue par mois
+        $monthlyData = [
+            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            'datasets' => [
+                [
+                    'label' => 'Nombre de vues par mois',
+                    'backgroundColor' => 'rgba(153, 27, 27, 0.2)',
+                    'borderColor' => 'rgba(153, 27, 27, 1)',
+                    'borderWidth' => 1,
+                    'data' => array_values(array_replace(array_fill(1, 12, 0), $monthlyViews)),
+                ],
+            ],
+        ];
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'months', 'employerData'));
+
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData'));
     }
 
     public function afficherFormulaireModifEmpl($id)
