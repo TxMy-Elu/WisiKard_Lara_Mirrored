@@ -43,7 +43,7 @@ class DashboardClient extends Controller
 
         //titre / description
         $titre = $carte->titre;
-        $description = $carte->descirptif;
+        $description = $carte->descriptif;
 
         //idTemplate
         $idTemplate = Carte::where('idCompte', $idCompte)->first()->idTemplate;
@@ -780,7 +780,7 @@ class DashboardClient extends Controller
         }
 
         $carte->titre = $request->titre;
-        $carte->descirptif = $request->descriptif;
+        $carte->descriptif = $request->descriptif;
         $carte->save();
 
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
