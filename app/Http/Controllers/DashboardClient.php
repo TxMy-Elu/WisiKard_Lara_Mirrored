@@ -317,6 +317,7 @@ class DashboardClient extends Controller
         }
     }
 
+
     public function updateColor(Request $request)
     {
         $request->validate([

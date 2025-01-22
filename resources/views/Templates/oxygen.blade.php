@@ -133,7 +133,7 @@
     <div class='flex justify-center items-center mt-2'>
         <h1 class='text-2xl font-bold'>{{ $carte['titre'] }}</h1>
     </div>
-
+@if($employe != null)
     <div class='flex justify-center items-center mt-1'>
         <h2 class='text-lg font-light'>{{ $employe['nom'] }} {{ $employe['prenom'] }} - {{ $employe['fonction'] }}</h2>
     </div>
@@ -146,19 +146,44 @@
             {{ $employe['telephone'] }}
         </a>
     </div>
+    @endif
 
     <div class='flex justify-center items-center mt-2.5'>
         <p class='text-base text-center'>{{ $carte->descriptif }}</p>
     </div>
 
     <div class='flex justify-center items-center flex-wrap mt-4 mx-11'>
-        <button class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <!-- Bouton pour afficher le QR Code -->
+        <button onclick="showQrCode()" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/avcjklpr.json"
                        trigger="loop"
                        delay="1000"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>QRCode
         </button>
+
+        <!-- Modal pour afficher le QR Code -->
+        <div id="qrCodeModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center relative">
+                <h3 class="text-xl font-bold mb-4 text-zinc-900">{{ $carte['nomEntreprise'] }} - QR Code</h3>
+                <img src="{{ $carte->lienQr }}" alt="QR Code" class="w-48 h-48 mx-auto">
+                <button onclick="closeQrCode()" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full">✖</button>
+            </div>
+        </div>
+
+        <!-- Script JavaScript -->
+        <script>
+            // Fonction pour afficher la modal
+            function showQrCode() {
+                document.getElementById('qrCodeModal').classList.remove('hidden');
+            }
+
+            // Fonction pour cacher la modal
+            function closeQrCode() {
+                document.getElementById('qrCodeModal').classList.add('hidden');
+            }
+        </script>
+
 
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
            class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -169,6 +194,7 @@
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>Maps
         </a>
+
 
         <a href="{{ $carte['lienSite'] }}" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -249,8 +275,11 @@
         @foreach($mergedSocial as $so)
             <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer" class="p-3 hover:scale-110 transform transition duration-200">
                 <div class="flex items-center justify-center">
-                    <div class="w-12 h-12 flex items-center justify-center ">
-                        {!! $so['logo'] !!}
+                    <div class="w-12 h-12 flex items-center justify-center">
+                        <!-- Apporter la couleur blanche aux logos -->
+                        <div class="text-white fill-white">
+                            {!! $so['logo'] !!}
+                        </div>
                     </div>
                 </div>
             </a>

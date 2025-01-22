@@ -29,7 +29,7 @@ class Employer extends Model
 
     public static function QrCodeEmploye($id, $entreprise, $idEmp)
     {
-        $url = "https://chart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?idEmp=" . $idEmp;
+        $url = "https://chart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?CompteEmp=". $id ."x".$idEmp;
 
         $ch = curl_init();
 
@@ -66,39 +66,5 @@ class Employer extends Model
 
             return $svgFilePath;
         }
-    }
-
-    public static function inscriptionEmploye($nom, $prenom, $fonction, $email, $telephone, $idCarte)
-    {
-        // Créez un nouvel employé
-        $employe = new Employer();
-        $employe->nom = $nom;
-        $employe->prenom = $prenom;
-        $employe->fonction = $fonction;
-        $employe->mail = $email;
-        $employe->telephone = $telephone;
-        $employe->idCarte = $idCarte;
-        $employe->save();
-
-        // Récupérer l'ID de l'employé nouvellement créé
-        $idEmp = $employe->idEmp;
-
-        // Générer le QR code
-        $qrCodePath = self::QrCodeEmploye(session('connexion'), $employe->carte->nomEntreprise, $idEmp);
-        if ($qrCodePath) {
-            Log::info("QR Code généré pour l'employé ID: $idEmp");
-        } else {
-            Log::error("Échec de la génération du QR code pour l'employé ID: $idEmp");
-        }
-
-        // Récupérer l'email du compte pour les logs
-        $compte = Compte::find(session('connexion'));
-        if ($compte) {
-            $emailUtilisateur = $compte->email;
-            // Écrire dans les logs
-            Logs::ecrireLog($emailUtilisateur, "Inscription Employe");
-        }
-
-        return $employe;
     }
 }

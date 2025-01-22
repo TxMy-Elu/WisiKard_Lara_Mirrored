@@ -58,9 +58,8 @@ class Employe extends Controller
     public function QrCode($id, $entreprise, $idEmp)
     {
         //concatenation de id et IdEmploye
-        $code = $id . $idEmp;
+        $code = $id ."x".$idEmp;
 
-        var_dump($code);
 
         $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1:9000/Templates?CompteEmp=" . $code;
 
