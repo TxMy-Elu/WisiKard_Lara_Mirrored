@@ -973,7 +973,7 @@ class DashboardClient extends Controller
 
         // Vérifiez si un enregistrement existe déjà
         $customLink = Custom_Link::where('id_link', $request->id_link)->first();
-        
+
         if ($customLink) {
             // Mettre à jour le lien existant
             $customLink->lien = $request->lien;

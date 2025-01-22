@@ -11,7 +11,7 @@
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
-    <div class="flex-1 md:ml-24 p-4">
+    <div class="flex-1 md:ml-24">
         @if($messageContent != "Aucun message disponible" || empty($messageContent))
             <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
                  role="alert">
@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-        <div class="parent">
+        <div class="parent  p-4">
             <!-- Carte (div1) -->
             <div class="div1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                 <div class="flex justify-between">

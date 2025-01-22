@@ -84,8 +84,8 @@
 
                 <!-- Formulaire caché -->
 
-                <form action="{{ route('dashboardClientCustomLink') }}" method="POST" class="flex flex-col"
-                      id="hiddenForm">
+                <form action="{{ route('dashboardClientCustomLink') }}" method="POST" class="flex flex-col hidden" {{-- Ajout de "hidden" ici --}}
+                id="hiddenForm">
                     <div class="bg-white rounded-lg shadow-lg p-4 my-6">
                         @csrf
                         @method('POST')
@@ -104,6 +104,7 @@
                         </button>
                     </div>
                 </form>
+
             </div>
 
 
