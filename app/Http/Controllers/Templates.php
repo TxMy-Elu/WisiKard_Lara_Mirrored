@@ -59,8 +59,6 @@ class Templates extends Controller
             ];
         });
 
-
-
         // Récupérer les employés associés à la carte
         $employe = Employer::where('idCarte', $carte->idCarte)->first();
 
