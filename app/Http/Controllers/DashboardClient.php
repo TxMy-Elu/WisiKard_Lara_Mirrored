@@ -161,11 +161,24 @@ class DashboardClient extends Controller
         //custom_link
         $custom = Custom_link::where('idCarte', $idCarte)->get();
 
+        // Récupérer les liens personnalisés activés pour l'entreprise
+        $activatedCustomLinks = Custom_Link::where('idCarte', $idCarte)
+            ->select('id_link', 'activer', 'lien')
+            ->get();
+
+        // Créer un tableau associatif pour les liens personnalisés activés
+        $activatedCustomLinksArray = [];
+        foreach ($activatedCustomLinks as $link) {
+            $activatedCustomLinksArray[$link->id_link] = ['activer' => $link->activer, 'lien' => $link->lien];
+        }
+
+
         return view('client.dashboardClientSocial', [
             'allSocial' => $allSocial,
             'activatedSocial' => $activatedSocialArray,
             'idCarte' => $idCarte, // Passez la variable $idCarte à la vue
-            'custom' => $custom
+            'custom' => $custom,
+            'activatedCustomLinks' => $activatedCustomLinksArray
         ]);
     }
 
@@ -578,7 +591,8 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
-     public function deletePDF($filename)
+
+    public function deletePDF($filename)
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -894,7 +908,7 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
 
- public function renamePdf(Request $request)
+    public function renamePdf(Request $request)
     {
         $currentFilename = $request->input('currentFilename');
         $newFilename = $request->input('newFilename');
@@ -954,21 +968,20 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Lien personnalisé ajouté avec succès.');
     }
 
-    public function activeSocialLink(Request $request)
+    public function updateSocialLinkCustom(Request $request)
     {
 
-        // Rechercher le lien en fonction de l'ID
-        $customLink = Custom_Link::find($request->id_link);
-
+        // Vérifiez si un enregistrement existe déjà
+        $customLink = Custom_Link::where('id_link', $request->id_link)->first();
+        
         if ($customLink) {
-            // Mise à jour de l'état
-            $customLink->activer = $request->has('activer') ? 1 : 0;
+            // Mettre à jour le lien existant
+            $customLink->lien = $request->lien;
+            $customLink->activer = $request->has('activer') ? 1 : 0; // Activer ou désactiver en fonction de la présence du champ
             $customLink->save();
-
-            return redirect()->back()->with('success', 'Lien activé/désactivé avec succès.');
-        } else {
-            return var_dump($customLink);
         }
+
+        return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
 
 }
