@@ -296,27 +296,16 @@ class DashboardClient extends Controller
 
         $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
 
-        // Nombre de vues par mois
-        $monthlyViewsQuery = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
-            ->whereYear('date', $year)
-            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
-            ->where('carte.idCompte', $session)
-            ->groupBy('month');
-
-        $monthlyViews = $monthlyViewsQuery->pluck('count', 'month')->toArray();
-
         // Années disponibles pour la sélection
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
         // Mois disponibles pour la sélection
         $months = range(1, 12);
-        $selectedMonth = $selectedMonth;
 
         if ($request->ajax()) {
             return response()->json([
                 'totalViewsCard' => $totalViewsCard,
-                'monthlyViews' => $monthlyViews,
                 'weeklyViews' => $weeklyViews,
                 'selectedMonth' => $selectedMonth,
                 'selectedWeek' => $selectedWeek,
@@ -324,7 +313,7 @@ class DashboardClient extends Controller
             ]);
         }
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'monthlyViews', 'selectedMonth', 'months', 'employerData'));
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'months', 'employerData'));
     }
 
     public function afficherFormulaireModifEmpl($id)
