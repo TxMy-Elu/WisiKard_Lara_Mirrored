@@ -4,17 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Vue;
-use Illuminate\Http\Request;
 use App\Models\Carte;
 use App\Models\Message;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardAdmin extends Controller
 {
+    protected $compte;
+    protected $vue;
+    protected $carte;
+    protected $message;
+
+    public function __construct(Compte $compte, Vue $vue, Carte $carte, Message $message)
+    {
+        $this->compte = $compte;
+        $this->vue = $vue;
+        $this->carte = $carte;
+        $this->message = $message;
+    }
+
     public function afficherDashboardAdmin(Request $request)
     {
         $search = $request->input('search');
-        $entreprises = Carte::query()
-            ->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+        $entreprises = $this->carte->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
             ->when($search, function ($query, $search) {
                 return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
                     ->orWhere('compte.email', 'like', "%{$search}%");
@@ -26,7 +39,7 @@ class DashboardAdmin extends Controller
             $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
         }
 
-        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+        $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
 
         return view('admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
@@ -37,8 +50,7 @@ class DashboardAdmin extends Controller
         $year = $request->query('year', date('Y'));
         $month = $request->query('month', null);
 
-        // Yearly data
-        $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
+        $yearlyViews = $this->vue->selectRaw('MONTH(date) as month, COUNT(*) as count')
             ->whereYear('date', $year)
             ->groupBy('month')
             ->pluck('count', 'month')
@@ -57,17 +69,13 @@ class DashboardAdmin extends Controller
             ],
         ];
 
-        //nombre de vue au total
-        $totalViews = Vue::whereYear('date', $year)->count();
-
-        //nombre total d'entreprise
-        $totalEntreprise = Carte::count();
-
+        $totalViews = $this->vue->whereYear('date', $year)->count();
+        $totalEntreprise = $this->carte->count();
 
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('admin.dashboardAdminStatistique', compact('yearlyData',  'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
+        return view('admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -77,11 +85,17 @@ class DashboardAdmin extends Controller
 
     public function ajoutMessage(Request $request)
     {
-        $message = $request->input('message');
+        $validator = Validator::make($request->all(), [
+            'message' => 'required|string|max:255',
+        ]);
 
-        Message::create([
-            'message' => $message,
-            'afficher' => true, // or false, depending on your requirement
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $this->message->create([
+            'message' => $request->input('message'),
+            'afficher' => true,
         ]);
 
         return redirect()->route('dashboardAdminMessage');
@@ -89,48 +103,60 @@ class DashboardAdmin extends Controller
 
     public function supprimerMessage(Request $request)
     {
-        $message = Message::find($request->input('id'));
-        $message->delete();
+        $message = $this->message->find($request->input('id'));
+        if ($message) {
+            $message->delete();
+        }
 
         return redirect()->route('dashboardAdminMessage');
     }
 
-
-
     public function toggleMessage($id)
     {
-        $message = Message::find($id);
-        $message->afficher = !$message->afficher;
-        $message->save();
+        $message = $this->message->find($id);
+        if ($message) {
+            $message->afficher = !$message->afficher;
+            $message->save();
+        }
 
         return redirect()->route('dashboardAdminMessage');
     }
 
     public function modifierMessage(Request $request, $id)
     {
-        $message = Message::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'message' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $message = $this->message->findOrFail($id);
         $message->message = $request->input('message');
         $message->save();
 
         return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
-
     public function afficherAllMessage()
     {
-        $messages = Message::all();
+        $messages = $this->message->all();
         return view('admin.dashboardAdminMessage', compact('messages'));
     }
 
     public function refreshQrCode($id)
     {
-        $compte = Compte::find($id);
-        $carte = Carte::where('idCompte', $compte->idCompte)->first();
-        $compte->QrCode($compte->idCompte, $carte->nomEntreprise);
+        $compte = $this->compte->find($id);
+        if ($compte) {
+            $carte = $this->carte->where('idCompte', $compte->idCompte)->first();
+            if ($carte) {
+                $compte->QrCode($compte->idCompte, $carte->nomEntreprise);
 
-        //update lienQr
-        $carte->lienQr = "/entreprises/{$compte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code.svg";
-        $carte->save();
+                $carte->lienQr = "/entreprises/{$compte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code.svg";
+                $carte->save();
+            }
+        }
 
         return redirect()->route('dashboardAdmin');
     }
