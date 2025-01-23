@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<body class="bg-gray-100 flex flex-col min-h-screen">
+<body class="bg-red-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
