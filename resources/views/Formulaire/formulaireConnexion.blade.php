@@ -34,7 +34,7 @@
                         <input type="password" name="motdepasse" id="motdepasse"
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                required>
-                       <br/> <button type="button" id="togglePassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
+                       <button type="button" id="togglePassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
                             👁️
                         </button>
                     </div>

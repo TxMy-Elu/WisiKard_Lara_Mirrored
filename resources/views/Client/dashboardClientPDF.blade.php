@@ -68,6 +68,7 @@
 
     <div class="flex-1 md:ml-24 p-4">
         <h1 class="text-2xl font-bold mb-4">Télécharger des fichiers</h1>
+
         <!-- Message Erreur -->
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -95,7 +96,6 @@
                     </div>
                 </div>
             </form>
-            <br>
             <h2 class="text-xl font-bold mb-2">Logo</h2>
             <!-- Card pour le logo -->
             @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg")) ||
@@ -140,7 +140,6 @@
                     </div>
                 </div>
             </form>
-            <br>
             <h2 class="text-xl font-bold mb-2">Images téléchargées</h2>
             <!-- Card pour les images -->
             @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/images")))
@@ -180,7 +179,6 @@
                     </div>
                  </div>
             </form>
-            <br>
             <h2 class="text-xl font-bold mb-2">Fichiers PDF téléchargés</h2>
             <!-- Card pour les PDF -->
             @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/pdf")))
@@ -212,63 +210,109 @@
         </div>
 
 
-<!-- Formulaire YouTube -->
- <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
-     <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-         @csrf
-         <div class="mb-4">
-             <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
-             <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
-         </div>
-            <div class="flex p-4">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+    <!-- Formulaire YouTube -->
+     <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
+         <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+             @csrf
+             <div class="mb-4">
+                 <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
+                 <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
              </div>
-       </form>
-     <br>
-     <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
-     <!-- Card pour les vidéos YouTube -->
-     @if(!empty($youtubeUrls))
-         <div class="mt-4">
-             <br><br>
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                 @foreach($youtubeUrls as $index => $youtubeUrl)
-                     <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
-                         <div class="text-center mb-2">
-                             <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
+                <div class="flex p-4">
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                 </div>
+           </form>
+         <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+         <!-- Card pour les vidéos YouTube -->
+         @if(!empty($youtubeUrls))
+             <div class="my-4">
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                     @foreach($youtubeUrls as $index => $youtubeUrl)
+                         <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
+                             <div class="text-center mb-2">
+                                 <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
+                             </div>
+                             <div class="video-container w-80 h-auto ">
+                                 <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                             </div>
+                             <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteVideoForm_{{ $index }}">
+                                 @csrf
+                                 @method('DELETE')
+                                 <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
+                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                     </svg>
+                                 </button>
+                             </form>
                          </div>
-                         <div class="video-container w-80 h-auto "><br/>
-                             <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                         </div><br/>
-                         <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteVideoForm_{{ $index }}">
-                             @csrf
-                             @method('DELETE')
-                             <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
-                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                 </svg>
-                             </button>
-                         </form>
-                     </div>
-                 @endforeach
+                     @endforeach
+                 </div>
              </div>
-         </div>
-     @endif
- </div><br>
+         @endif
+     </div>
+
+ <!-- Formulaire Lien RDV -->
+  <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
+      <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+          @csrf
+          <div class="mb-4">
+              <label for="lien_rdv" class="block text-sm font-medium text-gray-700">URL de prise de rendez-vous :</label>
+              <input type="url" id="lien_rdv" name="lien_rdv" class="mt-1 block w-full" placeholder="https://www.exemple.com/rdv...">
+          </div>
+             <div class="flex p-4">
+                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+              </div>
+        </form>
+      <h2 class="text-xl font-bold mb-2">Lien de RDV enregistrées</h2>
+      <!-- Card pour l'urls RDV -->
+      @if(!empty($lienUrls))
+          <div class="mt-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  @foreach($lienUrls as $index => $lienUrl)
+                      <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
+                          <div class="text-center mb-2">
+                              <h3 class="text-lg font-bold">{{ $lienUrl }}</h3>
+                          </div>
+                          <div class="video-container w-80 h-auto ">
+                              <iframe width="100%" height="200" src="{{ str_replace( $lienUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                          </div>
+                          <form action="{{ route('dashboardClientPDF.deleteRDV', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteRDVForm_{{ $index }}">
+                              @csrf
+                              @method('DELETE')
+                              <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteRDVForm_{{ $index }}')">
+                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                  </svg>
+                              </button>
+                          </form>
+                      </div>
+                  @endforeach
+              </div>
+          </div>
+      @endif
+  </div>
+ <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @if(!empty($lienUrls))
+      <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
+                        <div class="flex items-center mb-4">
+                        </div>
+                        <form action="{{ route('client.updateSocialLink') }}" method="POST" class="flex flex-col">
+                            @csrf
+                            <iframe width="100%" height="200" src="{{ str_replace( $lienUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <div class="flex justify-between ">
+                                <div class="flex items-center mb-2">
+                                    <label class="toggle-switch">
+                                    </label>
+                                </div>
+                             <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                @endif
 
 <!-- Formulaire slider -->
-<div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
-    @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong class="font-bold">Erreur!</strong>
-            <span class="block sm:inline">{{ session('error') }}</span>
-        </div>
-    @endif
-    @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong class="font-bold">Succès!</strong>
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
+<div class="bg-white p-6 w-auto h-max rounded-lg shadow-md mb-6">
     <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
         <div class="mb-4">
@@ -278,13 +322,12 @@
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
              </div>
     </form>
-    <br>
     <h2 class="text-xl font-bold mb-2">Images pour slider téléchargées</h2>
     <!-- Card pour le slider -->
     @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")))
         <div class="mt-4">
             <h2 class="text-xl font-bold mb-2">Slider</h2>
-            <div class="bg-white p-4 rounded-lg shadow-md relative square-card">
+            <div class="bg-white w-80 p-4 rounded-lg shadow-md relative square-card">
                 <div class="box-border h-auto w-auto p-4 border-4 ">
                     <div class="carousel">
                         @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $index => $file)
@@ -377,6 +420,25 @@
 </div>
 
 <script>
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        const slides = document.querySelectorAll('.carousel-item');
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+    }
+    function prevSlide() {
+        const slides = document.querySelectorAll('.carousel-item');
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function nextSlide() {
+        const slides = document.querySelectorAll('.carousel-item');
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
 
     function confirmDelete(formId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
@@ -419,26 +481,6 @@
         uploadForm.classList.toggle('hidden');
     }
 
-    function prevSlide() {
-        const slides = document.querySelectorAll('.carousel-item');
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        showSlide(currentSlide);
-    }
-
-    function nextSlide() {
-        const slides = document.querySelectorAll('.carousel-item');
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }
-
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.carousel-item');
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-    }
-
-    let currentSlide = 0;
 
     function closeRenameModal() {
         document.getElementById('renameModal').style.display = 'none';
