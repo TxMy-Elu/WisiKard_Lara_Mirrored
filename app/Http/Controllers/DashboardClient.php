@@ -373,22 +373,25 @@ class DashboardClient extends Controller
         }, 'QR_Code.svg');
     }
 
-    public function afficherDashboardClientPDF()
-    {
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
+   public function afficherDashboardClientPDF()
+   {
+       $idCompte = session('connexion');
+       $carte = Carte::where('idCompte', $idCompte)->first();
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
+       $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+       $folderName = "{$idCompte}_{$entrepriseName}";
 
-        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
-        $youtubeUrls = [];
-        if (File::exists($videosPath)) {
-            $youtubeUrls = json_decode(File::get($videosPath), true);
-        }
+       $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+       $youtubeUrls = [];
+       if (File::exists($videosPath)) {
+           $youtubeUrls = json_decode(File::get($videosPath), true);
+       }
 
-        return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte'));
-    }
+       // Récupérer le lienCommande
+       $lienCommande = $carte->lienCommande;
+
+       return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte', 'lienCommande'));
+   }
 
     public function uploadFile(Request $request)
     {
@@ -396,7 +399,7 @@ class DashboardClient extends Controller
             'file' => 'nullable|file|mimes:mp4,pdf,jpg,jpeg,png',
             'youtube_url' => 'nullable|url',
             'logo' => 'nullable|file|mimes:jpg,jpeg,png',
-            'rdv_url' => 'nullable|url',
+            'rdv_url' => 'nullable|url|regex:/^(https?:\/\/)/', // Ajoutez cette ligne
             'custom_url' => 'nullable|url',
         ]);
 
@@ -509,21 +512,9 @@ class DashboardClient extends Controller
         if ($request->filled('rdv_url')) { // URLs de rendez-vous
             $Url = $request->input('rdv_url');
 
-            $Path = public_path("entreprises/{$folderName}/rdv");
-
-            if (!File::exists($Path)) {
-                File::makeDirectory($Path, 0755, true);
-            }
-
-            $File = $Path . '/videos.json';
-            $Data = [];
-
-            if (File::exists($File)) {
-                $Data = json_decode(File::get($File), true);
-            }
-
-            $Data[] = $Url;
-            File::put($File, json_encode($Data, JSON_PRETTY_PRINT));
+            // Mettre à jour le champ lienCommande dans la table carte
+            $carte->lienCommande = $Url;
+            $carte->save();
 
             return redirect()->route('dashboardClientPDF')->with('success', 'URL Rdv enregistrée avec succès.');
         }
@@ -540,9 +531,8 @@ class DashboardClient extends Controller
             ])->with('success', 'URL personnalisée enregistrée avec succès.');
         }
 
-        return redirect()->back()->with('error', 'Aucune URL fourni.');
+        return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-
      public function deleteImage($filename)
         {
             $idCompte = session('connexion');
