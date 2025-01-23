@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<body class="bg-gray-100 flex flex-col min-h-screen">
+<body class="bg-red-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
@@ -81,6 +81,32 @@
                 <div class="flex flex-row-reverse mt-auto pt-4">
                     <a href="{{ route('formulaireEntreprise') }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                 </div>
+            </div>
+            <!-- Font (div5) -->
+            <div class="div5 bg-white rounded-lg shadow-lg p-4">
+                <form action="#" method="POST">
+                    @csrf
+                    <div class="flex flex-col">
+                        <label for="font" class="text-lg font-semibold">Police</label>
+                        <select name="police" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
+
+                            <option value="Arial" {{--@if($police == 'Arial') selected @endif--}}>Arial</option>
+                            <option value="Verdana" {{--@if($police == 'Verdana') selected @endif--}}>Verdana</option>
+                            <option value="Helvetica" {{--@if($police == 'Helvetica') selected @endif--}}>Helvetica</option>
+                            <option value="Tahoma" {{--@if($police == 'Tahoma') selected @endif--}}>Tahoma</option>
+                            <option value="Trebuchet MS" {{--@if($police == 'Trebuchet MS') selected @endif--}}>Trebuchet MS</option>
+                            <option value="Times New Roman" {{--@if($police == 'Times New Roman') selected @endif--}}>Times New Roman</option>
+                            <option value="Georgia" {{--@if($police == 'Georgia') selected @endif --}}>Georgia</option>
+                            <option value="Garamond" {{--@if($police == 'Garamond') selected @endif--}}>Garamond</option>
+                            <option value="Courier New" {{--@if($police == 'Courier New') selected @endif--}}>Courier New</option>
+                            <option value="Brush Script MT" {{--@if($police == 'Brush Script MT') selected @endif--}}>Brush Script MT</option>
+
+                        </select>
+                    </div>
+                    <button type="submit"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer
+                    </button>
+                </form>
             </div>
 
             <!-- QR Code (div2) -->
