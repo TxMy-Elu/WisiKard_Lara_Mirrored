@@ -68,9 +68,42 @@ class Compte extends Model
 
         Compte::QrCode($nouvelUtilisateur->idCompte, $nomEntreprise);
 
+        //creation de la vcard
+        Compte::creerVCard($entreprise->nomEntreprise, $entreprise->tel, $nouvelUtilisateur->email, $nouvelUtilisateur->idCompte);
 
 
         return $nouvelUtilisateur->idCompte;
+    }
+
+    public static function creerVCard($nomEntreprise, $tel, $email, $idCompte)
+    {
+        // Valider ou échapper les entrées pour éviter toute erreur dans la vCard
+        $nomEntreprise = htmlspecialchars($nomEntreprise, ENT_QUOTES, 'UTF-8');
+        $tel = htmlspecialchars($tel, ENT_QUOTES, 'UTF-8');
+        $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+
+        // Créer le contenu valide de la vCard
+        $vCard = "BEGIN:VCARD\r\n";
+        $vCard .= "VERSION:4.0\r\n";
+        $vCard .= "FN:{$nomEntreprise}\r\n"; // Nom complet
+        $vCard .= "TEL;TYPE=HOME,VOICE:{$tel}\r\n"; // Numéro de téléphone
+        $vCard .= "EMAIL;TYPE=HOME,INTERNET:{$email}\r\n"; // Adresse email
+        $vCard .= "END:VCARD\r\n";
+
+        // Définir le chemin complet pour enregistrer le fichier
+        $directoryPath = public_path("entreprises/{$idCompte}_{$nomEntreprise}/VCF_Files");
+        $filePath = "{$directoryPath}/contact.vcf";
+
+        // Créer les répertoires manquants avec les permissions appropriées
+        if (!file_exists($directoryPath)) {
+            mkdir($directoryPath, 0755, true); // Crée les dossiers de façon récursive
+        }
+
+        // Enregistrer le contenu dans le fichier .vcf
+        file_put_contents($filePath, $vCard);
+
+        // Retourner le chemin final du fichier créé
+        return "vCard créée avec succès : {$filePath}";
     }
 
     public static function employe($nom, $prenom, $fonction)
@@ -95,7 +128,7 @@ class Compte extends Model
         $color1 = substr($color1, 1);
         $color2 = substr($color2, 1);
 
-        $url = "https://quickchart.io/qr?size=300&dark=".$color1."&light=".$color2."&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
+        $url = "https://quickchart.io/qr?size=300&dark=" . $color1 . "&light=" . $color2 . "&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $id;
 
         $ch = curl_init();
 

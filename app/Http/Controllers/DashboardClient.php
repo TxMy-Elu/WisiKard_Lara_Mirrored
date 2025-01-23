@@ -838,6 +838,8 @@ class DashboardClient extends Controller
         $compte->email = $request->mail;
         $compte->save();
 
+        Compte::creerVCard($request->nomEntreprise, $request->tel, $request->mail, $idCompte);
+
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
     }
 

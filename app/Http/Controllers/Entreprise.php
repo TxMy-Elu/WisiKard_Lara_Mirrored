@@ -12,6 +12,11 @@ class Entreprise extends Controller
     public function destroy($id)
     {
         $carte = Carte::findOrFail($id);
+
+
+        //detruction du compte
+        $compte = Compte::findOrFail($carte->idCompte);
+        $compte->delete();
         $carte->delete();
 
         return redirect()->route('dashboardAdmin')->with('success', 'La carte a été supprimée avec succès.');

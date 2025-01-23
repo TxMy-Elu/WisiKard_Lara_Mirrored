@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }} - Wisikard</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700"
+          rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         *:not(.material-icons, .fa-brands) {
-            font-family: 'Open Sans'!important;
+            font-family: 'Open Sans' !important;
             color: whitesmoke;
         }
 
@@ -104,7 +105,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-080RS8FYWX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('config', 'G-080RS8FYWX');
     </script>
@@ -127,25 +132,25 @@
 
 <div class="flex flex-col items-center w-full">
     <div class='flex justify-center items-center w-24 mt-6'>
-        <img class='w-4/5 max-w-xl' src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.png' }}" alt='Logo'>
+        <img class='w-4/5 max-w-xl'
+             src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.png' }}"
+             alt='Logo'>
     </div>
 
     <div class='flex justify-center items-center mt-2'>
         <h1 class='text-2xl font-bold'>{{ $carte['titre'] }}</h1>
     </div>
-@if($employe != null)
-    <div class='flex justify-center items-center mt-1'>
-        <h2 class='text-lg font-light'>{{ $employe['nom'] }} {{ $employe['prenom'] }} - {{ $employe['fonction'] }}</h2>
-    </div>
-
-    <div class='flex justify-center items-center flex-wrap mt-4'>
-        <a href='mailto:{{ $employe['mail'] }}' class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
-            {{ $employe['mail'] }}
-        </a>
-        <a href='tel:{{ $employe['telephone'] }}' class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
-            {{ $employe['telephone'] }}
-        </a>
-    </div>
+    @if($employe != null)
+        <div class='flex justify-center items-center flex-wrap mt-4'>
+            <a href='mailto:{{ $employe['mail'] }}'
+               class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+                {{ $employe['mail'] }}
+            </a>
+            <a href='tel:{{ $employe['telephone'] }}'
+               class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+                {{ $employe['telephone'] }}
+            </a>
+        </div>
     @endif
 
     <div class='flex justify-center items-center mt-2.5'>
@@ -154,20 +159,25 @@
 
     <div class='flex justify-center items-center flex-wrap mt-4 mx-11'>
         <!-- Bouton pour afficher le QR Code -->
-        <button onclick="showQrCode()" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <button onclick="showQrCode()"
+                class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/avcjklpr.json"
                        trigger="loop"
                        delay="1000"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>QRCode
+            </lord-icon>
+            QRCode
         </button>
 
         <!-- Modal pour afficher le QR Code -->
-        <div id="qrCodeModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
+        <div id="qrCodeModal"
+             class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center relative">
                 <h3 class="text-xl font-bold mb-4 text-zinc-900">{{ $carte['nomEntreprise'] }} - QR Code</h3>
                 <img src="{{ $carte->lienQr }}" alt="QR Code" class="w-48 h-48 mx-auto">
-                <button onclick="closeQrCode()" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full">✖</button>
+                <button onclick="closeQrCode()"
+                        class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full">✖
+                </button>
             </div>
         </div>
 
@@ -192,39 +202,47 @@
                     trigger="loop"
                     delay="1000"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Maps
+            </lord-icon>
+            Maps
         </a>
 
 
-        <a href="{{ $carte['lienSite'] }}" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <a href="{{ $carte['lienSite'] }}"
+           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/pbbsmkso.json"
                     trigger="loop"
                     delay="1000"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Site
+            </lord-icon>
+            Site
         </a>
 
-        <a href="tel:{{ $carte['tel'] }}" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <a href="tel:{{ $carte['tel'] }}"
+           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/qtykvslf.json"
                     trigger="loop"
                     delay="1000"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Téléphone
+            </lord-icon>
+            Téléphone
         </a>
 
-        <a href="mailto:{{ $carte['mailContact'] }}" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <a href="mailto:{{ $carte['mailContact'] }}"
+           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/aycieyht.json"
                     trigger="loop"
                     delay="1000"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Mail
+            </lord-icon>
+            Mail
         </a>
 
         @if($carte['pdf'])
-            <a href="#" target="_blank" rel="noopener noreferrer" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+            <a href="{{ $carte['pdf'] }}" target="_blank" rel="noopener noreferrer"
+               class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
@@ -235,7 +253,8 @@
             </a>
         @endif
 
-        <a href="#" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <a href="{{$carte['lienCommande']}}"
+           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/odavpkmb.json"
                     trigger="loop"
@@ -244,22 +263,27 @@
             </lord-icon>{{ $carte['nomButtonCommande'] }}
         </a>
 
-        <a href="#" download="Contact-Wisikard.vcf" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
+           download="Contact-Wisikard.vcf"
+           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/rehjpyyh.json"
                        trigger="loop"
                        delay="1000"
                        state="hover-portrait"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Vcard
+            </lord-icon>
+            Vcard
         </a>
 
-        <a id="prompt" class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <a id="prompt"
+           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
                        trigger="loop"
                        delay="1000"
                        state="loop-slide"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Installer
+            </lord-icon>
+            Installer
         </a>
 
         <button class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -267,13 +291,15 @@
                        trigger="loop"
                        delay="1000"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>Partager
+            </lord-icon>
+            Partager
         </button>
     </div>
 
     <div class="flex justify-center flex-wrap mx-5 my-4 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-4">
         @foreach($mergedSocial as $so)
-            <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer" class="p-3 hover:scale-110 transform transition duration-200">
+            <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
+               class="p-3 hover:scale-110 transform transition duration-200">
                 <div class="flex items-center justify-center">
                     <div class="w-12 h-12 flex items-center justify-center">
                         <!-- Apporter la couleur blanche aux logos -->
@@ -288,7 +314,8 @@
 </div>
 
 <footer class="text-center p-4">
-    Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr" class="text-blue-500">Wisikard</a>
+    Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
+                                                                                             class="text-blue-500">Wisikard</a>
 </footer>
 </body>
 
