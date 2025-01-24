@@ -13,6 +13,7 @@ use App\Models\Vue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class DashboardClient extends Controller
 {
@@ -46,7 +47,6 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $search = $request->input('search');
-
         $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
             ->where('carte.idCompte', $idCompte)
             ->when($search, function ($query, $search) {
@@ -186,7 +186,6 @@ class DashboardClient extends Controller
         $selectedWeek = $request->input('week', date('W'));
         $selectedMonth = $request->input('month', date('n'));
         $idCarte = Carte::where('idCompte', $session)->first()->idCarte;
-
         $yearlyViews = Vue::selectRaw('MONTH(date) as month, COUNT(*) as count')
             ->whereYear('date', $year)
             ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
@@ -317,7 +316,6 @@ class DashboardClient extends Controller
         }
     }
 
-
     public function updateColor(Request $request)
     {
         $request->validate([
@@ -365,7 +363,6 @@ class DashboardClient extends Controller
     public function downloadQrCodes()
     {
         $idCompte = session('connexion');
-
         $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $idCompte;
 
         return response()->streamDownload(function () use ($url) {
@@ -373,36 +370,36 @@ class DashboardClient extends Controller
         }, 'QR_Code.svg');
     }
 
-   public function afficherDashboardClientPDF()
-   {
-       $idCompte = session('connexion');
-       $carte = Carte::where('idCompte', $idCompte)->first();
+    public function afficherDashboardClientPDF()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-       $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-       $folderName = "{$idCompte}_{$entrepriseName}";
+        // Debugging: Check the value of $idCompte
+        Log::info('ID Compte from session: ' . $idCompte);
 
-       $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
-       $youtubeUrls = [];
-       if (File::exists($videosPath)) {
-           $youtubeUrls = json_decode(File::get($videosPath), true);
-       }
+        // Debugging: Check if $carte is null
+        if (!$carte) {
+            Log::error('Carte not found for idCompte: ' . $idCompte);
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-       // Récupérer le lienCommande
-       $lienCommande = $carte->lienCommande;
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-       return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte', 'lienCommande'));
-   }
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $youtubeUrls = [];
+        if (File::exists($videosPath)) {
+            $youtubeUrls = json_decode(File::get($videosPath), true);
+        }
 
+        // Récupérer le lienCommande
+        $lienCommande = $carte->lienCommande;
+
+        return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte', 'lienCommande'));
+    }
     public function uploadFile(Request $request)
     {
-        $request->validate([
-            'file' => 'nullable|file|mimes:mp4,pdf,jpg,jpeg,png',
-            'youtube_url' => 'nullable|url',
-            'logo' => 'nullable|file|mimes:jpg,jpeg,png',
-            'rdv_url' => 'nullable|url|regex:/^(https?:\/\/)/', // Ajoutez cette ligne
-            'custom_url' => 'nullable|url',
-        ]);
-
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
@@ -414,13 +411,54 @@ class DashboardClient extends Controller
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
-        if ($request->hasFile('file')) { // Fichiers MP4
+        // Log the request data for debugging
+        Log::info('UploadFile Request Data:', $request->all());
+
+        // Check if a logo file is uploaded
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logoType = $logo->getClientOriginalExtension();
+            $mimeType = $logo->getMimeType();
+
+            // Vérifier le type MIME et l'extension
+            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'png' && $mimeType === 'image/png')) {
+
+                $logoPath = public_path("entreprises/{$folderName}/logos");
+
+                if (!File::exists($logoPath)) {
+                    File::makeDirectory($logoPath, 0755, true);
+                }
+
+                $logoFileName = 'logo.' . $logoType;
+                $logo->move($logoPath, $logoFileName);
+
+                $carte->imgLogo = "entreprises/{$folderName}/logos/{$logoFileName}";
+                $carte->save();
+
+                return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
+                } else {
+                    return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+                }
+            }
+
+        // Check if a file is uploaded
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileType = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
 
+            // Log the file details for debugging
+            Log::info('Uploaded File Details:', [
+                'fileType' => $fileType,
+                'mimeType' => $mimeType,
+                'originalName' => $file->getClientOriginalName(),
+                'size' => $file->getSize(),
+            ]);
+
             // Vérifier le type MIME et l'extension
-            if (($fileType === 'mp4' && $mimeType === 'video/mp4') ||
+            if (
                 ($fileType === 'pdf' && $mimeType === 'application/pdf') ||
                 ($fileType === 'jpg' && $mimeType === 'image/jpeg') ||
                 ($fileType === 'jpeg' && $mimeType === 'image/jpeg') ||
@@ -429,9 +467,6 @@ class DashboardClient extends Controller
                 $filePath = '';
 
                 switch ($fileType) {
-                    case 'mp4':
-                        $filePath = public_path("entreprises/{$folderName}/videos");
-                        break;
                     case 'pdf':
                         $filePath = public_path("entreprises/{$folderName}/pdf");
                         break;
@@ -455,38 +490,16 @@ class DashboardClient extends Controller
             } else {
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
-        }
-
-        if ($request->hasFile('logo')) { // Logos
-            $logo = $request->file('logo');
-            $logoType = $logo->getClientOriginalExtension();
-            $mimeType = $logo->getMimeType();
-
-            // Vérifier le type MIME et l'extension
-            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'png' && $mimeType === 'image/png')) {
-
-                $logoPath = public_path("entreprises/{$folderName}/logos");
-
-                if (!File::exists($logoPath)) {
-                    File::makeDirectory($logoPath, 0755, true);
-                }
-
-                $logoFileName = 'logo.' . $logoType;
-                $logo->move($logoPath, $logoFileName);
-
-                return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
-            } else {
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-            }
+        } else {
+            Log::error('No file uploaded in the request.');
+            return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
         }
 
         if ($request->filled('youtube_url')) { // URLs YouTube
-            $Url = $request->input('youtube_url');
+            $youtubeUrl = $request->input('youtube_url');
 
             // Vérifier si l'URL YouTube est valide
-            if (preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)$/', $Url)) {
+            if (preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)$/', $youtubeUrl)) {
                 $videosPath = public_path("entreprises/{$folderName}/videos");
 
                 if (!File::exists($videosPath)) {
@@ -500,7 +513,7 @@ class DashboardClient extends Controller
                     $videosData = json_decode(File::get($videosFile), true);
                 }
 
-                $videosData[] = $Url;
+                $videosData[] = $youtubeUrl;
                 File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
 
                 return redirect()->route('dashboardClientPDF')->with('success', 'URL YouTube enregistrée avec succès.');
@@ -510,49 +523,50 @@ class DashboardClient extends Controller
         }
 
         if ($request->filled('rdv_url')) { // URLs de rendez-vous
-            $Url = $request->input('rdv_url');
+            $rdvUrl = $request->input('rdv_url');
 
             // Mettre à jour le champ lienCommande dans la table carte
-            $carte->lienCommande = $Url;
+            $carte->lienCommande = $rdvUrl;
             $carte->save();
 
             return redirect()->route('dashboardClientPDF')->with('success', 'URL Rdv enregistrée avec succès.');
         }
 
         if ($request->filled('custom_url')) { // URLs personnalisées
-            $Url = $request->input('custom_url');
+            $customUrl = $request->input('custom_url');
 
             // Passer l'URL à la vue pour l'affichage
             return view('client.dashboardClientPDF', [
                 'carte' => $carte,
                 'youtubeUrls' => $youtubeUrls ?? [],
                 'idCompte' => $idCompte,
-                'customUrl' => $Url
+                'customUrl' => $customUrl
             ])->with('success', 'URL personnalisée enregistrée avec succès.');
         }
 
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-     public function deleteImage($filename)
-        {
-            $idCompte = session('connexion');
-            $carte = Carte::where('idCompte', $idCompte)->first();
 
-            if (!$carte) {
-                return redirect()->back()->with('error', 'Carte non trouvée.');
-            }
-            $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-            $folderName = "{$idCompte}_{$entrepriseName}";
+    public function deleteImage($filename)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-            $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
-
-            if (File::exists($filePath)) {
-                File::delete($filePath);
-                return redirect()->back()->with('success', 'Image supprimée avec succès.');
-            } else {
-                return redirect()->back()->with('error', 'Image non trouvée.');
-            }
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
         }
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
+
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            return redirect()->back()->with('success', 'Image supprimée avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Image non trouvée.');
+        }
+    }
 
     public function deleteSliderImage(Request $request)
     {
@@ -585,6 +599,7 @@ class DashboardClient extends Controller
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
+
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
 
@@ -592,6 +607,12 @@ class DashboardClient extends Controller
 
         if (File::exists($filePath)) {
             File::delete($filePath);
+
+            // Mettre à jour les champs pdf et nomBtnPdf dans la table carte
+            $carte->pdf = null;
+            $carte->nomBtnPdf = null;
+            $carte->save();
+
             return redirect()->back()->with('success', 'PDF supprimée avec succès.');
         } else {
             return redirect()->back()->with('error', 'PDF non trouvée.');
@@ -768,7 +789,7 @@ class DashboardClient extends Controller
     {
         $compte = Compte::find($id);
         $carte = Carte::where('idCompte', $compte->idCompte)->first();
-        (new Employe)->QrCode($id, $carte->nomEntreprise, $idEmp);
+        (new Employer)->QrCode($id, $carte->nomEntreprise, $idEmp);
 
         return redirect()->route('dashboardClientEmploye')->with('success', 'QR Code rafraîchi avec succès.');
     }
@@ -847,7 +868,6 @@ class DashboardClient extends Controller
 
     public function updateTemplate(Request $request)
     {
-
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
@@ -878,28 +898,29 @@ class DashboardClient extends Controller
         $newFilename = $request->input('newFilename');
         $idCarte = $request->input('idCarte');
 
-         $carte = Carte::find($idCarte);
+        $carte = Carte::find($idCarte);
 
-         if (!$carte) {
-             return redirect()->back()->with('error', 'Carte non trouvée.');
-         }
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-         $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
-         $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
-         $PathPdf= ("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
+        $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
+        $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
+        $PathPdf = ("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
 
-         if (File::exists($currentPath)) {
-             File::move($currentPath, $newPath);
+        if (File::exists($currentPath)) {
+            File::move($currentPath, $newPath);
 
-             $carte->nomBtnPdf = $newFilename;
-             $carte->pdf = $PathPdf;
-             $carte->save();
+            $carte->nomBtnPdf = $newFilename;
+            $carte->pdf = $PathPdf;
+            $carte->save();
 
-             return redirect()->back()->with('success', 'Fichier renommé avec succès.');
-         } else {
-             return redirect()->back()->with('error', 'Fichier non trouvé.');
-         }
-     }
+            return redirect()->back()->with('success', 'Fichier renommé avec succès.');
+        } else {
+            return redirect()->back()->with('error', 'Fichier non trouvé.');
+        }
+    }
+
     public function updateCustomLink(Request $request)
     {
         $session = session('connexion');
@@ -931,7 +952,6 @@ class DashboardClient extends Controller
 
     public function updateSocialLinkCustom(Request $request)
     {
-
         $customLink = Custom_Link::where('id_link', $request->id_link)->first();
 
         if ($customLink) {
@@ -942,5 +962,4 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
-
 }
