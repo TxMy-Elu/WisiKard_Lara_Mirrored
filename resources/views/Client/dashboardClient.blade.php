@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<body class="bg-red-100 flex flex-col min-h-screen">
+<body class="bg-slate-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
@@ -19,18 +19,19 @@
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
-            @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Succès!</strong>
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Erreur!</strong>
-                    <span class="block sm:inline">{{ session('error') }}</span>
-                </div>
-            @endif
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                 role="alert">
+                <strong class="font-bold">Succès!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Erreur!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
 
         <div class="parent  p-4">
             <!-- Carte (div1) -->
@@ -67,11 +68,23 @@
                         @endif
                     </div>
 
+                    @php
+                        // Détection des différents types de fichiers
+                        $logoPath = '';
+                        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+                        foreach ($formats as $format) {
+                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                            if (file_exists($path)) {
+                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                                break;
+                            }
+                        }
+                    @endphp
+
                     <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
-                            <img src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.jpg' }}"
-                                 alt="Logo"
+                            <img src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}" alt="Logo"
                                  class="w-28">
                         </div>
                     </div>
@@ -79,7 +92,8 @@
 
                 <!-- Buttons -->
                 <div class="flex flex-row-reverse mt-auto pt-4">
-                    <a href="{{ route('formulaireEntreprise') }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                    <a href="{{ route('formulaireEntreprise') }}"
+                       class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
                 </div>
             </div>
             <!-- Font (div5) -->
@@ -92,14 +106,24 @@
 
                             <option value="Arial" {{--@if($police == 'Arial') selected @endif--}}>Arial</option>
                             <option value="Verdana" {{--@if($police == 'Verdana') selected @endif--}}>Verdana</option>
-                            <option value="Helvetica" {{--@if($police == 'Helvetica') selected @endif--}}>Helvetica</option>
+                            <option value="Helvetica" {{--@if($police == 'Helvetica') selected @endif--}}>Helvetica
+                            </option>
                             <option value="Tahoma" {{--@if($police == 'Tahoma') selected @endif--}}>Tahoma</option>
-                            <option value="Trebuchet MS" {{--@if($police == 'Trebuchet MS') selected @endif--}}>Trebuchet MS</option>
-                            <option value="Times New Roman" {{--@if($police == 'Times New Roman') selected @endif--}}>Times New Roman</option>
+                            <option value="Trebuchet MS" {{--@if($police == 'Trebuchet MS') selected @endif--}}>
+                                Trebuchet MS
+                            </option>
+                            <option value="Times New Roman" {{--@if($police == 'Times New Roman') selected @endif--}}>
+                                Times New Roman
+                            </option>
                             <option value="Georgia" {{--@if($police == 'Georgia') selected @endif --}}>Georgia</option>
-                            <option value="Garamond" {{--@if($police == 'Garamond') selected @endif--}}>Garamond</option>
-                            <option value="Courier New" {{--@if($police == 'Courier New') selected @endif--}}>Courier New</option>
-                            <option value="Brush Script MT" {{--@if($police == 'Brush Script MT') selected @endif--}}>Brush Script MT</option>
+                            <option value="Garamond" {{--@if($police == 'Garamond') selected @endif--}}>Garamond
+                            </option>
+                            <option value="Courier New" {{--@if($police == 'Courier New') selected @endif--}}>Courier
+                                New
+                            </option>
+                            <option value="Brush Script MT" {{--@if($police == 'Brush Script MT') selected @endif--}}>
+                                Brush Script MT
+                            </option>
 
                         </select>
                     </div>
@@ -204,19 +228,25 @@
                         <!-- radio button x3 (div4) -->
                         <div class="flex justify-center items-center space-x-10 mt-4">
                             <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template1" value="1" @if($idTemplate == 1) checked @endif class="mb-2" onchange="submitTemplateForm()">
+                                <input type="radio" name="idTemplate" id="template1" value="1"
+                                       @if($idTemplate == 1) checked @endif class="mb-2"
+                                       onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
                                 <div class="w-80 h-96 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg"></div>
                             </div>
                             <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template2" value="2" @if($idTemplate == 2) checked @endif class="mb-2" onchange="submitTemplateForm()">
+                                <input type="radio" name="idTemplate" id="template2" value="2"
+                                       @if($idTemplate == 2) checked @endif class="mb-2"
+                                       onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <!-- template gradient  -->
                                 <div class="w-80 h-96 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg"></div>
                             </div>
                             <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template3" value="3" @if($idTemplate == 3) checked @endif class="mb-2" onchange="submitTemplateForm()">
+                                <input type="radio" name="idTemplate" id="template3" value="3"
+                                       @if($idTemplate == 3) checked @endif class="mb-2"
+                                       onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
                                 <div class="w-80 h-96 bg-gradient-to-r from-purple-500 to-red-500 rounded-lg"></div>
@@ -234,6 +264,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>
