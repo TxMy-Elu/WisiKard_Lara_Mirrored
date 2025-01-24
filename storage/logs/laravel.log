@@ -3113,3 +3113,9 @@
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
 "} 
+[2025-01-24 16:27:37] local.INFO: ID Compte from session: 1  
+[2025-01-24 16:27:39] local.INFO: UploadFile Request Data: {"_token":"ZMowrDp1cdfTci8QMQ69TuQJVVU5jX70HVsSuzyx"} 
+[2025-01-24 16:27:39] local.ERROR: No file uploaded in the request.  
+[2025-01-24 16:27:39] local.INFO: ID Compte from session: 1  
+[2025-01-24 16:27:49] local.INFO: UploadFile Request Data: {"_token":"ZMowrDp1cdfTci8QMQ69TuQJVVU5jX70HVsSuzyx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php33D7.tmp"}} 
+[2025-01-24 16:27:49] local.INFO: ID Compte from session: 1  
