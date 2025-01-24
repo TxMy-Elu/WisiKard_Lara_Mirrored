@@ -57,7 +57,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardClientEmploye', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');
     Route::get('/dashboardClientSocial', [DashboardClient::class, 'social'])->name('dashboardClientSocial');
     Route::post('/updateSocialLink', [DashboardClient::class, 'updateSocialLink'])->name('client.updateSocialLink');
-    Route::post('/dashboardClientPDF/upload', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.upload');
+    Route::post('/dashboardClientPDF/uploadFile', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.uploadFile');
 
     Route::get('/refreshQrCodeEmp/{id}/{empId}', [DashboardClient::class, 'refreshQrCodeEmp'])->name('refreshQrCodeEmp');
     Route::get('/formulaireEntreprise', [DashboardClient::class, 'afficherFormulaireEntreprise'])->name('formulaireEntreprise');
@@ -73,6 +73,8 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardClientPDF/afficherSlider', [DashboardClient::class, 'afficherSlider'])->name('dashboardClientPDF.afficherSlider');
     //Youtube
     Route::post('/dashboardClientPDF/uploadYouTubeVideo', [DashboardClient::class, 'uploadYouTubeVideo'])->name('dashboardClientPDF.uploadYouTubeVideo');
+    //Img
+    Route::post('/dashboardClientPDF/uploadImage', [DashboardClient::class, 'uploadImage'])->name('dashboardClientPDF.uploadImage');
 
     // Delete contenue
     Route::delete('/dashboardClientPDF/deleteRDV/{index}', [DashboardClient::class, 'deleteRDV'])->name('dashboardClientPDF.deleteRDV');
