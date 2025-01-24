@@ -22,3 +22,26 @@
 [2025-01-24 14:28:01] local.INFO: ID Compte from session: 1  
 [2025-01-24 14:28:07] local.INFO: ID Compte from session: 1  
 [2025-01-24 14:28:17] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:32:50] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:33:14] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:53:16] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:54:26] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpB200.tmp"}} 
+[2025-01-24 14:54:28] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:54:48] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","file":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php959.tmp"}} 
+[2025-01-24 14:54:48] local.INFO: Uploaded File Details: {"fileType":"pdf","mimeType":"application/pdf","originalName":"graphes-novembre 2013 (1).pdf","size":789654} 
+[2025-01-24 14:54:50] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:55:08] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","file":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php55D4.tmp"}} 
+[2025-01-24 14:55:08] local.INFO: Uploaded File Details: {"fileType":"pdf","mimeType":"application/pdf","originalName":"graphes-novembre 2013 (1).pdf","size":789654} 
+[2025-01-24 14:55:10] local.INFO: ID Compte from session: 1  
+[2025-01-24 14:55:44] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:02:55] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:03:04] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:07:48] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:08:00] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:08:54] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:09:28] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","youtube_url":"https://www.primevideo.com/detail/0REMO42ZGZLADHV3Q1BVHNJ5VM?jic=8%7CEgRzdm9k"} 
+[2025-01-24 15:09:28] local.ERROR: No file uploaded in the request.  
+[2025-01-24 15:09:30] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:10:21] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","youtube_url":"https://www.youtube.com/watch?v=hItwS7-bkmY"} 
+[2025-01-24 15:10:21] local.ERROR: No file uploaded in the request.  
+[2025-01-24 15:10:23] local.INFO: ID Compte from session: 1  
