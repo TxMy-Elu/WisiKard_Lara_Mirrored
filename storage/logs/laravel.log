@@ -45,3 +45,8 @@
 [2025-01-24 15:10:21] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","youtube_url":"https://www.youtube.com/watch?v=hItwS7-bkmY"} 
 [2025-01-24 15:10:21] local.ERROR: No file uploaded in the request.  
 [2025-01-24 15:10:23] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:24:19] local.INFO: UploadFile Request Data: {"_token":"dQDSAL9Wnwv4ZrKUBO0k9ZvJa1nm8Ln2taWiRb53","youtube_url":"https://www.youtube.com/watch?v=hItwS7-bkmY"} 
+[2025-01-24 15:24:19] local.ERROR: No file uploaded in the request.  
+[2025-01-24 15:24:21] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:25:15] local.INFO: ID Compte from session: 1  
+[2025-01-24 15:25:23] local.INFO: ID Compte from session: 1  

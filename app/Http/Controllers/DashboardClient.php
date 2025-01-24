@@ -534,7 +534,47 @@ public function uploadFile(Request $request)
 
     return redirect()->back()->with('error', 'Aucune URL fournie.');
 }
+   public function uploadYouTubeVideo(Request $request)
+   {
+       $idCompte = session('connexion');
+       $carte = Carte::where('idCompte', $idCompte)->first();
 
+       if (!$carte) {
+           return redirect()->back()->with('error', 'Carte non trouvée.');
+       }
+
+       $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+       $folderName = "{$idCompte}_{$entrepriseName}";
+
+       if ($request->has('youtube_url')) {
+           $youtubeUrl = $request->input('youtube_url');
+
+           // Vérifier si l'URL YouTube est valide
+           if (preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)$/', $youtubeUrl)) {
+               $videosPath = public_path("entreprises/{$folderName}/videos");
+
+               if (!File::exists($videosPath)) {
+                   File::makeDirectory($videosPath, 0755, true);
+               }
+
+               $videosFile = $videosPath . '/videos.json';
+               $videosData = [];
+
+               if (File::exists($videosFile)) {
+                   $videosData = json_decode(File::get($videosFile), true);
+               }
+
+               $videosData[] = $youtubeUrl;
+               File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
+
+               return redirect()->route('dashboardClientPDF')->with('success', 'URL YouTube enregistrée avec succès.');
+           } else {
+               return redirect()->back()->with('error', 'URL YouTube non valide.');
+           }
+       } else {
+           return redirect()->back()->with('error', 'Aucune URL YouTube fournie.');
+       }
+   }
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');

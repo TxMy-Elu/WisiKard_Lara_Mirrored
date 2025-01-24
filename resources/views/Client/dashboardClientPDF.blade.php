@@ -210,45 +210,46 @@
            </div>
 
     <!-- Formulaire YouTube -->
-     <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
-         <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-             @csrf
-             <div class="mb-4">
-                 <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
-                 <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
-             </div>
+    <div class="bg-white w-3/6 p-6 rounded-lg shadow-md mb-6">
+        <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST" class="space-y-4">
+            @csrf
+            <div class="mb-4">
+                <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
+                <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full" placeholder="https://www.youtube.com/watch?v=...">
                 <div class="flex p-4">
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-                 </div>
-           </form>
-         <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
-         <!-- Card pour les vidéos YouTube -->
-         @if(!empty($youtubeUrls))
-             <div class="my-4">
-                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                     @foreach($youtubeUrls as $index => $youtubeUrl)
-                         <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
-                             <div class="text-center mb-2">
-                                 <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
-                             </div>
-                             <div class="video-container w-80 h-auto ">
-                                 <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                             </div>
-                             <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteVideoForm_{{ $index }}">
-                                 @csrf
-                                 @method('DELETE')
-                                 <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
-                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                     </svg>
-                                 </button>
-                             </form>
-                         </div>
-                     @endforeach
-                 </div>
-             </div>
-         @endif
-     </div>
+                </div>
+            </div>
+        </form>
+        <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+        <!-- Card pour les vidéos YouTube -->
+        @if(!empty($youtubeUrls))
+            <div class="my-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    @foreach($youtubeUrls as $index => $youtubeUrl)
+                        <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
+                            <div class="text-center mb-2">
+                                <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
+                            </div>
+                            <div class="video-container w-80 h-auto ">
+                                <iframe width="100%" height="200" src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}" method="POST" class="absolute bottom-0 right-2 mb-2" id="deleteVideoForm_{{ $index }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg" onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+    </div>
+
 <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
     <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
