@@ -98,38 +98,27 @@
             </div>
             <!-- Font (div5) -->
             <div class="div5 bg-white rounded-lg shadow-lg p-4">
-                <form action="#" method="POST">
+                <form action="{{ 'updateFont' }}" method="POST">
                     @csrf
+                    @method('PATCH')
                     <div class="flex flex-col">
                         <label for="font" class="text-lg font-semibold">Police</label>
-                        <select name="police" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
+                        @php
+                            $fonts = [
+                                'Arial', 'Verdana', 'Helvetica', 'Tahoma', 'Trebuchet MS',
+                                'Times New Roman', 'Georgia', 'Garamond', 'Courier New', 'Brush Script MT'
+                            ];
+                        @endphp
 
-                            <option value="Arial" {{--@if($police == 'Arial') selected @endif--}}>Arial</option>
-                            <option value="Verdana" {{--@if($police == 'Verdana') selected @endif--}}>Verdana</option>
-                            <option value="Helvetica" {{--@if($police == 'Helvetica') selected @endif--}}>Helvetica
-                            </option>
-                            <option value="Tahoma" {{--@if($police == 'Tahoma') selected @endif--}}>Tahoma</option>
-                            <option value="Trebuchet MS" {{--@if($police == 'Trebuchet MS') selected @endif--}}>
-                                Trebuchet MS
-                            </option>
-                            <option value="Times New Roman" {{--@if($police == 'Times New Roman') selected @endif--}}>
-                                Times New Roman
-                            </option>
-                            <option value="Georgia" {{--@if($police == 'Georgia') selected @endif --}}>Georgia</option>
-                            <option value="Garamond" {{--@if($police == 'Garamond') selected @endif--}}>Garamond
-                            </option>
-                            <option value="Courier New" {{--@if($police == 'Courier New') selected @endif--}}>Courier
-                                New
-                            </option>
-                            <option value="Brush Script MT" {{--@if($police == 'Brush Script MT') selected @endif--}}>
-                                Brush Script MT
-                            </option>
-
+                        <select name="font" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
+                            @foreach ($fonts as $font)
+                                <option value="{{ $font }}" @if($carte->font == $font) selected @endif style="font-family: '{{ $font }}';">
+                                    {{ $font }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
-                    <button type="submit"
-                            class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer
-                    </button>
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer</button>
                 </form>
             </div>
 
