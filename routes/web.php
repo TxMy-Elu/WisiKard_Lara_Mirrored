@@ -85,6 +85,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::post('/dashboardClientCustomLink', [DashboardClient::class, 'updateCustomLink'])->name('dashboardClientCustomLink');
     Route::post('/activeSocialLink', [DashboardClient::class, 'updateSocialLinkCustom'])->name('activeSocialLink');
     Route::post('/dashboardClientColor', [DashboardClient::class, 'updateColor'])->name('dashboardClientColor');
+    Route::patch('/updateFont', [DashboardClient::class, 'updateFont'])->name('updateFont');
 
     // QrCode pour des fonctionnalités client
     Route::get('/downloadQrCodes', [DashboardClient::class, 'downloadQrCodes'])->name('downloadQrCodes');

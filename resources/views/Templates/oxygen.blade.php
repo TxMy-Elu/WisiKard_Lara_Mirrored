@@ -129,11 +129,24 @@
     }
 @endphp
 
+@php
+    // Détection des différents types de fichiers
+    $logoPath = '';
+    $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+    foreach ($formats as $format) {
+        $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+        if (file_exists($path)) {
+            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            break;
+        }
+    }
+@endphp
+
 
 <div class="flex flex-col items-center w-full">
     <div class='flex justify-center items-center w-24 mt-6'>
         <img class='w-4/5 max-w-xl'
-             src="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/logos/logo.png' }}"
+             src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}"
              alt='Logo'>
     </div>
 

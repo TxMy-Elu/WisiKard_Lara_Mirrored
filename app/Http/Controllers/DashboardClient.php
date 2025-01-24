@@ -962,4 +962,22 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
+
+
+    public function updateFont(Request $request)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $carte->font = $request->font;
+        $carte->save(); // Save the changes to the database
+
+        return redirect()->back()->with('success', 'Police mise à jour avec succès.');
+    }
+
+
 }
