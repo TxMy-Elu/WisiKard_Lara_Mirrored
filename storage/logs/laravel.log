@@ -132,7 +132,7 @@
 #64 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #65 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #66 {main}
-"} 
+"}
 [2025-01-24 16:00:22] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-14443168 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -430,7 +430,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:16] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-74537190 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -728,7 +728,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:17] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1212802344 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -1026,7 +1026,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:18] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-73211274 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#360</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -1324,7 +1324,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:18] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-620435704 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -1622,7 +1622,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:18] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1688822192 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -1920,7 +1920,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:18] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-763945639 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -2218,7 +2218,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:18] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1184092652 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -2516,7 +2516,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:19] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1574074733 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -2814,7 +2814,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-24 16:02:19] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClient.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClient.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-27446882 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#349</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -3112,13 +3112,13 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
-[2025-01-24 16:27:37] local.INFO: ID Compte from session: 1  
-[2025-01-24 16:27:39] local.INFO: UploadFile Request Data: {"_token":"ZMowrDp1cdfTci8QMQ69TuQJVVU5jX70HVsSuzyx"} 
-[2025-01-24 16:27:39] local.ERROR: No file uploaded in the request.  
-[2025-01-24 16:27:39] local.INFO: ID Compte from session: 1  
-[2025-01-24 16:27:49] local.INFO: UploadFile Request Data: {"_token":"ZMowrDp1cdfTci8QMQ69TuQJVVU5jX70HVsSuzyx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php33D7.tmp"}} 
-[2025-01-24 16:27:49] local.INFO: ID Compte from session: 1  
+"}
+[2025-01-24 16:27:37] local.INFO: ID Compte from session: 1
+[2025-01-24 16:27:39] local.INFO: UploadFile Request Data: {"_token":"ZMowrDp1cdfTci8QMQ69TuQJVVU5jX70HVsSuzyx"}
+[2025-01-24 16:27:39] local.ERROR: No file uploaded in the request.
+[2025-01-24 16:27:39] local.INFO: ID Compte from session: 1
+[2025-01-24 16:27:49] local.INFO: UploadFile Request Data: {"_token":"ZMowrDp1cdfTci8QMQ69TuQJVVU5jX70HVsSuzyx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php33D7.tmp"}}
+[2025-01-24 16:27:49] local.INFO: ID Compte from session: 1
 [2025-01-27 08:26:46] local.ERROR: Call to undefined method App\Models\Employer::QrCode() {"exception":"[object] (BadMethodCallException(code: 0): Call to undefined method App\\Models\\Employer::QrCode() at C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php:71)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(36): Illuminate\\Database\\Eloquent\\Model::throwBadMethodCallException('QrCode')
@@ -3172,7 +3172,7 @@
 #48 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #49 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #50 {main}
-"} 
+"}
 [2025-01-27 08:29:25] local.ERROR: Call to undefined method App\Models\Employer::QrCode() {"exception":"[object] (BadMethodCallException(code: 0): Call to undefined method App\\Models\\Employer::QrCode() at C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php:71)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(36): Illuminate\\Database\\Eloquent\\Model::throwBadMethodCallException('QrCode')
@@ -3226,43 +3226,43 @@
 #48 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #49 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #50 {main}
-"} 
-[2025-01-27 08:31:30] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:31:31] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:31:32] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:31:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:31:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:31:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:32:00] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:32:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:32:34] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:32:36] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:32:36] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:32:38] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:33:27] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:33:42] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:33:43] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:33:43] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:33:44] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:33:44] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:34:57] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:36:37] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:37:10] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:37:10] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:37:10] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:37:11] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:37:12] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:37:40] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:38:06] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:38:06] local.INFO: cli@cli.fr a rafraichi le QR Code de l'employé 1  
-[2025-01-27 08:40:50] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:40:50] local.INFO: QR code refreshed for idCompte: 1  
-[2025-01-27 08:41:04] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:41:04] local.INFO: QR code refreshed for idCompte: 1  
-[2025-01-27 08:43:16] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:43:16] local.INFO: QR code refreshed for idCompte: 1  
-[2025-01-27 08:45:28] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:45:28] local.INFO: QR code refreshed for idCompte: 1  
+"}
+[2025-01-27 08:31:30] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:31:31] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:31:32] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:31:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:31:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:31:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:32:00] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:32:33] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:32:34] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:32:36] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:32:36] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:32:38] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:33:27] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:33:42] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:33:43] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:33:43] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:33:44] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:33:44] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:34:57] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:36:37] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:37:10] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:37:10] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:37:10] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:37:11] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:37:12] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:37:40] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:38:06] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:38:06] local.INFO: cli@cli.fr a rafraichi le QR Code de l'employé 1
+[2025-01-27 08:40:50] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:40:50] local.INFO: QR code refreshed for idCompte: 1
+[2025-01-27 08:41:04] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:41:04] local.INFO: QR code refreshed for idCompte: 1
+[2025-01-27 08:43:16] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:43:16] local.INFO: QR code refreshed for idCompte: 1
+[2025-01-27 08:45:28] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:45:28] local.INFO: QR code refreshed for idCompte: 1
 [2025-01-27 08:45:58] local.ERROR: Method App\Http\Controllers\DashboardClient::QrCodeEmploye does not exist. {"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\DashboardClient::QrCodeEmploye does not exist. at C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php:68)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): Illuminate\\Routing\\Controller->__call('QrCodeEmploye', Array)
@@ -3313,74 +3313,74 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
-[2025-01-27 08:46:15] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:46:15] local.INFO: QR code refreshed for idCompte: 1  
-[2025-01-27 08:47:05] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:47:05] local.INFO: QR code refreshed for idCompte: 1  
-[2025-01-27 08:49:28] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:51:04] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:51:39] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:52:07] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:52:08] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:52:12] local.ERROR: Erreur cURL : Could not resolve host: chart.io  
-[2025-01-27 08:53:38] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1  
-[2025-01-27 08:53:39] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg  
-[2025-01-27 08:53:39] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 08:53:50] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20  
-[2025-01-27 08:53:50] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg  
-[2025-01-27 08:53:50] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 08:53:51] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x21  
-[2025-01-27 08:53:51] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_21.svg  
-[2025-01-27 08:53:51] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 08:53:53] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23  
-[2025-01-27 08:53:53] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg  
-[2025-01-27 08:53:53] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 08:53:54] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20  
-[2025-01-27 08:53:54] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg  
-[2025-01-27 08:53:54] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 08:53:55] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22  
-[2025-01-27 08:53:55] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg  
-[2025-01-27 08:53:55] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 09:30:52] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:34:20] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:34:31] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpFC56.tmp"}} 
-[2025-01-27 09:34:31] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:34:52] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:38:08] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:39:44] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:39:44] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:39:50] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpD927.tmp"}} 
-[2025-01-27 09:39:50] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:42:10] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpFCB4.tmp"}} 
-[2025-01-27 09:42:10] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:42:13] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:43:13] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:43:57] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:46:00] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:47:23] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:48:35] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:48:37] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:48:41] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpF565.tmp"}} 
-[2025-01-27 09:48:41] local.INFO: ID Compte from session: 1  
-[2025-01-27 09:49:05] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x6  
-[2025-01-27 09:49:05] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_6.svg  
-[2025-01-27 09:49:05] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 09:49:06] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1  
-[2025-01-27 09:49:06] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg  
-[2025-01-27 09:49:06] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 09:49:07] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20  
-[2025-01-27 09:49:07] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg  
-[2025-01-27 09:49:07] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 09:49:08] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x21  
-[2025-01-27 09:49:08] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_21.svg  
-[2025-01-27 09:49:08] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 09:49:09] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23  
-[2025-01-27 09:49:09] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg  
-[2025-01-27 09:49:09] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 09:49:10] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22  
-[2025-01-27 09:49:10] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg  
-[2025-01-27 09:49:10] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+"}
+[2025-01-27 08:46:15] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:46:15] local.INFO: QR code refreshed for idCompte: 1
+[2025-01-27 08:47:05] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:47:05] local.INFO: QR code refreshed for idCompte: 1
+[2025-01-27 08:49:28] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:51:04] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:51:39] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:52:07] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:52:08] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:52:12] local.ERROR: Erreur cURL : Could not resolve host: chart.io
+[2025-01-27 08:53:38] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1
+[2025-01-27 08:53:39] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg
+[2025-01-27 08:53:39] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 08:53:50] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20
+[2025-01-27 08:53:50] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg
+[2025-01-27 08:53:50] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 08:53:51] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x21
+[2025-01-27 08:53:51] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_21.svg
+[2025-01-27 08:53:51] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 08:53:53] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23
+[2025-01-27 08:53:53] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg
+[2025-01-27 08:53:53] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 08:53:54] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20
+[2025-01-27 08:53:54] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg
+[2025-01-27 08:53:54] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 08:53:55] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22
+[2025-01-27 08:53:55] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg
+[2025-01-27 08:53:55] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 09:30:52] local.INFO: ID Compte from session: 1
+[2025-01-27 09:34:20] local.INFO: ID Compte from session: 1
+[2025-01-27 09:34:31] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpFC56.tmp"}}
+[2025-01-27 09:34:31] local.INFO: ID Compte from session: 1
+[2025-01-27 09:34:52] local.INFO: ID Compte from session: 1
+[2025-01-27 09:38:08] local.INFO: ID Compte from session: 1
+[2025-01-27 09:39:44] local.INFO: ID Compte from session: 1
+[2025-01-27 09:39:44] local.INFO: ID Compte from session: 1
+[2025-01-27 09:39:50] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpD927.tmp"}}
+[2025-01-27 09:39:50] local.INFO: ID Compte from session: 1
+[2025-01-27 09:42:10] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpFCB4.tmp"}}
+[2025-01-27 09:42:10] local.INFO: ID Compte from session: 1
+[2025-01-27 09:42:13] local.INFO: ID Compte from session: 1
+[2025-01-27 09:43:13] local.INFO: ID Compte from session: 1
+[2025-01-27 09:43:57] local.INFO: ID Compte from session: 1
+[2025-01-27 09:46:00] local.INFO: ID Compte from session: 1
+[2025-01-27 09:47:23] local.INFO: ID Compte from session: 1
+[2025-01-27 09:48:35] local.INFO: ID Compte from session: 1
+[2025-01-27 09:48:37] local.INFO: ID Compte from session: 1
+[2025-01-27 09:48:41] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpF565.tmp"}}
+[2025-01-27 09:48:41] local.INFO: ID Compte from session: 1
+[2025-01-27 09:49:05] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x6
+[2025-01-27 09:49:05] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_6.svg
+[2025-01-27 09:49:05] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 09:49:06] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1
+[2025-01-27 09:49:06] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg
+[2025-01-27 09:49:06] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 09:49:07] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20
+[2025-01-27 09:49:07] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg
+[2025-01-27 09:49:07] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 09:49:08] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x21
+[2025-01-27 09:49:08] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_21.svg
+[2025-01-27 09:49:08] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 09:49:09] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23
+[2025-01-27 09:49:09] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg
+[2025-01-27 09:49:09] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 09:49:10] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22
+[2025-01-27 09:49:10] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg
+[2025-01-27 09:49:10] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
 [2025-01-27 10:10:59] local.ERROR: syntax error, unexpected '}', expecting variable (T_VARIABLE) {"exception":"[object] (ParseError(code: 0): syntax error, unexpected '}', expecting variable (T_VARIABLE) at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:128)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('C:\\\\wamp64\\\\www\\\\s...')
@@ -3421,7 +3421,7 @@
 #35 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #36 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #37 {main}
-"} 
+"}
 [2025-01-27 10:10:59] local.ERROR: syntax error, unexpected '}', expecting variable (T_VARIABLE) {"exception":"[object] (ParseError(code: 0): syntax error, unexpected '}', expecting variable (T_VARIABLE) at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:128)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('C:\\\\wamp64\\\\www\\\\s...')
@@ -3462,7 +3462,7 @@
 #35 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #36 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #37 {main}
-"} 
+"}
 [2025-01-27 10:10:59] local.ERROR: syntax error, unexpected '}', expecting variable (T_VARIABLE) {"exception":"[object] (ParseError(code: 0): syntax error, unexpected '}', expecting variable (T_VARIABLE) at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:128)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('C:\\\\wamp64\\\\www\\\\s...')
@@ -3503,7 +3503,7 @@
 #35 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #36 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #37 {main}
-"} 
+"}
 [2025-01-27 10:24:31] local.ERROR: compact(): Undefined variable: employe {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: employe at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:194)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\wamp64\\\\www\\\\s...', 194, Array)
@@ -3554,7 +3554,7 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
+"}
 [2025-01-27 10:24:31] local.ERROR: compact(): Undefined variable: employe {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: employe at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:194)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\wamp64\\\\www\\\\s...', 194, Array)
@@ -3605,7 +3605,7 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
+"}
 [2025-01-27 10:24:31] local.ERROR: compact(): Undefined variable: employe {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: employe at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:194)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\wamp64\\\\www\\\\s...', 194, Array)
@@ -3656,7 +3656,7 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
+"}
 [2025-01-27 10:25:05] local.ERROR: Undefined variable: employe (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Templates\oxygen.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/Templates/oxygen.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1071673563 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#339</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -5234,7 +5234,7 @@
 #52 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #53 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #54 {main}
-"} 
+"}
 [2025-01-27 10:25:05] local.ERROR: Undefined variable: employe (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Templates\oxygen.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/Templates/oxygen.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1314365844 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#339</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -6812,7 +6812,7 @@
 #52 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #53 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #54 {main}
-"} 
+"}
 [2025-01-27 10:25:05] local.ERROR: Undefined variable: employe (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Templates\oxygen.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/Templates/oxygen.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1455768499 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#339</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -8390,7 +8390,7 @@
 #52 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #53 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #54 {main}
-"} 
+"}
 [2025-01-27 10:27:21] local.ERROR: compact(): Undefined variable: template {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: template at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:189)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\wamp64\\\\www\\\\s...', 189, Array)
@@ -8441,7 +8441,7 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
+"}
 [2025-01-27 10:27:21] local.ERROR: compact(): Undefined variable: template {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: template at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:189)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\wamp64\\\\www\\\\s...', 189, Array)
@@ -8492,7 +8492,7 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
+"}
 [2025-01-27 10:27:21] local.ERROR: compact(): Undefined variable: template {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: template at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\Templates.php:189)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\wamp64\\\\www\\\\s...', 189, Array)
@@ -8543,7 +8543,7 @@
 #45 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #47 {main}
-"} 
+"}
 [2025-01-27 10:28:55] local.ERROR: View [Templates.peche] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [Templates.peche] not found. at C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('Templates.peche', Array)
@@ -8596,7 +8596,7 @@
 #47 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #48 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #49 {main}
-"} 
+"}
 [2025-01-27 10:31:11] local.ERROR: View [Templates.peche] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [Templates.peche] not found. at C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:137)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths('Templates.peche', Array)
@@ -8649,53 +8649,53 @@
 #47 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #48 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #49 {main}
-"} 
-[2025-01-27 12:00:40] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl  
-[2025-01-27 12:00:40] local.INFO: Employé inscrit avec succès.  
-[2025-01-27 12:00:42] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23  
-[2025-01-27 12:00:42] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg  
-[2025-01-27 12:00:42] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 12:00:43] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x6  
-[2025-01-27 12:00:43] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_6.svg  
-[2025-01-27 12:00:43] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 12:00:44] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1  
-[2025-01-27 12:00:44] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg  
-[2025-01-27 12:00:44] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 12:00:45] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22  
-[2025-01-27 12:00:45] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg  
-[2025-01-27 12:00:45] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
-[2025-01-27 12:01:06] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl  
-[2025-01-27 12:01:06] local.INFO: Employé inscrit avec succès.  
-[2025-01-27 12:07:06] local.INFO: Chargement du tableau de bord client {"idCompte":1} 
-[2025-01-27 12:07:29] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:07:29] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:09:57] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:09:57] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:10:22] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:10:22] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:11:34] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:11:34] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:13:17] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:13:17] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:21:53] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:21:53] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:29:48] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
-[2025-01-27 12:29:48] local.ERROR: Aucun compte trouvé pour l'adresse email :   
-[2025-01-27 12:31:16] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1","email":"cli@cli.fr"} 
-[2025-01-27 12:32:01] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:32:34] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#ffea00","couleur2":"#001b47"},"newColors":{"couleur1":"#ff0000","couleur2":"#001b47"}} 
-[2025-01-27 12:32:35] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:34:23] local.INFO: QR Code downloaded for idCompte: 1  
-[2025-01-27 12:37:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:37:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:37:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:37:22] local.INFO: QR Code downloaded for idCompte: 1  
-[2025-01-27 12:41:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:41:22] local.INFO: Info updated for idCompte: 1  
-[2025-01-27 12:41:22] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 12:44:35] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdun"} 
-[2025-01-27 12:44:35] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"} 
-[2025-01-27 12:45:04] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdunaz"} 
-[2025-01-27 12:45:04] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"} 
-[2025-01-27 12:45:13] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdun"} 
-[2025-01-27 12:45:13] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"} 
+"}
+[2025-01-27 12:00:40] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl
+[2025-01-27 12:00:40] local.INFO: Employé inscrit avec succès.
+[2025-01-27 12:00:42] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23
+[2025-01-27 12:00:42] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg
+[2025-01-27 12:00:42] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 12:00:43] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x6
+[2025-01-27 12:00:43] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_6.svg
+[2025-01-27 12:00:43] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 12:00:44] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1
+[2025-01-27 12:00:44] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg
+[2025-01-27 12:00:44] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 12:00:45] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22
+[2025-01-27 12:00:45] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg
+[2025-01-27 12:00:45] local.INFO: QR code rafraîchi avec succès pour idCompte : 1
+[2025-01-27 12:01:06] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl
+[2025-01-27 12:01:06] local.INFO: Employé inscrit avec succès.
+[2025-01-27 12:07:06] local.INFO: Chargement du tableau de bord client {"idCompte":1}
+[2025-01-27 12:07:29] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:07:29] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:09:57] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:09:57] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:10:22] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:10:22] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:11:34] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:11:34] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:13:17] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:13:17] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:21:53] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:21:53] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:29:48] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"}
+[2025-01-27 12:29:48] local.ERROR: Aucun compte trouvé pour l'adresse email :
+[2025-01-27 12:31:16] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1","email":"cli@cli.fr"}
+[2025-01-27 12:32:01] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:32:34] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#ffea00","couleur2":"#001b47"},"newColors":{"couleur1":"#ff0000","couleur2":"#001b47"}}
+[2025-01-27 12:32:35] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:34:23] local.INFO: QR Code downloaded for idCompte: 1
+[2025-01-27 12:37:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:37:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:37:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:37:22] local.INFO: QR Code downloaded for idCompte: 1
+[2025-01-27 12:41:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:41:22] local.INFO: Info updated for idCompte: 1
+[2025-01-27 12:41:22] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 12:44:35] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdun"}
+[2025-01-27 12:44:35] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"}
+[2025-01-27 12:45:04] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdunaz"}
+[2025-01-27 12:45:04] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"}
+[2025-01-27 12:45:13] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdun"}
+[2025-01-27 12:45:13] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"}
