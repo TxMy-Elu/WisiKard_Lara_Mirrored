@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
         .qr-code-container {
             width: 100px; /* Taille fixe pour le conteneur du QR code */
@@ -24,24 +23,25 @@
         }
     </style>
 </head>
-<body class="align-items-center bg-gray-100 w-100 ">
+<body class="align-items-center bg-grey-600">
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuAdmin')
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         @if($messageContent != "Aucun message disponible" || empty($messageContent))
-            <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
+            <div class="bg-zinc-400/45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
                  role="alert">
                 <strong class="font-bold">Information :</strong>
                 <span class="block sm:inline">{{ $messageContent }}</span>
             </div>
         @endif
-        <div class="min-h-screen p-4">
+        <div class="w-full p-4">
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <!-- Search bar -->
                 <form method="GET" action="{{ route('dashboardAdmin') }}"
                       class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
-                    <div class="search-icon pl-2">
+                    <div class="absolute left-2 top-1/2 transform -translate-y-1/2">
+
                         <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -66,9 +66,9 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-4 gap-4 mr-4">
                 @foreach($entreprises as $entreprise)
-                    <div class="custom-width bg-white rounded-lg shadow-lg p-4 flex flex-col">
+                    <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
                         <!-- Title -->
                         <div class="flex justify-between">
                             <!-- Company and email -->
@@ -111,13 +111,13 @@
 
                         @if($entreprise->compte->role == 'starter')
                             <div class="pt-4">
-                                <div class="bg-blue-500 bg-opacity-65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Starter</p>
                                 </div>
                             </div>
                         @elseif($entreprise->compte->role == 'advanced')
                             <div class="pt-4">
-                                <div class="bg-violet-500 bg-opacity-65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                <div class="bg-violet-500/65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Advanced</p>
                                 </div>
                             </div>

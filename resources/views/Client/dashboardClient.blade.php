@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 </head>
 <body class="bg-slate-100 flex flex-col min-h-screen">
 
@@ -13,7 +12,7 @@
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24">
         @if($messageContent != "Aucun message disponible" || empty($messageContent))
-            <div class="bg-zinc-400 bg-opacity-45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
+            <div class="bg-zinc-400/45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
                  role="alert">
                 <strong class="font-bold">Information :</strong>
                 <span class="block sm:inline">{{ $messageContent }}</span>
@@ -33,9 +32,9 @@
             </div>
         @endif
 
-        <div class="parent  p-4">
+        <div class="grid grid-cols-5 gap-5 p-4">
             <!-- Carte (div1) -->
-            <div class="div1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
+            <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                 <div class="flex justify-between">
                     <!-- Title and other information -->
                     <div class="flex flex-col">
@@ -55,13 +54,13 @@
                         </div>
                         @if($carte->compte->role == 'starter')
                             <div class="pt-4">
-                                <div class="bg-blue-500 bg-opacity-65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Starter</p>
                                 </div>
                             </div>
                         @elseif($carte->compte->role == 'advanced')
                             <div class="pt-4">
-                                <div class="bg-violet-500 bg-opacity-65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                <div class="bg-violet-500/65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Advanced</p>
                                 </div>
                             </div>
@@ -81,7 +80,7 @@
                         }
                     @endphp
 
-                    <!-- Logo -->
+                            <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
                             <img src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}" alt="Logo"
@@ -97,7 +96,7 @@
                 </div>
             </div>
             <!-- Font (div5) -->
-            <div class="div5 bg-white rounded-lg shadow-lg p-4">
+            <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ 'updateFont' }}" method="POST">
                     @csrf
                     @method('PATCH')
@@ -123,7 +122,7 @@
             </div>
 
             <!-- QR Code (div2) -->
-            <div class="div2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
+            <div class="col-span-1 row-span-2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
                 <div class="mb-4 flex flex-col items-center">
                     <img src="{{ $carte->lienQr }}"
@@ -189,7 +188,7 @@
             </div>
 
             <!-- Title / Description Form (div3) -->
-            <div class="div3 bg-white rounded-lg shadow-lg p-4">
+            <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ route('dashboardClientInfo') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
@@ -209,7 +208,7 @@
             </div>
 
             <!-- sheck box template (div4) -->
-            <div class="div4 bg-white rounded-lg shadow-lg p-4">
+            <div class="col-span-5 row-span-2 bg-white rounded-lg shadow-lg p-4">
                 <form id="templateForm" action="{{ route('updateTemplate') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
@@ -222,7 +221,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
-                                <div class="w-80 h-96 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg"></div>
+                               <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template2" value="2"
@@ -230,7 +229,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <!-- template gradient  -->
-                                <div class="w-80 h-96 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg"></div>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template3" value="3"
@@ -238,7 +237,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
-                                <div class="w-80 h-96 bg-gradient-to-r from-purple-500 to-red-500 rounded-lg"></div>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                         </div>
                     </div>
@@ -253,7 +252,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

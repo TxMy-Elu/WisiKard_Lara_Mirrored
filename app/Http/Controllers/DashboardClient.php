@@ -19,23 +19,41 @@ class DashboardClient extends Controller
 {
     public function afficherDashboardClient(Request $request)
     {
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-        $compte = Compte::where('idCompte', $idCompte)->first();
-        $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
-        $messageContent = $message ? $message->message : 'Aucun message disponible';
+        try {
+            $idCompte = session('connexion');
+            $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+            Log::info('Chargement du tableau de bord client', ['email' => $emailUtilisateur]);
 
-        if ($carte) {
-            $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
+            $carte = Carte::where('idCompte', $idCompte)->first();
+            $compte = Compte::where('idCompte', $idCompte)->first();
+
+            if (!$compte) {
+                Log::warning('Aucun compte trouvé', ['email' => $emailUtilisateur]);
+            }
+
+            $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
+            $messageContent = $message ? $message->message : 'Aucun message disponible';
+
+            if ($carte) {
+                $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
+            } else {
+                Log::warning('Aucune carte associée au compte.', ['email' => $emailUtilisateur]);
+            }
+
+            return view('client.dashboardClient', [
+                'messageContent' => $messageContent,
+                'carte' => $carte,
+                'compte' => $compte,
+                'couleur1' => $carte->couleur1 ?? null,
+                'couleur2' => $carte->couleur2 ?? null,
+                'titre' => $carte->titre ?? null,
+                'description' => $carte->descriptif ?? null,
+                'idTemplate' => $carte->idTemplate ?? null,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Erreur lors du chargement du tableau de bord client', ['error' => $e->getMessage()]);
+            return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
-
-        $couleur1 = $carte->couleur1;
-        $couleur2 = $carte->couleur2;
-        $titre = $carte->titre;
-        $description = $carte->descriptif;
-        $idTemplate = Carte::where('idCompte', $idCompte)->first()->idTemplate;
-
-        return view('client.dashboardClient', compact('messageContent', 'carte', 'compte', 'couleur1', 'couleur2', 'titre', 'description', 'idTemplate'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -46,6 +64,7 @@ class DashboardClient extends Controller
     public function employer(Request $request)
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $search = $request->input('search');
         $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
             ->where('carte.idCompte', $idCompte)
@@ -71,54 +90,33 @@ class DashboardClient extends Controller
         ]);
     }
 
-    public function ajoutEmployer(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'tel' => 'required|string|max:20',
-        ]);
-
-        Employer::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'tel' => $request->tel,
-            'idCarte' => $request->idCarte
-        ]);
-
-        $compte = Compte::find($request->idCarte);
-        if ($compte) {
-            $emailUtilisateur = $compte->email;
-            Logs::ecrireLog($emailUtilisateur, "Ajout Employe");
-        }
-
-        return redirect()->back()->with('success', 'L\'employé a été ajouté avec succès.');
-    }
-
     public function destroy($id)
     {
         try {
+            Log::info('Tentative de suppression de l\'employé', ['idEmploye' => $id]);
             $employer = Employer::findOrFail($id);
+
             $idCarte = $employer->idCarte;
             $employer->delete();
 
             $compte = Compte::find($idCarte);
             if ($compte) {
                 $emailUtilisateur = $compte->email;
-                Logs::ecrireLog($emailUtilisateur, "Suppression Employe");
+                Logs::ecrireLog($emailUtilisateur, "Suppression Employé");
             }
 
+            Log::info('Employé supprimé avec succès', ['idEmploye' => $id]);
             return redirect()->route('dashboardClientEmploye', ['idCarte' => $idCarte])->with('success', 'L\'employé a été supprimé avec succès.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de la suppression de l\'employé.');
+            Log::error('Erreur lors de la suppression de l\'employé', ['idEmploye' => $id, 'error' => $e->getMessage()]);
+            return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la suppression de l\'employé.']);
         }
     }
 
     public function social()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
 
         $allSocial = Social::all();
@@ -153,35 +151,61 @@ class DashboardClient extends Controller
 
     public function updateSocialLink(Request $request)
     {
-        $request->validate([
-            'idSocial' => 'required|integer',
-            'idCarte' => 'required|integer',
-            'lien' => 'nullable|url'
-        ]);
-
-        $rediriger = Rediriger::where('idSocial', $request->idSocial)
-            ->where('idCarte', $request->idCarte)
-            ->first();
-
-        if ($rediriger) {
-            $rediriger->lien = $request->lien;
-            $rediriger->activer = $request->has('activer') ? 1 : 0;
-            $rediriger->save();
-        } else {
-            Rediriger::create([
-                'idSocial' => $request->idSocial,
-                'idCarte' => $request->idCarte,
-                'lien' => $request->lien,
-                'activer' => $request->has('activer') ? 1 : 0
+        try {
+            $request->validate([
+                'idSocial' => 'required|integer',
+                'idCarte' => 'required|integer',
+                'lien' => 'nullable|url'
             ]);
-        }
 
-        return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
+            $idCompte = session('connexion');
+            $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+
+            $rediriger = Rediriger::where('idSocial', $request->idSocial)
+                ->where('idCarte', $request->idCarte)
+                ->first();
+
+            if ($rediriger) {
+                Log::info('Mise à jour du lien social existant', [
+                    'idSocial' => $request->idSocial,
+                    'idCarte' => $request->idCarte,
+                    'email' => $emailUtilisateur
+                ]);
+
+                $rediriger->lien = $request->lien;
+                $rediriger->activer = $request->has('activer') ? 1 : 0;
+                $rediriger->save();
+
+                Logs::ecrireLog($emailUtilisateur, "Modification Lien Social");
+            } else {
+                Log::info('Création d\'un nouveau lien social', [
+                    'idSocial' => $request->idSocial,
+                    'idCarte' => $request->idCarte,
+                    'email' => $emailUtilisateur
+                ]);
+
+                Rediriger::create([
+                    'idSocial' => $request->idSocial,
+                    'idCarte' => $request->idCarte,
+                    'lien' => $request->lien,
+                    'activer' => $request->has('activer') ? 1 : 0
+                ]);
+
+                Logs::ecrireLog($emailUtilisateur, "Ajout Lien Social");
+            }
+
+            return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de la mise à jour du lien social', ['error' => $e->getMessage(), 'email' => $emailUtilisateur]);
+            return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour du lien social.']);
+        }
     }
+
 
     public function statistique(Request $request)
     {
         $session = session('connexion');
+        $emailUtilisateur = Compte::find($session)->email; // Récupérer l'email de l'utilisateur connecté
         $year = $request->query('year', date('Y'));
         $selectedWeek = $request->input('week', date('W'));
         $selectedMonth = $request->input('month', date('n'));
@@ -318,34 +342,56 @@ class DashboardClient extends Controller
 
     public function updateColor(Request $request)
     {
-        $request->validate([
-            'couleur1' => 'required|string|max:7',
-            'couleur2' => 'required|string|max:7'
-        ]);
+        try {
+            $request->validate([
+                'couleur1' => 'required|string|max:7',
+                'couleur2' => 'required|string|max:7',
+            ]);
 
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
+            $idCompte = session('connexion');
+            $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+            $carte = Carte::where('idCompte', $idCompte)->first();
 
-        if (!$carte) {
-            return redirect()->back()->with('error', 'Carte non trouvée.');
+            if (!$carte) {
+                Log::warning('Carte non trouvée pour mise à jour des couleurs', ['email' => $emailUtilisateur]);
+                return redirect()->back()->withErrors(['error' => 'Carte non trouvée.']);
+            }
+
+            $oldColors = [
+                'couleur1' => $carte->couleur1,
+                'couleur2' => $carte->couleur2,
+            ];
+
+            $carte->couleur1 = $request->couleur1;
+            $carte->couleur2 = $request->couleur2;
+            $carte->save();
+
+            Log::info('Couleurs mises à jour avec succès', [
+                'email' => $emailUtilisateur,
+                'oldColors' => $oldColors,
+                'newColors' => ['couleur1' => $request->couleur1, 'couleur2' => $request->couleur2],
+            ]);
+
+            Logs::ecrireLog($emailUtilisateur, "Modification Couleurs");
+
+            Compte::QrCode($idCompte, $carte->nomEntreprise);
+
+            return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de la mise à jour des couleurs', ['email' => $emailUtilisateur, 'error' => $e->getMessage()]);
+            return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour des couleurs.']);
         }
-
-        $carte->couleur1 = $request->couleur1;
-        $carte->couleur2 = $request->couleur2;
-        $carte->save();
-
-        Compte::QrCode($idCompte, $carte->nomEntreprise);
-
-        return redirect()->back()->with('success', 'Couleurs mises à jour avec succès.');
     }
 
     public function downloadQrCodesColor()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
+            Log::info('Carte not found for idCompte: ' . $idCompte);
         }
 
         $entrepriseName = $carte->nomEntreprise;
@@ -355,24 +401,35 @@ class DashboardClient extends Controller
 
         if (!File::exists($qrCodesPath)) {
             return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
+            Log::info('QR Code not found for idCompte: ' . $idCompte);
         }
 
+        Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code Couleur");
+        Log::info('QR Code downloaded for idCompte: ' . $idCompte);
         return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
     }
 
     public function downloadQrCodes()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/Templates?idCompte=" . $idCompte;
+
+        if (!empty($idCompte) && !empty($emailUtilisateur)) {
+            Log::info('QR Code downloaded for idCompte: ' . $idCompte);
+            Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code");
+        }
 
         return response()->streamDownload(function () use ($url) {
             echo file_get_contents($url);
         }, 'QR_Code.svg');
+
     }
 
         public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -403,35 +460,54 @@ class DashboardClient extends Controller
     public function uploadFile(Request $request)
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
-    
+
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-    
+
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
-    
+
+        // Log the request data for debugging
+        Log::info('UploadFile Request Data:', $request->all());
+
+        // Check if a logo file is uploaded
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logoType = $logo->getClientOriginalExtension();
+            $mimeType = $logo->getMimeType();
+
+            // Vérifier le type MIME et l'extension
+            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
+                ($logoType === 'png' && $mimeType === 'image/png') ||
+                ($logoType === 'svg' && $mimeType === 'image/svg')) {
+
+                $logoPath = public_path("entreprises/{$folderName}/logos");
+
+
         if ($request->hasFile('file')) { // PDF
             $file = $request->file('file');
             $fileType = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
-    
+
             if ($fileType === 'pdf' && $mimeType === 'application/pdf') {
                 $pdfPath = public_path("entreprises/{$folderName}/pdf");
-    
+
                 if (!File::exists($pdfPath)) {
                     File::makeDirectory($pdfPath, 0755, true);
                 }
-    
+
                 $existingPdf = File::files($pdfPath);
                 if (!empty($existingPdf)) {
                     return redirect()->back()->with('error', 'Vous ne pouvez enregistrer plus de 1 PDF.');
                 }
-    
+
                 $fileName = time() . '.' . $fileType;
                 $file->move($pdfPath, $fileName);
-                Logs::ecrireLog($emailUtilisateur, "Téléchargement PDF");
+
                 return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
             } else {
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
@@ -444,20 +520,20 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
-    
+
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-    
+
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
         $logoPath = public_path("entreprises/{$folderName}/logos");
-    
+
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileType = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
-    
+
             if (in_array($fileType, ['jpg', 'jpeg', 'png', 'svg']) && strpos($mimeType, 'image/') === 0) {
                 // Supprimer l'ancien logo s'il existe
                 $existingLogo = File::files($logoPath);
@@ -466,19 +542,29 @@ class DashboardClient extends Controller
                         File::delete($logoFile->getPathname());
                     }
                 }
-    
+
                 if (!File::exists($logoPath)) {
                     File::makeDirectory($logoPath, 0755, true);
                 }
-    
+
                 $fileName = "logo.{$fileType}";
                 $file->move($logoPath, $fileName);
-    
+
                 // Mettre à jour la base de données avec le nouveau chemin du logo
                 $carte->imgLogo = "entreprises/{$folderName}/logos/{$fileName}";
                 $carte->save();
+
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement Logo");
+
+
                 Logs::ecrireLog($emailUtilisateur, "Téléchargement Logo");
                 return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
+            } else {
+                Logs::ecrireLog($emailUtilisateur, "Erreur Téléchargement Logo");
+                Log::info('Invalid file type or extension for logo file.');
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        }
             } else {
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
@@ -492,14 +578,14 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
-    
+
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-    
+
         if ($request->filled('rdv_url')) { // URL RDV
             $rdvUrl = $request->input('rdv_url');
-    
+
             if (preg_match('/^https?:\/\//', $rdvUrl)) {
                 $carte->lienCommande = $rdvUrl;
                 $carte->save();
@@ -510,10 +596,10 @@ class DashboardClient extends Controller
                 return redirect()->back()->with('error', 'L\'URL doit commencer par http ou https.');
             }
         }
-    
+
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-    
+
     public function uploadImage(Request $request)
      {
          $idCompte = session('connexion');
@@ -591,11 +677,27 @@ class DashboardClient extends Controller
         } else {
             return redirect()->back()->with('error', 'Aucune URL YouTube fournie.');
         }
+
+        if ($request->filled('custom_url')) { // URLs personnalisées
+            $customUrl = $request->input('custom_url');
+
+            // Passer l'URL à la vue pour l'affichage
+            return view('client.dashboardClientPDF', [
+                'carte' => $carte,
+                'youtubeUrls' => $youtubeUrls ?? [],
+                'idCompte' => $idCompte,
+                'customUrl' => $customUrl
+            ])->with('success', 'URL personnalisée enregistrée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-   public function deleteImage($filename)
-   {
-       $idCompte = session('connexion');
-       $carte = Carte::where('idCompte', $idCompte)->first();
+
+    public function deleteImage($filename)
+    {
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
        if (!$carte) {
            return redirect()->back()->with('error', 'Carte non trouvée.');
@@ -618,6 +720,7 @@ class DashboardClient extends Controller
     {
         $filenames = json_decode($request->input('filenames'), true);
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -640,6 +743,7 @@ class DashboardClient extends Controller
     public function deletePDF($filename)
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -668,6 +772,7 @@ class DashboardClient extends Controller
         public function deleteLogo()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -697,10 +802,11 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Logo supprimé avec succès.');
     }
 
-   public function deleteVideo($index)
-   {
-       $idCompte = session('connexion');
-       $carte = Carte::where('idCompte', $idCompte)->first();
+    public function deleteVideo($index)
+    {
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
        if (!$carte) {
            return redirect()->back()->with('error', 'Carte non trouvée.');
@@ -734,6 +840,7 @@ class DashboardClient extends Controller
         ]);
 
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -793,6 +900,7 @@ class DashboardClient extends Controller
     public function afficherSlider()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -820,31 +928,71 @@ class DashboardClient extends Controller
         ]);
 
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
+            Log::info('Carte not found for idCompte: ' . $idCompte);
         }
 
         $carte->titre = $request->titre;
         $carte->descriptif = $request->descriptif;
         $carte->save();
 
+        Logs::ecrireLog($emailUtilisateur, "Modification Info");
+        Log::info('Info updated for idCompte: ' . $idCompte);
+
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
 
     public function refreshQrCodeEmp($id, $idEmp)
     {
-        $compte = Compte::find($id);
-        $carte = Carte::where('idCompte', $compte->idCompte)->first();
-        (new Employer)->QrCode($id, $carte->nomEntreprise, $idEmp);
+        try {
+            // Vérification du compte
+            $compte = Compte::find($id);
+            if (!$compte) {
+                Log::error("Compte non trouvé pour l'ID : {$id}");
+                return redirect()->back()->with('error', 'Compte non trouvé.');
+            }
 
-        return redirect()->route('dashboardClientEmploye')->with('success', 'QR Code rafraîchi avec succès.');
+            $idCompte = session('connexion');
+            $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+            // Vérification de la carte associée
+            $carte = Carte::where('idCompte', $compte->idCompte)->first();
+            if (!$carte) {
+                Log::info("Carte non trouvée pour idCompte : {$compte->idCompte}");
+                return redirect()->back()->with('error', 'Carte non trouvée.');
+            }
+
+            // Vérification de l'employé
+            $emp = Employer::find($idEmp);
+            if (!$emp) {
+                Log::error("Employé non trouvé pour l'ID : {$idEmp}");
+                return redirect()->back()->with('error', 'Employé non trouvé.');
+            }
+
+            // Génération du QR code
+            $result = $emp::QrCodeEmploye($id, $carte->nomEntreprise, $idEmp);
+
+            if (!$result) {
+                return redirect()->back()->with('error', 'Erreur lors de la génération du QR Code.');
+            }
+
+            Log::info("QR code rafraîchi avec succès pour idCompte : {$compte->idCompte}");
+            Logs::ecrireLog($emailUtilisateur, "Rafraîchissement QR Code Employé");
+            return redirect()->back()->with('success', 'QR Code rafraîchi avec succès.');
+
+        } catch (\Exception $e) {
+            Log::error("Erreur lors du rafraîchissement du QR code : " . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur inattendue est survenue.');
+        }
     }
 
     public function afficherFormulaireEntreprise()
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
         $compte = Compte::where('idCompte', $idCompte)->first();
 
@@ -865,10 +1013,12 @@ class DashboardClient extends Controller
         ]);
 
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
         $compte = Compte::find($idCompte);
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour mise à jour des informations de l\'entreprise', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -887,11 +1037,13 @@ class DashboardClient extends Controller
 
             if (File::exists($oldPath)) {
                 if (File::exists($newPath)) {
+                    Log::error('Le dossier avec le nouveau nom existe déjà', ['email' => $emailUtilisateur, 'oldPath' => $oldPath, 'newPath' => $newPath]);
                     return redirect()->back()->with('error', 'Le dossier avec le nouveau nom existe déjà.');
                 }
 
                 File::move($oldPath, $newPath);
             } else {
+                Log::error('Ancien dossier introuvable', ['email' => $emailUtilisateur, 'oldPath' => $oldPath]);
                 return redirect()->back()->with('error', 'Ancien dossier introuvable.');
             }
 
@@ -902,21 +1054,29 @@ class DashboardClient extends Controller
             $carte->lienQr = $lien;
 
             $carte->save();
+            Logs::ecrireLog($emailUtilisateur, "Mise à jour du nom de l'entreprise et du lien QR Code");
+            Log::info('Mise à jour du nom de l\'entreprise et du lien QR Code', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'lienQr' => $lien]);
         }
 
         $carte->save();
+        Log::info('Informations de l\'entreprise mises à jour avec succès', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'tel' => $request->tel, 'adresse' => $request->adresse]);
 
         $compte->email = $request->mail;
         $compte->save();
 
         Compte::creerVCard($request->nomEntreprise, $request->tel, $request->mail, $idCompte);
+        Logs::ecrireLog($emailUtilisateur, "Création de la VCard");
+        Logs::ecrireLog($emailUtilisateur, "Modification Entreprise");
+        Log::info('Création de la VCard', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'tel' => $request->tel, 'mail' => $request->mail]);
 
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
     }
 
+
     public function updateTemplate(Request $request)
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
@@ -936,9 +1096,12 @@ class DashboardClient extends Controller
         }
 
         $carte->save();
+        Log::info('Template mis à jour avec succès', ['email' => $emailUtilisateur, 'idTemplate' => $request->idTemplate]);
+        Logs::ecrireLog($emailUtilisateur, "Modification Template");
 
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
+
     public function renamePdf(Request $request)
     {
         $currentFilename = $request->input('currentFilename');
@@ -973,12 +1136,15 @@ class DashboardClient extends Controller
         $session = session('connexion');
 
         if (!$session) {
+            Log::error('Session utilisateur expirée ou invalide', ['session' => $session]);
             return redirect()->back()->withErrors(['error' => 'La session utilisateur est expirée ou invalide.']);
         }
 
+        $emailUtilisateur = Compte::find($session)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $session)->first();
 
         if (!$carte) {
+            Log::warning('Aucune carte associée à cet utilisateur trouvée', ['email' => $emailUtilisateur]);
             return redirect()->back()->withErrors(['error' => 'Aucune carte associée à cet utilisateur trouvée.']);
         }
 
@@ -994,17 +1160,28 @@ class DashboardClient extends Controller
             'idCarte' => $carte->idCarte
         ]);
 
+        Log::info('Lien personnalisé ajouté avec succès', ['email' => $emailUtilisateur, 'nom' => $request->input('nom'), 'lien' => $request->input('lien')]);
+        Logs::ecrireLog($emailUtilisateur, "Ajout de lien personnalisé");
+
         return redirect()->back()->with('success', 'Lien personnalisé ajouté avec succès.');
     }
 
     public function updateSocialLinkCustom(Request $request)
     {
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+
         $customLink = Custom_Link::where('id_link', $request->id_link)->first();
 
         if ($customLink) {
             $customLink->lien = $request->lien;
             $customLink->activer = $request->has('activer') ? 1 : 0;
             $customLink->save();
+
+            Log::info('Lien personnalisé mis à jour avec succès', ['email' => $emailUtilisateur, 'id_link' => $request->id_link, 'lien' => $request->lien, 'activer' => $customLink->activer]);
+            Logs::ecrireLog($emailUtilisateur, "Mise à jour de lien personnalisé");
+        } else {
+            Log::warning('Lien personnalisé non trouvé', ['email' => $emailUtilisateur, 'id_link' => $request->id_link]);
         }
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
@@ -1014,14 +1191,19 @@ class DashboardClient extends Controller
     public function updateFont(Request $request)
     {
         $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour mise à jour de la police', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
         $carte->font = $request->font;
         $carte->save(); // Save the changes to the database
+
+        Log::info('Police mise à jour avec succès', ['email' => $emailUtilisateur, 'font' => $request->font]);
+        Logs::ecrireLog($emailUtilisateur, "Mise à jour de la police");
 
         return redirect()->back()->with('success', 'Police mise à jour avec succès.');
     }

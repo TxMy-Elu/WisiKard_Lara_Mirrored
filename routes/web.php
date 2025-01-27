@@ -29,10 +29,8 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 // Routes Templates
 Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
 
-// Routes iframe (public)
-Route::get('/Templates/iframe/pomme', [Templates::class, 'iframePomme'])->name('Templates.iframes.pomme');
-Route::get('/Templates/iframe/fraise', [Templates::class, 'iframeFraise'])->name('Templates.iframes.fraise');
-Route::get('/Templates/iframe/peche', [Templates::class, 'iframePeche'])->name('Templates.iframes.peche');
+Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
+
 
 // Routes protégées par authentification
 Route::middleware([Authentification::class])->group(function () {

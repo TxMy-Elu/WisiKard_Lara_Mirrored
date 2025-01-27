@@ -27,44 +27,69 @@ class Employer extends Model
         return $this->hasMany(Vue::class, 'idEmp');
     }
 
-    public static function QrCodeEmploye($id, $entreprise, $idEmp)
+    public function QrCodeEmploye($id, $entreprise, $idEmp)
     {
-        $url = "https://chart.io/qr?size=300&dark=000000&light=FFFFFF&text=127.0.0.1:9000/Templates?CompteEmp=". $id ."x".$idEmp;
+        // Vérification des paramètres
+        if (!$id || !$entreprise || !$idEmp) {
+            Log::error("Paramètres invalides : id = {$id}, entreprise = {$entreprise}, idEmp = {$idEmp}");
+            return false; // ou retournez une réponse adaptée
+        }
 
+        // Construction sécurisée de l'URL
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg";
+        $params = [
+            'text' => "127.0.0.1:9000/Templates?CompteEmp={$id}x{$idEmp}"
+        ];
+        $url = $url . '&' . http_build_query($params);
+
+        // Ajout d'un log pour voir l'URL générée
+        Log::info("Tentative de génération de QR Code via URL : $url");
+
+        // Initialisation de cURL
         $ch = curl_init();
 
-        // Configurer les options cURL
+        // Configuration de cURL
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL (selon vos besoins)
 
-        // Exécuter la requête cURL et obtenir le contenu
+        // Exécution de la requête
         $content = curl_exec($ch);
 
+        // Gestion des erreurs
         if (curl_errno($ch)) {
-            Log::error('Erreur cURL : ' . curl_error($ch));
-            curl_close($ch);
-            return null;
-        } else {
-            // Fermer la session cURL
+            $error_msg = curl_error($ch);
+            Log::error('Erreur cURL : ' . $error_msg. " pour l'URL : $url");
             curl_close($ch);
 
-            // Chemin où enregistrer le fichier SVG
+            return false; // Retournez une réponse adaptée à l'erreur
+        } else {
+            // Fermeture de la session cURL
+            curl_close($ch);
+
+            // Définir le chemin où sauvegarder le QR code
             $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
             $svgFilePath = "{$directoryPath}/QR_Code_{$idEmp}.svg";
 
-            // Créer le répertoire s'il n'existe pas
+            // Vérification et création du répertoire si nécessaire
             if (!file_exists($directoryPath)) {
-                mkdir($directoryPath, 0777, true);
+                if (!mkdir($directoryPath, 0755, true) && !is_dir($directoryPath)) {
+                    Log::error("Impossible de créer le répertoire : {$directoryPath}");
+                    return false; // ou retournez une réponse adaptée
+                }
             }
 
-            // Enregistrer le contenu dans un fichier SVG
-            file_put_contents($svgFilePath, $content);
+            // Enregistrement du QR Code dans un fichier SVG
+            if (file_put_contents($svgFilePath, $content) === false) {
+                Log::error("Erreur lors de l'enregistrement du QR Code à : {$svgFilePath}");
+                return false; // ou retournez une réponse adaptée
+            }
 
-            Log::info("QR Code généré et enregistré à : $svgFilePath");
+            // Log pour succès
+            Log::info("QR Code généré et enregistré à : {$svgFilePath}");
 
-            return $svgFilePath;
+            return $svgFilePath; // Retourne le chemin du fichier SVG
         }
     }
 }

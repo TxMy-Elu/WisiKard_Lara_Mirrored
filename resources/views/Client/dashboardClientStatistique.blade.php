@@ -9,25 +9,24 @@
             integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col">
     @include('menu.menuClient')
 
-    <div class="flex-1 md:ml-24 p-6 parentStat">
+    <div class="flex-1 md:ml-24 p-6 grid grid-cols-4 grid-rows-5 gap-5">
         <!-- divStat1 -->
-        <div class="divStat1 card w-full flex items-center justify-center mx-auto p-6 bg-white rounded-lg border shadow-md">
+        <div class="col-span-2 row-span-1 bg-white rounded-lg border shadow-md p-6 flex items-center justify-center">
             <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
                   class="flex items-center justify-center w-full">
                 <!-- Conteneur des champs année et semaine sur la même ligne avec ESPACE -->
                 <div class="flex items-center space-x-52">
                     <!-- Bloc de sélection de l'année -->
                     <div class="text-center">
-                        <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez
-                            l'année</label>
-                        <select name="year" id="yearSelect" class="custom-select w-32 text-center"
+                        <label for="yearSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez l'année</label>
+                        <select name="year" id="yearSelect"
+                                class="w-32 text-center border border-gray-300 rounded-md p-2 text-lg focus:ring focus:ring-indigo-500 focus:outline-none"
                                 onchange="updateWeekToCurrent()">
                             @foreach($years as $year)
                                 <option value="{{ $year }}"
@@ -37,11 +36,8 @@
                     </div>
 
                     <!-- Bloc de sélection de la semaine -->
-                    <div>
-                        <div class="text-center">
-                            <label for="weekSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez la
-                                semaine</label>
-                        </div>
+                    <div class="text-center">
+                        <label for="weekSelect" class="block text-2xl font-bold text-gray-700">Sélectionnez la semaine</label>
                         <div class="flex items-center justify-center">
                             <input type="hidden" name="week" id="weekInput" value="{{ $selectedWeek }}">
                             <button type="button" onclick="changeWeek(-1)"
@@ -49,8 +45,8 @@
                                 &lt;
                             </button>
                             <span id="weekDisplay" class="bg-transparent text-red-600 font-bold py-2 px-4">
-                        {{ $selectedWeek ? $selectedWeek : date('W') }}
-                    </span>
+                                {{ $selectedWeek ? $selectedWeek : date('W') }}
+                            </span>
                             <button type="button" onclick="changeWeek(1)"
                                     class="bg-transparent hover:bg-gray-400 text-red-600 font-bold py-2 px-4 rounded-r">
                                 &gt;
@@ -61,25 +57,24 @@
             </form>
         </div>
 
-        <!-- divStat2-->
-        <!-- Compteur de nombre de vues total -->
-        <div class="divStat2 card w-full p-6 bg-white rounded-lg border shadow-md">
-            <div class="mb-4">
-                <p class="text-center font-bold text-2xl">Nombre de vues</p>
-                <p class="text-center text-xl">Global</p>
+        <!-- divStat2 (Compteur global) -->
+        <div class="col-start-4 row-span-1 bg-white rounded-lg border shadow-md p-6">
+            <div class="text-center mb-4">
+                <p class="font-bold text-2xl">Nombre de vues</p>
+                <p class="text-xl">Global</p>
             </div>
-            <div class="flex flex-grow justify-center items-center">
+            <div class="flex items-center justify-center">
                 <h1 class="text-7xl font-bold text-red-900">{{ $totalViewsCard }}</h1>
             </div>
         </div>
-        <!-- divStat3-->
-        <!-- Compteur de nombre de vues total semaine -->
-        <div class="divStat3 card w-full p-6 bg-white rounded-lg border shadow-md">
-            <div class="mb-4">
-                <p class="text-center font-bold text-2xl">Nombre de vues</p>
-                <p class="text-center text-xl">Semaine</p>
+
+        <!-- divStat3 (Compteur hebdomadaire) -->
+        <div class="col-start-4 row-start-2 bg-white rounded-lg border shadow-md p-6">
+            <div class="text-center mb-4">
+                <p class="font-bold text-2xl">Nombre de vues</p>
+                <p class="text-xl">Semaine</p>
             </div>
-            <div class="flex flex-grow justify-center items-center">
+            <div class="flex items-center justify-center">
                 @if($selectedWeek)
                     <h1 class="text-7xl font-bold text-red-900">{{ $weeklyViews[$selectedWeek] ?? 0 }}</h1>
                 @else
@@ -90,72 +85,61 @@
             </div>
         </div>
 
-        <!-- divStat4-->
-        <!-- Graph -->
-        <div class="divStat4 card w-full p-6 bg-white rounded-lg border shadow-md justify-center items-center mx-auto">
-            <!-- titre du graph-->
-            <div class="mb-4">
-                <p class="text-center font-bold text-2xl">Nombres de vues</p>
-                <p class="text-center text-xl">Par employes</p>
-            </div>
+        <!-- div place vide -->
+        <div class="col-span-2 row-span-1"></div>
 
+        <!-- divStat4 (Graphique par employés) -->
+        <div class="col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 flex flex-col items-center justify-center">
+            <div class="text-center mb-4">
+                <p class="font-bold text-2xl">Nombres de vues</p>
+                <p class="text-xl">Par employes</p>
+            </div>
             @if(empty($employerData['datasets'][0]['data']))
-                <p>Aucune donnée disponible pour le graphique.</p>
+                <p class="text-center text-lg text-gray-500">Aucune donnée disponible pour le graphique.</p>
             @else
-                <div class="chart-container">
-                    <canvas id="yearChart" class="chart-canvas"></canvas>
+                <!-- Réduction de la taille du graphique avec des classes pour ajuster largeur et hauteur -->
+                <div class="w-full flex justify-center overflow-hidden">
+                    <canvas id="yearChart" class="max-w-xs max-h-96"></canvas>
                 </div>
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         const employerData = @json($employerData);
                         const ctxYear = document.getElementById('yearChart').getContext('2d');
 
-                        // employer chart
-                        let employe = new Chart(ctxYear, {
+                        new Chart(ctxYear, {
                             type: 'pie',
                             data: employerData,
                             options: {
-                                scales: {
-                                    x: {
-                                        display: false
-                                    },
-                                    y: {
-                                        display: false
-                                    }
-                                }
+                                responsive: true,
                             }
                         });
                     });
                 </script>
             @endif
         </div>
-        <!-- divStat5-->
-        <!-- Graph nombre de vue par mois -->
-        <div class="divStat5 card w-full p-6 bg-white rounded-lg border shadow-md">
-            <div class="mb-4">
-                <p class="text-center font-bold text-2xl">Nombres de vues</p>
-                <p class="text-center text-xl">Par mois</p>
+
+        <!-- divStat5 (Graphique par mois) -->
+        <div class="col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 flex flex-col items-center justify-center">
+            <div class="text-center mb-4">
+                <p class="font-bold text-2xl">Nombres de vues</p>
+                <p class="text-xl">Par mois</p>
             </div>
-
-            <!-- Débogage des données -->
-
-            <!-- Vérification des données -->
             @if(empty($monthlyData['datasets'][0]['data']))
-                <p>Aucune donnée disponible pour le graphique.</p>
+                <p class="text-center text-lg text-gray-500">Aucune donnée disponible pour le graphique.</p>
             @else
-                <div class="chart-container">
-                    <canvas id="monthChart" class="chart-canvas"></canvas>
+                <div class="w-full overflow-hidden">
+                    <canvas id="monthChart"></canvas>
                 </div>
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
-                        const $monthlyData = @json($monthlyData);
+                        const monthlyData = @json($monthlyData);
                         const ctxMonth = document.getElementById('monthChart').getContext('2d');
 
-                        // Création du graphique
-                        let month = new Chart(ctxMonth, {
+                        new Chart(ctxMonth, {
                             type: 'bar',
-                            data: $monthlyData,
+                            data: monthlyData,
                             options: {
+                                responsive: true,
                                 scales: {
                                     x: {
                                         display: true
@@ -172,37 +156,36 @@
         </div>
     </div>
 </div>
-</body>
 
 <script>
     function changeWeek(direction) {
         let weekInput = document.getElementById('weekInput');
         let weekDisplay = document.getElementById('weekDisplay');
-        let currentWeek = parseInt(weekInput.value) - 1 || new Date().getWeek() - 1;
+        let currentWeek = parseInt(weekInput.value) || new Date().getWeek(); // Récupération correcte de la semaine
         let newWeek = currentWeek + direction;
 
-        if (newWeek >= 0 && newWeek < 52) {
-            weekInput.value = newWeek + 1;
-            weekDisplay.innerText = newWeek + 1;
+        // Bloquer entre semaine 1 et semaine 52
+        if (newWeek >= 1 && newWeek <= 52) {
+            weekInput.value = newWeek; // Pas besoin d'ajouter une unité supplémentaire
+            weekDisplay.innerText = newWeek;
             document.getElementById('yearWeekForm').submit();
         }
     }
 
     function updateWeekToCurrent() {
-        let weekInput = document.getElementById('weekInput');
-        let weekDisplay = document.getElementById('weekDisplay');
-        let currentWeek = new Date().getWeek() - 1;
-
-        weekInput.value = currentWeek + 1;
-        weekDisplay.innerText = currentWeek + 1;
+        let currentWeek = new Date().getWeek();
+        document.getElementById('weekInput').value = currentWeek;
+        document.getElementById('weekDisplay').innerText = currentWeek;
         document.getElementById('yearWeekForm').submit();
     }
 
-    // Function to get the current week number
+    // Extension pour obtenir le numéro de semaine
     Date.prototype.getWeek = function () {
-        var onejan = new Date(this.getFullYear(), 0, 1);
-        return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+        const firstDayOfYear = new Date(this.getFullYear(), 0, 1);
+        const pastDaysOfYear = (this - firstDayOfYear) / 86400000;
+        return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
     };
 </script>
 
+</body>
 </html>

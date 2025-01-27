@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Compte;
+use App\Models\Logs;
 use App\Models\Vue;
 use App\Models\Carte;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class DashboardAdmin extends Controller
@@ -101,23 +103,16 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage');
     }
 
-    public function supprimerMessage(Request $request)
-    {
-        $message = $this->message->find($request->input('id'));
-        if ($message) {
-            $message->delete();
-        }
-
-        return redirect()->route('dashboardAdminMessage');
-    }
-
     public function toggleMessage($id)
     {
         $message = $this->message->find($id);
         if ($message) {
             $message->afficher = !$message->afficher;
             $message->save();
+            Log::info('Message ' . $message->id . ' toggled');
         }
+
+        Log::info('Message ' . $message->id . ' not found');
 
         return redirect()->route('dashboardAdminMessage');
     }
@@ -136,6 +131,8 @@ class DashboardAdmin extends Controller
         $message->message = $request->input('message');
         $message->save();
 
+        Log::info('Message ' . $message->id . ' updated');
+        Logs::ecrireLog($request->session()->get('email'), 'Modification du message');
         return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
@@ -155,6 +152,8 @@ class DashboardAdmin extends Controller
 
                 $carte->lienQr = "/entreprises/{$compte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code.svg";
                 $carte->save();
+                Log::info('QR Code for ' . $carte->nomEntreprise . ' refreshed');
+                Logs::ecrireLog($compte->email, 'Rafraîchissement du QR Code');
             }
         }
 

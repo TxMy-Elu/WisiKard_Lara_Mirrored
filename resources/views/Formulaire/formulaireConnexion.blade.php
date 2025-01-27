@@ -6,7 +6,8 @@
 
     <title>Connexion</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>

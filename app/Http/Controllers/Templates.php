@@ -123,20 +123,71 @@ class Templates extends Controller
         }
     }
 
-
-    public function iframePomme()
+    public function afficherIframe(Request $request)
     {
-        return view('Templates.Iframe.pomme');
-    }
+        // Récupérer l'idCompte depuis la session
+        $idCompte = session('connexion');
 
-    public function iframeFraise()
-    {
-        return view('Templates.Iframe.fraise');
-    }
+        // Récupérer l'idTemplate depuis l'URL
+        $idTemplate = $request->query('idTemplate');
 
-    public function iframePeche()
-    {
-        return view('Templates.Iframe.peche');
-    }
+        // Prend toutes les informations nécessaires depuis la base de données
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        $idCarte = $carte->idCarte ?? null;
 
+        $compte = Compte::find($idCompte);
+        $lien = Rediriger::where('idCarte', $idCarte)->get(); // Tous les liens associés à une carte
+        $custom = Custom_Link::where('idCarte', $idCarte)->where('activer', 1)->get(); // Liens personnalisés activés (custom_link)
+        $vue = Vue::where('idCarte', $idCarte)->get(); // Toutes les vues d'une carte
+
+        // Récupérer les réseaux sociaux
+        $logoSocial = Social::all()->map(function ($item) {
+            return [
+                'id' => $item->idSocial,
+                'logo' => $item->lienLogo,
+                'nom' => $item->nom,
+            ];
+        });
+
+        $social = Rediriger::where('idCarte', $idCarte)
+            ->where('activer', 1)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->idSocial,
+                    'lien' => $item->lien,
+                    'activer' => $item->activer,
+                ];
+            });
+
+        // Fusionner les collections de réseaux sociaux actifs avec leurs logos
+        $mergedSocial = $social->map(function ($item) use ($logoSocial) {
+            $socialItem = $logoSocial->firstWhere('id', $item['id']);
+            return [
+                'lien' => $item['lien'],
+                'logo' => $socialItem ? $socialItem['logo'] : null,
+                'nom' => $socialItem ? $socialItem['nom'] : null,
+            ];
+        });
+
+        // Définir les fonctions spécifiques
+        $fonctions = [
+            ['nom' => 'nopub'],
+            ['nom' => 'embedyoutube', 'option' => $idCarte ? Carte::find($idCarte)->lienCommande : null]
+        ];
+
+        $employe = null;
+
+        // Renvoyer la bonne vue selon l'idTemplate passé dans l'URL
+        switch ($idTemplate) {
+            case 1:
+                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+            case 2:
+                return view('Templates.water', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+            case 3:
+                return view('Templates.lava', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+            default:
+                abort(404, 'Template non trouvé');
+        }
+    }
 }
