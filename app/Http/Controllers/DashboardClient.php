@@ -431,7 +431,7 @@ class DashboardClient extends Controller
     
                 $fileName = time() . '.' . $fileType;
                 $file->move($pdfPath, $fileName);
-    
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement PDF");
                 return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
             } else {
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
@@ -477,7 +477,7 @@ class DashboardClient extends Controller
                 // Mettre à jour la base de données avec le nouveau chemin du logo
                 $carte->imgLogo = "entreprises/{$folderName}/logos/{$fileName}";
                 $carte->save();
-    
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement Logo");
                 return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
             } else {
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
@@ -487,32 +487,33 @@ class DashboardClient extends Controller
         }
     }
     
-        public function urlsrdv(Request $request)
+
+    public function urlsrdv(Request $request)
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
-
+    
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-
+    
         if ($request->filled('rdv_url')) { // URL RDV
             $rdvUrl = $request->input('rdv_url');
-
-            // Vérifier si l'URL contient "http" ou "https"
+    
             if (preg_match('/^https?:\/\//', $rdvUrl)) {
                 $carte->lienCommande = $rdvUrl;
                 $carte->save();
 
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement Url RDV");
                 return redirect()->route('dashboardClientPDF')->with('success', 'URL Rdv enregistrée avec succès.');
             } else {
                 return redirect()->back()->with('error', 'L\'URL doit commencer par http ou https.');
             }
         }
-
+    
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-
+    
     public function uploadImage(Request $request)
      {
          $idCompte = session('connexion');
@@ -540,7 +541,7 @@ class DashboardClient extends Controller
 
                  $imageFileName = time() . '.' . $imageType;
                  $image->move($imagePath, $imageFileName);
-
+                 Logs::ecrireLog($emailUtilisateur, "Téléchargement Image");
                  return redirect()->route('dashboardClientPDF')->with('success', 'Image téléchargée avec succès.');
              } else {
                  return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
