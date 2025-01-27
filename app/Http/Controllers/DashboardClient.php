@@ -71,32 +71,6 @@ class DashboardClient extends Controller
         ]);
     }
 
-    public function ajoutEmployer(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'tel' => 'required|string|max:20',
-        ]);
-
-        Employer::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'tel' => $request->tel,
-            'idCarte' => $request->idCarte
-        ]);
-
-        $compte = Compte::find($request->idCarte);
-        if ($compte) {
-            $emailUtilisateur = $compte->email;
-            Logs::ecrireLog($emailUtilisateur, "Ajout Employe");
-        }
-
-        return redirect()->back()->with('success', 'L\'employé a été ajouté avec succès.');
-    }
-
     public function destroy($id)
     {
         try {
@@ -167,6 +141,8 @@ class DashboardClient extends Controller
             $rediriger->lien = $request->lien;
             $rediriger->activer = $request->has('activer') ? 1 : 0;
             $rediriger->save();
+            Logs::ecrireLog(session('email'), "Modification Lien Social");
+            Log::info('Social link updated');
         } else {
             Rediriger::create([
                 'idSocial' => $request->idSocial,
@@ -174,6 +150,8 @@ class DashboardClient extends Controller
                 'lien' => $request->lien,
                 'activer' => $request->has('activer') ? 1 : 0
             ]);
+            Logs::ecrireLog(session('email'), "Ajout Lien Social");
+            Log::info( 'Social link created');
         }
 
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
@@ -346,6 +324,7 @@ class DashboardClient extends Controller
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
+            Log::info('Carte not found for idCompte: ' . $idCompte);
         }
 
         $entrepriseName = $carte->nomEntreprise;
@@ -355,8 +334,11 @@ class DashboardClient extends Controller
 
         if (!File::exists($qrCodesPath)) {
             return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
+            Log::info('QR Code not found for idCompte: ' . $idCompte);
         }
 
+        Logs::ecrireLog(session('email'), "Téléchargement QR Code Couleur");
+        Log::info('QR Code downloaded for idCompte: ' . $idCompte);
         return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
     }
 
@@ -368,6 +350,8 @@ class DashboardClient extends Controller
         return response()->streamDownload(function () use ($url) {
             echo file_get_contents($url);
         }, 'QR_Code.svg');
+        Log::info('QR Code downloaded for idCompte: ' . $idCompte);
+        Logs::ecrireLog(session('email'), "Téléchargement QR Code");
     }
 
     public function afficherDashboardClientPDF()

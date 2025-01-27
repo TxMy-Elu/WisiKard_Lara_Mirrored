@@ -8650,3 +8650,19 @@
 #48 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #49 {main}
 "} 
+[2025-01-27 12:00:40] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl  
+[2025-01-27 12:00:40] local.INFO: Employé inscrit avec succès.  
+[2025-01-27 12:00:42] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23  
+[2025-01-27 12:00:42] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg  
+[2025-01-27 12:00:42] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 12:00:43] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x6  
+[2025-01-27 12:00:43] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_6.svg  
+[2025-01-27 12:00:43] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 12:00:44] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1  
+[2025-01-27 12:00:44] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg  
+[2025-01-27 12:00:44] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 12:00:45] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22  
+[2025-01-27 12:00:45] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg  
+[2025-01-27 12:00:45] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 12:01:06] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl  
+[2025-01-27 12:01:06] local.INFO: Employé inscrit avec succès.  

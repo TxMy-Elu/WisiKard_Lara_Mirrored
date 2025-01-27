@@ -7,6 +7,7 @@ use App\Models\Employer;
 use App\Models\Carte;
 use Illuminate\Support\Facades\DB; // pour role
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Employe extends Controller
 {
@@ -51,6 +52,11 @@ class Employe extends Controller
 
             $this->QrCode($idCompte, $carte->nomEntreprise, $employer->idEmp);
 
+            // Log the inscription
+            $mailCompte = Compte::where('idCompte', $idCompte)->first();
+            Logs::ecrireLog($mailCompte->email, "Inscription Employe");
+            Log::info('Employé inscrit avec succès.');
+
             return redirect()->route('dashboardClientEmploye')->with('success', 'Employé inscrit avec succès !');
         }
     }
@@ -76,6 +82,7 @@ class Employe extends Controller
 
         if (curl_errno($ch)) {
             echo 'Erreur cURL : ' . curl_error($ch);
+            Log::info('Erreur cURL : ' . curl_error($ch));
         } else {
             // Fermer la session cURL
             curl_close($ch);
@@ -87,8 +94,10 @@ class Employe extends Controller
             // Créer le répertoire s'il n'existe pas
             if (!file_exists($directoryPath)) {
                 mkdir($directoryPath, 0777, true);
+                Log::info('Le répertoire ' . $directoryPath . ' a été créé avec succès.');
             }
 
+            Logs::ecrireLog($entreprise, "Génération QR Code Employe");
             // Enregistrer le contenu dans un fichier PNG
             file_put_contents($pngFilePath, $content);
         }
@@ -124,6 +133,7 @@ class Employe extends Controller
             if ($compte) {
                 $emailUtilisateur = $compte->email;
                 Logs::ecrireLog($emailUtilisateur, "Modification Employe");
+                Log::info('Employé modifié avec succès.');
             }
 
             return redirect()->route('dashboardClientEmploye')->with('success', 'L\'employé a été modifié avec succès.');
