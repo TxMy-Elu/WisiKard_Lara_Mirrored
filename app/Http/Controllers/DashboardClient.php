@@ -454,7 +454,18 @@ class DashboardClient extends Controller
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
-        return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls'));
+        // Détection des différents types de fichiers
+        $logoPath = '';
+        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+        foreach ($formats as $format) {
+            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            if (file_exists($path)) {
+                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                break;
+            }
+        }
+
+        return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath'));
     }
 
     public function uploadFile(Request $request)
@@ -663,6 +674,9 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
+
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
         if (!$carte) {
             Log::warning('Carte non trouvée pour le téléchargement de vidéo YouTube', ['email' => $emailUtilisateur]);
