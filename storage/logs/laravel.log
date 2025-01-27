@@ -10234,7 +10234,7 @@
 [2025-01-27 13:38:55] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-01-27 13:39:06] local.INFO: Template mis à jour avec succès {"email":"cli@cli.fr","idTemplate":"1"} 
 [2025-01-27 13:39:08] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 14:32:40] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 14:32:40] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
 [2025-01-27 15:05:50] local.ERROR: Undefined variable: logoPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClientPDF.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClientPDF.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-350310587 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#357</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -10480,7 +10480,7 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
+"}
 [2025-01-27 15:12:58] local.ERROR: Route [dashboardClientPDF.uploadPdf] not defined. (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClientPDF.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php","data":[]},"exception":"[object] (Facade\\Ignition\\Exceptions\\ViewException(code: 0): Route [dashboardClientPDF.uploadPdf] not defined. (View: C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views\\Client\\dashboardClientPDF.blade.php) at C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:444)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(739): Illuminate\\Routing\\UrlGenerator->route('dashboardClient...', Array, true)
@@ -10602,7 +10602,7 @@
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #56 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #57 {main}
-"} 
+"}
 [2025-01-27 15:13:22] local.ERROR: Undefined variable: pdfPath (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClientPDF.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClientPDF.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1418265143 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#357</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -10850,8 +10850,8 @@
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
-"} 
-[2025-01-27 15:14:52] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","pdf":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php951C.tmp"}} 
+"}
+[2025-01-27 15:14:52] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","pdf":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php951C.tmp"}}
 [2025-01-27 15:27:44] local.ERROR: Undefined variable: emailUtilisateur {"exception":"[object] (ErrorException(code: 0): Undefined variable: emailUtilisateur at C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\DashboardClient.php:707)
 [stacktrace]
 #0 C:\\wamp64\\www\\stage\\WisiKard_Lara\\app\\Http\\Controllers\\DashboardClient.php(707): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined varia...', 'C:\\\\wamp64\\\\www\\\\s...', 707, Array)
@@ -10903,37 +10903,37 @@
 #46 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #47 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #48 {main}
-"} 
-[2025-01-27 15:28:25] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:28:31] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"1"} 
-[2025-01-27 15:31:28] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
-[2025-01-27 15:31:32] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:40:23] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-01-27 15:40:31] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
-[2025-01-27 15:44:05] local.WARNING: URL YouTube non valide {"email":"cli@cli.fr","youtubeUrl":null} 
-[2025-01-27 15:44:14] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:49:08] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
-[2025-01-27 15:51:30] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:51:35] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:51:38] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:51:40] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:51:43] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"3"} 
-[2025-01-27 15:51:45] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"2"} 
-[2025-01-27 15:51:46] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"1"} 
-[2025-01-27 15:52:39] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
-[2025-01-27 15:55:33] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 15:55:38] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
-[2025-01-27 15:56:04] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:02:09] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:02:12] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:02:16] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:04:36] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:04:40] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:08:28] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"5"} 
-[2025-01-27 16:08:30] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"4"} 
-[2025-01-27 16:08:31] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"3"} 
-[2025-01-27 16:10:16] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"} 
-[2025-01-27 16:10:18] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"3"} 
+"}
+[2025-01-27 15:28:25] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:28:31] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"1"}
+[2025-01-27 15:31:28] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"}
+[2025-01-27 15:31:32] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:40:23] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-01-27 15:40:31] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"}
+[2025-01-27 15:44:05] local.WARNING: URL YouTube non valide {"email":"cli@cli.fr","youtubeUrl":null}
+[2025-01-27 15:44:14] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:49:08] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"}
+[2025-01-27 15:51:30] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:51:35] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:51:38] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:51:40] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:51:43] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"3"}
+[2025-01-27 15:51:45] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"2"}
+[2025-01-27 15:51:46] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"1"}
+[2025-01-27 15:52:39] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"}
+[2025-01-27 15:55:33] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 15:55:38] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"}
+[2025-01-27 15:56:04] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:02:09] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:02:12] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:02:16] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:04:36] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:04:40] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:08:28] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"5"}
+[2025-01-27 16:08:30] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"4"}
+[2025-01-27 16:08:31] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"3"}
+[2025-01-27 16:10:16] local.INFO: URL YouTube enregistrée avec succès {"email":"cli@cli.fr","youtubeUrl":"https://www.youtube.com/watch?v=kwQrKho0AzE"}
+[2025-01-27 16:10:18] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"3"}
 [2025-01-27 16:11:00] local.ERROR: Call to a member function take() on array (View: C:\wamp64\www\stage\WisiKard_Lara\resources\views\Client\dashboardClientPDF.blade.php) {"view":{"view":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\resources\\views/client/dashboardClientPDF.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1092305681 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#357</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -11183,8 +11183,8 @@
 #53 C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #54 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #55 {main}
-"} 
-[2025-01-27 16:11:15] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"2"} 
-[2025-01-27 16:11:16] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"1"} 
-[2025-01-27 16:11:52] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
-[2025-01-27 16:11:54] local.WARNING: URL YouTube non valide {"email":"cli@cli.fr","youtubeUrl":null} 
+"}
+[2025-01-27 16:11:15] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"2"}
+[2025-01-27 16:11:16] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"1"}
+[2025-01-27 16:11:52] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"}
+[2025-01-27 16:11:54] local.WARNING: URL YouTube non valide {"email":"cli@cli.fr","youtubeUrl":null}
