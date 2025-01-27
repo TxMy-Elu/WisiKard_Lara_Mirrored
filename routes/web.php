@@ -67,21 +67,24 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
     Route::post('/dashboardClientPDF/renamePdf', [DashboardClient::class, 'renamePdf'])->name('dashboardClientPDF.renamePdf');
     Route::delete('/dashboardClientPDF/deletePDF/{filename}', [DashboardClient::class, 'deletePDF'])->name('dashboardClientPDF.deletePDF');
-
     // Gestion des sliders
     Route::post('/dashboardClientPDF/uploadSlider', [DashboardClient::class, 'uploadSlider'])->name('dashboardClientPDF.uploadSlider');
     Route::get('/dashboardClientPDF/afficherSlider', [DashboardClient::class, 'afficherSlider'])->name('dashboardClientPDF.afficherSlider');
+    Route::delete('/dashboardClientPDF/deleteSliderImage', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
     //Youtube
     Route::post('/dashboardClientPDF/uploadYouTubeVideo', [DashboardClient::class, 'uploadYouTubeVideo'])->name('dashboardClientPDF.uploadYouTubeVideo');
+    Route::delete('/dashboardClientPDF/deleteVideo/{index}', [DashboardClient::class, 'deleteVideo'])->name('dashboardClientPDF.deleteVideo');
     //Img
     Route::post('/dashboardClientPDF/uploadImage', [DashboardClient::class, 'uploadImage'])->name('dashboardClientPDF.uploadImage');
-
-    // Delete contenue
-    Route::delete('/dashboardClientPDF/deleteRDV/{index}', [DashboardClient::class, 'deleteRDV'])->name('dashboardClientPDF.deleteRDV');
+    Route::post('/dashboardClientPDF/upload', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.upload');
+    Route::post('/dashboardClientPDF/upload', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.upload');
     Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
+    //UrlRDV
+    Route::post('/dashboardClientPDF/urlsrdv', [DashboardClient::class, 'urlsrdv'])->name('dashboardClientPDF.urlsrdv');
+    Route::delete('/dashboardClientPDF/deleteRDV/{index}', [DashboardClient::class, 'deleteRDV'])->name('dashboardClientPDF.deleteRDV');
+    //Logo
     Route::delete('/dashboardClientPDF/deleteLogo', [DashboardClient::class, 'deleteLogo'])->name('dashboardClientPDF.deleteLogo');
-    Route::delete('/dashboardClientPDF/deleteVideo/{index}', [DashboardClient::class, 'deleteVideo'])->name('dashboardClientPDF.deleteVideo');
-    Route::delete('/dashboardClientPDF/deleteSliderImage', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
+    Route::post('/dashboardClientPDF/uploadLogo', [DashboardClient::class, 'uploadLogo'])->name('dashboardClientPDF.uploadLogo');
 
     // Personnalisation des Clients
     Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');

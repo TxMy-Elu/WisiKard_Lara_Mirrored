@@ -370,22 +370,26 @@ class DashboardClient extends Controller
         }, 'QR_Code.svg');
     }
 
-    public function afficherDashboardClientPDF()
+        public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-        // Debugging: Check the value of $idCompte
-        Log::info('ID Compte from session: ' . $idCompte);
-
-        // Debugging: Check if $carte is null
         if (!$carte) {
-            Log::error('Carte not found for idCompte: ' . $idCompte);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $imagesPath = public_path("entreprises/{$folderName}/images");
+        $images = [];
+        if (File::exists($imagesPath)) {
+            $images = File::files($imagesPath);
+            $images = array_map(function($file) {
+                return $file->getFilename();
+            }, $images);
+        }
 
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
         $youtubeUrls = [];
@@ -393,43 +397,41 @@ class DashboardClient extends Controller
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
-        // Récupérer le lienCommande
-        $lienCommande = $carte->lienCommande;
-
-        return view('client.dashboardClientPDF', compact('carte', 'youtubeUrls', 'idCompte', 'lienCommande'));
+        return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls'));
     }
+
     public function uploadFile(Request $request)
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
-
+    
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-
+    
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
-
+    
         if ($request->hasFile('file')) { // PDF
             $file = $request->file('file');
             $fileType = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
-
+    
             if ($fileType === 'pdf' && $mimeType === 'application/pdf') {
                 $pdfPath = public_path("entreprises/{$folderName}/pdf");
-
+    
                 if (!File::exists($pdfPath)) {
                     File::makeDirectory($pdfPath, 0755, true);
                 }
-
+    
                 $existingPdf = File::files($pdfPath);
                 if (!empty($existingPdf)) {
                     return redirect()->back()->with('error', 'Vous ne pouvez enregistrer plus de 1 PDF.');
                 }
-
+    
                 $fileName = time() . '.' . $fileType;
                 $file->move($pdfPath, $fileName);
-
+    
                 return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
             } else {
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
@@ -437,19 +439,81 @@ class DashboardClient extends Controller
         } else {
             return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
         }
+    }
+    public function uploadLogo(Request $request)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+    
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+    
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+        $logoPath = public_path("entreprises/{$folderName}/logos");
+    
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileType = $file->getClientOriginalExtension();
+            $mimeType = $file->getMimeType();
+    
+            if (in_array($fileType, ['jpg', 'jpeg', 'png', 'svg']) && strpos($mimeType, 'image/') === 0) {
+                // Supprimer l'ancien logo s'il existe
+                $existingLogo = File::files($logoPath);
+                if (!empty($existingLogo)) {
+                    foreach ($existingLogo as $logoFile) {
+                        File::delete($logoFile->getPathname());
+                    }
+                }
+    
+                if (!File::exists($logoPath)) {
+                    File::makeDirectory($logoPath, 0755, true);
+                }
+    
+                $fileName = "logo.{$fileType}";
+                $file->move($logoPath, $fileName);
+    
+                // Mettre à jour la base de données avec le nouveau chemin du logo
+                $carte->imgLogo = "entreprises/{$folderName}/logos/{$fileName}";
+                $carte->save();
+    
+                return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
+        }
+    }
+    
 
+    public function urlsrdv(Request $request)
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+    
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+    
         if ($request->filled('rdv_url')) { // URL RDV
             $rdvUrl = $request->input('rdv_url');
-
-            $carte->lienCommande = $rdvUrl;
-            $carte->save();
-
-            return redirect()->route('dashboardClientPDF')->with('success', 'URL Rdv enregistrée avec succès.');
+    
+            // Vérifier si l'URL contient "http" ou "https"
+            if (preg_match('/^https?:\/\//', $rdvUrl)) {
+                $carte->lienCommande = $rdvUrl;
+                $carte->save();
+    
+                return redirect()->route('dashboardClientPDF')->with('success', 'URL Rdv enregistrée avec succès.');
+            } else {
+                return redirect()->back()->with('error', 'L\'URL doit commencer par http ou https.');
+            }
         }
-
+    
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-
+    
     public function uploadImage(Request $request)
      {
          $idCompte = session('connexion');
@@ -601,7 +665,7 @@ class DashboardClient extends Controller
         }
     }
 
-    public function deleteLogo()
+        public function deleteLogo()
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -616,6 +680,7 @@ class DashboardClient extends Controller
         $logoPathJpg = public_path("entreprises/{$folderName}/logos/logo.jpg");
         $logoPathJpeg = public_path("entreprises/{$folderName}/logos/logo.jpeg");
         $logoPathPng = public_path("entreprises/{$folderName}/logos/logo.png");
+        $logoPathSvg = public_path("entreprises/{$folderName}/logos/logo.svg");
 
         if (File::exists($logoPathJpg)) {
             File::delete($logoPathJpg);
@@ -623,6 +688,8 @@ class DashboardClient extends Controller
             File::delete($logoPathJpeg);
         } elseif (File::exists($logoPathPng)) {
             File::delete($logoPathPng);
+        } elseif (File::exists($logoPathSvg)) {
+            File::delete($logoPathSvg);
         } else {
             return redirect()->back()->with('error', 'Logo non trouvé.');
         }
