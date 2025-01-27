@@ -488,38 +488,45 @@ class DashboardClient extends Controller
                 $logoPath = public_path("entreprises/{$folderName}/logos");
 
 
-        if ($request->hasFile('file')) { // PDF
-            $file = $request->file('file');
-            $fileType = $file->getClientOriginalExtension();
-            $mimeType = $file->getMimeType();
+                if ($request->hasFile('file')) { // PDF
+                    $file = $request->file('file');
+                    $fileType = $file->getClientOriginalExtension();
+                    $mimeType = $file->getMimeType();
 
-            if ($fileType === 'pdf' && $mimeType === 'application/pdf') {
-                $pdfPath = public_path("entreprises/{$folderName}/pdf");
+                    if ($fileType === 'pdf' && $mimeType === 'application/pdf') {
+                        $pdfPath = public_path("entreprises/{$folderName}/pdf");
 
-                if (!File::exists($pdfPath)) {
-                    File::makeDirectory($pdfPath, 0755, true);
+                        if (!File::exists($pdfPath)) {
+                            File::makeDirectory($pdfPath, 0755, true);
+                        }
+
+                        $existingPdf = File::files($pdfPath);
+                        if (!empty($existingPdf)) {
+                            return redirect()->back()->with('error', 'Vous ne pouvez enregistrer plus de 1 PDF.');
+                        }
+
+                        $fileName = time() . '.' . $fileType;
+                        $file->move($pdfPath, $fileName);
+
+                        return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
+                    } else {
+                        return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+                    }
+                } else {
+                    return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
                 }
-
-                $existingPdf = File::files($pdfPath);
-                if (!empty($existingPdf)) {
-                    return redirect()->back()->with('error', 'Vous ne pouvez enregistrer plus de 1 PDF.');
-                }
-
-                $fileName = time() . '.' . $fileType;
-                $file->move($pdfPath, $fileName);
-
-                return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
-            } else {
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
-        } else {
-            return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
+
         }
     }
+
     public function uploadLogo(Request $request)
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
+
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
@@ -565,19 +572,17 @@ class DashboardClient extends Controller
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
         }
-            } else {
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
-        }
     }
+
     
 
     public function urlsrdv(Request $request)
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
+
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
@@ -604,6 +609,9 @@ class DashboardClient extends Controller
      {
          $idCompte = session('connexion');
          $carte = Carte::where('idCompte', $idCompte)->first();
+
+         $idCompte = session('connexion');
+         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
          if (!$carte) {
              return redirect()->back()->with('error', 'Carte non trouvée.');
