@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client</title>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 </head>
 <body class="bg-slate-100 flex flex-col min-h-screen">

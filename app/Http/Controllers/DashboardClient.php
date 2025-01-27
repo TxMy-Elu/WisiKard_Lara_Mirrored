@@ -787,11 +787,42 @@ class DashboardClient extends Controller
 
     public function refreshQrCodeEmp($id, $idEmp)
     {
-        $compte = Compte::find($id);
-        $carte = Carte::where('idCompte', $compte->idCompte)->first();
-        (new Employer)->QrCode($id, $carte->nomEntreprise, $idEmp);
+        try {
+            // Vérification du compte
+            $compte = Compte::find($id);
+            if (!$compte) {
+                Log::error("Compte non trouvé pour l'ID : {$id}");
+                return redirect()->back()->with('error', 'Compte non trouvé.');
+            }
 
-        return redirect()->route('dashboardClientEmploye')->with('success', 'QR Code rafraîchi avec succès.');
+            // Vérification de la carte associée
+            $carte = Carte::where('idCompte', $compte->idCompte)->first();
+            if (!$carte) {
+                Log::info("Carte non trouvée pour idCompte : {$compte->idCompte}");
+                return redirect()->back()->with('error', 'Carte non trouvée.');
+            }
+
+            // Vérification de l'employé
+            $emp = Employer::find($idEmp);
+            if (!$emp) {
+                Log::error("Employé non trouvé pour l'ID : {$idEmp}");
+                return redirect()->back()->with('error', 'Employé non trouvé.');
+            }
+
+            // Génération du QR code
+            $result = $emp::QrCodeEmploye($id, $carte->nomEntreprise, $idEmp);
+
+            if (!$result) {
+                return redirect()->back()->with('error', 'Erreur lors de la génération du QR Code.');
+            }
+
+            Log::info("QR code rafraîchi avec succès pour idCompte : {$compte->idCompte}");
+            return redirect()->back()->with('success', 'QR Code rafraîchi avec succès.');
+
+        } catch (\Exception $e) {
+            Log::error("Erreur lors du rafraîchissement du QR code : " . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur inattendue est survenue.');
+        }
     }
 
     public function afficherFormulaireEntreprise()

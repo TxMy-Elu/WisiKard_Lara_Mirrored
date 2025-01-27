@@ -4,33 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client Employe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <style>
-        .qr-code-container {
-            width: 100px; /* Taille fixe pour le conteneur du QR code */
-            height: 100px;
-            background-color: #f1f1f1; /* Couleur de fond pour le conteneur */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Couper le contenu qui dépasse */
-            border-radius: 8px; /* Coins arrondis */
-        }
-
-        .qr-code-container img {
-            max-width: 100%; /* Assure que l'image s'adapte au conteneur */
-            max-height: 100%;
-        }
-    </style>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 </head>
-<body class="align-items-center bg-gray-100 w-100">
+<body class="align-items-center bg-gray-100 >
 
 <div class="flex flex-col md:flex-row">
-
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24 content">
-
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
                  role="alert">
@@ -81,10 +61,9 @@
                 </div>
             </div>
 
-
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($employes as $employe)
-                    <div class="custom-width bg-white rounded-lg shadow-lg p-4 flex flex-col">
+                    <div class="w-full bg-white rounded-lg shadow-lg p-4 flex flex-col">
                         <div class="flex justify-between">
                             <div class="flex flex-col">
                                 <div class="mb-4">
@@ -104,12 +83,12 @@
                                 </div>
                             </div>
                             <div class="flex justify-center mb-4">
-                                <div class="qr-code-container">
+                                <div class="w-24 h-24 bg-gray-200 flex justify-center items-center rounded-lg overflow-hidden">
                                     <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
                                          alt="QR Code" class="max-w-full max-h-full">
                                 </div>
-                                <div class="flex justify-end ">
-                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }} " class="ml-2">
+                                <div class="flex justify-end">
+                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}" class="ml-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
