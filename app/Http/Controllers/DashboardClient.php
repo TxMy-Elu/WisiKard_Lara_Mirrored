@@ -635,6 +635,7 @@ class DashboardClient extends Controller
         $logoPathJpg = public_path("entreprises/{$folderName}/logos/logo.jpg");
         $logoPathJpeg = public_path("entreprises/{$folderName}/logos/logo.jpeg");
         $logoPathPng = public_path("entreprises/{$folderName}/logos/logo.png");
+        $logoPathSvg = public_path("entreprises/{$folderName}/logos/logo.svg");
 
         if (File::exists($logoPathJpg)) {
             File::delete($logoPathJpg);
@@ -642,6 +643,8 @@ class DashboardClient extends Controller
             File::delete($logoPathJpeg);
         } elseif (File::exists($logoPathPng)) {
             File::delete($logoPathPng);
+        } elseif (File::exists($logoPathSvg)) {
+            File::delete($logoPathSvg);
         } else {
             return redirect()->back()->with('error', 'Logo non trouvé.');
         }

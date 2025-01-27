@@ -3357,3 +3357,27 @@
 [2025-01-27 09:42:13] local.INFO: ID Compte from session: 1  
 [2025-01-27 09:43:13] local.INFO: ID Compte from session: 1  
 [2025-01-27 09:43:57] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:46:00] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:47:23] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:48:35] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:48:37] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:48:41] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpF565.tmp"}} 
+[2025-01-27 09:48:41] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:49:05] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x6  
+[2025-01-27 09:49:05] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_6.svg  
+[2025-01-27 09:49:05] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 09:49:06] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x1  
+[2025-01-27 09:49:06] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_1.svg  
+[2025-01-27 09:49:06] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 09:49:07] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x20  
+[2025-01-27 09:49:07] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_20.svg  
+[2025-01-27 09:49:07] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 09:49:08] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x21  
+[2025-01-27 09:49:08] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_21.svg  
+[2025-01-27 09:49:08] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 09:49:09] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x23  
+[2025-01-27 09:49:09] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_23.svg  
+[2025-01-27 09:49:09] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 09:49:10] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22  
+[2025-01-27 09:49:10] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg  
+[2025-01-27 09:49:10] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
