@@ -8666,3 +8666,36 @@
 [2025-01-27 12:00:45] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
 [2025-01-27 12:01:06] local.ERROR: Aucun compte trouvé pour l'adresse email : Lidl  
 [2025-01-27 12:01:06] local.INFO: Employé inscrit avec succès.  
+[2025-01-27 12:07:06] local.INFO: Chargement du tableau de bord client {"idCompte":1} 
+[2025-01-27 12:07:29] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:07:29] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:09:57] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:09:57] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:10:22] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:10:22] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:11:34] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:11:34] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:13:17] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:13:17] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:21:53] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:21:53] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:29:48] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1"} 
+[2025-01-27 12:29:48] local.ERROR: Aucun compte trouvé pour l'adresse email :   
+[2025-01-27 12:31:16] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1","email":"cli@cli.fr"} 
+[2025-01-27 12:32:01] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:32:34] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#ffea00","couleur2":"#001b47"},"newColors":{"couleur1":"#ff0000","couleur2":"#001b47"}} 
+[2025-01-27 12:32:35] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:34:23] local.INFO: QR Code downloaded for idCompte: 1  
+[2025-01-27 12:37:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:37:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:37:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:37:22] local.INFO: QR Code downloaded for idCompte: 1  
+[2025-01-27 12:41:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:41:22] local.INFO: Info updated for idCompte: 1  
+[2025-01-27 12:41:22] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-27 12:44:35] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdun"} 
+[2025-01-27 12:44:35] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"} 
+[2025-01-27 12:45:04] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdunaz"} 
+[2025-01-27 12:45:04] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"} 
+[2025-01-27 12:45:13] local.INFO: Informations de l'entreprise mises à jour avec succès {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","adresse":"verdun"} 
+[2025-01-27 12:45:13] local.INFO: Création de la VCard {"email":"cli@cli.fr","nomEntreprise":"Lidl","tel":"0682087970","mail":"cli@cli.fr"} 
