@@ -251,36 +251,31 @@
                 </div>
             @endif
         </div>
-
-       <!-- Formulaire pour l'URL de prise de rendez-vous -->
-<div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
-    <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-        @csrf
-        <div class="mb-4">
-            <label for="rdv_url" class="block text-sm font-medium text-gray-700">URL de prise de rendez-vous :</label>
-            <input type="url" id="rdv_url" name="rdv_url" class="mt-1 block w-full" placeholder="https://www.exemple.com/rdv...">
-        </div>
-        <div class="flex p-4">
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-        </div>
-    </form>
-    <h2 class="text-xl font-bold mb-2">Lien de RDV enregistré</h2>
-    <!-- Card pour l'URL de RDV -->
-    @if($carte->lienCommande)
-        <div class="mt-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
-                    <div class="text-center mb-2">
-                        <h3 class="text-lg font-bold">{{ $carte->lienCommande }}</h3>
-                    </div>
-                    <div class="video-container w-80 h-auto ">
-                        <a href="{{ $carte->lienCommande }}" class="text-blue-500 underline" target="_blank">Ouvrir le lien</a>
+        <!-- Formulaire pour l'URL de prise de rendez-vous -->
+        <div class="bg-white p-6 w-3/6 rounded-lg shadow-md mb-6">
+            <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                @csrf
+                <div class="mb-4">
+                    <label for="rdv_url" class="block text-sm font-medium text-gray-700">URL de prise de rendez-vous :</label>
+                    <input type="url" id="rdv_url" name="rdv_url" class="mt-1 block w-full" placeholder="https://www.exemple.com/rdv...">
+                </div>
+                <div class="flex p-4">
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
+                </div>
+            </form>
+            <h2 class="text-xl font-bold mb-2">Lien de RDV enregistré</h2>
+            <!-- Afficher l'URL de RDV sous le bouton "Enregistrer" -->
+            @if($carte->LienCommande)
+                <div class="mt-4 w-auto h-auto">
+                    <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
+                        <div class="video-container w-auto h-auto">
+                            <a href="{{ $carte->LienCommande }}" class="text-blue-500 underline" target="_blank">{{ $carte->LienCommande }}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
-    @endif
-</div>
+
         <!-- Formulaire slider -->
         <div class="bg-white p-6 w-auto h-max rounded-lg shadow-md mb-6">
             <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
