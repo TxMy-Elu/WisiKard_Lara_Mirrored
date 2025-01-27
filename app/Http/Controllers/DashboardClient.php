@@ -464,6 +464,7 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour le téléchargement de fichier', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -487,7 +488,6 @@ class DashboardClient extends Controller
 
                 $logoPath = public_path("entreprises/{$folderName}/logos");
 
-
                 if ($request->hasFile('file')) { // PDF
                     $file = $request->file('file');
                     $fileType = $file->getClientOriginalExtension();
@@ -502,21 +502,26 @@ class DashboardClient extends Controller
 
                         $existingPdf = File::files($pdfPath);
                         if (!empty($existingPdf)) {
+                            Log::warning('Tentative de téléchargement de plus d\'un PDF', ['email' => $emailUtilisateur]);
                             return redirect()->back()->with('error', 'Vous ne pouvez enregistrer plus de 1 PDF.');
                         }
 
                         $fileName = time() . '.' . $fileType;
                         $file->move($pdfPath, $fileName);
 
+                        Log::info('Fichier PDF téléchargé avec succès', ['email' => $emailUtilisateur, 'fileName' => $fileName]);
+                        Logs::ecrireLog($emailUtilisateur, "Téléchargement PDF");
+
                         return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
                     } else {
+                        Log::warning('Type de fichier ou extension non valide pour le PDF', ['email' => $emailUtilisateur]);
                         return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
                     }
                 } else {
+                    Log::warning('Aucun fichier téléchargé', ['email' => $emailUtilisateur]);
                     return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
                 }
             }
-
         }
     }
 
@@ -529,6 +534,7 @@ class DashboardClient extends Controller
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour le téléchargement du logo', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -561,20 +567,16 @@ class DashboardClient extends Controller
                 $carte->imgLogo = "entreprises/{$folderName}/logos/{$fileName}";
                 $carte->save();
 
+                Log::info('Logo téléchargé avec succès', ['email' => $emailUtilisateur, 'fileName' => $fileName]);
                 Logs::ecrireLog($emailUtilisateur, "Téléchargement Logo");
 
-
-                Logs::ecrireLog($emailUtilisateur, "Téléchargement Logo");
                 return redirect()->route('dashboardClientPDF')->with('success', 'Logo téléchargé avec succès.');
             } else {
-                Logs::ecrireLog($emailUtilisateur, "Erreur Téléchargement Logo");
-                Log::info('Invalid file type or extension for logo file.');
+                Log::warning('Type de fichier ou extension non valide pour le logo', ['email' => $emailUtilisateur]);
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
         }
     }
-
-    
 
     public function urlsrdv(Request $request)
     {
@@ -585,6 +587,7 @@ class DashboardClient extends Controller
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour l\'URL RDV', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -595,55 +598,66 @@ class DashboardClient extends Controller
                 $carte->lienCommande = $rdvUrl;
                 $carte->save();
 
+                Log::info('URL RDV enregistrée avec succès', ['email' => $emailUtilisateur, 'rdvUrl' => $rdvUrl]);
                 Logs::ecrireLog($emailUtilisateur, "Téléchargement Url RDV");
+
                 return redirect()->route('dashboardClientPDF')->with('success', 'URL Rdv enregistrée avec succès.');
             } else {
+                Log::warning('URL RDV non valide', ['email' => $emailUtilisateur, 'rdvUrl' => $rdvUrl]);
                 return redirect()->back()->with('error', 'L\'URL doit commencer par http ou https.');
             }
         }
 
+        Log::warning('Aucune URL fournie pour RDV', ['email' => $emailUtilisateur]);
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
 
+
     public function uploadImage(Request $request)
-     {
-         $idCompte = session('connexion');
-         $carte = Carte::where('idCompte', $idCompte)->first();
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-         $idCompte = session('connexion');
-         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
-         if (!$carte) {
-             return redirect()->back()->with('error', 'Carte non trouvée.');
-         }
+        if (!$carte) {
+            Log::warning('Carte non trouvée pour le téléchargement d\'image', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-         $folderName = "{$idCompte}_{$entrepriseName}";
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-         if ($request->hasFile('image')) {
-             $image = $request->file('image');
-             $imageType = $image->getClientOriginalExtension();
-             $mimeType = $image->getMimeType();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageType = $image->getClientOriginalExtension();
+            $mimeType = $image->getMimeType();
 
-             // Vérifier si le type de fichier est valide
-             if (in_array($imageType, ['jpg', 'jpeg', 'png']) && strpos($mimeType, 'image/') === 0) {
-                 $imagePath = public_path("entreprises/{$folderName}/images");
+            // Vérifier si le type de fichier est valide
+            if (in_array($imageType, ['jpg', 'jpeg', 'png']) && strpos($mimeType, 'image/') === 0) {
+                $imagePath = public_path("entreprises/{$folderName}/images");
 
-                 if (!File::exists($imagePath)) {
-                     File::makeDirectory($imagePath, 0755, true);
-                 }
+                if (!File::exists($imagePath)) {
+                    File::makeDirectory($imagePath, 0755, true);
+                }
 
-                 $imageFileName = time() . '.' . $imageType;
-                 $image->move($imagePath, $imageFileName);
-                 Logs::ecrireLog($emailUtilisateur, "Téléchargement Image");
-                 return redirect()->route('dashboardClientPDF')->with('success', 'Image téléchargée avec succès.');
-             } else {
-                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-             }
-         } else {
-             return redirect()->back()->with('error', 'Aucun fichier image téléchargé.');
-         }
-     }
+                $imageFileName = time() . '.' . $imageType;
+                $image->move($imagePath, $imageFileName);
+
+                Log::info('Image téléchargée avec succès', ['email' => $emailUtilisateur, 'imageFileName' => $imageFileName]);
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement Image");
+
+                return redirect()->route('dashboardClientPDF')->with('success', 'Image téléchargée avec succès.');
+            } else {
+                Log::warning('Type de fichier ou extension non valide pour l\'image', ['email' => $emailUtilisateur]);
+                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            }
+        } else {
+            Log::warning('Aucun fichier image téléchargé', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Aucun fichier image téléchargé.');
+        }
+    }
 
     public function uploadYouTubeVideo(Request $request)
     {
@@ -651,6 +665,7 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour le téléchargement de vidéo YouTube', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -678,11 +693,16 @@ class DashboardClient extends Controller
                 $videosData[] = $youtubeUrl;
                 File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
 
+                Log::info('URL YouTube enregistrée avec succès', ['email' => $emailUtilisateur, 'youtubeUrl' => $youtubeUrl]);
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement URL YouTube");
+
                 return redirect()->route('dashboardClientPDF')->with('success', 'URL YouTube enregistrée avec succès.');
             } else {
+                Log::warning('URL YouTube non valide', ['email' => $emailUtilisateur, 'youtubeUrl' => $youtubeUrl]);
                 return redirect()->back()->with('error', 'URL YouTube non valide.');
             }
         } else {
+            Log::warning('Aucune URL YouTube fournie', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Aucune URL YouTube fournie.');
         }
 
@@ -690,6 +710,9 @@ class DashboardClient extends Controller
             $customUrl = $request->input('custom_url');
 
             // Passer l'URL à la vue pour l'affichage
+            Log::info('URL personnalisée enregistrée avec succès', ['email' => $emailUtilisateur, 'customUrl' => $customUrl]);
+            Logs::ecrireLog($emailUtilisateur, "Téléchargement URL personnalisée");
+
             return view('client.dashboardClientPDF', [
                 'carte' => $carte,
                 'youtubeUrls' => $youtubeUrls ?? [],
@@ -698,31 +721,37 @@ class DashboardClient extends Controller
             ])->with('success', 'URL personnalisée enregistrée avec succès.');
         }
 
+        Log::warning('Aucune URL fournie', ['email' => $emailUtilisateur]);
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-       if (!$carte) {
-           return redirect()->back()->with('error', 'Carte non trouvée.');
-       }
+        if (!$carte) {
+            Log::warning('Carte non trouvée pour la suppression d\'image', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-       $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-       $folderName = "{$idCompte}_{$entrepriseName}";
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-       $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
+        $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
 
-       if (File::exists($filePath)) {
-           File::delete($filePath);
-           return redirect()->back()->with('success', 'Image supprimée avec succès.');
-       } else {
-           return redirect()->back()->with('error', 'Image non trouvée.');
-       }
-   }
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+
+            Log::info('Image supprimée avec succès', ['email' => $emailUtilisateur, 'filename' => $filename]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression Image");
+
+            return redirect()->back()->with('success', 'Image supprimée avec succès.');
+        } else {
+            Log::warning('Image non trouvée pour la suppression', ['email' => $emailUtilisateur, 'filename' => $filename]);
+            return redirect()->back()->with('error', 'Image non trouvée.');
+        }
+    }
 
     public function deleteSliderImage(Request $request)
     {
@@ -732,6 +761,7 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour la suppression d\'images de slider', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -742,6 +772,9 @@ class DashboardClient extends Controller
             $sliderPath = public_path("entreprises/{$folderName}/slider/{$filename}");
             if (File::exists($sliderPath)) {
                 File::delete($sliderPath);
+
+                Log::info('Image de slider supprimée avec succès', ['email' => $emailUtilisateur, 'filename' => $filename]);
+                Logs::ecrireLog($emailUtilisateur, "Suppression Image de Slider");
             }
         }
 
@@ -755,6 +788,7 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour la suppression de PDF', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -771,19 +805,24 @@ class DashboardClient extends Controller
             $carte->nomBtnPdf = null;
             $carte->save();
 
+            Log::info('PDF supprimée avec succès', ['email' => $emailUtilisateur, 'filename' => $filename]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression PDF");
+
             return redirect()->back()->with('success', 'PDF supprimée avec succès.');
         } else {
+            Log::warning('PDF non trouvée pour la suppression', ['email' => $emailUtilisateur, 'filename' => $filename]);
             return redirect()->back()->with('error', 'PDF non trouvée.');
         }
     }
 
-        public function deleteLogo()
+    public function deleteLogo()
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour la suppression du logo', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -797,13 +836,22 @@ class DashboardClient extends Controller
 
         if (File::exists($logoPathJpg)) {
             File::delete($logoPathJpg);
+            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathJpg]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
         } elseif (File::exists($logoPathJpeg)) {
             File::delete($logoPathJpeg);
+            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathJpeg]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
         } elseif (File::exists($logoPathPng)) {
             File::delete($logoPathPng);
+            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathPng]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
         } elseif (File::exists($logoPathSvg)) {
             File::delete($logoPathSvg);
+            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathSvg]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
         } else {
+            Log::warning('Logo non trouvé pour la suppression', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Logo non trouvé.');
         }
 
@@ -816,30 +864,38 @@ class DashboardClient extends Controller
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-       if (!$carte) {
-           return redirect()->back()->with('error', 'Carte non trouvée.');
-       }
+        if (!$carte) {
+            Log::warning('Carte non trouvée pour la suppression de vidéo', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
-       $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-       $folderName = "{$idCompte}_{$entrepriseName}";
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
 
-       $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
 
-       if (File::exists($videosPath)) {
-           $videosData = json_decode(File::get($videosPath), true);
+        if (File::exists($videosPath)) {
+            $videosData = json_decode(File::get($videosPath), true);
 
-           if (isset($videosData[$index])) {
-               unset($videosData[$index]);
-               $videosData = array_values($videosData);
-               File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
-               return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
-           } else {
-               return redirect()->back()->with('error', 'Vidéo YouTube non trouvée.');
-           }
-       } else {
-           return redirect()->back()->with('error', 'Fichier de vidéos non trouvé.');
-       }
-   }
+            if (isset($videosData[$index])) {
+                unset($videosData[$index]);
+                $videosData = array_values($videosData);
+                File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
+
+                Log::info('Vidéo YouTube supprimée avec succès', ['email' => $emailUtilisateur, 'index' => $index]);
+                Logs::ecrireLog($emailUtilisateur, "Suppression Vidéo YouTube");
+
+                return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
+            } else {
+                Log::warning('Vidéo YouTube non trouvée pour la suppression', ['email' => $emailUtilisateur, 'index' => $index]);
+                return redirect()->back()->with('error', 'Vidéo YouTube non trouvée.');
+            }
+        } else {
+            Log::warning('Fichier de vidéos non trouvé pour la suppression', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Fichier de vidéos non trouvé.');
+        }
+    }
+
     public function uploadSlider(Request $request)
     {
         $request->validate([
@@ -852,6 +908,7 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour le téléchargement d\'images de slider', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -866,6 +923,7 @@ class DashboardClient extends Controller
 
         $existingImages = File::files($sliderPath);
         if (count($existingImages) >= 10) {
+            Log::warning('Tentative de téléchargement de plus de 10 images pour le slider', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Vous ne pouvez pas télécharger plus de 10 images pour le slider.');
         }
 
@@ -880,14 +938,17 @@ class DashboardClient extends Controller
                 $nextNumber = $this->getNextIncrementalNumber($sliderPath);
                 $sliderFileName = "{$nextNumber}_slider.{$sliderImageType}";
                 $sliderImage->move($sliderPath, $sliderFileName);
+
+                Log::info('Image de slider téléchargée avec succès', ['email' => $emailUtilisateur, 'sliderFileName' => $sliderFileName]);
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement Image de Slider");
             } else {
+                Log::warning('Type de fichier ou extension non valide pour l\'image de slider', ['email' => $emailUtilisateur]);
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
         }
 
         return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
     }
-
     private function getNextIncrementalNumber($folderPath)
     {
         $files = File::files($folderPath);
@@ -912,6 +973,7 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour l\'affichage du slider', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -922,12 +984,14 @@ class DashboardClient extends Controller
 
         if (File::exists($sliderPath)) {
             $sliderImages = File::files($sliderPath);
+            Log::info('Images de slider affichées avec succès', ['email' => $emailUtilisateur]);
+            Logs::ecrireLog($emailUtilisateur, "Affichage Images de Slider");
             return view('client.dashboardClientPDF', compact('sliderImages', 'carte', 'idCompte'));
         } else {
+            Log::warning('Aucune image de slider trouvée pour l\'affichage', ['email' => $emailUtilisateur]);
             return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
         }
     }
-
     public function updateInfo(Request $request)
     {
         $request->validate([
@@ -1119,6 +1183,7 @@ class DashboardClient extends Controller
         $carte = Carte::find($idCarte);
 
         if (!$carte) {
+            Log::warning('Carte non trouvée pour le renommage de PDF', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
@@ -1133,8 +1198,12 @@ class DashboardClient extends Controller
             $carte->pdf = $PathPdf;
             $carte->save();
 
+            Log::info('Fichier PDF renommé avec succès', ['email' => $emailUtilisateur, 'currentFilename' => $currentFilename, 'newFilename' => $newFilename]);
+            Logs::ecrireLog($emailUtilisateur, "Renommage PDF");
+
             return redirect()->back()->with('success', 'Fichier renommé avec succès.');
         } else {
+            Log::warning('Fichier PDF non trouvé pour le renommage', ['email' => $emailUtilisateur, 'currentFilename' => $currentFilename]);
             return redirect()->back()->with('error', 'Fichier non trouvé.');
         }
     }
