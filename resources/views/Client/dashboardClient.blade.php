@@ -221,7 +221,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
-                                <div class="w-80 h-96 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg"></div>
+                               <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template2" value="2"
@@ -229,7 +229,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <!-- template gradient  -->
-                                <div class="w-80 h-96 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg"></div>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template3" value="3"
@@ -237,7 +237,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
-                                <div class="w-80 h-96 bg-gradient-to-r from-purple-500 to-red-500 rounded-lg"></div>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                         </div>
                     </div>

@@ -819,8 +819,36 @@
   .h-96 {
     height: calc(var(--spacing) * 96);
   }
+  .h-100 {
+    height: calc(var(--spacing) * 100);
+  }
+  .h-\[400px\] {
+    height: 400px;
+  }
+  .h-\[500px\] {
+    height: 500px;
+  }
+  .h-\[700px\] {
+    height: 700px;
+  }
+  .h-\[750px\] {
+    height: 750px;
+  }
+  .h-\[900px\] {
+    height: 900px;
+  }
+  .h-\[1000px\] {
+    height: 1000px;
+  }
   .h-auto {
     height: auto;
+  }
+  .h-dvw {
+    height: 100dvw;
+  }
+  .h-fit {
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .h-full {
     height: 100%;
@@ -831,6 +859,9 @@
   }
   .h-px {
     height: 1px;
+  }
+  .h-screen {
+    height: 100vh;
   }
   .max-h-96 {
     max-height: calc(var(--spacing) * 96);
@@ -862,11 +893,8 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
-  .w-24 {
-    width: calc(var(--spacing) * 24);
-  }
-  .w-80 {
-    width: calc(var(--spacing) * 80);
+  .w-40 {
+    width: calc(var(--spacing) * 40);
   }
   .w-100 {
     width: calc(var(--spacing) * 100);
@@ -880,6 +908,9 @@
   .w-12 {
     width: calc(var(--spacing) * 12);
   }
+  .w-24 {
+    width: calc(var(--spacing) * 24);
+  }
   .w-25 {
     width: calc(var(--spacing) * 25);
   }
@@ -889,14 +920,14 @@
   .w-32 {
     width: calc(var(--spacing) * 32);
   }
-  .w-40 {
-    width: calc(var(--spacing) * 40);
-  }
   .w-48 {
     width: calc(var(--spacing) * 48);
   }
   .w-50 {
     width: calc(var(--spacing) * 50);
+  }
+  .w-80 {
+    width: calc(var(--spacing) * 80);
   }
   .w-96 {
     width: calc(var(--spacing) * 96);
@@ -944,9 +975,18 @@
   .origin-center {
     transform-origin: center;
   }
+  .origin-top-left {
+    transform-origin: top left;
+  }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .scale-75 {
+    --tw-scale-x: 75%;
+    --tw-scale-y: 75%;
+    --tw-scale-z: 75%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
   }
   .rotate-45 {
     rotate: 45deg;
@@ -1115,11 +1155,20 @@
   .border-zinc-400 {
     border-color: var(--color-zinc-400);
   }
+  .bg-\[\#4F759B\] {
+    background-color: #4F759B;
+  }
   .bg-\[\#9b8a7f\] {
     background-color: #9b8a7f;
   }
+  .bg-\[\#141B41\] {
+    background-color: #141B41;
+  }
   .bg-\[\#342d29\] {
     background-color: #342d29;
+  }
+  .bg-\[\#C03221\] {
+    background-color: #C03221;
   }
   .bg-black {
     background-color: var(--color-black);
@@ -2013,6 +2062,21 @@
   inherits: false;
   initial-value: 0;
 }
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
 @property --tw-rotate-x {
   syntax: "*";
   inherits: false;
@@ -2243,19 +2307,4 @@
   syntax: "*";
   initial-value: "";
   inherits: false;
-}
-@property --tw-scale-x {
-  syntax: "*";
-  inherits: false;
-  initial-value: 1;
-}
-@property --tw-scale-y {
-  syntax: "*";
-  inherits: false;
-  initial-value: 1;
-}
-@property --tw-scale-z {
-  syntax: "*";
-  inherits: false;
-  initial-value: 1;
 }
