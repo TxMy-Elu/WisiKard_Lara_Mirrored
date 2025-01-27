@@ -90,7 +90,7 @@
               @csrf
               <div class="mb-4">
                   <label for="logo" class="block text-sm font-medium text-gray-700">Sélectionner une logo :</label>
-                  <input type="file" id="logo" name="logo" class="mt-1 block w-full" accept=".jpg,.jpeg,.png">
+                  <input type="file" id="logo" name="logo" class="mt-1 block w-full" accept=".jpg,.jpeg,.png,.svg">
                   <div class="flex p-4">
                       <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
                   </div>
@@ -100,7 +100,8 @@
           <!-- Card pour le logo -->
              @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpg")) ||
                  File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpeg")) ||
-                 File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png")))
+                 File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png")) ||
+                 File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.svg")))
                  <div class="mt-4">
                      <div class="grid grid-cols-1 w-96 ">
                          <div class="bg-white p-8 rounded-lg shadow-md relative">
@@ -111,7 +112,9 @@
                                      <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.jpeg") }}" alt="Logo" class="w-auto h-auto mx-auto max-w-xs max-h-xs">
                                  @elseif(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png")))
                                      <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.png") }}" alt="Logo" class="w-auto h-auto mx-auto max-w-xs max-h-xs">
-                                 @endif
+                                 @elseif (File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.svg")))
+                                     <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/logos/logo.svg") }}" alt="Logo" class="w-auto h-auto mx-auto max-w-xs max-h-xs">
+                                    @endif
                              </div>
                              <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST" class="absolute bottom-2 right-2" id="deleteLogoForm">
                                  @csrf

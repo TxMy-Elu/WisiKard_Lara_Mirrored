@@ -423,7 +423,8 @@ class DashboardClient extends Controller
             // Vérifier le type MIME et l'extension
             if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
                 ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'png' && $mimeType === 'image/png')) {
+                ($logoType === 'png' && $mimeType === 'image/png') ||
+                ($logoType === 'svg' && $mimeType === 'image/svg')) {
 
                 $logoPath = public_path("entreprises/{$folderName}/logos");
 

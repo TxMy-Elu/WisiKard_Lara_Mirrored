@@ -3342,3 +3342,18 @@
 [2025-01-27 08:53:55] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FTemplates%3FCompteEmp%3D1x22  
 [2025-01-27 08:53:55] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/1_Lidl/QR_Codes/QR_Code_22.svg  
 [2025-01-27 08:53:55] local.INFO: QR code rafraîchi avec succès pour idCompte : 1  
+[2025-01-27 09:30:52] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:34:20] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:34:31] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpFC56.tmp"}} 
+[2025-01-27 09:34:31] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:34:52] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:38:08] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:39:44] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:39:44] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:39:50] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpD927.tmp"}} 
+[2025-01-27 09:39:50] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:42:10] local.INFO: UploadFile Request Data: {"_token":"duKNrHE9QI2j21u6dCEdSdgaWQhTHK8RGZ5GeGsx","logo":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpFCB4.tmp"}} 
+[2025-01-27 09:42:10] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:42:13] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:43:13] local.INFO: ID Compte from session: 1  
+[2025-01-27 09:43:57] local.INFO: ID Compte from session: 1  
