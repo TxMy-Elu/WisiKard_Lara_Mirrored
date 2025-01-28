@@ -48,4 +48,9 @@ class Carte extends Model
     {
         return $this->hasMany(Rediriger::class);
     }
+    
+    public function horaires()
+    {
+        return $this->hasMany(Horaires::class, 'idCarte');
+    }
 }

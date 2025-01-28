@@ -28,9 +28,7 @@ Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion
 
 // Routes Templates
 Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
-
 Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
-
 
 // Routes protégées par authentification
 Route::middleware([Authentification::class])->group(function () {
@@ -106,5 +104,5 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/employe/{id}/edit', [Employe::class, 'edit'])->name('employe.edit');
     Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
 
-    
+    Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
 });
