@@ -71,40 +71,73 @@
             <!-- Formulaire PDF div2 -->
             <div class="bg-white rounded-lg shadow-md col-span-2 row-span-2 p-6 h-96 flex flex-col">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">PDF</h2>
-                <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
-                    <!-- Formulaire d'upload -->
-                    <form action="{{ route('dashboardClientPDF.upload') }}" method="POST" enctype="multipart/form-data"
+                <div class="flex flex-wrap md:flex-nowrap justify-between items-center grow">
+                    <!-- Formulaire principal -->
+                    <form id="uploadForm" action="{{ route('dashboardClientPDF.uploadPdf') }}" method="POST" enctype="multipart/form-data"
                           class="space-y-4 w-full md:w-1/2 flex flex-col justify-between">
                         @csrf
+
                         <div>
                             <label for="pdf" class="block text-sm font-medium text-gray-600 mb-2">
                                 Sélectionner un PDF :
                             </label>
                             <input type="file" id="pdf" name="pdf"
                                    class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
-                                   accept=".pdf">
+                                   accept=".pdf" required>
                         </div>
 
                         <div class="flex justify-end">
-                            <button type="submit"
+                            <!-- Bouton pour ouvrir la modale -->
+                            <button type="button" onclick="openModalPdf()"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                                 Enregistrer
                             </button>
                         </div>
                     </form>
 
+                    <!-- Modale pour demander le nouveau nom -->
+                    <div id="nameModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900/80 z-50">
+                        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+                            <h2 class="text-lg font-medium text-gray-800 mb-4">Renommez le fichier</h2>
+                            <p class="text-sm text-gray-600">Entrez un nouveau nom pour le fichier PDF :</p>
+                            <input type="text" id="newName" name="new_name"
+                                   class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm mt-4"
+                                   placeholder="Exemple : Mon_Nouveau_Fichier" required>
+                            <div class="flex justify-end space-x-3 mt-4">
+                                <button type="button" onclick="closeModalPdf()"
+                                        class="px-4 py-2 bg-gray-300 text-gray-800 text-sm rounded-lg">
+                                    Annuler
+                                </button>
+                                <button type="button" onclick="saveAndSubmit()"
+                                        class="px-4 py-2 bg-indigo-500 text-white text-sm rounded-lg">
+                                    Enregistrer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Affichage du PDF -->
                     <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
                         @if(!empty($carte->pdf) && file_exists(public_path($carte->pdf)))
-                            <a href="{{ asset($carte->pdf) }}" target="_blank" class="text-blue-600 underline">
-                                Télécharger le PDF
-                            </a>
+                            <iframe src="{{ asset($carte->pdf) }}" class="w-86 h-40" frameborder="0"></iframe>
                         @else
                             <p class="text-gray-500 italic border-2 p-10">Aucun PDF disponible.</p>
                         @endif
                         <p class="text-sm text-gray-500 mt-2">Aperçu du PDF actuel</p>
                     </div>
                 </div>
+
+                <!-- delete du PDF -->
+                {{--
+                <form action="#" method="POST" class="mt-4 w-full flex justify-end">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                        Supprimer
+                    </button>
+                </form>
+                --}}
+
             </div>
 
             <!-- Formulaire YouTube div3 -->
@@ -294,6 +327,45 @@
                         function closeModal() {
                             const modal = document.getElementById('imageModal');
                             modal.classList.add('hidden'); // Cache le modal
+                        }
+
+                        /* pdf */
+                        // Fonction pour ouvrir la modale
+                        function openModalPdf() {
+                            const modal = document.getElementById('nameModal'); // Cible la modale par son ID
+                            modal.classList.remove('hidden'); // Affiche la modale en supprimant la classe 'hidden'
+                        }
+
+                        // Fonction pour fermer la modale
+                        function closeModalPdf() {
+                            const modal = document.getElementById('nameModal'); // Cible la modale par son ID
+                            modal.classList.add('hidden'); // Cache la modale en ajoutant la classe 'hidden'
+                        }
+
+                        // Fonction pour valider et soumettre le formulaire avec le nouveau nom
+                        function saveAndSubmit() {
+                            const newNameField = document.getElementById('newName'); // Champ pour le nouveau nom
+                            const newName = newNameField.value.trim(); // Nettoie l'entrée de l'utilisateur
+                            const uploadForm = document.getElementById('uploadForm'); // Récupère le formulaire principal
+
+                            // Vérifie que le champ n'est pas vide
+                            if (!newName) {
+                                alert('Veuillez entrer un nom pour le fichier.'); // Alerte si le champ est vide
+                                return;
+                            }
+
+                            // Ajouter le nouveau nom au formulaire
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'new_name'; // Nom attendu par le backend
+                            hiddenInput.value = newName;
+                            uploadForm.appendChild(hiddenInput);
+
+                            // Cache la modale avant de soumettre
+                            closeModal();
+
+                            // Soumet le formulaire
+                            uploadForm.submit();
                         }
 
                     </script>

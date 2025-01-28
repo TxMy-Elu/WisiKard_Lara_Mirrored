@@ -934,7 +934,6 @@ class DashboardClient extends Controller
         }
     }
 
-
     public function updateInfo(Request $request)
     {
         $request->validate([
@@ -1117,11 +1116,79 @@ class DashboardClient extends Controller
         Logs::ecrireLog($emailUtilisateur, "Modification Template");
     
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
-    }    
+    }
 
-    public function renamePdf(Request $request)
+    public function uploadPdf(Request $request)
     {
+        // Récupérer l'identifiant du compte via la session
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
+        // Vérifier si la carte existe
+        if (!$carte) {
+            Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+            return redirect()->back()->with('error', 'Compte introuvable.');
+        }
+
+        // Définir le chemin de destination pour l'enregistrement des fichiers PDF
+        $destinationPath = 'entreprises/' . $idCompte . '_' . Str::slug($carte->nomEntreprise, '_') . '/pdf';
+
+        try {
+            // Valider l'entrée de la requête
+            $request->validate([
+                'pdf' => 'required|mimes:pdf|max:5120', // Limiter à 5MB et vérifier que le fichier est un PDF
+                'new_name' => 'required|string|max:255', // Valider le nom du fichier transmis
+            ]);
+
+            // Vérifier si un fichier existe déjà dans le répertoire
+            $fullPath = public_path($destinationPath); // Chemin complet
+            if (File::exists($fullPath)) {
+                // Scanner les fichiers dans le répertoire
+                $existingFiles = File::files($fullPath);
+                if (count($existingFiles) > 0) {
+                    Log::error("Échec : Un fichier existe déjà dans le dossier {$destinationPath}.");
+                    return redirect()->back()->with('error', 'Un fichier existe déjà. Supprimez-le avant de télécharger un nouveau fichier.');
+                }
+            }
+
+            // Créer le dossier cible s'il n'existe pas
+            if (!File::exists($fullPath)) {
+                File::makeDirectory($fullPath, 0755, true);
+                Log::info("Création du dossier : {$fullPath}");
+            }
+
+            // Récupérer le fichier téléchargé
+            $file = $request->file('pdf');
+
+            // Récupérer le nouveau nom fourni (ou définir un nom par défaut)
+            $newName = $request->input('new_name');
+            $renamedFile = Str::slug($newName, '_') . '.pdf'; // Nommer le fichier dans un format sûr (slug)
+
+            // Déplacer le fichier dans le dossier cible avec son nouveau nom
+            $file->move($fullPath, $renamedFile);
+            Log::info("Fichier PDF renommé en {$renamedFile} et enregistré dans : {$destinationPath}");
+
+            // Enregistrer une entrée de log en base de données
+            Logs::ecrireLog($carte->compte->email, "Téléchargement de PDF - Nom: {$renamedFile}");
+
+            // Enregistrer dans la base de données le nom du lien PDF et le nom du bouton
+            $carte->pdf = $destinationPath . '/' . $renamedFile;
+            $carte->nomBtnPdf = $newName;
+            $carte->save();
+
+            // Succès : Redirection avec un message de confirmation
+            return redirect()->back()->with('success', 'Votre fichier PDF a été téléchargé et renommé avec succès.');
+
+        } catch (\Exception $e) {
+            // Gestion des erreurs / Écriture d'un log d'erreur
+            Log::error("Erreur lors du téléchargement du PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
+
+            // Enregistrer une erreur en base de données
+            Logs::ecrireLog($carte->compte->email, "Erreur lors du téléchargement d'un PDF");
+
+            // Retour avec un message d'erreur
+            return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du fichier.');
+        }
     }
 
     public function updateCustomLink(Request $request)
