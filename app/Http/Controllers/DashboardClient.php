@@ -1158,17 +1158,16 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
     }
 
-
     public function updateTemplate(Request $request)
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
-
+    
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-
+    
         switch ($request->idTemplate) {
             case 1:
                 $carte->idTemplate = 1;
@@ -1179,17 +1178,14 @@ class DashboardClient extends Controller
             case 3:
                 $carte->idTemplate = 3;
                 break;
-            case 4:
-                $carte->idTemplate = 4;
-                break;    
         }
-
+    
         $carte->save();
         Log::info('Template mis à jour avec succès', ['email' => $emailUtilisateur, 'idTemplate' => $request->idTemplate]);
         Logs::ecrireLog($emailUtilisateur, "Modification Template");
-
+    
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
-    }
+    }    
 
     public function renamePdf(Request $request)
     {

@@ -183,9 +183,9 @@ class Templates extends Controller
             case 1:
                 return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 2:
-                return view('Templates.water', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 3:
-                return view('Templates.lava', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             default:
                 abort(404, 'Template non trouvé');
         }

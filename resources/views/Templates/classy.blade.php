@@ -9,84 +9,173 @@
           rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        *:not(.material-icons, .fa-brands) {
-            font-family: 'Open Sans' !important;
-            color: whitesmoke;
+        :root {
+            --primary-color: {{ $carte["couleur1"] }};
+            --secondary-color: {{ $carte["couleur2"] }};
+            --background-color: #1a1a1a;
+            --text-color: #ffffff;
         }
-
-        body {
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            height: 100vh;
+        
+        * {
             margin: 0;
-            max-width: 100%;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .modal {
-            position: fixed;
-            width: 100%;
-            top: 20%;
-            z-index: 1055;
-            display: none;
-            outline: 0;
-            transition: 500ms;
-        }
-
-        .modalBody {
-            background-color: white;
-            z-index: 1055;
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 1s ease-in-out;
         }
-
-        .modalTitle {
-            max-height: 50px;
-            max-width: 80%;
-            height: 50px;
+        
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 2rem auto;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            max-width: 150px;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .contacts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contacts a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .contacts a:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .socials svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--primary-color);
+        }
+        
+        #embedyoutube {
+            width: 100%;
+            max-width: 560px;
+            aspect-ratio: 16 / 9;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .affiche {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        /* Styles pour le modal QR code */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
             padding: 20px;
-            padding-bottom: 0px;
-            padding-right: 0px;
+            border-radius: 10px;
+            max-width: 300px;
         }
-
-        .modalTitleTxt {
-            color: black;
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
-
-        .modalCloseBtn {
-            color: black;
-            cursor: default;
-            position: absolute;
-            right: 8%;
-            font-size: 25px;
-        }
-
-        .modalContent {
-            margin-bottom: 0%;
-        }
-
-        .modalQR {
-            max-width: 100%;
-            max-height: 100%;
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
-    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
+ <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -114,8 +203,7 @@
         gtag('config', 'G-080RS8FYWX');
     </script>
 </head>
-
-<body class="bg-[#141B41]">
+<body>
 @php
     $nopub = false;
     $embedyoutube = null;

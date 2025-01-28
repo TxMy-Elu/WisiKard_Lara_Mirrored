@@ -1,3 +1,4 @@
+<!-- resources/views/client/dashboardClient.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -12,7 +13,7 @@
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24">
         @if($messageContent != "Aucun message disponible" || empty($messageContent))
-            <div class="bg-zinc-400/45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
+            <div class="bg-zinc-400/45 border border-zinc-400 text-zinc-700 px-4 py-3 rounded relative"
                  role="alert">
                 <strong class="font-bold">Information :</strong>
                 <span class="block sm:inline">{{ $messageContent }}</span>
@@ -80,7 +81,7 @@
                         }
                     @endphp
 
-                            <!-- Logo -->
+                    <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
                             <img src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}" alt="Logo"
@@ -197,8 +198,8 @@
                                value="{{ $titre }}">
                     </div>
                     <div class="flex flex-col mt-4">
-                        <label for="descirptif" class="text-lg font-semibold">Description</label>
-                        <textarea name="descriptif" id="descriptif"
+                        <label for="description" class="text-lg font-semibold">Description</label>
+                        <textarea name="descriptif" id="description"
                                   class="w-full p-2 border border-gray-300 rounded-lg">{{ $description }}</textarea>
                     </div>
                     <button type="submit"
@@ -207,13 +208,13 @@
                 </form>
             </div>
 
-            <!-- sheck box template (div4) -->
+            <!-- Template Selection (div4) -->
             <div class="col-span-5 row-span-2 bg-white rounded-lg shadow-lg p-4">
                 <form id="templateForm" action="{{ route('updateTemplate') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
                         <label for="template" class="text-lg font-semibold">Template</label>
-                        <!-- radio button x3 (div4) -->
+                        <!-- radio button x4 (div4) -->
                         <div class="flex justify-center items-center space-x-10 mt-4">
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template1" value="1"
@@ -221,7 +222,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
-                               <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1" class="w-96 h-[750px] rounded-lg"></iframe>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template2" value="2"
@@ -238,14 +239,6 @@
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3" class="w-96 h-[750px] rounded-lg"></iframe>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template4" value="4"
-                                       @if($idTemplate == 4) checked @endif class="mb-2"
-                                       onchange="submitTemplateForm()">
-                                <label for="template2"></label>
-                                <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                         </div>
                     </div>

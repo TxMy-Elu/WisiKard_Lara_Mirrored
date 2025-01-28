@@ -1,89 +1,207 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }} - Wisikard</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        *:not(.material-icons, .fa-brands) {
-            font-family: 'Open Sans' !important;
-            color: whitesmoke;
+        :root {
+            --primary-color: {{ $carte['couleur1'] }};
+            --secondary-color: {{ $carte['couleur2'] }};
+            --background-color: #ffffff;
+            --text-color: #1d1d1f;
+            --accent-color: #06c;
         }
-
-        body {
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            height: 100vh;
+        * {
             margin: 0;
-            max-width: 100%;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .modal {
-            position: fixed;
-            width: 100%;
-            top: 20%;
-            z-index: 1055;
-            display: none;
-            outline: 0;
-            transition: 500ms;
-        }
-
-        .modalBody {
-            background-color: white;
-            z-index: 1055;
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.47059;
+            font-weight: 400;
+            letter-spacing: -.022em;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-
-        .modalTitle {
-            max-height: 50px;
-            max-width: 80%;
-            height: 50px;
+        
+        .container {
+            max-width: 980px;
+            width: 90%;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        
+        .logo {
+            max-width: 120px;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 56px;
+            line-height: 1.07143;
+            font-weight: 600;
+            letter-spacing: -.005em;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 28px;
+            line-height: 1.10722;
+            font-weight: 400;
+            letter-spacing: .004em;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            font-size: 17px;
+            line-height: 1.47059;
+            font-weight: 400;
+            letter-spacing: -.022em;
+            margin-bottom: 2rem;
+        }
+        
+        .contacts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contacts a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--accent-color);
+            font-size: 17px;
+            line-height: 1.23536;
+            font-weight: 400;
+            letter-spacing: -.022em;
+            padding: 8px 16px;
+            border-radius: 980px;
+            background-color: rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s ease;
+        }
+        
+        .contacts a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .contacts lord-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+        
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .socials svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-color);
+            transition: fill 0.3s ease;
+        }
+        
+        .socials svg:hover {
+            fill: var(--accent-color);
+        }
+        
+        #embedyoutube {
+            width: 100%;
+            max-width: 560px;
+            aspect-ratio: 16 / 9;
+            margin-bottom: 2rem;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        
+        .affiche {
+            max-width: 100%;
+            height: auto;
+            border-radius: 18px;
+            margin-bottom: 2rem;
+        }
+        
+        footer {
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.33337;
+            font-weight: 400;
+            letter-spacing: -.01em;
+            color: #86868b;
+        }
+        
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Styles pour le modal QR code */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
             padding: 20px;
-            padding-bottom: 0px;
-            padding-right: 0px;
+            border-radius: 18px;
+            max-width: 300px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-
-        .modalTitleTxt {
-            color: black;
+        
+        .close {
+            color: #86868b;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
         }
-
-        .modalCloseBtn {
-            color: black;
-            cursor: default;
-            position: absolute;
-            right: 8%;
-            font-size: 25px;
-        }
-
-        .modalContent {
-            margin-bottom: 0%;
-        }
-
-        .modalQR {
-            max-width: 100%;
-            max-height: 100%;
+        
+        .close:hover,
+        .close:focus {
+            color: var(--text-color);
         }
     </style>
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
@@ -114,8 +232,7 @@
         gtag('config', 'G-080RS8FYWX');
     </script>
 </head>
-
-<body class="bg-[#C03221]">
+<body>
 @php
     $nopub = false;
     $embedyoutube = null;
@@ -141,7 +258,6 @@
         }
     }
 @endphp
-
 
 <div class="flex flex-col items-center w-full">
     <div class='flex justify-center items-center w-24 mt-6'>
@@ -203,11 +319,11 @@
 
             // Fonction pour cacher la modal
             function closeQrCode() {
-                document.getElementById('qrCodeModal').classList.add'hidden');
+                document.getElementById('qrCodeModal').classList.add('hidden');
             }
         </script>
 
-  <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
+        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
            class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/surcxhka.json"
@@ -329,5 +445,4 @@
                                                                                              class="text-blue-500">Wisikard</a>
 </footer>
 </body>
-
 </html>

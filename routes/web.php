@@ -105,4 +105,6 @@ Route::middleware([Authentification::class])->group(function () {
     Route::delete('/employe/{id}', [DashboardClient::class, 'destroy'])->name('employe.destroy');
     Route::get('/employe/{id}/edit', [Employe::class, 'edit'])->name('employe.edit');
     Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
+
+    
 });
