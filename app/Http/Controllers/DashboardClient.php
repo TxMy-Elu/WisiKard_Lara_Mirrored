@@ -492,7 +492,7 @@ class DashboardClient extends Controller
 
     }
 
-        public function afficherDashboardClientPDF()
+    public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
@@ -509,7 +509,7 @@ class DashboardClient extends Controller
         $images = [];
         if (File::exists($imagesPath)) {
             $images = File::files($imagesPath);
-            $images = array_map(function($file) {
+            $images = array_map(function ($file) {
                 return $file->getFilename();
             }, $images);
         }
@@ -689,53 +689,6 @@ class DashboardClient extends Controller
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
 
-
-    public function uploadImage(Request $request)
-    {
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-
-        if (!$carte) {
-            Log::warning('Carte non trouvée pour le téléchargement d\'image', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageType = $image->getClientOriginalExtension();
-            $mimeType = $image->getMimeType();
-
-            // Vérifier si le type de fichier est valide
-            if (in_array($imageType, ['jpg', 'jpeg', 'png']) && strpos($mimeType, 'image/') === 0) {
-                $imagePath = public_path("entreprises/{$folderName}/images");
-
-                if (!File::exists($imagePath)) {
-                    File::makeDirectory($imagePath, 0755, true);
-                }
-
-                $imageFileName = time() . '.' . $imageType;
-                $image->move($imagePath, $imageFileName);
-
-                Log::info('Image téléchargée avec succès', ['email' => $emailUtilisateur, 'imageFileName' => $imageFileName]);
-                Logs::ecrireLog($emailUtilisateur, "Téléchargement Image");
-
-                return redirect()->route('dashboardClientPDF')->with('success', 'Image téléchargée avec succès.');
-            } else {
-                Log::warning('Type de fichier ou extension non valide pour l\'image', ['email' => $emailUtilisateur]);
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-            }
-        } else {
-            Log::warning('Aucun fichier image téléchargé', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Aucun fichier image téléchargé.');
-        }
-    }
-
     public function uploadYouTubeVideo(Request $request)
     {
         $idCompte = session('connexion');
@@ -804,6 +757,7 @@ class DashboardClient extends Controller
         Log::warning('Aucune URL fournie', ['email' => $emailUtilisateur]);
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
+
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
@@ -978,100 +932,74 @@ class DashboardClient extends Controller
 
     public function uploadSlider(Request $request)
     {
-        $request->validate([
-            'slider_images' => 'required|array',
-            'slider_images.*' => 'file|mimes:jpg,jpeg,png',
-        ]);
-
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
+        // Vérification si la carte existe
         if (!$carte) {
-            Log::warning('Carte non trouvée pour le téléchargement d\'images de slider', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
+            Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+            return redirect()->back()->with('error', 'Compte non trouvé.');
         }
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        // Définit le chemin de destination pour les images
+        $destinationPath = 'entreprises/' . $idCompte . '_' . Str::slug($carte->nomEntreprise, '_') . '/slider';
 
-        $sliderPath = public_path("entreprises/{$folderName}/slider");
+        try {
+            // Valider le fichier d'image dans la requête
+            $request->validate([
+                'image' => 'required|mimes:jpg,jpeg,png|max:2048', // Limite à 2MB et extensions autorisées
+            ]);
 
-        if (!File::exists($sliderPath)) {
-            File::makeDirectory($sliderPath, 0755, true);
-        }
+            // Récupère le fichier de la requête
+            $file = $request->file('image');
 
-        $existingImages = File::files($sliderPath);
-        if (count($existingImages) >= 10) {
-            Log::warning('Tentative de téléchargement de plus de 10 images pour le slider', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Vous ne pouvez pas télécharger plus de 10 images pour le slider.');
-        }
-
-        foreach ($request->file('slider_images') as $sliderImage) {
-            $sliderImageType = $sliderImage->getClientOriginalExtension();
-            $mimeType = $sliderImage->getMimeType();
-
-            if (($sliderImageType === 'jpg' && $mimeType === 'image/jpeg') ||
-                ($sliderImageType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($sliderImageType === 'png' && $mimeType === 'image/png')) {
-
-                $nextNumber = $this->getNextIncrementalNumber($sliderPath);
-                $sliderFileName = "{$nextNumber}_slider.{$sliderImageType}";
-                $sliderImage->move($sliderPath, $sliderFileName);
-
-                Log::info('Image de slider téléchargée avec succès', ['email' => $emailUtilisateur, 'sliderFileName' => $sliderFileName]);
-                Logs::ecrireLog($emailUtilisateur, "Téléchargement Image de Slider");
-            } else {
-                Log::warning('Type de fichier ou extension non valide pour l\'image de slider', ['email' => $emailUtilisateur]);
-                return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
+            // Vérification du type MIME réel
+            $realMimeType = $file->getMimeType();
+            $allowedMimeTypes = ['image/jpeg', 'image/png'];
+            if (!in_array($realMimeType, $allowedMimeTypes)) {
+                Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
+                return redirect()->back()->with('error', 'Type de fichier non autorisé.');
             }
-        }
 
-        return redirect()->back()->with('success', 'Image(s) de slider téléchargée(s) avec succès.');
-    }
-    private function getNextIncrementalNumber($folderPath)
-    {
-        $files = File::files($folderPath);
-        $maxNumber = 0;
-
-        foreach ($files as $file) {
-            $fileName = $file->getFilename();
-            if (preg_match("/^(\d+)_/", $fileName, $matches)) {
-                $number = (int)$matches[1];
-                if ($number > $maxNumber) {
-                    $maxNumber = $number;
-                }
+            // Vérification de l'extension finale
+            $realExtension = strtolower($file->getClientOriginalExtension());
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            if (!in_array($realExtension, $allowedExtensions)) {
+                Log::error("Extension invalide : {$realExtension} pour le fichier {$file->getClientOriginalName()}");
+                return redirect()->back()->with('error', 'Extension de fichier non autorisée.');
             }
+
+            // Crée le dossier cible s'il n'existe pas
+            if (!file_exists(public_path($destinationPath))) {
+                mkdir(public_path($destinationPath), 0755, true);
+                Log::info("Création du dossier : {$destinationPath}");
+            }
+
+            // Définit un nom de fichier unique
+            $fileName = uniqid() . '_' . $file->getClientOriginalName();
+
+            // Déplace le fichier vers le chemin cible
+            $file->move(public_path($destinationPath), $fileName);
+            Log::info("Fichier {$fileName} enregistré dans : {$destinationPath}");
+
+            // Enregistrer un log en base de données
+            Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
+
+            // Redirige avec un message de succès
+            return redirect()->back()->with('success', 'Image téléchargée avec succès.');
+
+        } catch (\Exception $e) {
+            // Log de l'erreur
+            Log::error("Erreur lors du téléchargement de l'image pour le compte : {$idCompte}. Détails : {$e->getMessage()}");
+
+            // Enregistrer l'erreur en base de données
+            Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
+
+            // Redirection avec un message d'erreur
+            return redirect()->back()->with('error', 'Erreur lors du téléchargement de l\'image.');
         }
-        return $maxNumber + 1;
     }
 
-    public function afficherSlider()
-    {
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            Log::warning('Carte non trouvée pour l\'affichage du slider', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $sliderPath = public_path("entreprises/{$folderName}/slider");
-
-        if (File::exists($sliderPath)) {
-            $sliderImages = File::files($sliderPath);
-            Log::info('Images de slider affichées avec succès', ['email' => $emailUtilisateur]);
-            Logs::ecrireLog($emailUtilisateur, "Affichage Images de Slider");
-            return view('client.dashboardClientPDF', compact('sliderImages', 'carte', 'idCompte'));
-        } else {
-            Log::warning('Aucune image de slider trouvée pour l\'affichage', ['email' => $emailUtilisateur]);
-            return view('client.dashboardClientPDF', compact('carte', 'idCompte'));
-        }
-    }
     public function updateInfo(Request $request)
     {
         $request->validate([
@@ -1254,39 +1182,78 @@ class DashboardClient extends Controller
         Logs::ecrireLog($emailUtilisateur, "Modification Template");
     
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
-    }    
+    }
 
-    public function renamePdf(Request $request)
+    public function uploadPdf(Request $request)
     {
-        $currentFilename = $request->input('currentFilename');
-        $newFilename = $request->input('newFilename');
-        $idCarte = $request->input('idCarte');
+        // Récupérer l'identifiant du compte via la session
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
-        $carte = Carte::find($idCarte);
-
+        // Vérifier si la carte existe
         if (!$carte) {
-            Log::warning('Carte non trouvée pour le renommage de PDF', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
+            Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+            return redirect()->back()->with('error', 'Compte introuvable.');
         }
 
-        $currentPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$currentFilename}");
-        $newPath = public_path("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
-        $PathPdf = ("entreprises/{$idCarte}_{$carte->nomEntreprise}/pdf/{$newFilename}");
+        // Définir le chemin de destination pour l'enregistrement des fichiers PDF
+        $destinationPath = 'entreprises/' . $idCompte . '_' . Str::slug($carte->nomEntreprise, '_') . '/pdf';
 
-        if (File::exists($currentPath)) {
-            File::move($currentPath, $newPath);
+        try {
+            // Valider l'entrée de la requête
+            $request->validate([
+                'pdf' => 'required|mimes:pdf|max:5120', // Limiter à 5MB et vérifier que le fichier est un PDF
+                'new_name' => 'required|string|max:255', // Valider le nom du fichier transmis
+            ]);
 
-            $carte->nomBtnPdf = $newFilename;
-            $carte->pdf = $PathPdf;
+            // Vérifier si un fichier existe déjà dans le répertoire
+            $fullPath = public_path($destinationPath); // Chemin complet
+            if (File::exists($fullPath)) {
+                // Scanner les fichiers dans le répertoire
+                $existingFiles = File::files($fullPath);
+                if (count($existingFiles) > 0) {
+                    Log::error("Échec : Un fichier existe déjà dans le dossier {$destinationPath}.");
+                    return redirect()->back()->with('error', 'Un fichier existe déjà. Supprimez-le avant de télécharger un nouveau fichier.');
+                }
+            }
+
+            // Créer le dossier cible s'il n'existe pas
+            if (!File::exists($fullPath)) {
+                File::makeDirectory($fullPath, 0755, true);
+                Log::info("Création du dossier : {$fullPath}");
+            }
+
+            // Récupérer le fichier téléchargé
+            $file = $request->file('pdf');
+
+            // Récupérer le nouveau nom fourni (ou définir un nom par défaut)
+            $newName = $request->input('new_name');
+            $renamedFile = Str::slug($newName, '_') . '.pdf'; // Nommer le fichier dans un format sûr (slug)
+
+            // Déplacer le fichier dans le dossier cible avec son nouveau nom
+            $file->move($fullPath, $renamedFile);
+            Log::info("Fichier PDF renommé en {$renamedFile} et enregistré dans : {$destinationPath}");
+
+            // Enregistrer une entrée de log en base de données
+            Logs::ecrireLog($carte->compte->email, "Téléchargement de PDF - Nom: {$renamedFile}");
+
+            // Enregistrer dans la base de données le nom du lien PDF et le nom du bouton
+            $carte->pdf = $destinationPath . '/' . $renamedFile;
+            $carte->nomBtnPdf = $newName;
             $carte->save();
 
-            Log::info('Fichier PDF renommé avec succès', ['email' => $emailUtilisateur, 'currentFilename' => $currentFilename, 'newFilename' => $newFilename]);
-            Logs::ecrireLog($emailUtilisateur, "Renommage PDF");
+            // Succès : Redirection avec un message de confirmation
+            return redirect()->back()->with('success', 'Votre fichier PDF a été téléchargé et renommé avec succès.');
 
-            return redirect()->back()->with('success', 'Fichier renommé avec succès.');
-        } else {
-            Log::warning('Fichier PDF non trouvé pour le renommage', ['email' => $emailUtilisateur, 'currentFilename' => $currentFilename]);
-            return redirect()->back()->with('error', 'Fichier non trouvé.');
+        } catch (\Exception $e) {
+            // Gestion des erreurs / Écriture d'un log d'erreur
+            Log::error("Erreur lors du téléchargement du PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
+
+            // Enregistrer une erreur en base de données
+            Logs::ecrireLog($carte->compte->email, "Erreur lors du téléchargement d'un PDF");
+
+            // Retour avec un message d'erreur
+            return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du fichier.');
         }
     }
 

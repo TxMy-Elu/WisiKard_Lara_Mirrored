@@ -53,7 +53,6 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/dashboardClientEmploye', [DashboardClient::class, 'employer'])->name('dashboardClientEmploye');
     Route::get('/dashboardClientSocial', [DashboardClient::class, 'social'])->name('dashboardClientSocial');
     Route::post('/updateSocialLink', [DashboardClient::class, 'updateSocialLink'])->name('client.updateSocialLink');
-    Route::post('/dashboardClientPDF/uploadFile', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.uploadFile');
 
     Route::get('/refreshQrCodeEmp/{id}/{empId}', [DashboardClient::class, 'refreshQrCodeEmp'])->name('refreshQrCodeEmp');
     Route::get('/formulaireEntreprise', [DashboardClient::class, 'afficherFormulaireEntreprise'])->name('formulaireEntreprise');
@@ -61,18 +60,15 @@ Route::middleware([Authentification::class])->group(function () {
 
     // Gestion des PDF
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
-    Route::post('/dashboardClientPDF/renamePdf', [DashboardClient::class, 'renamePdf'])->name('dashboardClientPDF.renamePdf');
-    Route::delete('/dashboardClientPDF/deletePDF/{filename}', [DashboardClient::class, 'deletePDF'])->name('dashboardClientPDF.deletePDF');
+    Route::post('/dashboardClientPDF/uploadPdf', [DashboardClient::class, 'uploadPdf'])->name('dashboardClientPDF.uploadPdf');
+
     // Gestion des sliders
     Route::post('/dashboardClientPDF/uploadSlider', [DashboardClient::class, 'uploadSlider'])->name('dashboardClientPDF.uploadSlider');
-    Route::get('/dashboardClientPDF/afficherSlider', [DashboardClient::class, 'afficherSlider'])->name('dashboardClientPDF.afficherSlider');
     Route::delete('/dashboardClientPDF/deleteSliderImage', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');
     //Youtube
     Route::post('/dashboardClientPDF/uploadYouTubeVideo', [DashboardClient::class, 'uploadYouTubeVideo'])->name('dashboardClientPDF.uploadYouTubeVideo');
     Route::delete('/dashboardClientPDF/deleteVideo/{index}', [DashboardClient::class, 'deleteVideo'])->name('dashboardClientPDF.deleteVideo');
     //Img
-    Route::post('/dashboardClientPDF/uploadImage', [DashboardClient::class, 'uploadImage'])->name('dashboardClientPDF.uploadImage');
-    Route::post('/dashboardClientPDF/upload', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.upload');
     Route::post('/dashboardClientPDF/upload', [DashboardClient::class, 'uploadFile'])->name('dashboardClientPDF.upload');
     Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
     //UrlRDV
