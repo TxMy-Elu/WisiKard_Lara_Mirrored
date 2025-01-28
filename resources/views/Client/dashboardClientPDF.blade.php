@@ -165,318 +165,145 @@
             </div>
 
             <!-- div4 -->
-            <div class="bg-red-500 col-span-1 row-span-3">
-                <!-- Contenu div4 -->
-            </div>
-
-            <!-- div5 -->
-            <div class="bg-purple-500 col-span-4 row-span-4">
-                <!-- Contenu div5 -->
-            </div>
-
-
-        </div>
-
-
-        {{--
-
-
-                    <!-- Formulaire YouTube div3 -->
-                    <div class="bg-white p-6 rounded-lg shadow-md col-span-2 row-span-1">
-                        <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
-                              enctype="multipart/form-data" class="space-y-4">
-                            @csrf
-                            <div class="mb-4">
-                                <label for="youtube_url" class="block text-sm font-medium text-gray-700">URL YouTube :</label>
-                                <input type="url" id="youtube_url" name="youtube_url" class="mt-1 block w-full"
-                                       placeholder="https://www.youtube.com/watch?v=...">
-                            </div>
-                            <div class="flex p-4">
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-                            </div>
-                        </form>
-                        <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
-                        <!-- Card pour les vidéos YouTube -->
-                        @if(!empty($youtubeUrls))
-                            <div class="my-4">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    @foreach($youtubeUrls as $index => $youtubeUrl)
-                                        <div class="bg-white w-96 p-4 rounded-lg shadow-md relative">
-                                            <div class="text-center mb-2">
-                                                <h3 class="text-lg font-bold">{{ $youtubeUrl }}</h3>
-                                            </div>
-                                            <div class="video-container w-80 h-auto">
-                                                <iframe width="100%" height="200"
-                                                        src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}"
-                                                        frameborder="0"
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                        allowfullscreen></iframe>
-                                            </div>
-                                            <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}"
-                                                  method="POST" class="absolute bottom-0 right-2 mb-2"
-                                                  id="deleteVideoForm_{{ $index }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="bg-red-500 text-white px-2 py-1 rounded-lg"
-                                                        onclick="confirmDelete('deleteVideoForm_{{ $index }}')">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                    </svg>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">URL de prise de rendez-vous</h2>
+                <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data"
+                      class="space-y-4">
+                    @csrf
+                    <div>
+                        <label for="rdv_url" class="block text-sm font-medium text-gray-600 mb-2">
+                            URL de prise de rendez-vous :
+                        </label>
+                        <input type="url" id="rdv_url" name="rdv_url"
+                               class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                               placeholder="https://www.exemple.com/rdv...">
                     </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+                <h2 class="text-xl font-bold mb-2">Lien de RDV enregistré</h2>
+                <!-- Afficher l'URL de RDV sous le bouton "Enregistrer" -->
+                @if($carte->LienCommande)
+                    <div class="mt-4 w-auto h-auto">
+                        <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
+                            <div class="video-container w-auto h-auto">
+                                <a href="{{ $carte->LienCommande }}" class="text-blue-500 underline"
+                                   target="_blank">{{ $carte->LienCommande }}</a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
-                    <!-- Formulaire pour l'URL de prise de rendez-vous div4 -->
-                    <div class="bg-white p-6 rounded-lg shadow-md col-span-2 row-span-1">
-                        <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data"
-                              class="space-y-4">
-                            @csrf
-                            <div class="mb-4">
-                                <label for="rdv_url" class="block text-sm font-medium text-gray-700">URL de prise de rendez-vous
-                                    :</label>
-                                <input type="url" id="rdv_url" name="rdv_url" class="mt-1 block w-full"
-                                       placeholder="https://www.exemple.com/rdv...">
-                            </div>
-                            <div class="flex p-4">
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer</button>
-                            </div>
-                        </form>
-                        <h2 class="text-xl font-bold mb-2">Lien de RDV enregistré</h2>
-                        <!-- Afficher l'URL de RDV sous le bouton "Enregistrer" -->
-                        @if($carte->LienCommande)
-                            <div class="mt-4 w-auto h-auto">
-                                <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
-                                    <div class="video-container w-auto h-auto">
-                                        <a href="{{ $carte->LienCommande }}" class="text-blue-500 underline"
-                                           target="_blank">{{ $carte->LienCommande }}</a>
+
+            </div>
+
+            <!-- div5 galerie photo -->
+            <div class="bg-white rounded-lg shadow-md col-span-4 row-span-4 p-6">
+
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
+                <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
+                    <!-- Formulaire d'upload -->
+                    <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
+                          enctype="multipart/form-data"
+                          class="space-y-4 w-full md:w-1/2 flex flex-col justify-between">
+                        @csrf
+                        @method('POST')
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
+                                Sélectionner une image :
+                            </label>
+                            <input type="file" id="image" name="image"
+                                   class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                   accept=".jpg,.jpeg,.png">
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Affichage des images route public/entreprises/1_lidl/slider/...-->
+                    <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
+                        @php
+                            $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+                            $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
+                        @endphp
+
+                        @if(!empty($sliderImages))
+                            <!-- Galerie photo -->
+                            <div class="flex flex-wrap gap-4">
+                                @foreach($sliderImages as $image)
+                                    <div class="relative">
+                                        <!-- Miniature -->
+                                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
+                                             alt="Image"
+                                             class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
+                                             onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
+
+                                        <!-- Formulaire de suppression -->
+                                        <form action="{{ route('dashboardClientPDF.deleteSliderImage') }}" method="POST"
+                                              class="absolute top-2 right-2">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="filename" value="{{ $image }}">
+                                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                     viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-9a1 1 0 00-2 0v5a1 1 0 102 0v-5zm-2-3a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
+                                                          clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </form>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
-                        @endif
-                    </div>
 
-                    <!-- Formulaire slider  div5-->
-                    <div class="bg-white p-6 rounded-lg shadow-md col-span-4 row-span-3">
-                        <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
-                              enctype="multipart/form-data" class="space-y-4">
-                            @csrf
-                            <div class="mb-4">
-                                <label for="slider_image" class="block text-sm font-medium text-gray-700">Sélectionner des
-                                    images pour le slider :</label>
-                                <input type="file" id="slider_image" name="slider_images[]" class="mt-1 block w-full"
-                                       accept=".jpg,.jpeg,.png" multiple>
-                                <div class="flex p-4">
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Enregistrer
+                            <!-- Modal pour afficher les images en grand -->
+                            <div id="imageModal"
+                                 class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
+                                <div class="relative">
+                                    <button onclick="closeModal()"
+                                            class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
                                     </button>
+                                    <img id="modalImage" src="" alt="Agrandissement de l'image"
+                                         class="object-contain w-96 h-[90%] rounded-lg">
                                 </div>
                             </div>
-                        </form>
-                        <h2 class="text-xl font-bold mb-2">Images pour slider téléchargées</h2>
-                        <!-- Card pour le slider -->
-                        @if(File::exists(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")))
-                            <div class="mt-4">
-                                <h2 class="text-xl font-bold mb-2">Slider</h2>
-                                <div class="bg-white w-80 p-4 rounded-lg shadow-md relative square-card">
-                                    <div class="box-border h-auto w-auto p-4 border-4">
-                                        <div class="carousel">
-                                            @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $index => $file)
-                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }} relative">
-                                                    <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}"
-                                                         alt="{{ $file->getFilename() }}" class="w-full h-full object-cover">
-                                                </div>
-                                            @endforeach
-                                            <button class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full"
-                                                    onclick="prevSlide()">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M15 19l-7-7 7-7"></path>
-                                                </svg>
-                                            </button>
-                                            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full"
-                                                    onclick="nextSlide()">
-                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M9 5l7 7-7 7"></path>
-                                                </svg>
-                                            </button>
-                                            <div class="box-border h-auto w-auto p-4 border-4">
-                                                <button class="absolute bottom-2 -2 bg-green-500 text-white px-2 py-1 rounded-lg"
-                                                        onclick="toggleUploadForm()">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                    </svg>
-                                                </button>
-                                                <button class="absolute bottom-2 right-2 bg-red-500 text-white px-2 py-1 rounded-lg"
-                                                        onclick="openDeleteModal(event)">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-                            </div>
+                        @else
+                            <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
+                        @endif
                     </div>
 
-                    <!-- The Modal -->
-                    <div id="deleteModal"
-                         class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-                        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
-                            <span class="absolute top-2 right-2 text-3xl text-gray-500 hover:text-gray-700 cursor-pointer"
-                                  onclick="closeDeleteModal()">&times;</span>
-                            <h2 class="text-xl font-bold mb-4">Sélectionnez les images à supprimer</h2>
-                            <form id="deleteForm" action="{{ route('dashboardClientPDF.deleteSliderImage') }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" id="selectedFilenames" name="filenames">
-                                <div class="mb-4 flex flex-wrap">
-                                    @foreach(File::files(public_path("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider")) as $file)
-                                        <div class="flex-shrink-0 mr-4 mb-4 flex flex-col items-center">
-                                            <img src="{{ asset("entreprises/{$idCompte}_{$carte->nomEntreprise}/slider/" . $file->getFilename()) }}"
-                                                 alt="{{ $file->getFilename() }}" class="w-24 h-24 object-cover mb-2">
-                                            <label for="image_{{ $file->getFilename() }}"
-                                                   class="text-sm mb-2">{{ $file->getFilename() }}</label>
-                                            <input type="checkbox" id="image_{{ $file->getFilename() }}" name="selectedImages[]"
-                                                   value="{{ $file->getFilename() }}" onclick="updateSelectedFilenames()"
-                                                   class="mr-2">
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg"
-                                        onclick="submitDeleteForm()">Supprimer
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                    <script>
+                        function openModal(imageUrl) {
+                            const modal = document.getElementById('imageModal');
+                            const modalImage = document.getElementById('modalImage');
 
-                    <!-- The Modal Rename-->
-                    <div id="renameModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeRenameModal()">&times;</span>
-                            <h2 class="text-xl font-bold mb-2">Renommer le fichier PDF</h2>
-                            <form id="renameForm" action="{{ route('dashboardClientPDF.renamePdf') }}" method="POST">
-                                @csrf
-                                <input type="hidden" id="currentFilename" name="currentFilename">
-                                <input type="hidden" id="idCarte" name="idCarte">
-                                <div class="mb-4">
-                                    <label for="newFilename" class="block text-sm font-medium text-gray-700">Nouveau nom de
-                                        fichier :</label>
-                                    <input type="text" id="newFilename" name="newFilename" class="mt-1 block w-full" required>
-                                </div>
-                                <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-lg"
-                                        onclick="submitRenameForm()">Renommer
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                            modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
+                            modal.classList.remove('hidden'); // Affiche le modal
+                        }
+
+                        function closeModal() {
+                            const modal = document.getElementById('imageModal');
+                            modal.classList.add('hidden'); // Cache le modal
+                        }
+
+                    </script>
+
+
                 </div>
             </div>
         </div>
-
-        --}}
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.querySelector('form');
-                form.addEventListener('submit', function (event) {
-                    const rdvUrlInput = document.getElementById('rdv_url');
-                    const rdvUrl = rdvUrlInput.value;
-                    const urlPattern = /^(https?:\/\/)/;
-
-                    if (rdvUrl && !urlPattern.test(rdvUrl)) {
-                        event.preventDefault();
-                        alert('L\'URL de rendez-vous doit commencer par http ou https.');
-                        rdvUrlInput.focus();
-                    }
-                });
-            });
-
-            let currentSlide = 0;
-
-            function showSlide(index) {
-                const slides = document.querySelectorAll('.carousel-item');
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === index);
-                });
-            }
-
-            function prevSlide() {
-                const slides = document.querySelectorAll('.carousel-item');
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            function nextSlide() {
-                const slides = document.querySelectorAll('.carousel-item');
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            function confirmDelete(formId) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
-                    document.getElementById(formId).submit();
-                }
-            }
-
-            function openRenameModal(currentFilename, idCarte) {
-                document.getElementById('currentFilename').value = currentFilename;
-                document.getElementById('idCarte').value = idCarte;
-                document.getElementById('renameModal').style.display = 'block';
-            }
-
-            function closeRenameModal() {
-                document.getElementById('renameModal').style.display = 'none';
-            }
-
-            function submitRenameForm() {
-                document.getElementById('renameForm').submit();
-            }
-
-            function selectImage(filename) {
-                const radio = document.getElementById('image_' + filename);
-                radio.checked = true;
-                updateSelectedFilenames();
-            }
-
-            function updateSelectedFilenames() {
-                const checkboxes = document.querySelectorAll('input[name="selectedImages[]"]:checked');
-                const filenames = Array.from(checkboxes).map(checkbox => checkbox.value);
-                document.getElementById('selectedFilenames').value = JSON.stringify(filenames);
-            }
-
-            function submitDeleteForm() {
-                document.getElementById('deleteForm').submit();
-            }
-
-            function openDeleteModal(event) {
-                event.preventDefault();
-                document.getElementById('deleteModal').classList.remove('hidden');
-            }
-
-            function closeDeleteModal() {
-                document.getElementById('deleteModal').classList.add('hidden');
-            }
-
-            function toggleUploadForm() {
-                const uploadForm = document.getElementById('uploadForm');
-                uploadForm.classList.toggle('hidden');
-            }
-        </script>
+    </div>
+</div>
 
 </body>
 </html>
