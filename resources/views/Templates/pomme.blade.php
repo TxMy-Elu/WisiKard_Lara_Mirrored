@@ -14,12 +14,13 @@
             --text-color: #1d1d1f;
             --accent-color: #06c;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--background-color);
@@ -32,19 +33,19 @@
             align-items: center;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 980px;
             width: 90%;
             margin: 2rem auto;
             text-align: center;
         }
-        
+
         .logo {
             max-width: 120px;
             margin-bottom: 2rem;
         }
-        
+
         h1 {
             font-size: 56px;
             line-height: 1.07143;
@@ -53,7 +54,7 @@
             margin-bottom: 1rem;
             color: var(--primary-color);
         }
-        
+
         h2 {
             font-size: 28px;
             line-height: 1.10722;
@@ -61,7 +62,7 @@
             letter-spacing: .004em;
             margin-bottom: 1rem;
         }
-        
+
         p {
             font-size: 17px;
             line-height: 1.47059;
@@ -69,7 +70,7 @@
             letter-spacing: -.022em;
             margin-bottom: 2rem;
         }
-        
+
         .contacts {
             display: flex;
             flex-wrap: wrap;
@@ -77,7 +78,7 @@
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .contacts a {
             display: flex;
             align-items: center;
@@ -92,35 +93,35 @@
             background-color: rgba(0, 0, 0, 0.05);
             transition: background-color 0.3s ease;
         }
-        
+
         .contacts a:hover {
             background-color: rgba(0, 0, 0, 0.1);
         }
-        
+
         .contacts lord-icon {
             width: 24px;
             height: 24px;
             margin-right: 8px;
         }
-        
+
         .socials {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .socials svg {
             width: 24px;
             height: 24px;
             fill: var(--text-color);
             transition: fill 0.3s ease;
         }
-        
+
         .socials svg:hover {
             fill: var(--accent-color);
         }
-        
+
         #embedyoutube {
             width: 100%;
             max-width: 560px;
@@ -129,14 +130,14 @@
             border-radius: 18px;
             overflow: hidden;
         }
-        
+
         .affiche {
             max-width: 100%;
             height: auto;
             border-radius: 18px;
             margin-bottom: 2rem;
         }
-        
+
         footer {
             margin-top: auto;
             padding: 1rem;
@@ -147,12 +148,12 @@
             letter-spacing: -.01em;
             color: #86868b;
         }
-        
+
         footer a {
             color: var(--accent-color);
             text-decoration: none;
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -163,11 +164,11 @@
                 transform: translateY(0);
             }
         }
-        
+
         .fade-in-up {
             animation: fadeInUp 0.6s ease-out;
         }
-        
+
         /* Styles pour le modal QR code */
         .modal {
             display: none;
@@ -180,7 +181,7 @@
             background-color: rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
         }
-        
+
         .modal-content {
             background-color: #fff;
             margin: 15% auto;
@@ -189,7 +190,7 @@
             max-width: 300px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-        
+
         .close {
             color: #86868b;
             float: right;
@@ -198,7 +199,7 @@
             cursor: pointer;
             transition: color 0.3s ease;
         }
-        
+
         .close:hover,
         .close:focus {
             color: var(--text-color);
@@ -441,8 +442,7 @@
 </div>
 
 <footer class="text-center p-4">
-    Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
-                                                                                             class="text-blue-500">Wisikard</a>
+    Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr" class="text-blue-500">Wisikard</a>
 </footer>
 </body>
 </html>
