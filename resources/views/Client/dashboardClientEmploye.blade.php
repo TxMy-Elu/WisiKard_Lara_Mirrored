@@ -6,7 +6,7 @@
     <title>Dashboard Client Employe</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 </head>
-<body class="align-items-center bg-gray-100 >
+<body class="align-items-center bg-gray-100" >
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
@@ -37,7 +37,8 @@
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
                 <form method="GET" action="{{ route('dashboardClientEmploye') }}"
                       class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
-                    <div class="search-icon pl-2">
+                    <div class="absolute left-2 top-1/2 transform -translate-y-1/2">
+
                         <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
