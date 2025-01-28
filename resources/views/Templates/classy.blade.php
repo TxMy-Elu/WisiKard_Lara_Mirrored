@@ -15,13 +15,13 @@
             --background-color: #1a1a1a;
             --text-color: #ffffff;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
@@ -32,7 +32,7 @@
             min-height: 100vh;
             animation: fadeIn 1s ease-in-out;
         }
-        
+
         .container {
             max-width: 1200px;
             width: 90%;
@@ -43,29 +43,29 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        
+
         .logo {
             max-width: 150px;
             margin-bottom: 2rem;
         }
-        
+
         h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
-            color: var(--primary-color);
+            color: white; /* Mettre le titre en blanc */
         }
-        
+
         h2 {
             font-size: 2rem;
             font-weight: 400;
             margin-bottom: 1rem;
         }
-        
+
         p {
             margin-bottom: 2rem;
             line-height: 1.6;
         }
-        
+
         .contacts {
             display: flex;
             flex-wrap: wrap;
@@ -73,7 +73,7 @@
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .contacts a {
             display: flex;
             flex-direction: column;
@@ -85,25 +85,25 @@
             border-radius: 10px;
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        
+
         .contacts a:hover {
             transform: translateY(-5px);
             background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
         .socials {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .socials svg {
             width: 30px;
             height: 30px;
             fill: var(--primary-color);
         }
-        
+
         #embedyoutube {
             width: 100%;
             max-width: 560px;
@@ -113,7 +113,7 @@
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        
+
         .affiche {
             max-width: 100%;
             height: auto;
@@ -121,7 +121,7 @@
             margin-bottom: 2rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        
+
         footer {
             margin-top: auto;
             padding: 1rem;
@@ -129,17 +129,17 @@
             background: rgba(255, 255, 255, 0.1);
             width: 100%;
         }
-        
+
         footer a {
             color: var(--primary-color);
             text-decoration: none;
         }
-        
+
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
-        
+
         /* Styles pour le modal QR code */
         .modal {
             display: none;
@@ -151,7 +151,7 @@
             height: 100%;
             background-color: rgba(0,0,0,0.5);
         }
-        
+
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
@@ -159,7 +159,7 @@
             border-radius: 10px;
             max-width: 300px;
         }
-        
+
         .close {
             color: #aaa;
             float: right;
@@ -167,7 +167,7 @@
             font-weight: bold;
             cursor: pointer;
         }
-        
+
         .close:hover,
         .close:focus {
             color: #000;
@@ -175,7 +175,7 @@
             cursor: pointer;
         }
     </style>
- <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -229,7 +229,6 @@
         }
     }
 @endphp
-
 
 <div class="flex flex-col items-center w-full">
     <div class='flex justify-center items-center w-24 mt-6'>
@@ -295,7 +294,6 @@
             }
         </script>
 
-
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
            class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -306,7 +304,6 @@
             </lord-icon>
             Maps
         </a>
-
 
         <a href="{{ $carte['lienSite'] }}"
            class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>

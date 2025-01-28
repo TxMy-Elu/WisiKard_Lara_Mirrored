@@ -1178,6 +1178,9 @@ class DashboardClient extends Controller
             case 3:
                 $carte->idTemplate = 3;
                 break;
+            case 4:
+                $carte->idTemplate = 4;
+            break;    
         }
     
         $carte->save();

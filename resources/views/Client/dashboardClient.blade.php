@@ -209,7 +209,7 @@
             </div>
 
             <!-- Template Selection (div4) -->
-            <div class="col-span-5 row-span-2 bg-white rounded-lg shadow-lg p-4">
+            <div class="col-span-5  row-span-2 bg-white rounded-lg shadow-lg p-4">
                 <form id="templateForm" action="{{ route('updateTemplate') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
@@ -239,6 +239,14 @@
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3" class="w-96 h-[750px] rounded-lg"></iframe>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <input type="radio" name="idTemplate" id="template4" value="4"
+                                       @if($idTemplate == 4) checked @endif class="mb-2"
+                                       onchange="submitTemplateForm()">
+                                <label for="template4"></label>
+                                <!-- template gradient  -->
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4" class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                         </div>
                     </div>
