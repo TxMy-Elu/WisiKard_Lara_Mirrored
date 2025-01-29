@@ -204,6 +204,7 @@
         .close:focus {
             color: var(--text-color);
         }
+
     </style>
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
@@ -273,11 +274,11 @@
     @if($employe != null)
         <div class='flex justify-center items-center flex-wrap mt-4'>
             <a href='mailto:{{ $employe['mail'] }}'
-               class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+               class='m-2 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-md text-center'>
                 {{ $employe['mail'] }}
             </a>
             <a href='tel:{{ $employe['telephone'] }}'
-               class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+               class='m-2 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-md text-center'>
                 {{ $employe['telephone'] }}
             </a>
         </div>
@@ -290,7 +291,7 @@
     <div class='flex justify-center items-center flex-wrap mt-4 mx-11'>
         <!-- Bouton pour afficher le QR Code -->
         <button onclick="showQrCode()"
-                class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+                class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/avcjklpr.json"
                        trigger="loop"
                        delay="1000"
@@ -306,7 +307,7 @@
                 <h3 class="text-xl font-bold mb-4 text-zinc-900">{{ $carte['nomEntreprise'] }} - QR Code</h3>
                 <img src="{{ $carte->lienQr }}" alt="QR Code" class="w-48 h-48 mx-auto">
                 <button onclick="closeQrCode()"
-                        class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full">✖
+                        class="absolute bg-indigo-500/50 top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full">✖
                 </button>
             </div>
         </div>
@@ -325,7 +326,7 @@
         </script>
 
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/surcxhka.json"
                     trigger="loop"
@@ -336,7 +337,7 @@
         </a>
 
         <a href="{{ $carte['lienSite'] }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/pbbsmkso.json"
                     trigger="loop"
@@ -347,7 +348,7 @@
         </a>
 
         <a href="tel:{{ $carte['tel'] }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/qtykvslf.json"
                     trigger="loop"
@@ -358,7 +359,7 @@
         </a>
 
         <a href="mailto:{{ $carte['mailContact'] }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/aycieyht.json"
                     trigger="loop"
@@ -370,7 +371,7 @@
 
         @if($carte['pdf'])
             <a href="{{ $carte['pdf'] }}" target="_blank" rel="noopener noreferrer"
-               class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+               class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
@@ -382,7 +383,7 @@
         @endif
 
         <a href="{{$carte['lienCommande']}}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/odavpkmb.json"
                     trigger="loop"
@@ -393,7 +394,7 @@
 
         <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
            download="Contact-Wisikard.vcf"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/rehjpyyh.json"
                        trigger="loop"
                        delay="1000"
@@ -404,7 +405,7 @@
         </a>
 
         <a id="prompt"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
                        trigger="loop"
                        delay="1000"
@@ -414,7 +415,7 @@
             Installer
         </a>
 
-        <button class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <button class='m-2.5 p-2 bg-indigo-500/50 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/udwhdpod.json"
                        trigger="loop"
                        delay="1000"

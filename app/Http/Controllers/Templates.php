@@ -23,11 +23,13 @@ class Templates extends Controller
         $idCarte = null;
         $idEmp = null;
         $employe = null;
+        $today = date('Y-m-d');
+
+
 
         if ($CompteEmp) {
             // Si CompteEmp est présent, le split au niveau de la virgule
             [$idCompte, $idEmp] = explode('x', $CompteEmp);
-
             // Convertir en entier pour s'assurer qu'on travaille avec des ID valides
             $idCompte = (int)$idCompte;
             $idEmp = (int)$idEmp;
@@ -44,6 +46,11 @@ class Templates extends Controller
             //idTemplate
             $idTemplate = $carte->idTemplate ?? null;
 
+                $vue = new vue();
+                $vue->date = $today;
+                $vue->idCarte = $idCarte;
+                $vue->idEmp = $idEmp;
+                $vue->save();
 
         } else {
             // Sinon, récupérer l'idCompte
@@ -55,6 +62,11 @@ class Templates extends Controller
             // Prend toutes les infos de la carte
             $carte = Carte::where('idCompte', $idCompte)->first();
             $idCarte = $carte->idCarte ?? null;
+
+            $vue = new vue();
+            $vue->date = $today;
+            $vue->idCarte = $idCarte;
+            $vue->save();
         }
 
         // Si $idCarte est toujours null, on ne peut rien afficher

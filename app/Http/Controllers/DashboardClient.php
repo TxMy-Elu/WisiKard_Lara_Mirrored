@@ -1145,6 +1145,8 @@ class DashboardClient extends Controller
             $carte->nomBtnPdf = $newName;
             $carte->save();
 
+            $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/pdf=" . $pdf;
+
             // Succès : Redirection avec un message de confirmation
             return redirect()->back()->with('success', 'Votre fichier PDF a été téléchargé et renommé avec succès.');
 

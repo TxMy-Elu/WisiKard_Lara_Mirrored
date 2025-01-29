@@ -68,11 +68,7 @@
                             <p class="text-gray-500 italic border-2 p-10">Aucun logo disponible</p>
                         @endif
                         <p class="text-sm text-gray-500 mt-2">Aperçu du logo actuel</p>
-
-
                     </div>
-
-
                 </div>
                 <!-- delete du logo -->
                 <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST" class="mt-4 w-full flex justify-end">
@@ -110,6 +106,15 @@
                         Enregistrer
                         </button>
                     </div>
+                  <!-- QR Code Image -->
+                                <div class="mb-4 flex flex-col items-center">
+                                    <img src="{{ $carte->lienQr }}"
+                                         alt="QR Code" class="w-30 max-30-xs">
+                                </div>
+                                    <div class="flex justify-end">
+                                    </div>
+
+
                     </form>
 
                     <!-- Modale pour demander le nouveau nom -->
