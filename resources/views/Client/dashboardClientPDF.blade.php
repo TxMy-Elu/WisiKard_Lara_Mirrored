@@ -186,7 +186,7 @@
                     <div class="my-4 grow">
                         <div class="flex flex-nowrap gap-4 overflow-x-auto">
                             @foreach($youtubeUrls as $index => $youtubeUrl)
-                                <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center h-auto w-[300px]">
+                                <div class="bg-gray-100 p-6 rounded-md shadow-lg mb-2 flex flex-col items-center h-auto w-[300px] ">
                                     <!-- Conteneur de l'iframe (ajusté à la carte) -->
                                     <div class="w-full flex justify-center items-center">
                                         <iframe
@@ -305,11 +305,11 @@
                                             @method('DELETE')
                                             <input type="hidden" name="filename" value="{{ $image }}">
                                             <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-lg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                     viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-9a1 1 0 00-2 0v5a1 1 0 102 0v-5zm-2-3a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
-                                                          clip-rule="evenodd"/>
+                                               <!-- svg poubelle -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </button>
                                         </form>

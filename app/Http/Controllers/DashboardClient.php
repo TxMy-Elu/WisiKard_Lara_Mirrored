@@ -706,30 +706,57 @@ class DashboardClient extends Controller
 
     public function deleteSliderImage(Request $request)
     {
-        $filenames = json_decode($request->input('filenames'), true);
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $idCompte = session('connexion'); // Récupérer l'ID du compte
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
-            Log::warning('Carte non trouvée pour la suppression d\'images de slider', ['email' => $emailUtilisateur]);
+            Log::warning('Carte non trouvée pour la suppression d\'image de slider');
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
+        Log::info('Carte trouvée : ' . $carte->nomEntreprise);
+
+        // Construire le chemin des images
         $entrepriseName = Str::slug($carte->nomEntreprise, '_');
         $folderName = "{$idCompte}_{$entrepriseName}";
+        $sliderImagesPath = public_path("entreprises/{$folderName}/slider");
 
-        foreach ($filenames as $filename) {
-            $sliderPath = public_path("entreprises/{$folderName}/slider/{$filename}");
-            if (File::exists($sliderPath)) {
-                File::delete($sliderPath);
+        Log::info('Chemin des images slider : ' . $sliderImagesPath);
 
-                Log::info('Image de slider supprimée avec succès', ['email' => $emailUtilisateur, 'filename' => $filename]);
-                Logs::ecrireLog($emailUtilisateur, "Suppression Image de Slider");
-            }
+        // Vérifier si le dossier existe
+        if (!File::exists($sliderImagesPath)) {
+            Log::error('Répertoire slider inexistant : ' . $sliderImagesPath);
+            return redirect()->back()->with('error', 'Aucune image trouvée.');
         }
 
-        return redirect()->back()->with('success', 'Images de slider supprimées avec succès.');
+        // Récupérer la liste des fichiers
+        $sliderImages = File::files($sliderImagesPath);
+        $sliderImages = array_map(function ($file) {
+            return $file->getFilename(); // Retourner uniquement les noms des fichiers
+        }, $sliderImages);
+
+        // Récupérer le nom du fichier de la requête
+        $filename = $request->input('filename');
+        Log::info('Nom du fichier demandé pour suppression : ' . $filename);
+
+        // Vérifier si le fichier demandé existe dans le slider
+        if (in_array($filename, $sliderImages)) {
+            $filePath = "{$sliderImagesPath}/{$filename}";
+            Log::info('Chemin complet de l\'image : ' . $filePath);
+
+            // Vérifier si le fichier existe réellement avant suppression
+            if (File::exists($filePath)) {
+                File::delete($filePath); // Supprimer le fichier
+
+                Log::info('Image de slider supprimée avec succès', ['filename' => $filename]);
+                return redirect()->back()->with('success', 'Image de slider supprimée avec succès.');
+            }
+
+            Log::warning('Fichier trouvé dans la liste mais inexistant ou inaccessible : ' . $filePath);
+        }
+
+        Log::error('Image non trouvée dans la liste des fichiers du slider.');
+        return redirect()->back()->with('error', 'Image non trouvée.');
     }
 
     public function deletePdf()
