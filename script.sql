@@ -161,6 +161,38 @@ INSERT INTO `employer` (`idEmp`, `nom`, `prenom`, `fonction`, `idCarte`, `mail`,
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `horaires`
+--
+
+DROP TABLE IF EXISTS `horaires`;
+CREATE TABLE IF NOT EXISTS `horaires` (
+                                          `id` int NOT NULL AUTO_INCREMENT,
+                                          `idCarte` int NOT NULL,
+                                          `jour` varchar(255) NOT NULL,
+    `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `ouverture_matin` time DEFAULT NULL,
+    `fermeture_matin` time DEFAULT NULL,
+    `ouverture_aprmidi` time DEFAULT NULL,
+    `fermeture_aprmidi` time DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idCarte` (`idCarte`)
+    ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- --------------------------------------------------------
+
+--
+-- Déchargement des données de la table `horaires`
+--
+
+INSERT INTO `horaires` (`id`, `idCarte`, `jour`, `created_at`, `updated_at`, `ouverture_matin`, `fermeture_matin`, `ouverture_aprmidi`, `fermeture_aprmidi`) VALUES
+                                                                                                                                                                 (1, 1, 'lundi', '2025-01-28 13:41:19', '2025-01-28 14:37:11', '07:10:00', '11:00:00', '13:00:00', '17:00:00'),
+                                                                                                                                                                 (2, 1, 'mardi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
+                                                                                                                                                                 (3, 1, 'mercredi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
+                                                                                                                                                                 (4, 1, 'jeudi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
+                                                                                                                                                                 (5, 1, 'vendredi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
+                                                                                                                                                                 (6, 1, 'samedi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
+-- --------------------------------------------------------                                                                                                                                                 (7, 1, 'dimanche', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL);
+--
 -- Structure de la table `logs`
 --
 

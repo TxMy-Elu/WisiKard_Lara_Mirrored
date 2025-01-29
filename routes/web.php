@@ -96,5 +96,5 @@ Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
     Route::get('/employe/{id}/edit', [Employe::class, 'edit'])->name('employe.edit');
     Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
 
-    // Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
+    Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
 

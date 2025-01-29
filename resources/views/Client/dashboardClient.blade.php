@@ -188,7 +188,6 @@
                 </div>
             </div>
 
-            {{--
                     <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ route('updateHoraires') }}" method="POST">
@@ -212,7 +211,6 @@
                     <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer</button>
                 </form>
             </div>
---}}
 
             <!-- Template Selection (div4) -->
             <div class="col-span-5  row-span-2 bg-white rounded-lg shadow-lg p-4">

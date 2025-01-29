@@ -10,7 +10,7 @@ use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
-// use App\Models\Horaires;
+use App\Models\Horaires;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -37,10 +37,10 @@ class DashboardClient extends Controller
 
             if ($carte) {
                 $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
-                // $horaires = $carte->horaires;
+                 $horaires = $carte->horaires;
             } else {
                 Log::warning('Aucune carte associée au compte.', ['email' => $emailUtilisateur]);
-               //  $horaires = collect();
+                $horaires = collect();
             }
 
             return view('client.dashboardClient', [
@@ -52,16 +52,74 @@ class DashboardClient extends Controller
                 'titre' => $carte->titre ?? null,
                 'description' => $carte->descriptif ?? null,
                 'idTemplate' => $carte->idTemplate ?? null,
-                // 'horaires' => $horaires,
+                'horaires' => $horaires,
             ]);
         } catch (\Exception $e) {
             Log::error('Erreur lors du chargement du tableau de bord client', ['error' => $e->getMessage()]);
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
+public function updateHoraires(Request $request)
+    {
+        $request->validate([
+            'lundi_ouverture' => 'nullable|date_format:H:i',
+            'lundi_fermeture' => 'nullable|date_format:H:i',
+            'mardi_ouverture' => 'nullable|date_format:H:i',
+            'mardi_fermeture' => 'nullable|date_format:H:i',
+            'mercredi_ouverture' => 'nullable|date_format:H:i',
+            'mercredi_fermeture' => 'nullable|date_format:H:i',
+            'jeudi_ouverture' => 'nullable|date_format:H:i',
+            'jeudi_fermeture' => 'nullable|date_format:H:i',
+            'vendredi_ouverture' => 'nullable|date_format:H:i',
+            'vendredi_fermeture' => 'nullable|date_format:H:i',
+            'samedi_ouverture' => 'nullable|date_format:H:i',
+            'samedi_fermeture' => 'nullable|date_format:H:i',
+            'dimanche_ouverture' => 'nullable|date_format:H:i',
+            'dimanche_fermeture' => 'nullable|date_format:H:i',
+            'lundi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'lundi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'mardi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'mardi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'mercredi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'mercredi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'jeudi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'jeudi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'vendredi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'vendredi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'samedi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'samedi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'dimanche_tranche_midi_ouverture' => 'nullable|date_format:H:i',
+            'dimanche_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+        ]);
 
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
+        if (!$carte) {
+            Log::warning('Carte non trouvée pour mise à jour des horaires', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
 
+        $jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+
+        foreach ($jours as $jour) {
+            $horaire = Horaires::updateOrCreate(
+                ['idCarte' => $carte->idCarte, 'jour' => $jour],
+                [
+                    'ouverture' => $request->input($jour . '_ouverture'),
+                    'fermeture' => $request->input($jour . '_fermeture'),
+                    'tranche_midi_ouverture' => $request->input($jour . '_tranche_midi_ouverture'),
+                    'tranche_midi_fermeture' => $request->input($jour . '_tranche_midi_fermeture'),
+                ]
+            );
+        }
+
+        Log::info('Horaires mis à jour avec succès', ['email' => $emailUtilisateur]);
+        Logs::ecrireLog($emailUtilisateur, "Modification Horaires");
+
+        return redirect()->back()->with('success', 'Horaires mis à jour avec succès.');
+    }
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
