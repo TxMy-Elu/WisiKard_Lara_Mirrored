@@ -606,9 +606,7 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
-
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur anonyme';
 
         if (!$carte) {
             Log::warning('Carte non trouvée pour le téléchargement du logo', ['email' => $emailUtilisateur]);
@@ -619,24 +617,35 @@ class DashboardClient extends Controller
         $folderName = "{$idCompte}_{$entrepriseName}";
         $logoPath = public_path("entreprises/{$folderName}/logos");
 
+        // Créer récursivement tous les répertoires nécessaires (entreprises/ + sous-dossiers)
+        if (!File::exists($logoPath)) {
+            try {
+                File::makeDirectory($logoPath, 0755, true); // Paramètre "true" pour une création récursive
+            } catch (\Exception $e) {
+                Log::error("Erreur lors de la création du répertoire {$logoPath}", [
+                    'email' => $emailUtilisateur,
+                    'exception' => $e->getMessage(),
+                ]);
+                return redirect()->back()->with('error', 'Impossible de sauvegarder le logo.');
+            }
+        }
+
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileType = $file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
 
+            // Vérifier les extensions et les MIME types acceptés
             if (in_array($fileType, ['jpg', 'jpeg', 'png', 'svg']) && strpos($mimeType, 'image/') === 0) {
                 // Supprimer l'ancien logo s'il existe
-                $existingLogo = File::files($logoPath);
-                if (!empty($existingLogo)) {
-                    foreach ($existingLogo as $logoFile) {
+                if (File::exists($logoPath)) {
+                    $existingLogos = File::files($logoPath);
+                    foreach ($existingLogos as $logoFile) {
                         File::delete($logoFile->getPathname());
                     }
                 }
 
-                if (!File::exists($logoPath)) {
-                    File::makeDirectory($logoPath, 0755, true);
-                }
-
+                // Sauvegarder le nouveau logo
                 $fileName = "logo.{$fileType}";
                 $file->move($logoPath, $fileName);
 
@@ -653,6 +662,8 @@ class DashboardClient extends Controller
                 return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
             }
         }
+
+        return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
     }
 
     public function urlsrdv(Request $request)

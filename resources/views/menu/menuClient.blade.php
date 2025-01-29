@@ -41,7 +41,7 @@
                             </a>
                         </li>
                         <li class="nav-item mb-8">
-                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientPDF') }}" title="Contenue">
+                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientPDF') }}" title="Contenu">
                                 <img src="{{ asset('icons/image.svg') }}" alt="image" width="35" height="35">
                             </a>
                         </li>
