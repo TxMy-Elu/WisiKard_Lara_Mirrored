@@ -59,39 +59,8 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-  public function updateHoraires(Request $request)
+    public function updateHoraires(Request $request)
     {
-        $request->validate([
-            'lundi_ouverture_matin' => 'nullable|date_format:H:i',
-            'lundi_fermeture_matin' => 'nullable|date_format:H:i',
-            'lundi_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'lundi_fermeture_aprmidi' => 'nullable|date_format:H:i',
-            'mardi_ouverture_matin' => 'nullable|date_format:H:i',
-            'mardi_fermeture_matin' => 'nullable|date_format:H:i',
-            'mardi_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'mardi_fermeture_aprmidi' => 'nullable|date_format:H:i',
-            'mercredi_ouverture_matin' => 'nullable|date_format:H:i',
-            'mercredi_fermeture_matin' => 'nullable|date_format:H:i',
-            'mercredi_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'mercredi_fermeture_aprmidi' => 'nullable|date_format:H:i',
-            'jeudi_ouverture_matin' => 'nullable|date_format:H:i',
-            'jeudi_fermeture_matin' => 'nullable|date_format:H:i',
-            'jeudi_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'jeudi_fermeture_aprmidi' => 'nullable|date_format:H:i',
-            'vendredi_ouverture_matin' => 'nullable|date_format:H:i',
-            'vendredi_fermeture_matin' => 'nullable|date_format:H:i',
-            'vendredi_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'vendredi_fermeture_aprmidi' => 'nullable|date_format:H:i',
-            'samedi_ouverture_matin' => 'nullable|date_format:H:i',
-            'samedi_fermeture_matin' => 'nullable|date_format:H:i',
-            'samedi_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'samedi_fermeture_aprmidi' => 'nullable|date_format:H:i',
-            'dimanche_ouverture_matin' => 'nullable|date_format:H:i',
-            'dimanche_fermeture_matin' => 'nullable|date_format:H:i',
-            'dimanche_ouverture_aprmidi' => 'nullable|date_format:H:i',
-            'dimanche_fermeture_aprmidi' => 'nullable|date_format:H:i',
-        ]);
-
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -104,13 +73,18 @@ class DashboardClient extends Controller
         $jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
 
         foreach ($jours as $jour) {
+            $ouvertureMatin = $request->input($jour . '_ouverture_matin');
+            $fermetureMatin = $request->input($jour . '_fermeture_matin');
+            $ouvertureApresMidi = $request->input($jour . '_ouverture_aprmidi');
+            $fermetureApresMidi = $request->input($jour . '_fermeture_aprmidi');
+
             $horaire = Horaires::updateOrCreate(
                 ['idCarte' => $carte->idCarte, 'jour' => $jour],
                 [
-                    'ouverture_matin' => $request->input($jour . '_ouverture_matin'),
-                    'fermeture_matin' => $request->input($jour . '_fermeture_matin'),
-                    'ouverture_aprmidi' => $request->input($jour . '_ouverture_aprmidi'),
-                    'fermeture_aprmidi' => $request->input($jour . '_fermeture_aprmidi'),
+                    'ouverture_matin' => $ouvertureMatin,
+                    'fermeture_matin' => $fermetureMatin,
+                    'ouverture_aprmidi' => $ouvertureApresMidi,
+                    'fermeture_aprmidi' => $fermetureApresMidi
                 ]
             );
         }
@@ -120,7 +94,6 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Horaires mis à jour avec succès.');
     }
-
 
     private function formatPhoneNumber($phoneNumber)
     {

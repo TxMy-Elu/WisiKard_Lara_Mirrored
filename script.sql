@@ -45,8 +45,8 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `carte`;
 CREATE TABLE IF NOT EXISTS `carte` (
-                                       `idCarte` int NOT NULL AUTO_INCREMENT,
-                                       `nomEntreprise` varchar(255) NOT NULL,
+    `idCarte` int NOT NULL AUTO_INCREMENT,
+    `nomEntreprise` varchar(255) NOT NULL,
     `titre` varchar(150) NOT NULL,
     `tel` varchar(25) NOT NULL,
     `ville` varchar(255) NOT NULL,
@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS `carte` (
 --
 
 INSERT INTO `carte` (`idCarte`, `nomEntreprise`, `titre`, `tel`, `ville`, `imgPres`, `imgLogo`, `pdf`, `nomBtnPdf`, `couleur1`, `couleur2`, `descriptif`, `LienCommande`, `lienQr`, `idCompte`, `idTemplate`) VALUES
-                                                                                                                                                                                                                  (1, 'LIDL', 'Titre1', '123456789044', 'OuiOui', 'imgPres1.jpg', 'imgLogo1.jpg', 'pdf1.pdf', 'Télécharger', '#ff0000', '#12173b', 'Description1', 'http://liencommande1.com', '/entreprises/1_LIDL/QR_Codes/QR_Code.svg', 1, 3),
-                                                                                                                                                                                                                  (2, 'Entreprise2', 'Titre2', '987654321', 'Ville2', 'imgPres2.jpg', 'imgLogo2.jpg', 'pdf2.pdf', 'Télécharger', '#FF0000', '#00FF00', 'Description2', 'http://liencommande2.com', '/entreprises/2_Entreprise2/QR_Codes/QR_Code.svg', 2, 2),
-                                                                                                                                                                                                                  (3, 'Entreprise3', 'Titre3', '111223344', 'Ville3', 'imgPres3.jpg', 'imgLogo3.jpg', 'pdf3.pdf', 'Télécharger', '#00FFFF', '#FF00FF', 'Description3', 'http://liencommande3.com', '/entreprises/3_Entreprise3/QR_Codes/QR_Code.svg', 3, 3),
-                                                                                                                                                                                                                  (4, 'Entreprise4', 'Titre4', '443322111', 'Ville4', 'imgPres4.jpg', 'imgLogo4.jpg', 'pdf4.pdf', 'Télécharger', '#FFFF00', '#00FFFF', 'Description4', 'http://liencommande4.com', '/entreprises/4_Entreprise4/QR_Codes/QR_Code.svg', 4, 2),
-                                                                                                                                                                                                                  (9, 'nomEntreprise', 'titre', 'tel', 'ville', NULL, NULL, NULL, NULL, '#000000', '#FFFFFF', NULL, NULL, '/entreprises/14_nomEntreprise/QR_Codes/QR_Code.svg', 14, 1);
+    (1, 'LIDL', 'Titre1', '123456789044', 'OuiOui', 'imgPres1.jpg', 'imgLogo1.jpg', 'pdf1.pdf', 'Télécharger', '#ff0000', '#12173b', 'Description1', 'http://liencommande1.com', '/entreprises/1_LIDL/QR_Codes/QR_Code.svg', 1, 3),
+    (2, 'Entreprise2', 'Titre2', '987654321', 'Ville2', 'imgPres2.jpg', 'imgLogo2.jpg', 'pdf2.pdf', 'Télécharger', '#FF0000', '#00FF00', 'Description2', 'http://liencommande2.com', '/entreprises/2_Entreprise2/QR_Codes/QR_Code.svg', 2, 2),
+    (3, 'Entreprise3', 'Titre3', '111223344', 'Ville3', 'imgPres3.jpg', 'imgLogo3.jpg', 'pdf3.pdf', 'Télécharger', '#00FFFF', '#FF00FF', 'Description3', 'http://liencommande3.com', '/entreprises/3_Entreprise3/QR_Codes/QR_Code.svg', 3, 3),
+    (4, 'Entreprise4', 'Titre4', '443322111', 'Ville4', 'imgPres4.jpg', 'imgLogo4.jpg', 'pdf4.pdf', 'Télécharger', '#FFFF00', '#00FFFF', 'Description4', 'http://liencommande4.com', '/entreprises/4_Entreprise4/QR_Codes/QR_Code.svg', 4, 2),
+    (9, 'nomEntreprise', 'titre', 'tel', 'ville', NULL, NULL, NULL, NULL, '#000000', '#FFFFFF', NULL, NULL, '/entreprises/14_nomEntreprise/QR_Codes/QR_Code.svg', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -99,13 +99,13 @@ CREATE TABLE IF NOT EXISTS `compte` (
 --
 
 INSERT INTO `compte` (`idCompte`, `email`, `password`, `role`, `tentativesCo`, `estDesactiver`) VALUES
-                                                                                                    (1, 'cli@cli.fr', '$2y$10$QKrYdQf.24F8EUbOTIvqMuh4HjzINrS6s/ATrVm1ixGKERbGEmiUq', 'starter', 0, 0),
-                                                                                                    (2, 'user2@example.com', 'hashed_password2', 'starter', 0, 0),
-                                                                                                    (3, 'user3@example.com', 'hashed_password3', 'advanced', 0, 0),
-                                                                                                    (4, 'user4@example.com', 'hashed_password4', 'advanced', 0, 0),
-                                                                                                    (5, 'user5@example.com', 'hashed_password5', 'starter', 0, 0),
-                                                                                                    (6, 'to.doguet@gmail.com', '$2y$10$QKrYdQf.24F8EUbOTIvqMuh4HjzINrS6s/ATrVm1ixGKERbGEmiUq', 'admin', 0, 0),
-                                                                                                    (14, 'aa@aa.fr', '$2y$10$s7yLTAdH8bJpVCLoLJ1ml.FxFaPVlsuFMOHRi7NhQMtq152H3mTl2', 'advanced', 0, 0);
+    (1, 'cli@cli.fr', '$2y$10$QKrYdQf.24F8EUbOTIvqMuh4HjzINrS6s/ATrVm1ixGKERbGEmiUq', 'starter', 0, 0),
+    (2, 'user2@example.com', 'hashed_password2', 'starter', 0, 0),
+    (3, 'user3@example.com', 'hashed_password3', 'advanced', 0, 0),
+    (4, 'user4@example.com', 'hashed_password4', 'advanced', 0, 0),
+    (5, 'user5@example.com', 'hashed_password5', 'starter', 0, 0),
+    (6, 'to.doguet@gmail.com', '$2y$10$QKrYdQf.24F8EUbOTIvqMuh4HjzINrS6s/ATrVm1ixGKERbGEmiUq', 'admin', 0, 0),
+    (14, 'aa@aa.fr', '$2y$10$s7yLTAdH8bJpVCLoLJ1ml.FxFaPVlsuFMOHRi7NhQMtq152H3mTl2', 'advanced', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -115,8 +115,8 @@ INSERT INTO `compte` (`idCompte`, `email`, `password`, `role`, `tentativesCo`, `
 
 DROP TABLE IF EXISTS `custom_link`;
 CREATE TABLE IF NOT EXISTS `custom_link` (
-                                             `id_link` int NOT NULL AUTO_INCREMENT,
-                                             `nom` varchar(150) NOT NULL,
+    `id_link` int NOT NULL AUTO_INCREMENT,
+    `nom` varchar(150) NOT NULL,
     `lien` varchar(300) DEFAULT NULL,
     `activer` tinyint(1) NOT NULL DEFAULT '0',
     `idCarte` int DEFAULT NULL,
@@ -132,8 +132,8 @@ CREATE TABLE IF NOT EXISTS `custom_link` (
 
 DROP TABLE IF EXISTS `employer`;
 CREATE TABLE IF NOT EXISTS `employer` (
-                                          `idEmp` int NOT NULL AUTO_INCREMENT,
-                                          `nom` varchar(100) NOT NULL,
+    `idEmp` int NOT NULL AUTO_INCREMENT,
+    `nom` varchar(100) NOT NULL,
     `prenom` varchar(100) NOT NULL,
     `fonction` varchar(100) NOT NULL,
     `idCarte` int DEFAULT NULL,
@@ -148,27 +148,26 @@ CREATE TABLE IF NOT EXISTS `employer` (
 --
 
 INSERT INTO `employer` (`idEmp`, `nom`, `prenom`, `fonction`, `idCarte`, `mail`, `telephone`) VALUES
-                                                                                                  (1, 'Dupontsssss', 'Jeansssssss', 'Développeurlklmkssss', 1, 'dupont.jean@oui.frssss', '0782578920kkkssss'),
-                                                                                                  (2, 'Martin', 'Marie', 'Designer', 2, '', ''),
-                                                                                                  (3, 'Durand', 'Paul', 'Manager', 3, '', ''),
-                                                                                                  (4, 'Lefevre', 'Sophie', 'Analyste', 4, '', ''),
-                                                                                                  (6, 'Garnier', 'Claire', 'Développeur', 1, '', ''),
-                                                                                                  (7, 'Rousseau', 'Luc', 'Designer', 2, '', ''),
-                                                                                                  (8, 'Leroy', 'Anne', 'Manager', 3, '', ''),
-                                                                                                  (9, 'Bernard', 'Marc', 'Analyste', 4, '', ''),
-                                                                                                  (32, 'test', 'test', 'goatesque et oui', 1, 'to.doguet@gmail.com', '0782578920');
+    (1, 'Dupontsssss', 'Jeansssssss', 'Développeurlklmkssss', 1, 'dupont.jean@oui.frssss', '0782578920kkkssss'),
+    (2, 'Martin', 'Marie', 'Designer', 2, '', ''),
+    (3, 'Durand', 'Paul', 'Manager', 3, '', ''),
+    (4, 'Lefevre', 'Sophie', 'Analyste', 4, '', ''),
+    (6, 'Garnier', 'Claire', 'Développeur', 1, '', ''),
+    (7, 'Rousseau', 'Luc', 'Designer', 2, '', ''),
+    (8, 'Leroy', 'Anne', 'Manager', 3, '', ''),
+    (9, 'Bernard', 'Marc', 'Analyste', 4, '', ''),
+    (32, 'test', 'test', 'goatesque et oui', 1, 'to.doguet@gmail.com', '0782578920');
 
 -- --------------------------------------------------------
-
 --
 -- Structure de la table `horaires`
 --
 
 DROP TABLE IF EXISTS `horaires`;
 CREATE TABLE IF NOT EXISTS `horaires` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `idCarte` int NOT NULL,
-    `jour` varchar(255) NOT NULL,
+                                          `id` int NOT NULL AUTO_INCREMENT,
+                                          `idCarte` int NOT NULL,
+                                          `jour` varchar(255) NOT NULL,
     `ouverture_matin` time DEFAULT NULL,
     `fermeture_matin` time DEFAULT NULL,
     `ouverture_aprmidi` time DEFAULT NULL,
@@ -176,11 +175,11 @@ CREATE TABLE IF NOT EXISTS `horaires` (
     PRIMARY KEY (`id`),
     KEY `idCarte` (`idCarte`)
     ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
--- --------------------------------------------------------
 
 --
 -- Déchargement des données de la table `horaires`
 --
+-- --------------------------------------------------------
 
 INSERT INTO `horaires` (`id`, `idCarte`, `jour`, `ouverture_matin`, `fermeture_matin`, `ouverture_aprmidi`, `fermeture_aprmidi`) VALUES
                                                                                                                                      (1, 1, 'lundi', '07:10:00', '11:00:00', '13:00:00', '17:00:00'),
@@ -190,23 +189,21 @@ INSERT INTO `horaires` (`id`, `idCarte`, `jour`, `ouverture_matin`, `fermeture_m
                                                                                                                                      (5, 1, 'vendredi', NULL, NULL, NULL, NULL),
                                                                                                                                      (6, 1, 'samedi', NULL, NULL, NULL, NULL),
                                                                                                                                      (7, 1, 'dimanche', NULL, NULL, NULL, NULL);
-                                                                                                                                                      (3, 1, 'mercredi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (4, 1, 'jeudi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (5, 1, 'vendredi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (6, 1, 'samedi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (7, 1, 'dimanche', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL); (3, 1, 'mercredi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (4, 1, 'jeudi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (5, 1, 'vendredi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
-                                                                                                                                                                 (6, 1, 'samedi', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL),
--- --------------------------------------------------------                                                                                                                                                 (7, 1, 'dimanche', '2025-01-28 13:41:19', '2025-01-28 13:41:19', NULL, NULL, NULL, NULL);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- --------------------------------------------------------
+
 --
 -- Structure de la table `logs`
 --
 
 DROP TABLE IF EXISTS `logs`;
 CREATE TABLE IF NOT EXISTS `logs` (
-                                      `idLog` int NOT NULL AUTO_INCREMENT,
-                                      `typeAction` varchar(500) NOT NULL,
+    `idLog` int NOT NULL AUTO_INCREMENT,
+    `typeAction` varchar(500) NOT NULL,
     `dateHeureLog` datetime NOT NULL,
     `adresseIPLog` varchar(500) NOT NULL,
     `idCompte` int NOT NULL,
@@ -219,59 +216,59 @@ CREATE TABLE IF NOT EXISTS `logs` (
 --
 
 INSERT INTO `logs` (`idLog`, `typeAction`, `dateHeureLog`, `adresseIPLog`, `idCompte`) VALUES
-                                                                                           (1, 'Connexion', '2023-10-01 10:00:00', '192.168.1.1', 1),
-                                                                                           (2, 'Déconnexion', '2023-10-01 11:00:00', '192.168.1.2', 2),
-                                                                                           (3, 'Connexion', '2023-10-02 12:00:00', '192.168.1.3', 3),
-                                                                                           (4, 'Déconnexion', '2023-10-02 13:00:00', '192.168.1.4', 4),
-                                                                                           (5, 'Connexion', '2023-10-03 14:00:00', '192.168.1.5', 5),
-                                                                                           (6, 'Déconnexion', '2023-10-03 15:00:00', '192.168.1.6', 1),
-                                                                                           (7, 'Connexion', '2023-10-04 16:00:00', '192.168.1.7', 2),
-                                                                                           (8, 'Déconnexion', '2023-10-04 17:00:00', '192.168.1.8', 3),
-                                                                                           (9, 'Connexion', '2023-10-05 18:00:00', '192.168.1.9', 4),
-                                                                                           (10, 'Déconnexion', '2023-10-05 19:00:00', '192.168.1.10', 5),
-                                                                                           (11, 'Connexion échouée', '2025-01-10 15:40:12', '127.0.0.1', 6),
-                                                                                           (12, 'Connexion', '2025-01-10 15:40:17', '127.0.0.1', 6),
-                                                                                           (13, 'Connexion réussie', '2025-01-10 15:40:17', '127.0.0.1', 6),
-                                                                                           (14, 'Connexion', '2025-01-14 08:11:05', '127.0.0.1', 6),
-                                                                                           (15, 'Connexion réussie', '2025-01-14 08:11:05', '127.0.0.1', 6),
-                                                                                           (16, 'Connexion', '2025-01-14 09:12:25', '127.0.0.1', 6),
-                                                                                           (17, 'Connexion réussie', '2025-01-14 09:12:25', '127.0.0.1', 6),
-                                                                                           (18, 'Connexion', '2025-01-14 09:43:04', '127.0.0.1', 1),
-                                                                                           (19, 'Connexion réussie', '2025-01-14 09:43:04', '127.0.0.1', 1),
-                                                                                           (20, 'Connexion', '2025-01-14 09:44:47', '127.0.0.1', 1),
-                                                                                           (21, 'Connexion réussie', '2025-01-14 09:44:47', '127.0.0.1', 1),
-                                                                                           (22, 'Connexion', '2025-01-14 09:46:55', '127.0.0.1', 1),
-                                                                                           (23, 'Connexion réussie', '2025-01-14 09:46:55', '127.0.0.1', 1),
-                                                                                           (24, 'Connexion', '2025-01-14 09:51:09', '127.0.0.1', 1),
-                                                                                           (25, 'Connexion réussie', '2025-01-14 09:51:09', '127.0.0.1', 1),
-                                                                                           (26, 'Connexion', '2025-01-14 09:55:27', '127.0.0.1', 1),
-                                                                                           (27, 'Connexion réussie', '2025-01-14 09:55:27', '127.0.0.1', 1),
-                                                                                           (28, 'Connexion', '2025-01-14 10:01:50', '127.0.0.1', 6),
-                                                                                           (29, 'Connexion réussie', '2025-01-14 10:01:50', '127.0.0.1', 6),
-                                                                                           (30, 'Connexion', '2025-01-14 11:45:25', '127.0.0.1', 6),
-                                                                                           (31, 'Connexion réussie', '2025-01-14 11:45:25', '127.0.0.1', 6),
-                                                                                           (32, 'Connexion', '2025-01-14 11:56:10', '127.0.0.1', 1),
-                                                                                           (33, 'Connexion réussie', '2025-01-14 11:56:10', '127.0.0.1', 1),
-                                                                                           (34, 'Connexion', '2025-01-14 11:56:56', '127.0.0.1', 6),
-                                                                                           (35, 'Connexion réussie', '2025-01-14 11:56:56', '127.0.0.1', 6),
-                                                                                           (36, 'Connexion', '2025-01-14 12:03:13', '127.0.0.1', 1),
-                                                                                           (37, 'Connexion réussie', '2025-01-14 12:03:13', '127.0.0.1', 1),
-                                                                                           (38, 'Connexion', '2025-01-14 13:19:55', '127.0.0.1', 1),
-                                                                                           (39, 'Connexion réussie', '2025-01-14 13:19:55', '127.0.0.1', 1),
-                                                                                           (40, 'Connexion', '2025-01-14 14:23:31', '127.0.0.1', 1),
-                                                                                           (41, 'Connexion réussie', '2025-01-14 14:23:31', '127.0.0.1', 1),
-                                                                                           (42, 'Connexion', '2025-01-14 15:27:41', '127.0.0.1', 1),
-                                                                                           (43, 'Connexion réussie', '2025-01-14 15:27:41', '127.0.0.1', 1),
-                                                                                           (44, 'Connexion', '2025-01-14 15:28:37', '127.0.0.1', 1),
-                                                                                           (45, 'Connexion réussie', '2025-01-14 15:28:37', '127.0.0.1', 1),
-                                                                                           (46, 'Connexion', '2025-01-14 15:28:49', '127.0.0.1', 1),
-                                                                                           (47, 'Connexion réussie', '2025-01-14 15:28:49', '127.0.0.1', 1),
-                                                                                           (48, 'Connexion', '2025-01-14 15:30:38', '127.0.0.1', 6),
-                                                                                           (49, 'Connexion réussie', '2025-01-14 15:30:38', '127.0.0.1', 6),
-                                                                                           (50, 'Connexion', '2025-01-14 15:30:47', '127.0.0.1', 6),
-                                                                                           (51, 'Connexion réussie', '2025-01-14 15:30:47', '127.0.0.1', 6),
-                                                                                           (52, 'Connexion', '2025-01-14 15:31:08', '127.0.0.1', 1),
-                                                                                           (53, 'Connexion réussie', '2025-01-14 15:31:08', '127.0.0.1', 1),
+    (1, 'Connexion', '2023-10-01 10:00:00', '192.168.1.1', 1),
+    (2, 'Déconnexion', '2023-10-01 11:00:00', '192.168.1.2', 2),
+    (3, 'Connexion', '2023-10-02 12:00:00', '192.168.1.3', 3),
+    (4, 'Déconnexion', '2023-10-02 13:00:00', '192.168.1.4', 4),
+    (5, 'Connexion', '2023-10-03 14:00:00', '192.168.1.5', 5),
+    (6, 'Déconnexion', '2023-10-03 15:00:00', '192.168.1.6', 1),
+    (7, 'Connexion', '2023-10-04 16:00:00', '192.168.1.7', 2),
+    (8, 'Déconnexion', '2023-10-04 17:00:00', '192.168.1.8', 3),
+    (9, 'Connexion', '2023-10-05 18:00:00', '192.168.1.9', 4),
+    (10, 'Déconnexion', '2023-10-05 19:00:00', '192.168.1.10', 5),
+    (11, 'Connexion échouée', '2025-01-10 15:40:12', '127.0.0.1', 6),
+    (12, 'Connexion', '2025-01-10 15:40:17', '127.0.0.1', 6),
+    (13, 'Connexion réussie', '2025-01-10 15:40:17', '127.0.0.1', 6),
+    (14, 'Connexion', '2025-01-14 08:11:05', '127.0.0.1', 6),
+    (15, 'Connexion réussie', '2025-01-14 08:11:05', '127.0.0.1', 6),
+    (16, 'Connexion', '2025-01-14 09:12:25', '127.0.0.1', 6),
+    (17, 'Connexion réussie', '2025-01-14 09:12:25', '127.0.0.1', 6),
+    (18, 'Connexion', '2025-01-14 09:43:04', '127.0.0.1', 1),
+    (19, 'Connexion réussie', '2025-01-14 09:43:04', '127.0.0.1', 1),
+    (20, 'Connexion', '2025-01-14 09:44:47', '127.0.0.1', 1),
+    (21, 'Connexion réussie', '2025-01-14 09:44:47', '127.0.0.1', 1),
+    (22, 'Connexion', '2025-01-14 09:46:55', '127.0.0.1', 1),
+    (23, 'Connexion réussie', '2025-01-14 09:46:55', '127.0.0.1', 1),
+    (24, 'Connexion', '2025-01-14 09:51:09', '127.0.0.1', 1),
+    (25, 'Connexion réussie', '2025-01-14 09:51:09', '127.0.0.1', 1),
+    (26, 'Connexion', '2025-01-14 09:55:27', '127.0.0.1', 1),
+    (27, 'Connexion réussie', '2025-01-14 09:55:27', '127.0.0.1', 1),
+    (28, 'Connexion', '2025-01-14 10:01:50', '127.0.0.1', 6),
+    (29, 'Connexion réussie', '2025-01-14 10:01:50', '127.0.0.1', 6),
+    (30, 'Connexion', '2025-01-14 11:45:25', '127.0.0.1', 6),
+    (31, 'Connexion réussie', '2025-01-14 11:45:25', '127.0.0.1', 6),
+    (32, 'Connexion', '2025-01-14 11:56:10', '127.0.0.1', 1),
+    (33, 'Connexion réussie', '2025-01-14 11:56:10', '127.0.0.1', 1),
+    (34, 'Connexion', '2025-01-14 11:56:56', '127.0.0.1', 6),
+    (35, 'Connexion réussie', '2025-01-14 11:56:56', '127.0.0.1', 6),
+    (36, 'Connexion', '2025-01-14 12:03:13', '127.0.0.1', 1),
+    (37, 'Connexion réussie', '2025-01-14 12:03:13', '127.0.0.1', 1),
+    (38, 'Connexion', '2025-01-14 13:19:55', '127.0.0.1', 1),
+    (39, 'Connexion réussie', '2025-01-14 13:19:55', '127.0.0.1', 1),
+    (40, 'Connexion', '2025-01-14 14:23:31', '127.0.0.1', 1),
+    (41, 'Connexion réussie', '2025-01-14 14:23:31', '127.0.0.1', 1),
+    (42, 'Connexion', '2025-01-14 15:27:41', '127.0.0.1', 1),
+    (43, 'Connexion réussie', '2025-01-14 15:27:41', '127.0.0.1', 1),
+    (44, 'Connexion', '2025-01-14 15:28:37', '127.0.0.1', 1),
+    (45, 'Connexion réussie', '2025-01-14 15:28:37', '127.0.0.1', 1),
+    (46, 'Connexion', '2025-01-14 15:28:49', '127.0.0.1', 1),
+    (47, 'Connexion réussie', '2025-01-14 15:28:49', '127.0.0.1', 1),
+    (48, 'Connexion', '2025-01-14 15:30:38', '127.0.0.1', 6),
+    (49, 'Connexion réussie', '2025-01-14 15:30:38', '127.0.0.1', 6),
+    (50, 'Connexion', '2025-01-14 15:30:47', '127.0.0.1', 6),
+    (51, 'Connexion réussie', '2025-01-14 15:30:47', '127.0.0.1', 6),
+    (52, 'Connexion', '2025-01-14 15:31:08', '127.0.0.1', 1),
+    (53, 'Connexion réussie', '2025-01-14 15:31:08', '127.0.0.1', 1),
                                                                                            (54, 'Inscription Employe', '2025-01-14 15:41:28', '127.0.0.1', 1),
                                                                                            (55, 'Inscription Employe', '2025-01-14 15:43:08', '127.0.0.1', 1),
                                                                                            (56, 'Inscription Employe', '2025-01-14 15:43:11', '127.0.0.1', 1),
@@ -385,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 INSERT INTO `message` (`id`, `message`, `afficher`) VALUES
                                                         (1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis dicta dolorem doloremque ullam vel. Deleniti, eos, veniam. Accusantium dolorum expedita minus quidem voluptas. Impedit nam nihil ut voluptatem voluptatum', 0),
-                                                        (2, 'Ajout d\'un nouveau Template oui', 0);
+                                                        (2, 'Ajout d un nouveau Template oui', 0);
 
 -- --------------------------------------------------------
 
