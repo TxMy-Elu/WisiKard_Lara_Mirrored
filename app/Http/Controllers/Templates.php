@@ -111,9 +111,11 @@ class Templates extends Controller
             case 1:
                 return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 2:
-                return view('Templates.fraise', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
             case 3:
-                return view('Templates.peche', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
+                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
+            case 4:
+                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
             default:
                 // Si aucun template trouvé, retourner un message JSON ou une vue vide.
                 return response()->json([
@@ -181,9 +183,9 @@ class Templates extends Controller
         // Renvoyer la bonne vue selon l'idTemplate passé dans l'URL
         switch ($idTemplate) {
             case 1:
-                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 2:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue',  'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 3:
                 return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 4:

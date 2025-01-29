@@ -534,73 +534,6 @@ class DashboardClient extends Controller
         return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath'));
     }
 
-    public function uploadFile(Request $request)
-    {
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            Log::warning('Carte non trouvée pour le téléchargement de fichier', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        // Log the request data for debugging
-        Log::info('UploadFile Request Data:', $request->all());
-
-        // Check if a logo file is uploaded
-        if ($request->hasFile('logo')) {
-            $logo = $request->file('logo');
-            $logoType = $logo->getClientOriginalExtension();
-            $mimeType = $logo->getMimeType();
-
-            // Vérifier le type MIME et l'extension
-            if (($logoType === 'jpg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'jpeg' && $mimeType === 'image/jpeg') ||
-                ($logoType === 'png' && $mimeType === 'image/png') ||
-                ($logoType === 'svg' && $mimeType === 'image/svg')) {
-
-                $logoPath = public_path("entreprises/{$folderName}/logos");
-
-                if ($request->hasFile('file')) { // PDF
-                    $file = $request->file('file');
-                    $fileType = $file->getClientOriginalExtension();
-                    $mimeType = $file->getMimeType();
-
-                    if ($fileType === 'pdf' && $mimeType === 'application/pdf') {
-                        $pdfPath = public_path("entreprises/{$folderName}/pdf");
-
-                        if (!File::exists($pdfPath)) {
-                            File::makeDirectory($pdfPath, 0755, true);
-                        }
-
-                        $existingPdf = File::files($pdfPath);
-                        if (!empty($existingPdf)) {
-                            Log::warning('Tentative de téléchargement de plus d\'un PDF', ['email' => $emailUtilisateur]);
-                            return redirect()->back()->with('error', 'Vous ne pouvez enregistrer plus de 1 PDF.');
-                        }
-
-                        $fileName = time() . '.' . $fileType;
-                        $file->move($pdfPath, $fileName);
-
-                        Log::info('Fichier PDF téléchargé avec succès', ['email' => $emailUtilisateur, 'fileName' => $fileName]);
-                        Logs::ecrireLog($emailUtilisateur, "Téléchargement PDF");
-
-                        return redirect()->route('dashboardClientPDF')->with('success', 'Fichier PDF téléchargé avec succès.');
-                    } else {
-                        Log::warning('Type de fichier ou extension non valide pour le PDF', ['email' => $emailUtilisateur]);
-                        return redirect()->back()->with('error', 'Type de fichier ou extension non valide.');
-                    }
-                } else {
-                    Log::warning('Aucun fichier téléchargé', ['email' => $emailUtilisateur]);
-                    return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
-                }
-            }
-        }
-    }
 
     public function uploadLogo(Request $request)
     {
@@ -826,38 +759,24 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Images de slider supprimées avec succès.');
     }
 
-    public function deletePDF($filename)
+    public function deletePdf()
     {
+
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-        if (!$carte) {
-            Log::warning('Carte non trouvée pour la suppression de PDF', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
+        // Remplacez 'path/to/pdf' par le chemin réel du répertoire des fichiers PDF
+        $filePath = $carte->pdf;
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $filePath = public_path("entreprises/{$folderName}/pdf/{$filename}");
-
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-
-            // Mettre à jour les champs pdf et nomBtnPdf dans la table carte
+        if (file_exists($filePath)) {
+            unlink($filePath);
             $carte->pdf = null;
             $carte->nomBtnPdf = null;
             $carte->save();
-
-            Log::info('PDF supprimée avec succès', ['email' => $emailUtilisateur, 'filename' => $filename]);
-            Logs::ecrireLog($emailUtilisateur, "Suppression PDF");
-
-            return redirect()->back()->with('success', 'PDF supprimée avec succès.');
-        } else {
-            Log::warning('PDF non trouvée pour la suppression', ['email' => $emailUtilisateur, 'filename' => $filename]);
-            return redirect()->back()->with('error', 'PDF non trouvée.');
+            return redirect()->back()->with('success', 'Fichier supprimé avec succès.');
         }
+
+        return redirect()->back()->with('error', 'Fichier introuvable.');
     }
 
     public function deleteLogo()
@@ -1213,8 +1132,8 @@ class DashboardClient extends Controller
         try {
             // Valider l'entrée de la requête
             $request->validate([
-                'pdf' => 'required|mimes:pdf|max:5120', // Limiter à 5MB et vérifier que le fichier est un PDF
-                'new_name' => 'required|string|max:255', // Valider le nom du fichier transmis
+                'pdf' => 'required|mimes:pdf', // Ensure the file is a PDF
+                'new_name' => 'required|string', // Ensure the new name is a string and is required
             ]);
 
             // Vérifier si un fichier existe déjà dans le répertoire
@@ -1258,7 +1177,8 @@ class DashboardClient extends Controller
 
         } catch (\Exception $e) {
             // Gestion des erreurs / Écriture d'un log d'erreur
-            Log::error("Erreur lors du téléchargement du PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
+            Log::error("Erreur lors du téléchargement du PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()} ");
+            Log::debug('Données soumises pour télécharger un PDF : ', $request->all());
 
             // Enregistrer une erreur en base de données
             Logs::ecrireLog($carte->compte->email, "Erreur lors du téléchargement d'un PDF");

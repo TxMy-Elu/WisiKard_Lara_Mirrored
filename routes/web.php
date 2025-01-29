@@ -60,7 +60,7 @@ Route::middleware([Authentification::class])->group(function () {
     // Gestion des PDF
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');
     Route::post('/dashboardClientPDF/uploadPdf', [DashboardClient::class, 'uploadPdf'])->name('dashboardClientPDF.uploadPdf');
-
+    Route::delete('/dashboardClientPDF/deletePdf', [DashboardClient::class, 'deletePdf'])->name('dashboardClientPDF.deletePdf');
     // Gestion des sliders
     Route::post('/dashboardClientPDF/uploadSlider', [DashboardClient::class, 'uploadSlider'])->name('dashboardClientPDF.uploadSlider');
     Route::delete('/dashboardClientPDF/deleteSliderImage', [DashboardClient::class, 'deleteSliderImage'])->name('dashboardClientPDF.deleteSliderImage');

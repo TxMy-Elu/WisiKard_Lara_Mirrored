@@ -1253,8 +1253,14 @@
   .p-10 {
     padding: calc(var(--spacing) * 10);
   }
+  .p-20 {
+    padding: calc(var(--spacing) * 20);
+  }
   .p-32 {
     padding: calc(var(--spacing) * 32);
+  }
+  .p-50 {
+    padding: calc(var(--spacing) * 50);
   }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
