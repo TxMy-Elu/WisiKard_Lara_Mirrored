@@ -1,16 +1,15 @@
 <?php
+
 use App\Http\Controllers\Connexion;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardClient;
+use App\Http\Controllers\Employe;
 use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
-use App\Http\Controllers\Employe;
 use App\Http\Controllers\Templates;
-use App\Http\Middleware\NonAuthentifie;
-use App\Http\Middleware\Authentification;
 use App\Http\Middleware\AdminMiddleware;
-
+use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques (accessibles sans authentification)
@@ -31,7 +30,10 @@ Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templat
 Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
 
 // Routes protégées par authentification
+Route::middleware([Authentification::class])->group(function () {
 
+    // Groupe réservé aux Administrateurs (après authentification)
+    Route::middleware([AdminMiddleware::class])->group(function () {
         // Dashboard Admin
         Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
         Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
@@ -41,6 +43,7 @@ Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
         Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
         Route::get('/refreshQrCode/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
         Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
+    });
 
     // Groupe réservé aux Clients (après authentification)
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
@@ -98,3 +101,4 @@ Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
 
     Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
 
+});
