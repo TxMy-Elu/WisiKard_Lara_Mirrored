@@ -111,11 +111,11 @@ class Templates extends Controller
             case 1:
                 return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 2:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 3:
-                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
+                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             case 4:
-                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions'));
+                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial'));
             default:
                 // Si aucun template trouvé, retourner un message JSON ou une vue vide.
                 return response()->json([
