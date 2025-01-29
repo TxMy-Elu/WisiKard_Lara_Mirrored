@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client</title>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
+
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 </head>
 <body class="bg-slate-100 flex flex-col min-h-screen">
 
@@ -81,7 +83,7 @@
                         }
                     @endphp
 
-                    <!-- Logo -->
+                            <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
                             <img src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}" alt="Logo"
@@ -105,20 +107,34 @@
                         <label for="font" class="text-lg font-semibold">Police</label>
                         @php
                             $fonts = [
-                                'Arial', 'Verdana', 'Helvetica', 'Tahoma', 'Trebuchet MS',
-                                'Times New Roman', 'Georgia', 'Garamond', 'Courier New', 'Brush Script MT'
-                            ];
+                                    'roboto',
+                                    'montserrat',
+                                    'oswald',
+                                    'ubuntu',
+                                    'playfair',
+                                    'work-sans',
+                                    'playwrite-india',
+                                    'bona-nova',
+                                    'exo-2',
+                                    'pacifico',
+                                    'gruppo',
+                                    'rokkitt'
+                                ];
+
                         @endphp
 
                         <select name="font" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
                             @foreach ($fonts as $font)
-                                <option value="{{ $font }}" @if($carte->font == $font) selected @endif style="font-family: '{{ $font }}';">
+                                <option value="{{ $font }}" @if($carte->font == $font) selected
+                                        @endif style="font-family: '{{ $font }}';">
                                     {{ $font }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer</button>
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
+                        Enregistrer
+                    </button>
                 </form>
             </div>
 
@@ -188,7 +204,7 @@
                 </div>
             </div>
 
-                    <!-- Horaires d'ouverture (div6) -->
+            <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ route('updateHoraires') }}" method="POST">
                     @csrf
@@ -197,18 +213,33 @@
                         <div class="flex flex-col mt-4">
                             @foreach(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as $jour)
                                 <div class="flex justify-between mt-2">
-                                    <label for="{{ $jour }}_ouverture" class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
+                                    <label for="{{ $jour }}_ouverture"
+                                           class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
                                     <div class="flex space-x-2">
-                                        <input type="time" name="{{ $jour }}_ouverture_matin" id="{{ $jour }}_ouverture_matin" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
-                                        <input type="time" name="{{ $jour }}_fermeture_matin" id="{{ $jour }}_fermeture_matin" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
-                                        <input type="time" name="{{ $jour }}_ouverture_aprmidi" id="{{ $jour }}_ouverture_aprmidi" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
-                                        <input type="time" name="{{ $jour }}_fermeture_aprmidi" id="{{ $jour }}_fermeture_aprmidi" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
+                                        <input type="time" name="{{ $jour }}_ouverture_matin"
+                                               id="{{ $jour }}_ouverture_matin"
+                                               class="w-20 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
+                                        <input type="time" name="{{ $jour }}_fermeture_matin"
+                                               id="{{ $jour }}_fermeture_matin"
+                                               class="w-20 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
+                                        <input type="time" name="{{ $jour }}_ouverture_aprmidi"
+                                               id="{{ $jour }}_ouverture_aprmidi"
+                                               class="w-20 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
+                                        <input type="time" name="{{ $jour }}_fermeture_aprmidi"
+                                               id="{{ $jour }}_fermeture_aprmidi"
+                                               class="w-20 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">Enregistrer</button>
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
+                        Enregistrer
+                    </button>
                 </form>
             </div>
 
@@ -226,7 +257,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1" class="w-96 h-[750px] rounded-lg"></iframe>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
+                                        class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template2" value="2"
@@ -234,7 +266,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2" class="w-96 h-[750px] rounded-lg"></iframe>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                        class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template3" value="3"
@@ -242,7 +275,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3" class="w-96 h-[750px] rounded-lg"></iframe>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                        class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template4" value="4"
