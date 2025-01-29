@@ -59,37 +59,37 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-public function updateHoraires(Request $request)
+  public function updateHoraires(Request $request)
     {
         $request->validate([
-            'lundi_ouverture' => 'nullable|date_format:H:i',
-            'lundi_fermeture' => 'nullable|date_format:H:i',
-            'mardi_ouverture' => 'nullable|date_format:H:i',
-            'mardi_fermeture' => 'nullable|date_format:H:i',
-            'mercredi_ouverture' => 'nullable|date_format:H:i',
-            'mercredi_fermeture' => 'nullable|date_format:H:i',
-            'jeudi_ouverture' => 'nullable|date_format:H:i',
-            'jeudi_fermeture' => 'nullable|date_format:H:i',
-            'vendredi_ouverture' => 'nullable|date_format:H:i',
-            'vendredi_fermeture' => 'nullable|date_format:H:i',
-            'samedi_ouverture' => 'nullable|date_format:H:i',
-            'samedi_fermeture' => 'nullable|date_format:H:i',
-            'dimanche_ouverture' => 'nullable|date_format:H:i',
-            'dimanche_fermeture' => 'nullable|date_format:H:i',
-            'lundi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'lundi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
-            'mardi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'mardi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
-            'mercredi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'mercredi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
-            'jeudi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'jeudi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
-            'vendredi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'vendredi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
-            'samedi_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'samedi_tranche_midi_fermeture' => 'nullable|date_format:H:i',
-            'dimanche_tranche_midi_ouverture' => 'nullable|date_format:H:i',
-            'dimanche_tranche_midi_fermeture' => 'nullable|date_format:H:i',
+            'lundi_ouverture_matin' => 'nullable|date_format:H:i',
+            'lundi_fermeture_matin' => 'nullable|date_format:H:i',
+            'lundi_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'lundi_fermeture_aprmidi' => 'nullable|date_format:H:i',
+            'mardi_ouverture_matin' => 'nullable|date_format:H:i',
+            'mardi_fermeture_matin' => 'nullable|date_format:H:i',
+            'mardi_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'mardi_fermeture_aprmidi' => 'nullable|date_format:H:i',
+            'mercredi_ouverture_matin' => 'nullable|date_format:H:i',
+            'mercredi_fermeture_matin' => 'nullable|date_format:H:i',
+            'mercredi_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'mercredi_fermeture_aprmidi' => 'nullable|date_format:H:i',
+            'jeudi_ouverture_matin' => 'nullable|date_format:H:i',
+            'jeudi_fermeture_matin' => 'nullable|date_format:H:i',
+            'jeudi_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'jeudi_fermeture_aprmidi' => 'nullable|date_format:H:i',
+            'vendredi_ouverture_matin' => 'nullable|date_format:H:i',
+            'vendredi_fermeture_matin' => 'nullable|date_format:H:i',
+            'vendredi_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'vendredi_fermeture_aprmidi' => 'nullable|date_format:H:i',
+            'samedi_ouverture_matin' => 'nullable|date_format:H:i',
+            'samedi_fermeture_matin' => 'nullable|date_format:H:i',
+            'samedi_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'samedi_fermeture_aprmidi' => 'nullable|date_format:H:i',
+            'dimanche_ouverture_matin' => 'nullable|date_format:H:i',
+            'dimanche_fermeture_matin' => 'nullable|date_format:H:i',
+            'dimanche_ouverture_aprmidi' => 'nullable|date_format:H:i',
+            'dimanche_fermeture_aprmidi' => 'nullable|date_format:H:i',
         ]);
 
         $idCompte = session('connexion');
@@ -107,10 +107,10 @@ public function updateHoraires(Request $request)
             $horaire = Horaires::updateOrCreate(
                 ['idCarte' => $carte->idCarte, 'jour' => $jour],
                 [
-                    'ouverture' => $request->input($jour . '_ouverture'),
-                    'fermeture' => $request->input($jour . '_fermeture'),
-                    'tranche_midi_ouverture' => $request->input($jour . '_tranche_midi_ouverture'),
-                    'tranche_midi_fermeture' => $request->input($jour . '_tranche_midi_fermeture'),
+                    'ouverture_matin' => $request->input($jour . '_ouverture_matin'),
+                    'fermeture_matin' => $request->input($jour . '_fermeture_matin'),
+                    'ouverture_aprmidi' => $request->input($jour . '_ouverture_aprmidi'),
+                    'fermeture_aprmidi' => $request->input($jour . '_fermeture_aprmidi'),
                 ]
             );
         }
@@ -120,6 +120,8 @@ public function updateHoraires(Request $request)
 
         return redirect()->back()->with('success', 'Horaires mis à jour avec succès.');
     }
+
+
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);

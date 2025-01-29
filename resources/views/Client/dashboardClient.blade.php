@@ -199,10 +199,13 @@
                                 <div class="flex justify-between mt-2">
                                     <label for="{{ $jour }}_ouverture" class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
                                     <div class="flex space-x-2">
-                                        <input type="time" name="{{ $jour }}_ouverture_matin" id="{{ $jour }}_ouverture_matin" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
-                                        <input type="time" name="{{ $jour }}_fermeture_matin" id="{{ $jour }}_fermeture_matin" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
-                                        <input type="time" name="{{ $jour }}_ouverture_aprmidi" id="{{ $jour }}_ouverture_aprmidi" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
-                                        <input type="time" name="{{ $jour }}_fermeture_aprmidi" id="{{ $jour }}_fermeture_aprmidi" class="w-20 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
+                                        <input type="time" name="{{ $jour }}_ouverture_matin" id="{{ $jour }}_ouverture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
+                                        <p class="p-4 texte-center">:</p>
+                                        <input type="time" name="{{ $jour }}_fermeture_matin" id="{{ $jour }}_fermeture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
+                                          <p class="p-4 texte-center">&</p>
+                                        <input type="time" name="{{ $jour }}_ouverture_aprmidi" id="{{ $jour }}_ouverture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
+                                         <p class="p-4 texte-center">:</p>
+                                        <input type="time" name="{{ $jour }}_fermeture_aprmidi" id="{{ $jour }}_fermeture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
                                     </div>
                                 </div>
                             @endforeach
