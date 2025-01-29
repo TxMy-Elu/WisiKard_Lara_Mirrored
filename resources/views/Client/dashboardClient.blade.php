@@ -206,32 +206,32 @@
 
             <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
-                <form action="{{ route('updateHoraires') }}" method="POST">
-                    @csrf
-                    <div class="flex flex-col">
-                        <label for="horaires" class="text-lg font-semibold">Horaires d'ouverture</label>
-                        <div class="flex flex-col mt-4">
-                            @foreach(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as $jour)
-                                <div class="flex justify-between mt-2">
-                                    <label for="{{ $jour }}_ouverture"
-                                           class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
-                                    <div class="flex space-x-2">
-                                        <input type="time" name="{{ $jour }}_ouverture_matin" id="{{ $jour }}_ouverture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
-                                        <p class="p-4 texte-center">:</p>
-                                        <input type="time" name="{{ $jour }}_fermeture_matin" id="{{ $jour }}_fermeture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
-                                          <p class="p-4 texte-center">&</p>
-                                        <input type="time" name="{{ $jour }}_ouverture_aprmidi" id="{{ $jour }}_ouverture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
+                 <form action="{{ route('updateHoraires') }}" method="POST">
+                     @csrf
+                     <div class="flex flex-col">
+                         <label for="horaires" class="text-lg font-semibold">Horaires d'ouverture</label>
+                         <div class="flex flex-col mt-4">
+                             @foreach(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as $jour)
+                                 <div class="flex justify-between mt-2">
+                                     <label for="{{ $jour }}_ouverture" class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
+                                     <div class="flex space-x-2">
+                                         <input type="time" name="{{ $jour }}_ouverture_matin" id="{{ $jour }}_ouverture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
                                          <p class="p-4 texte-center">:</p>
-                                        <input type="time" name="{{ $jour }}_fermeture_aprmidi" id="{{ $jour }}_fermeture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
-                        Enregistrer
-                    </button>
-                </form>
+                                         <input type="time" name="{{ $jour }}_fermeture_matin" id="{{ $jour }}_fermeture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
+                                         <p class="p-4 texte-center">&</p>
+                                         <input type="time" name="{{ $jour }}_ouverture_aprmidi" id="{{ $jour }}_ouverture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
+                                         <p class="p-4 texte-center">:</p>
+                                         <input type="time" name="{{ $jour }}_fermeture_aprmidi" id="{{ $jour }}_fermeture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
+                                     </div>
+                                 </div>
+                             @endforeach
+                         </div>
+                     </div>
+                     <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
+                         Enregistrer
+                     </button>
+                 </form>
+
             </div>
 
             <!-- Template Selection (div4) -->
