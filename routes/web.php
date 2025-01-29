@@ -72,10 +72,14 @@ Route::middleware([Authentification::class])->group(function () {
     Route::delete('/dashboardClientPDF/deleteImage/{filename}', [DashboardClient::class, 'deleteImage'])->name('dashboardClientPDF.deleteImage');
     //UrlRDV
     Route::post('/dashboardClientPDF/urlsrdv', [DashboardClient::class, 'urlsrdv'])->name('dashboardClientPDF.urlsrdv');
-    Route::delete('/dashboardClientPDF/deleteRDV/{index}', [DashboardClient::class, 'deleteRDV'])->name('dashboardClientPDF.deleteRDV');
+    Route::delete('/dashboardClientPDF/deleteRDV', [DashboardClient::class, 'deleteRDV'])->name('dashboardClientPDF.deleteRDV');
     //Logo
     Route::delete('/dashboardClientPDF/deleteLogo', [DashboardClient::class, 'deleteLogo'])->name('dashboardClientPDF.deleteLogo');
     Route::post('/dashboardClientPDF/uploadLogo', [DashboardClient::class, 'uploadLogo'])->name('dashboardClientPDF.uploadLogo');
+
+    //Avis
+    Route::post('/dashboardClientPDF/uploadAvis', [DashboardClient::class, 'uploadAvis'])->name('dashboardClientPDF.uploadAvis');
+    Route::delete('/dashboardClientPDF/deleteAvis', [DashboardClient::class, 'deleteAvis'])->name('dashboardClientPDF.deleteAvis');
 
     // Personnalisation des Clients
     Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');

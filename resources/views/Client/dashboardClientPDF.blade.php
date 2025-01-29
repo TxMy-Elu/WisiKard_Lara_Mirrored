@@ -30,7 +30,7 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-4 grid-rows-9 gap-1">
+        <div class="grid grid-cols-4 grid-rows-8 gap-5">
 
             <!-- Formulaire logo div1 -->
             <div class="bg-white rounded-lg shadow-md col-span-2 row-span-2 p-6 h-96 flex flex-col">
@@ -70,8 +70,10 @@
                         <p class="text-sm text-gray-500 mt-2">Aperçu du logo actuel</p>
                     </div>
                 </div>
+                @if($carte->logo)
                 <!-- delete du logo -->
-                <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST" class="mt-4 w-full flex justify-end">
+                <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST"
+                      class="mt-4 w-full flex justify-end">
                     @csrf
                     @method('DELETE')
 
@@ -79,6 +81,7 @@
                         Supprimer
                     </button>
                 </form>
+                @endif
             </div>
 
             <!-- Formulaire PDF div2 -->
@@ -89,16 +92,16 @@
                     <form id="uploadForm" action="{{ route('dashboardClientPDF.uploadPdf') }}"
                           method="POST"
                           enctype="multipart/form-data" class="space-y-4 w-full md:w-1/2 flex flex-col justify-between">
-                    @csrf <!-- Obligatoire pour sécuriser la requête -->
+                        @csrf <!-- Obligatoire pour sécuriser la requête -->
 
-                    <div>
-                        <label for="pdf" class="block text-sm font-medium text-gray-600 mb-2">
-                            Sélectionner un PDF :
-                        </label>
-                        <input type="file" id="pdf" name="pdf"
-                               class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
-                               accept=".pdf" required>
-                    </div>
+                        <div>
+                            <label for="pdf" class="block text-sm font-medium text-gray-600 mb-2">
+                                Sélectionner un PDF :
+                            </label>
+                            <input type="file" id="pdf" name="pdf"
+                                   class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                   accept=".pdf" required>
+                        </div>
 
                     <div class="flex justify-end">
                         <button type="button"
@@ -111,14 +114,11 @@
                                     <img src="{{ $carte->lienQr }}"
                                          alt="QR Code" class="w-30 max-30-xs">
                                 </div>
-                                    <div class="flex justify-end">
-                                    </div>
-
-
                     </form>
 
                     <!-- Modale pour demander le nouveau nom -->
-                    <div id="nameModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900/80 z-50">
+                    <div id="nameModal"
+                         class="hidden fixed inset-0 flex items-center justify-center bg-gray-900/80 z-50">
                         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
                             <h2 class="text-lg font-medium text-gray-800 mb-4">Renommez le fichier</h2>
                             <p class="text-sm text-gray-600">Entrez un nouveau nom pour le fichier PDF :</p>
@@ -151,7 +151,9 @@
 
                 <!-- delete du PDF -->
 
-                <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST" class="mt-4 w-full flex justify-end">
+                   @if($carte->pdf)
+                <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
+                      class="mt-4 w-full flex justify-end">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
@@ -159,12 +161,13 @@
                         Supprimer
                     </button>
                 </form>
+                @endif
 
 
             </div>
 
             <!-- Formulaire YouTube div3 -->
-            <div class="bg-white rounded-lg shadow-md col-span-3 row-span-3 p-6 h-auto flex flex-col">
+            <div class="bg-white rounded-lg shadow-md col-span-2 row-span-3 p-6 h-auto flex flex-col">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
                 <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
                       enctype="multipart/form-data"
@@ -191,7 +194,7 @@
                     <div class="my-4 grow">
                         <div class="flex flex-nowrap gap-4 overflow-x-auto">
                             @foreach($youtubeUrls as $index => $youtubeUrl)
-                                <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center h-auto w-[300px]">
+                                <div class="bg-gray-100 p-6 rounded-md shadow-lg mb-2 flex flex-col items-center h-auto w-[300px] ">
                                     <!-- Conteneur de l'iframe (ajusté à la carte) -->
                                     <div class="w-full flex justify-center items-center">
                                         <iframe
@@ -219,6 +222,60 @@
                     <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
                 @endif
             </div>
+
+            <!-- div 6 -->
+            <!-- input lien avis google -->
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien Avis Google</h2>
+                <form action="{{ route('dashboardClientPDF.uploadAvis') }}" method="POST" enctype="multipart/form-data"
+                      class="space-y-4">
+                    @csrf
+                    <div>
+                        <label for="avis_google" class="block text-sm font-medium text-gray-600 mb-2">
+                            URL de l'avis Google :
+                        </label>
+                        <input type="url" id="avis_google" name="avis_google"
+                               class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                               placeholder="https://www.google.com/...">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+                <h2 class="text-xl font-bold mb-2">Lien Avis Google enregistré</h2>
+                <!-- Afficher l'URL de l'avis Google sous le bouton "Enregistrer" -->
+
+                @if($carte->lienAvis)
+                    <div class="mt-4 w-auto h-auto">
+                        <div class="bg-white p-4 rounded-lg shadow
+                        -md relative w-auto h-auto">
+                            <div class="video-container w-auto h-auto">
+                                <a href="{{$carte->lienAvis}}" class="text-blue-500 underline"
+                                   target="_blank">Lien Google Avis</a>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien d'avis Google enregistré.</p>
+                @endif
+
+                @if($carte->lienAvis)
+                    <!-- btn sup lien -->
+                    <form action="{{ route('dashboardClientPDF.deleteAvis') }}" method="POST"
+                          class="mt-4 w-full flex justify-end">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                            Supprimer
+                        </button>
+                    </form>
+                @endif
+
+            </div>
+
 
             <!-- div4 -->
             <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
@@ -252,8 +309,21 @@
                             </div>
                         </div>
                     </div>
+                @else
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de RDV enregistré.</p>
                 @endif
 
+                @if($carte->LienCommande)
+                    <!-- btn sup lien -->
+                    <form action="{{ route('dashboardClientPDF.deleteRDV') }}" method="POST"
+                          class="mt-4 w-full flex justify-end">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                            Supprimer
+                        </button>
+                    </form>
+                @endif
 
             </div>
 
@@ -310,11 +380,12 @@
                                             @method('DELETE')
                                             <input type="hidden" name="filename" value="{{ $image }}">
                                             <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-lg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                     viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-9a1 1 0 00-2 0v5a1 1 0 102 0v-5zm-2-3a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
-                                                          clip-rule="evenodd"/>
+                                                <!-- svg poubelle -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </button>
                                         </form>

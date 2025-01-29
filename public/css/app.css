@@ -969,6 +969,12 @@
   .grid-rows-5 {
     grid-template-rows: repeat(5, minmax(0, 1fr));
   }
+  .grid-rows-7 {
+    grid-template-rows: repeat(7, minmax(0, 1fr));
+  }
+  .grid-rows-8 {
+    grid-template-rows: repeat(8, minmax(0, 1fr));
+  }
   .grid-rows-9 {
     grid-template-rows: repeat(9, minmax(0, 1fr));
   }
@@ -1098,6 +1104,10 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .border-1 {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
   .border-2 {
     border-style: var(--tw-border-style);
     border-width: 2px;
@@ -1141,6 +1151,9 @@
   .border-zinc-400 {
     border-color: var(--color-zinc-400);
   }
+  .border-b-zinc-800\/25 {
+    border-bottom-color: color-mix(in oklab, var(--color-zinc-800) 25%, transparent);
+  }
   .bg-\[\#9b8a7f\] {
     background-color: #9b8a7f;
   }
@@ -1149,6 +1162,9 @@
   }
   .bg-black {
     background-color: var(--color-black);
+  }
+  .bg-blue-200 {
+    background-color: var(--color-blue-200);
   }
   .bg-blue-500 {
     background-color: var(--color-blue-500);
@@ -1191,6 +1207,15 @@
   }
   .bg-slate-100 {
     background-color: var(--color-slate-100);
+  }
+  .bg-slate-200 {
+    background-color: var(--color-slate-200);
+  }
+  .bg-slate-300 {
+    background-color: var(--color-slate-300);
+  }
+  .bg-slate-700 {
+    background-color: var(--color-slate-700);
   }
   .bg-transparent {
     background-color: transparent;
