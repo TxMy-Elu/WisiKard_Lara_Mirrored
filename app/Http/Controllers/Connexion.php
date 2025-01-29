@@ -87,9 +87,11 @@ class Connexion extends Controller
 
             if ($utilisateur->role === 'admin') {
                 return redirect()->route('dashboardAdmin');
+            } elseif ($utilisateur->role === 'starter' || $utilisateur->role === 'advanced') {
+                return redirect()->route('dashboardClient');
             } else {
-                $id = $utilisateur->idCompte;
-                return redirect()->route('dashboardClient')->send();
+                $messagesErreur[] = "Votre rôle est non autorisé.";
+                return view('formulaire.formulaireConnexion', ["messagesErreur" => $messagesErreur]);
             }
         } else {
             if (isset($utilisateur)) {

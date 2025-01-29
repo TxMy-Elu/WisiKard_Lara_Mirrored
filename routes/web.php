@@ -31,10 +31,7 @@ Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templat
 Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
 
 // Routes protégées par authentification
-Route::middleware([Authentification::class])->group(function () {
 
-    // Groupe réservé aux Administrateurs (AdminMiddleware)
-    Route::middleware([AdminMiddleware::class])->group(function () {
         // Dashboard Admin
         Route::get('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
         Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
@@ -44,7 +41,6 @@ Route::middleware([Authentification::class])->group(function () {
         Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
         Route::get('/refreshQrCode/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
         Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
-    });
 
     // Groupe réservé aux Clients (après authentification)
     Route::get('/dashboardClient', [DashboardClient::class, 'afficherDashboardClient'])->name('dashboardClient');
@@ -100,5 +96,5 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/employe/{id}/edit', [Employe::class, 'edit'])->name('employe.edit');
     Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
 
-    Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
-});
+    // Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
+
