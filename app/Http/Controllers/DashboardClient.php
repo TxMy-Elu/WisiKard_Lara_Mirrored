@@ -1265,5 +1265,49 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Police mise à jour avec succès.');
     }
 
+    public function uploadAvis(Request $request)
+    {
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if (!$carte) {
+            Log::warning('Carte non trouvée pour le téléchargement d\'avis', ['email' => $emailUtilisateur]);
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        $carte->lienAvis = $request->avis_google;
+        $carte->save();
+
+        return redirect()->back()->with('success', 'Avis enregistré avec succès.');
+    }
+
+    public function deleteAvis()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if ($carte) {
+            $carte->lienAvis = null;
+            $carte->save();
+            return redirect()->back()->with('success', 'Avis supprimé avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Carte non trouvée.');
+    }
+
+    public function deleteRDV()
+    {
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
+        if ($carte) {
+            $carte->LienCommande = null;
+            $carte->save();
+            return redirect()->back()->with('success', 'Lien RDV supprimé avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Carte non trouvée.');
+    }
 
 }
