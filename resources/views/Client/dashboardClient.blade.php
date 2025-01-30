@@ -160,7 +160,7 @@
                 <label for="font" class="text-lg font-semibold">Votre WisiCode</label>
                 <div class="mb-4 flex flex-col items-center">
                     <img src="{{ $carte->lienQr }}"
-                         alt="QR Code" class="w-full max-w-xs">
+                         alt="QR Code" class="w-full max-w-xs rounded-2xl">
                 </div>
 
 
