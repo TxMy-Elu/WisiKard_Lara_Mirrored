@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `lienQr` varchar(500) NOT NULL,
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
+    `lienPdf` varchar(150) DEFAULT NULL,
     PRIMARY KEY (`idCarte`),
     KEY `carte_compte_FK` (`idCompte`),
     KEY `carte_template_FK` (`idTemplate`)

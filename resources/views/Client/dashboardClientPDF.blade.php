@@ -109,11 +109,7 @@
                         Enregistrer
                         </button>
                     </div>
-                  <!-- QR Code Image -->
-                                <div class="mb-4 flex flex-col items-center">
-                                    <img src="{{ $carte->lienQr }}"
-                                         alt="QR Code" class="w-30 max-30-xs">
-                                </div>
+
                     </form>
 
                     <!-- Modale pour demander le nouveau nom -->

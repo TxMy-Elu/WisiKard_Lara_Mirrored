@@ -165,10 +165,12 @@
                     <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full">
                         Enregistrer
                     </button>
+
+
                 </form>
 
                 <div class="flex justify-center items-center text-center bg-white rounded-lg shadow-lg mx-auto my-2 w-full p-2 mt-4 border border-gray-1200">
-                    <p class="font-bold text-xl">Télécharger</p>
+                    <p class="font-bold text-xl">Télécharger Qr Codes</p>
                 </div>
 
                 <!-- Download Buttons -->
@@ -201,8 +203,43 @@
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                     </a>
-                </div>
-            </div>
+                  </div>
+                        <div class="flex justify-center items-center text-center bg-white rounded-lg shadow-lg mx-auto my-2 w-full p-2 mt-4 border border-gray-1200">
+                            <p class="font-bold text-xl">Télécharger QR Codes</p>
+                        </div>
+
+                        <!-- Download Buttons -->
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <a href="{{ route('download.qrcode.pdf.color') }}"
+                               class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                                Couleur
+                                <!-- Espace entre le texte et le SVG -->
+                                <span class="ml-2"></span>
+                                <!-- Download svg -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="feather feather-download">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                            <a href="{{ route('download.qrcode.pdf') }}"
+                               class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                                Noir / Blanc
+                                <!-- Espace entre le texte et le SVG -->
+                                <span class="ml-2"></span>
+                                <!-- Download svg -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="feather feather-download">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </div>
+                 </div>
 
             <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
