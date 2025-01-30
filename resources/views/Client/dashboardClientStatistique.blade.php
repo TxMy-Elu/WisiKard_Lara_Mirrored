@@ -89,7 +89,7 @@
         <div class="col-span-2 row-span-1"></div>
 
         <!-- divStat4 (Graphique par employés) -->
-        <div class="col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 flex flex-col items-center justify-center">
+        <div class="col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 flex flex-col items-center justify-center @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
             <div class="text-center mb-4">
                 <p class="font-bold text-2xl">Nombres de vues</p>
                 <p class="text-xl">Par employes</p>

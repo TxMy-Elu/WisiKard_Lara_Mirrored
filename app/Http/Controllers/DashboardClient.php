@@ -105,6 +105,8 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+
+        $compte = Compte::where('idCompte', $idCompte)->first();
         $search = $request->input('search');
         $employes = Employer::with('carte')->join('carte', 'employer.idCarte', '=', 'carte.idCarte')
             ->where('carte.idCompte', $idCompte)
@@ -126,7 +128,8 @@ class DashboardClient extends Controller
 
         return view('client.dashboardClientEmploye', [
             'employes' => $employes,
-            'search' => $search
+            'search' => $search,
+            'compte' => $compte
         ]);
     }
 
@@ -246,6 +249,8 @@ class DashboardClient extends Controller
     {
         $session = session('connexion');
         $emailUtilisateur = Compte::find($session)->email; // Récupérer l'email de l'utilisateur connecté
+        $idCompte = session('connexion');
+        $compte = Compte::where('idCompte', $idCompte)->first();
         $year = $request->query('year', date('Y'));
         $selectedWeek = $request->input('week', date('W'));
         $selectedMonth = $request->input('month', date('n'));
@@ -340,7 +345,7 @@ class DashboardClient extends Controller
             ],
         ];
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData'));
+        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData', 'compte'));
     }
 
     public function afficherFormulaireModifEmpl($id)
@@ -472,6 +477,8 @@ class DashboardClient extends Controller
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
 
+        $compte = Compte::where('idCompte', $idCompte)->first();
+
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
@@ -505,7 +512,7 @@ class DashboardClient extends Controller
             }
         }
 
-        return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath'));
+        return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
 
