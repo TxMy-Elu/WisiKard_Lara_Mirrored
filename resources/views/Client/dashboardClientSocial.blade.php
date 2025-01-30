@@ -29,7 +29,7 @@
                     <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
                         <div class="flex items-center mb-4">
                             {!! $reseau->lienLogo !!}
-                            <p class="text-lg font-semibold ml-2">{{ $reseau->nom }}</p>
+                            <p class="text-lg font-semibold ml-2 text-gray-800">{{ $reseau->nom }}</p>
                         </div>
                         <form action="{{ route('client.updateSocialLink') }}" method="POST" class="flex flex-col">
                             @csrf
@@ -81,7 +81,7 @@
                         @csrf
                         @method('POST')
                         <div class="flex flex-col mb-4">
-                            <label for="nom" class="text-lg mb-2">Nom du réseau social:</label>
+                            <label for="nom" class="text-lg mb-2 text-gray-800">Nom du réseau social:</label>
                             <input type="text" name="nom" id="nom" class="border border-gray-300 p-2 rounded w-full"
                                    placeholder="Nom du réseau social">
                         </div>
@@ -110,7 +110,7 @@
                 @foreach($custom as $link)
                     <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
                         <div class="flex items-center mb-4">
-                            <p class="text-lg font-semibold ml-2">{{ $link->nom }}</p>
+                            <p class="text-lg font-semibold ml-2 text-gray-800">{{ $link->nom }}</p>
                         </div>
                         <form action="{{ route('activeSocialLink') }}" method="POST" class="flex flex-col">
                             @csrf
