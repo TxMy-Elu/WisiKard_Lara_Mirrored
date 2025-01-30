@@ -79,8 +79,6 @@
                             <div class="pt-4">
                                 <div class="bg-violet-500/65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Advanced</p>
-
-
                                 </div>
                             </div>
                         @endif

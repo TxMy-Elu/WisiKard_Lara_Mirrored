@@ -72,11 +72,11 @@ CREATE TABLE IF NOT EXISTS `carte` (
 --
 
 INSERT INTO `carte` (`idCarte`, `nomEntreprise`, `titre`, `tel`, `ville`, `imgPres`, `imgLogo`, `pdf`, `nomBtnPdf`, `couleur1`, `couleur2`, `descriptif`, `LienCommande`, `lienQr`, `idCompte`, `idTemplate`) VALUES
-    (1, 'LIDL', 'Titre1', '123456789044', 'OuiOui', 'imgPres1.jpg', 'imgLogo1.jpg', 'pdf1.pdf', 'Télécharger', '#ff0000', '#12173b', 'Description1', 'http://liencommande1.com', '/entreprises/1_LIDL/QR_Codes/QR_Code.svg', 1, 3),
-    (2, 'Entreprise2', 'Titre2', '987654321', 'Ville2', 'imgPres2.jpg', 'imgLogo2.jpg', 'pdf2.pdf', 'Télécharger', '#FF0000', '#00FF00', 'Description2', 'http://liencommande2.com', '/entreprises/2_Entreprise2/QR_Codes/QR_Code.svg', 2, 2),
-    (3, 'Entreprise3', 'Titre3', '111223344', 'Ville3', 'imgPres3.jpg', 'imgLogo3.jpg', 'pdf3.pdf', 'Télécharger', '#00FFFF', '#FF00FF', 'Description3', 'http://liencommande3.com', '/entreprises/3_Entreprise3/QR_Codes/QR_Code.svg', 3, 3),
-    (4, 'Entreprise4', 'Titre4', '443322111', 'Ville4', 'imgPres4.jpg', 'imgLogo4.jpg', 'pdf4.pdf', 'Télécharger', '#FFFF00', '#00FFFF', 'Description4', 'http://liencommande4.com', '/entreprises/4_Entreprise4/QR_Codes/QR_Code.svg', 4, 2),
-    (9, 'nomEntreprise', 'titre', 'tel', 'ville', NULL, NULL, NULL, NULL, '#000000', '#FFFFFF', NULL, NULL, '/entreprises/14_nomEntreprise/QR_Codes/QR_Code.svg', 14, 1);
+    (1, 'LIDL', 'Titre1', '123456789044', 'OuiOui', 'imgPres1.jpg', 'imgLogo1.jpg', 'pdf1.pdf', 'Télécharger', '#ff0000', '#12173b', 'Description1', 'http://liencommande1.com', '/entreprises/1_LIDL/QR_Codes/QR_Code.svg', 1, 3,'https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/pdf=entreprises/1_lidl/pdf/boudou.pdf'),
+    (2, 'Entreprise2', 'Titre2', '987654321', 'Ville2', 'imgPres2.jpg', 'imgLogo2.jpg', 'pdf2.pdf', 'Télécharger', '#FF0000', '#00FF00', 'Description2', 'http://liencommande2.com', '/entreprises/2_Entreprise2/QR_Codes/QR_Code.svg', 2, 2,NULL),
+    (3, 'Entreprise3', 'Titre3', '111223344', 'Ville3', 'imgPres3.jpg', 'imgLogo3.jpg', 'pdf3.pdf', 'Télécharger', '#00FFFF', '#FF00FF', 'Description3', 'http://liencommande3.com', '/entreprises/3_Entreprise3/QR_Codes/QR_Code.svg', 3, 3,NULL),
+    (4, 'Entreprise4', 'Titre4', '443322111', 'Ville4', 'imgPres4.jpg', 'imgLogo4.jpg', 'pdf4.pdf', 'Télécharger', '#FFFF00', '#00FFFF', 'Description4', 'http://liencommande4.com', '/entreprises/4_Entreprise4/QR_Codes/QR_Code.svg', 4, 2,NULL),
+    (9, 'nomEntreprise', 'titre', 'tel', 'ville', NULL, NULL, NULL, NULL, '#000000', '#FFFFFF', NULL, NULL, '/entreprises/14_nomEntreprise/QR_Codes/QR_Code.svg', 14, 1,NULL);
 
 -- --------------------------------------------------------
 
