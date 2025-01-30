@@ -89,7 +89,7 @@
                             <div class="flex justify-between">
                                 <div class="flex flex-col">
                                     <div class="mb-4">
-                                        <p class="text-xl font-semibold">{{ $employe->nom }}</p>
+                                        <p class="text-xl font-semibold text-gray-800">{{ $employe->nom }}</p>
                                     </div>
                                     <div class="mb-4">
                                         <p class="text-lg text-gray-600">{{ $employe->prenom }}</p>

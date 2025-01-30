@@ -20,43 +20,70 @@
                              width="40" height="40">
                     </li>
                     <div class="mt-14">
-                        <li class="nav-item mb-8">
-                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClient') }}" title="Accueil">
+                        <!-- Tooltip Exemple -->
+                        <li class="nav-item mb-8 relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
                                 <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="35" height="35">
                             </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Accueil
+                            </div>
                         </li>
-                        <li class="nav-item mb-8">
-                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientStatistique') }}" title="Statistiques">
+                        <li class="nav-item mb-8 relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
                                 <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
                             </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Statistiques
+                            </div>
                         </li>
-                        <li class="nav-item mb-8">
-                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientSocial') }}" title="Réseaux Sociaux">
+                        <li class="nav-item mb-8 relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientSocial') }}">
                                 <img src="{{ asset('icons/share-2.svg') }}" alt="social" width="35" height="35">
                             </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Réseaux Sociaux
+                            </div>
                         </li>
-                        <li class="nav-item mb-8">
-                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientEmploye')}}" title="Employés">
+                        <li class="nav-item mb-8 relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye') }}">
                                 <img src="{{ asset('icons/user.svg') }}" alt="user" width="35" height="35">
                             </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Employés
+                            </div>
                         </li>
-                        <li class="nav-item mb-8">
-                            <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardClientPDF') }}" title="Contenu">
+                        <li class="nav-item mb-8 relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientPDF') }}">
                                 <img src="{{ asset('icons/image.svg') }}" alt="image" width="35" height="35">
                             </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Contenu
+                            </div>
                         </li>
                     </div>
                 </ul>
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
-                    <li class="nav-item mb-8">
-                        <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('deconnexion') }}" title="Déconnexion">
+                    <li class="nav-item mb-8 relative group">
+                        <a class="nav-link p-2 hover:text-red-500" href="{{ route('deconnexion') }}">
                             <img src="{{ asset('icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
                         </a>
+                        <!-- Tooltip -->
+                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                            Déconnexion
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+</div>
+
 
     <button class="block lg:hidden px-3 py-2 my-4 border rounded text-gray-700 border-gray-700" type="button"
             id="navbarToggleButton" onclick="toggleNavbar()">

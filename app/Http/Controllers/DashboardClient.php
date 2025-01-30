@@ -1202,11 +1202,12 @@ class DashboardClient extends Controller
     }
   public function downloadQrCodesPDFColor()
     {
-        // Récupérer l'ID de la carte (vous pouvez ajuster cela en fonction de votre logique)
-        $carteId = 1; // Exemple d'ID de carte
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
         // Récupérer la carte à partir de la base de données
-        $carte = Carte::find($carteId);
+        $carte = Carte::find($carte->idCarte);
 
         if (!$carte || !$carte->lienPdf) {
             return redirect()->back()->with('error', 'QR code PDF not found.');
@@ -1223,11 +1224,12 @@ class DashboardClient extends Controller
 
     public function downloadQrCodesPDF()
     {
-        // Récupérer l'ID de la carte (vous pouvez ajuster cela en fonction de votre logique)
-        $carteId = 1; // Exemple d'ID de carte
+
+        $idCompte = session('connexion');
+        $carte = Carte::where('idCompte', $idCompte)->first();
 
         // Récupérer la carte à partir de la base de données
-        $carte = Carte::find($carteId);
+        $carte = Carte::find($carte->idCarte);
 
         if (!$carte || !$carte->lienPdf) {
             return redirect()->back()->with('error', 'QR code PDF not found.');

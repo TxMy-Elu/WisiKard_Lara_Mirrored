@@ -71,16 +71,16 @@
                     </div>
                 </div>
                 @if($carte->logo)
-                <!-- delete du logo -->
-                <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST"
-                      class="mt-4 w-full flex justify-end">
-                    @csrf
-                    @method('DELETE')
+                    <!-- delete du logo -->
+                    <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST"
+                          class="mt-4 w-full flex justify-end">
+                        @csrf
+                        @method('DELETE')
 
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
-                        Supprimer
-                    </button>
-                </form>
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                            Supprimer
+                        </button>
+                    </form>
                 @endif
             </div>
 
@@ -103,12 +103,13 @@
                                    accept=".pdf" required>
                         </div>
 
-                    <div class="flex justify-end">
-                        <button type="button"
-                                onclick="openModalPdf()" class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Enregistrer
-                        </button>
-                    </div>
+                        <div class="flex justify-end">
+                            <button type="button"
+                                    onclick="openModalPdf()"
+                                    class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                Enregistrer
+                            </button>
+                        </div>
 
                     </form>
 
@@ -147,77 +148,97 @@
 
                 <!-- delete du PDF -->
 
-                   @if($carte->pdf)
-                <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
-                      class="mt-4 w-full flex justify-end">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
-                        Supprimer
-                    </button>
-                </form>
+                @if($carte->pdf)
+                    <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
+                          class="mt-4 w-full flex justify-end">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                            Supprimer
+                        </button>
+                    </form>
                 @endif
 
 
             </div>
 
             <!-- Formulaire YouTube div3 -->
-            <div class="bg-white rounded-lg shadow-md col-span-2 row-span-3 p-6 h-auto flex flex-col
-            @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
-                <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
-                      enctype="multipart/form-data"
-                      class="space-y-4">
-                    @csrf
-                    <div>
-                        <label for="youtube_url" class="block text-sm font-medium text-gray-600 mb-2">
-                            URL YouTube :
-                        </label>
-                        <input type="url" id="youtube_url" name="youtube_url"
-                               class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
-                               placeholder="https://www.youtube.com/watch?v=...">
+            <div class="relative  col-span-2 row-span-3">
+                @if($compte->role == 'starter')
+                    <!-- Message abonnement, centré au-dessus du blur -->
+                    <div class="relative z-50 flex flex-col items-center justify-center">
+                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
+                           target="_blank"
+                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
+                            <p class="text-white text-base">Mettre à niveau</p>
+                            <!-- svg cursor mouse -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
+                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                <path d="M13 13l6 6"></path>
+                            </svg>
+                        </a>
                     </div>
-                    <div class="flex justify-end">
-                        <button type="submit"
-                                class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-                <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
-                <!-- Card pour les vidéos YouTube -->
-                @if(!empty($youtubeUrls))
-                    <div class="my-4 grow">
-                        <div class="flex flex-nowrap gap-4 overflow-x-auto">
-                            @foreach($youtubeUrls as $index => $youtubeUrl)
-                                <div class="bg-gray-100 p-6 rounded-md shadow-lg mb-2 flex flex-col items-center h-auto w-[300px] ">
-                                    <!-- Conteneur de l'iframe (ajusté à la carte) -->
-                                    <div class="w-full flex justify-center items-center">
-                                        <iframe
-                                                src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}"
-                                                frameborder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen>
-                                        </iframe>
-                                    </div>
-
-                                    <!-- Formulaire de suppression -->
-                                    <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}"
-                                          method="POST" class="mt-4 w-full flex justify-end">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
-                                            Supprimer
-                                        </button>
-                                    </form>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
                 @endif
+                <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col
+            @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                    <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
+                    <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
+                          enctype="multipart/form-data"
+                          class="space-y-4">
+                        @csrf
+                        <div>
+                            <label for="youtube_url" class="block text-sm font-medium text-gray-600 mb-2">
+                                URL YouTube :
+                            </label>
+                            <input type="url" id="youtube_url" name="youtube_url"
+                                   class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                   placeholder="https://www.youtube.com/watch?v=...">
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                    <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+                    <!-- Card pour les vidéos YouTube -->
+                    @if(!empty($youtubeUrls))
+                        <div class="my-4 grow">
+                            <div class="flex flex-nowrap gap-4 overflow-x-auto">
+                                @foreach($youtubeUrls as $index => $youtubeUrl)
+                                    <div class="bg-gray-100 p-6 rounded-md shadow-lg mb-2 flex flex-col items-center h-auto w-[300px] ">
+                                        <!-- Conteneur de l'iframe (ajusté à la carte) -->
+                                        <div class="w-full flex justify-center items-center">
+                                            <iframe
+                                                    src="{{ str_replace('watch?v=', 'embed/', $youtubeUrl) }}"
+                                                    frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+
+                                        <!-- Formulaire de suppression -->
+                                        <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}"
+                                              method="POST" class="mt-4 w-full flex justify-end">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
+                    @endif
+                </div>
             </div>
 
             <!-- div 6 -->
@@ -242,7 +263,7 @@
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2">Lien Avis Google enregistré</h2>
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google enregistré</h2>
                 <!-- Afficher l'URL de l'avis Google sous le bouton "Enregistrer" -->
 
                 @if($carte->lienAvis)
@@ -295,7 +316,7 @@
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2">Lien de RDV enregistré</h2>
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien de RDV enregistré</h2>
                 <!-- Afficher l'URL de RDV sous le bouton "Enregistrer" -->
                 @if($carte->LienCommande)
                     <div class="mt-4 w-auto h-auto">
@@ -325,149 +346,170 @@
             </div>
 
             <!-- div5 galerie photo -->
-            <div class="bg-white rounded-lg shadow-md col-span-4 row-span-4 p-6
-    @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+            <div class="relative col-span-4 row-span-4">
+                @if($compte->role == 'starter')
+                    <!-- Message abonnement, centré au-dessus du blur -->
+                    <div class="relative z-50 flex flex-col items-center justify-center">
+                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
+                           target="_blank"
+                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
+                            <p class="text-white text-base">Mettre à niveau</p>
+                            <!-- svg cursor mouse -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
+                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                <path d="M13 13l6 6"></path>
+                            </svg>
+                        </a>
+                    </div>
+                @endif
+                <div class="bg-white rounded-lg shadow-md p-6 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
 
-                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
-                <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
-                    <!-- Formulaire d'upload -->
-                    <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
-                          enctype="multipart/form-data"
-                          class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
-                        @csrf
-                        @method('POST')
-                        <div>
-                            <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
-                                Sélectionner une image :
-                            </label>
-                            <input type="file" id="image" name="image"
-                                   class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
-                                   accept=".jpg,.jpeg,.png">
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                    class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Enregistrer
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- Affichage des images dans la galerie -->
-                    <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
-                        @php
-                            $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
-                            $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
-                        @endphp
-
-                        @if(!empty($sliderImages))
-                            <!-- Galerie photo -->
-                            <div class="flex flex-wrap gap-4">
-                                @foreach($sliderImages as $image)
-                                    <div class="relative">
-                                        <!-- Miniature -->
-                                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
-                                             alt="Image"
-                                             class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
-                                             onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
-
-                                        <!-- Formulaire de suppression -->
-                                        <form action="{{ route('dashboardClientPDF.deleteSliderImage') }}" method="POST"
-                                              class="absolute top-2 right-2">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="filename" value="{{ $image }}">
-                                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-lg">
-                                                <!-- svg poubelle -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                     viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          stroke-width="2"
-                                                          d="M6 18L18 6M6 6l12 12"/>
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endforeach
+                    <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
+                    <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
+                        <!-- Formulaire d'upload -->
+                        <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
+                              enctype="multipart/form-data"
+                              class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
+                            @csrf
+                            @method('POST')
+                            <div>
+                                <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
+                                    Sélectionner une image :
+                                </label>
+                                <input type="file" id="image" name="image"
+                                       class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                       accept=".jpg,.jpeg,.png">
                             </div>
 
-                            <!-- Modal pour afficher les images en grand -->
-                            <div id="imageModal"
-                                 class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
-                                <div class="relative">
-                                    <button onclick="closeModal()"
-                                            class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
-                                    </button>
-                                    <img id="modalImage" src="" alt="Agrandissement de l'image"
-                                         class="object-contain w-96 h-[90%] rounded-lg">
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                        class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Enregistrer
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Affichage des images dans la galerie -->
+                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
+                            @php
+                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+                                $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
+                            @endphp
+
+                            @if(!empty($sliderImages))
+                                <!-- Galerie photo -->
+                                <div class="flex flex-wrap gap-4">
+                                    @foreach($sliderImages as $image)
+                                        <div class="relative">
+                                            <!-- Miniature -->
+                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
+                                                 alt="Image"
+                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
+                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
+
+                                            <!-- Formulaire de suppression -->
+                                            <form action="{{ route('dashboardClientPDF.deleteSliderImage') }}"
+                                                  method="POST"
+                                                  class="absolute top-2 right-2">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="filename" value="{{ $image }}">
+                                                <button type="submit"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded-lg">
+                                                    <!-- svg poubelle -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                         viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endforeach
                                 </div>
-                            </div>
-                        @else
-                            <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
-                        @endif
+
+                                <!-- Modal pour afficher les images en grand -->
+                                <div id="imageModal"
+                                     class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
+                                    <div class="relative">
+                                        <button onclick="closeModal()"
+                                                class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
+                                        </button>
+                                        <img id="modalImage" src="" alt="Agrandissement de l'image"
+                                             class="object-contain w-96 h-[90%] rounded-lg">
+                                    </div>
+                                </div>
+                            @else
+                                <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
 
 
             <script>
-                        function openModal(imageUrl) {
-                            const modal = document.getElementById('imageModal');
-                            const modalImage = document.getElementById('modalImage');
+                function openModal(imageUrl) {
+                    const modal = document.getElementById('imageModal');
+                    const modalImage = document.getElementById('modalImage');
 
-                            modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
-                            modal.classList.remove('hidden'); // Affiche le modal
-                        }
+                    modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
+                    modal.classList.remove('hidden'); // Affiche le modal
+                }
 
-                        function closeModal() {
-                            const modal = document.getElementById('imageModal');
-                            modal.classList.add('hidden'); // Cache le modal
-                        }
+                function closeModal() {
+                    const modal = document.getElementById('imageModal');
+                    modal.classList.add('hidden'); // Cache le modal
+                }
 
-                        /* pdf */
-                        // Fonction pour ouvrir la modale
-                        function openModalPdf() {
-                            const modal = document.getElementById('nameModal'); // Cible la modale par son ID
-                            modal.classList.remove('hidden'); // Affiche la modale en supprimant la classe 'hidden'
-                        }
+                /* pdf */
+                // Fonction pour ouvrir la modale
+                function openModalPdf() {
+                    const modal = document.getElementById('nameModal'); // Cible la modale par son ID
+                    modal.classList.remove('hidden'); // Affiche la modale en supprimant la classe 'hidden'
+                }
 
-                        // Fonction pour fermer la modale
-                        function closeModalPdf() {
-                            const modal = document.getElementById('nameModal'); // Cible la modale par son ID
-                            modal.classList.add('hidden'); // Cache la modale en ajoutant la classe 'hidden'
-                        }
+                // Fonction pour fermer la modale
+                function closeModalPdf() {
+                    const modal = document.getElementById('nameModal'); // Cible la modale par son ID
+                    modal.classList.add('hidden'); // Cache la modale en ajoutant la classe 'hidden'
+                }
 
-                        // Fonction pour valider et soumettre le formulaire avec le nouveau nom
-                        function saveAndSubmit() {
-                            // Récupérer les valeurs du nouveau nom de fichier
-                            const newName = document.getElementById('newName').value;
+                // Fonction pour valider et soumettre le formulaire avec le nouveau nom
+                function saveAndSubmit() {
+                    // Récupérer les valeurs du nouveau nom de fichier
+                    const newName = document.getElementById('newName').value;
 
-                            // Vérifier que le champ "new_name" n'est pas vide
-                            if (!newName) {
-                                alert('Veuillez renseigner un nom pour le fichier.');
-                                return;
-                            }
+                    // Vérifier que le champ "new_name" n'est pas vide
+                    if (!newName) {
+                        alert('Veuillez renseigner un nom pour le fichier.');
+                        return;
+                    }
 
-                            // Ajouter la valeur du nouveau nom au formulaire principal
-                            const uploadForm = document.getElementById('uploadForm');
-                            const inputNewName = document.createElement('input');
-                            inputNewName.type = 'hidden';
-                            inputNewName.name = 'new_name';
-                            inputNewName.value = newName;
-                            uploadForm.appendChild(inputNewName);
+                    // Ajouter la valeur du nouveau nom au formulaire principal
+                    const uploadForm = document.getElementById('uploadForm');
+                    const inputNewName = document.createElement('input');
+                    inputNewName.type = 'hidden';
+                    inputNewName.name = 'new_name';
+                    inputNewName.value = newName;
+                    uploadForm.appendChild(inputNewName);
 
-                            // Soumettre le formulaire
-                            uploadForm.submit();
-                        }
-
-
-                    </script>
+                    // Soumettre le formulaire
+                    uploadForm.submit();
+                }
 
 
-                </div>
-            </div>
+            </script>
+
+
         </div>
     </div>
+</div>
+</div>
 </div>
 
 </body>
