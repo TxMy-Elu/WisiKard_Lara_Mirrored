@@ -1316,3 +1316,23 @@
 [2025-01-30 15:01:00] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-01-30 15:02:33] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-01-30 15:03:04] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:22:26] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:22:33] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:22:49] local.INFO: Fichier PDF renommé en oui.pdf et enregistré dans : entreprises/1_lidl/pdf  
+[2025-01-30 15:22:49] local.ERROR: Erreur lors du téléchargement du PDF pour idCompte : 1. Détails : SQLSTATE[42S22]: Column not found: 1054 Champ 'lienPdf' inconnu dans field list (SQL: update `carte` set `lienPdf` = https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/pdf=entreprises/1_lidl/pdf/oui.pdf where `idCarte` = 1)   
+[2025-01-30 15:22:49] local.DEBUG: Données soumises pour télécharger un PDF :  {"_token":"8UC5omL4OZzPoIwMreQGsdJUZHkiBmtuqmRpDgxV","new_name":"oui","pdf":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\phpDB65.tmp"}} 
+[2025-01-30 15:22:56] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:22:58] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:23:01] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:23:07] local.INFO: QR Code downloaded for idCompte: 1  
+[2025-01-30 15:23:47] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:23:48] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:32] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:32] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:32] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:33] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:33] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:51] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:25:54] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-01-30 15:27:26] local.INFO: Fichier PDF renommé en oui.pdf et enregistré dans : entreprises/1_lidl/pdf  
+[2025-01-30 15:27:28] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
