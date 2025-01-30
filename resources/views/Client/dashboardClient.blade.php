@@ -329,32 +329,34 @@
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
                                         class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
-                            <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template2" value="2"
-                                       @if($idTemplate == 2) checked @endif class="mb-2"
-                                       onchange="submitTemplateForm()">
-                                <label for="template2"></label>
-                                <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
-                                        class="w-96 h-[750px] rounded-lg"></iframe>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template3" value="3"
-                                       @if($idTemplate == 3) checked @endif class="mb-2"
-                                       onchange="submitTemplateForm()">
-                                <label for="template3"></label>
-                                <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
-                                        class="w-96 h-[750px] rounded-lg"></iframe>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <input type="radio" name="idTemplate" id="template4" value="4"
-                                       @if($idTemplate == 4) checked @endif class="mb-2"
-                                       onchange="submitTemplateForm()">
-                                <label for="template4"></label>
-                                <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
-                                        class="w-96 h-[750px] rounded-lg"></iframe>
+                            <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif flex space-x-10 mt-4">
+                                <div class="flex flex-col items-center">
+                                    <input type="radio" name="idTemplate" id="template2" value="2"
+                                           @if($idTemplate == 2) checked @endif class="mb-2"
+                                           onchange="submitTemplateForm()">
+                                    <label for="template2"></label>
+                                    <!-- template gradient  -->
+                                    <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                            class="w-96 h-[750px] rounded-lg"></iframe>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <input type="radio" name="idTemplate" id="template3" value="3"
+                                           @if($idTemplate == 3) checked @endif class="mb-2"
+                                           onchange="submitTemplateForm()">
+                                    <label for="template3"></label>
+                                    <!-- template gradient  -->
+                                    <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                            class="w-96 h-[750px] rounded-lg"></iframe>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <input type="radio" name="idTemplate" id="template4" value="4"
+                                           @if($idTemplate == 4) checked @endif class="mb-2"
+                                           onchange="submitTemplateForm()">
+                                    <label for="template4"></label>
+                                    <!-- template gradient  -->
+                                    <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                            class="w-96 h-[750px] rounded-lg"></iframe>
+                                </div>
                             </div>
                         </div>
                     </div>
