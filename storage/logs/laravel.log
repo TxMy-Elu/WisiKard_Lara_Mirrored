@@ -2060,3 +2060,4 @@
 #55 C:\\wamp64\\www\\stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\s...')
 #56 {main}
 "} 
+[2025-01-30 16:30:06] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 

@@ -263,7 +263,7 @@
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2">Lien Avis Google enregistré</h2>
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google enregistré</h2>
                 <!-- Afficher l'URL de l'avis Google sous le bouton "Enregistrer" -->
 
                 @if($carte->lienAvis)
@@ -316,7 +316,7 @@
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2">Lien de RDV enregistré</h2>
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien de RDV enregistré</h2>
                 <!-- Afficher l'URL de RDV sous le bouton "Enregistrer" -->
                 @if($carte->LienCommande)
                     <div class="mt-4 w-auto h-auto">
