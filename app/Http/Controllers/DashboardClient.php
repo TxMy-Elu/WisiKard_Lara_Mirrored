@@ -1202,7 +1202,7 @@ class DashboardClient extends Controller
 public function downloadQrCodesPDFColor()
 {
     $idCompte = session('connexion');
-    $emailUtilisateur = Compte::find($idCompte)->email;
+    $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
     $carte = Carte::where('idCompte', $idCompte)->first();
 
     if (!$carte) {
@@ -1210,15 +1210,11 @@ public function downloadQrCodesPDFColor()
     }
 
     $pdfe = $carte->nomBtnPdf;
-    $qrCodesPath = public_path($carte->pdf);
-
-    if (!File::exists($qrCodesPath)) {
-        return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
-    }
+    $qrCodesPath = $carte->lienPdf;
 
     Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code Couleur");
     Log::info('QR Code downloaded for PDF: ' . $pdfe);
-    return response()->download($qrCodesPath, 'QR_Code_Couleur.pdf');
+    return response()->download($qrCodesPath);
 }
 
 public function downloadQrCodesPDF()
@@ -1232,15 +1228,11 @@ public function downloadQrCodesPDF()
     }
 
     $pdfe = $carte->nomBtnPdf;
-    $qrCodesPath = public_path($carte->pdf); // Utiliser le champ 'pdf' pour obtenir le chemin complet
-
-    if (!File::exists($qrCodesPath)) {
-        return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
-    }
+    $qrCodesPath = $carte->lienPdf;
 
     Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code");
     Log::info('QR Code downloaded for PDF: ' . $pdfe);
-    return response()->download($qrCodesPath, 'QR_Code.pdf');
+    return response()->download($qrCodesPath);
 }
 
     public function updateCustomLink(Request $request)
