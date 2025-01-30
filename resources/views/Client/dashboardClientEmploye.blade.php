@@ -8,9 +8,9 @@
 </head>
 <body class="align-items-center bg-gray-100" >
 
-<div class="flex flex-col md:flex-row">
+<div class="flex flex-col md:flex-row ">
     @include('menu.menuClient')
-    <div class="flex-1 md:ml-24 content">
+    <div class="flex-1 md:ml-24 content @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
                  role="alert">

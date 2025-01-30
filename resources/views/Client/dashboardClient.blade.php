@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Client</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
+          rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 </head>
@@ -61,11 +62,16 @@
                                     <p class="text-slate-50 text-base">Starter</p>
                                 </div>
                                 <!-- svg upagrede -->
-                                <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"  target="_blank"
+                                <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/" target="_blank"
                                    class="bg-red-500/65 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-full w-48 h-7 flex items-center justify-center space-x-4">
                                     <p class="text-slate-50 text-base">Mettre à niveau</p>
                                     <!-- svg cursor mouse -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mouse-pointer"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                         fill="none" stroke="#ffff" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" class="feather feather-mouse-pointer">
+                                        <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                        <path d="M13 13l6 6"></path>
+                                    </svg>
 
                                 </a>
                             </div>
@@ -109,7 +115,7 @@
                 </div>
             </div>
             <!-- Font (div5) -->
-            <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
+            <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
                 <form action="{{ 'updateFont' }}" method="POST">
                     @csrf
                     @method('PATCH')
@@ -151,133 +157,160 @@
             <!-- QR Code (div2) -->
             <div class="col-span-1 row-span-2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
+                <label for="font" class="text-lg font-semibold mb-4">Votre WisiCode</label>
                 <div class="mb-4 flex flex-col items-center">
                     <img src="{{ $carte->lienQr }}"
                          alt="QR Code" class="w-full max-w-xs">
                 </div>
 
-                <!-- Form for Color Selection -->
-                <form action="{{ route('dashboardClientColor') }}" method="POST"
-                      class="flex flex-col items-center w-full">
-                    @csrf
-                    <div class="flex flex-wrap justify-center">
-                        <div class="flex flex-col w-full md:w-1/2 mb-4">
-                            <label for="color1" class="w-full text-center mb-0.5 font-bold">Pixel</label>
-                            <input type="color" name="couleur1" id="color1" class="w-40 mx-auto bg-white"
-                                   value="{{ $couleur1 }}">
+
+                <div class="mb-4 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                    <!-- Form for Color Selection -->
+                    <form action="{{ route('dashboardClientColor') }}" method="POST"
+                          class="flex flex-col items-center w-full">
+                        @csrf
+                        <div class="flex flex-wrap justify-center">
+                            <div class="flex flex-col w-full md:w-1/2 mb-4">
+                                <label for="color1" class="w-full text-center mb-0.5 font-bold">Pixel</label>
+                                <input type="color" name="couleur1" id="color1" class="w-40 mx-auto bg-white"
+                                       value="{{ $couleur1 }}">
+                            </div>
+                            <div class="flex flex-col w-full md:w-1/2 mb-4">
+                                <label for="color2" class="w-full text-center mb-0.5 font-bold">Fond</label>
+                                <input type="color" name="couleur2" id="color2" class="w-40 mx-auto bg-white"
+                                       value="{{ $couleur2 }}">
+                            </div>
                         </div>
-                        <div class="flex flex-col w-full md:w-1/2 mb-4">
-                            <label for="color2" class="w-full text-center mb-0.5 font-bold">Fond</label>
-                            <input type="color" name="couleur2" id="color2" class="w-40 mx-auto bg-white"
-                                   value="{{ $couleur2 }}">
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full">
-                        Enregistrer
-                    </button>
+                        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full">
+                            Enregistrer
+                        </button>
 
 
-                </form>
-
-                <div class="flex justify-center items-center text-center bg-white rounded-lg shadow-lg mx-auto my-2 w-full p-2 mt-4 border border-gray-1200">
+                    </form>
+                </div>
+                <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4  border-t-2 border-gray-200 ">
                     <p class="font-bold text-xl">Télécharger Qr Codes</p>
                 </div>
 
-                <!-- Download Buttons -->
-                <div class="flex justify-center space-x-4 mt-4">
-                    <a href="{{ route('downloadQrCodesColor') }}"
-                       class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
-                        Couleur
-                        <!-- Espace entre le texte et le SVG -->
-                        <span class="ml-2"></span>
-                        <!-- Download svg -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-download">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </a>
-                    <a href="{{ route('downloadQrCodes') }}"
-                       class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
-                        Noir / Blanc
-                        <!-- Espace entre le texte et le SVG -->
-                        <span class="ml-2"></span>
-                        <!-- Download svg -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-download">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </a>
-                  </div>
-                        <div class="flex justify-center items-center text-center bg-white rounded-lg shadow-lg mx-auto my-2 w-full p-2 mt-4 border border-gray-1200">
-                            <p class="font-bold text-xl">Télécharger QR Codes</p>
-                        </div>
 
-                        <!-- Download Buttons -->
-                        <div class="flex justify-center space-x-4 mt-4">
-                            <a href="{{ route('download.qrcode.pdf.color') }}"
-                               class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
-                                Couleur
-                                <!-- Espace entre le texte et le SVG -->
-                                <span class="ml-2"></span>
-                                <!-- Download svg -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="feather feather-download">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                            </a>
-                            <a href="{{ route('download.qrcode.pdf') }}"
-                               class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
-                                Noir / Blanc
-                                <!-- Espace entre le texte et le SVG -->
-                                <span class="ml-2"></span>
-                                <!-- Download svg -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="feather feather-download">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                            </a>
-                        </div>
-                 </div>
+                <!-- Download Buttons -->
+                <div class=" border-b-2 border-b-gray-200">
+                    <div class="flex justify-center space-x-4 mt-4 mb-4">
+                        <a href="{{ route('downloadQrCodesColor') }}"
+                           class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                            Couleur
+                            <!-- Espace entre le texte et le SVG -->
+                            <span class="ml-2"></span>
+                            <!-- Download svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-download">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                        <a href="{{ route('downloadQrCodes') }}"
+                           class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100 ">
+                            Noir / Blanc
+                            <!-- Espace entre le texte et le SVG -->
+                            <span class="ml-2"></span>
+                            <!-- Download svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-download">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                    <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4">
+                        <p class="font-bold text-xl">Télécharger QR PDF</p>
+                    </div>
+
+                    <!-- Download Buttons -->
+
+                    <div class="flex justify-center space-x-4 mt-4 mb-4">
+                        <a href="{{ route('download.qrcode.pdf.color') }}"
+                           class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                            Couleur
+                            <!-- Espace entre le texte et le SVG -->
+                            <span class="ml-2"></span>
+                            <!-- Download svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-download">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                        <a href="{{ route('download.qrcode.pdf') }}"
+                           class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                            Noir / Blanc
+                            <!-- Espace entre le texte et le SVG -->
+                            <span class="ml-2"></span>
+                            <!-- Download svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-download">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
 
             <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
-                 <form action="{{ route('updateHoraires') }}" method="POST">
-                     @csrf
-                     <div class="flex flex-col">
-                         <label for="horaires" class="text-lg font-semibold">Horaires d'ouverture</label>
-                         <div class="flex flex-col mt-4">
-                             @foreach(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as $jour)
-                                 <div class="flex justify-between mt-2">
-                                     <label for="{{ $jour }}_ouverture" class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
-                                     <div class="flex space-x-2">
-                                         <input type="time" name="{{ $jour }}_ouverture_matin" id="{{ $jour }}_ouverture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
-                                         <p class="p-4 texte-center">:</p>
-                                         <input type="time" name="{{ $jour }}_fermeture_matin" id="{{ $jour }}_fermeture_matin" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
-                                         <p class="p-4 texte-center">&</p>
-                                         <input type="time" name="{{ $jour }}_ouverture_aprmidi" id="{{ $jour }}_ouverture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
-                                         <p class="p-4 texte-center">:</p>
-                                         <input type="time" name="{{ $jour }}_fermeture_aprmidi" id="{{ $jour }}_fermeture_aprmidi" class="w-30 p-2 border border-gray-300 rounded-lg mt-2" value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
-                                     </div>
-                                 </div>
-                             @endforeach
-                         </div>
-                     </div>
-                     <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
-                         Enregistrer
-                     </button>
-                 </form>
+                <form action="{{ route('updateHoraires') }}" method="POST">
+                    @csrf
+                    <div class="flex flex-col">
+                        <label for="horaires" class="text-lg font-semibold">Horaires d'ouverture</label>
+                        <div class="flex flex-col mt-4">
+                            @foreach(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as $jour)
+                                <div class="flex justify-between mt-2">
+                                    <label for="{{ $jour }}_ouverture"
+                                           class="text-sm font-semibold">{{ ucfirst($jour) }}</label>
+                                    <div class="flex space-x-2">
+                                        <input type="time" name="{{ $jour }}_ouverture_matin"
+                                               id="{{ $jour }}_ouverture_matin"
+                                               class="w-30 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}">
+                                        <p class="p-4 texte-center">:</p>
+                                        <input type="time" name="{{ $jour }}_fermeture_matin"
+                                               id="{{ $jour }}_fermeture_matin"
+                                               class="w-30 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}">
+                                        <p class="p-4 texte-center">&</p>
+                                        <input type="time" name="{{ $jour }}_ouverture_aprmidi"
+                                               id="{{ $jour }}_ouverture_aprmidi"
+                                               class="w-30 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}">
+                                        <p class="p-4 texte-center">:</p>
+                                        <input type="time" name="{{ $jour }}_fermeture_aprmidi"
+                                               id="{{ $jour }}_fermeture_aprmidi"
+                                               class="w-30 p-2 border border-gray-300 rounded-lg mt-2"
+                                               value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
+                        Enregistrer
+                    </button>
+                </form>
 
             </div>
 
@@ -322,7 +355,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template4"></label>
                                 <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4" class="w-96 h-[750px] rounded-lg"></iframe>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                        class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                         </div>
                     </div>

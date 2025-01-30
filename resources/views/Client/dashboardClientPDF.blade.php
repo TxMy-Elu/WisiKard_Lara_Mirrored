@@ -163,7 +163,8 @@
             </div>
 
             <!-- Formulaire YouTube div3 -->
-            <div class="bg-white rounded-lg shadow-md col-span-2 row-span-3 p-6 h-auto flex flex-col">
+            <div class="bg-white rounded-lg shadow-md col-span-2 row-span-3 p-6 h-auto flex flex-col
+            @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
                 <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
                       enctype="multipart/form-data"
@@ -324,7 +325,8 @@
             </div>
 
             <!-- div5 galerie photo -->
-            <div class="bg-white rounded-lg shadow-md col-span-4 row-span-4 p-6">
+            <div class="bg-white rounded-lg shadow-md col-span-4 row-span-4 p-6
+    @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
 
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                 <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
@@ -351,7 +353,7 @@
                         </div>
                     </form>
 
-                    <!-- Affichage des images route public/entreprises/1_lidl/slider/...-->
+                    <!-- Affichage des images dans la galerie -->
                     <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
                         @php
                             $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
@@ -404,8 +406,11 @@
                             <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
                         @endif
                     </div>
+                </div>
+            </div>
 
-                    <script>
+
+            <script>
                         function openModal(imageUrl) {
                             const modal = document.getElementById('imageModal');
                             const modalImage = document.getElementById('modalImage');
