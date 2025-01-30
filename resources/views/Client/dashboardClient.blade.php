@@ -57,14 +57,21 @@
                         </div>
                         @if($carte->compte->role == 'starter')
                             <div class="pt-4">
-                                <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
+                                <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center space-x-2 mb-2">
                                     <p class="text-slate-50 text-base">Starter</p>
                                 </div>
+                                <!-- svg upagrede -->
+                                <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"  target="_blank"
+                                   class="bg-red-500/65 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-full w-36 h-7 flex items-center justify-center space-x-2">
+                                    <p class="text-slate-50 text-base">Mettre à niveau</p>
+                                </a>
                             </div>
                         @elseif($carte->compte->role == 'advanced')
                             <div class="pt-4">
                                 <div class="bg-violet-500/65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Advanced</p>
+
+
                                 </div>
                             </div>
                         @endif
