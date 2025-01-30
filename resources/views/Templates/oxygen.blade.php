@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }} - Wisikard</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700"
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,300i,400,400i,600,600i,700,700i&display=swap"
           rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -60,7 +60,7 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            padding: 20px;
+            padding: 10px;
             padding-bottom: 0px;
             padding-right: 0px;
         }
@@ -74,7 +74,7 @@
             cursor: default;
             position: absolute;
             right: 8%;
-            font-size: 25px;
+            font-size: 20px;
         }
 
         .modalContent {
@@ -85,8 +85,104 @@
             max-width: 100%;
             max-height: 100%;
         }
+
+        .horaires-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+
+        .horaires-column {
+            flex: 1;
+            min-width: 22%;
+            margin: 5px;
+        }
+
+        .horaires-item {
+            font-size: 0.7rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .horaires-item .day {
+            margin-right: 10px;
+            width: 60px;
+            text-align: right;
+        }
+
+        .horaires-item .hours {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .card-container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .card-container h1 {
+            font-size: 1.2rem;
+        }
+
+        .card-container p {
+            font-size: 0.8rem;
+        }
+
+        .card-container a {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+        }
+
+        .card-container button {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+        }
+
+        @media (max-width: 600px) {
+            .horaires-column {
+                min-width: 45%;
+            }
+
+            .horaires-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .horaires-item .day {
+                margin-right: 0;
+                width: auto;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+
+            .horaires-item .hours {
+                align-items: flex-start;
+            }
+
+            .card-container h1 {
+                font-size: 1rem;
+            }
+
+            .card-container p {
+                font-size: 0.7rem;
+            }
+
+            .card-container a {
+                font-size: 0.6rem;
+                padding: 2px 6px;
+            }
+
+            .card-container button {
+                font-size: 0.6rem;
+                padding: 2px 6px;
+            }
+        }
     </style>
-    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image-x-icon">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -142,38 +238,37 @@
     }
 @endphp
 
-
-<div class="flex flex-col items-center w-full">
-    <div class='flex justify-center items-center w-24 mt-6'>
+<div class="card-container flex flex-col items-center w-full">
+    <div class='flex justify-center items-center w-24 mt-2'>
         <img class='w-4/5 max-w-xl'
              src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}"
              alt='Logo'>
     </div>
 
-    <div class='flex justify-center items-center mt-2'>
-        <h1 class='text-2xl font-bold'>{{ $carte['titre'] }}</h1>
+    <div class='flex justify-center items-center mt-1'>
+        <h1 class='font-bold'>{{ $carte['titre'] }}</h1>
     </div>
     @if($employe != null)
-        <div class='flex justify-center items-center flex-wrap mt-4'>
+        <div class='flex justify-center items-center flex-wrap mt-2'>
             <a href='mailto:{{ $employe['mail'] }}'
-               class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+               class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
                 {{ $employe['mail'] }}
             </a>
             <a href='tel:{{ $employe['telephone'] }}'
-               class='m-2 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+               class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
                 {{ $employe['telephone'] }}
             </a>
         </div>
     @endif
 
-    <div class='flex justify-center items-center mt-2.5'>
-        <p class='text-base text-center'>{{ $carte->descriptif }}</p>
+    <div class='flex justify-center items-center mt-1'>
+        <p class='text-center'>{{ $carte->descriptif }}</p>
     </div>
 
-    <div class='flex justify-center items-center flex-wrap mt-4 mx-11'>
+    <div class='flex justify-center items-center flex-wrap mt-2 mx-5'>
         <!-- Bouton pour afficher le QR Code -->
         <button onclick="showQrCode()"
-                class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+                class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/avcjklpr.json"
                        trigger="loop"
                        delay="1000"
@@ -182,34 +277,8 @@
             QRCode
         </button>
 
-        <!-- Modal pour afficher le QR Code -->
-        <div id="qrCodeModal"
-             class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center relative">
-                <h3 class="text-xl font-bold mb-4 text-zinc-900">{{ $carte['nomEntreprise'] }} - QR Code</h3>
-                <img src="{{ $carte->lienQr }}" alt="QR Code" class="w-48 h-48 mx-auto">
-                <button onclick="closeQrCode()"
-                        class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full">✖
-                </button>
-            </div>
-        </div>
-
-        <!-- Script JavaScript -->
-        <script>
-            // Fonction pour afficher la modal
-            function showQrCode() {
-                document.getElementById('qrCodeModal').classList.remove('hidden');
-            }
-
-            // Fonction pour cacher la modal
-            function closeQrCode() {
-                document.getElementById('qrCodeModal').classList.add('hidden');
-            }
-        </script>
-
-
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/surcxhka.json"
                     trigger="loop"
@@ -219,9 +288,8 @@
             Maps
         </a>
 
-
         <a href="{{ $carte['lienSite'] }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/pbbsmkso.json"
                     trigger="loop"
@@ -232,7 +300,7 @@
         </a>
 
         <a href="tel:{{ $carte['tel'] }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/qtykvslf.json"
                     trigger="loop"
@@ -243,7 +311,7 @@
         </a>
 
         <a href="mailto:{{ $carte['mailContact'] }}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/aycieyht.json"
                     trigger="loop"
@@ -255,7 +323,7 @@
 
         @if($carte['pdf'])
             <a href="{{ $carte['pdf'] }}" target="_blank" rel="noopener noreferrer"
-               class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+               class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
@@ -267,7 +335,7 @@
         @endif
 
         <a href="{{$carte['lienCommande']}}"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/odavpkmb.json"
                     trigger="loop"
@@ -278,7 +346,7 @@
 
         <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
            download="Contact-Wisikard.vcf"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/rehjpyyh.json"
                        trigger="loop"
                        delay="1000"
@@ -289,7 +357,7 @@
         </a>
 
         <a id="prompt"
-           class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+           class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
                        trigger="loop"
                        delay="1000"
@@ -299,7 +367,7 @@
             Installer
         </a>
 
-        <button class='m-2.5 p-2 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <button class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/udwhdpod.json"
                        trigger="loop"
                        delay="1000"
@@ -307,12 +375,23 @@
             </lord-icon>
             Partager
         </button>
+
+        <!-- Bouton pour afficher les horaires dans un modal -->
+        <button onclick="showHoraires()"
+                class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+            <lord-icon src="https://cdn.lordicon.com/lupuorrc.json"
+                       trigger="loop"
+                       delay="1000"
+                       colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
+            </lord-icon>
+            Horaires
+        </button>
     </div>
 
     <div class="flex justify-center flex-wrap mx-5 my-4 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-4">
         @foreach($mergedSocial as $so)
             <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
-               class="p-3 hover:scale-110 transform transition duration-200">
+               class="p-3">
                 <div class="flex items-center justify-center">
                     <div class="w-12 h-12 flex items-center justify-center">
                         <!-- Apporter la couleur blanche aux logos -->
@@ -326,10 +405,103 @@
     </div>
 </div>
 
-<footer class="text-center p-4">
+<!-- Modal pour le QR Code -->
+<div id='qrCodeModal' class="modal">
+    <div class="modalBody">
+        <div class="modalTitle">
+            <div class="modalTitleTxt">
+                QR Code de {{ $carte['nomEntreprise'] }}
+            </div>
+            <div class="modalCloseBtn" onclick="hideQrCode()">
+                ✖
+            </div>
+        </div>
+        <div class="modalContent">
+            <img src="{{ $carte['qrCode'] }}" alt="QR Code" class="modalQR">
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour les horaires -->
+<div id='horairesModal' class="modal">
+    <div class="modalBody">
+        <div class="modalTitle">
+            <div class="modalTitleTxt">
+                Horaires de {{ $carte['nomEntreprise'] }}
+            </div>
+            <div class="modalCloseBtn" onclick="hideHoraires()">
+                ✖
+            </div>
+        </div>
+        <div class="modalContent">
+            <div class='horaires-container mx-2 my-2 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-2'>
+                @php
+                    $days = $horaires->chunk(2);
+                    $lastColumn = $days->pop();
+                @endphp
+                @foreach($days as $chunk)
+                    <div class="horaires-column">
+                        @foreach($chunk as $horaire)
+                            <div class="horaires-item flex items-center justify-center p-2">
+                                <div class="day text-white p-1 fill-white">
+                                    {{ $horaire->jour }}
+                                </div>
+                                <div class="hours text-center mt-1">
+                                    @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                        <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                        <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                    @else
+                                        <p>Fermé</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+                <div class="horaires-column">
+                    @foreach($lastColumn as $horaire)
+                        <div class="horaires-item flex items-center justify-center p-2">
+                            <div class="day text-white p-1 fill-white">
+                                {{ $horaire->jour }}
+                            </div>
+                            <div class="hours text-center mt-1">
+                                @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                    <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                    <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                @else
+                                    <p>Fermé</p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center p-2">
     Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
-                                                                                             class="text-blue-500">Wisikard</a>
+                                                                             class="text-blue-500">Wisikard</a>
 </footer>
+
+<script>
+    function showQrCode() {
+        document.getElementById('qrCodeModal').style.display = 'block';
+    }
+
+    function hideQrCode() {
+        document.getElementById('qrCodeModal').style.display = 'none';
+    }
+
+    function showHoraires() {
+        document.getElementById('horairesModal').style.display = 'block';
+    }
+
+    function hideHoraires() {
+        document.getElementById('horairesModal').style.display = 'none';
+    }
+</script>
 </body>
 
 </html>
