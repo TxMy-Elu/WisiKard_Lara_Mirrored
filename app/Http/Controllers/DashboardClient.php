@@ -1202,7 +1202,7 @@ class DashboardClient extends Controller
     }
   public function downloadQrCodesPDFColor()
     {
-        // Récupérer l'ID de la carte (vous pouvez ajuster cela en fonction de votre logique)
+
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
@@ -1224,7 +1224,7 @@ class DashboardClient extends Controller
 
     public function downloadQrCodesPDF()
     {
-        // Récupérer l'ID de la carte (vous pouvez ajuster cela en fonction de votre logique)
+
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 

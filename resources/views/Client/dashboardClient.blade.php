@@ -7,11 +7,9 @@
     <title>Dashboard Client</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 </head>
 <body class="bg-slate-100 flex flex-col min-h-screen">
-
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24">
@@ -35,7 +33,6 @@
                 <span class="block sm:inline">{{ session('error') }}</span>
             </div>
         @endif
-
         <div class="grid grid-cols-5 gap-5 p-4">
             <!-- Carte (div1) -->
             <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
@@ -72,7 +69,6 @@
                                         <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
                                         <path d="M13 13l6 6"></path>
                                     </svg>
-
                                 </a>
                             </div>
                         @elseif($carte->compte->role == 'advanced')
@@ -83,7 +79,6 @@
                             </div>
                         @endif
                     </div>
-
                     @php
                         // Détection des différents types de fichiers
                         $logoPath = '';
@@ -96,7 +91,6 @@
                             }
                         }
                     @endphp
-
                             <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
@@ -105,7 +99,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Buttons -->
                 <div class="flex flex-row-reverse mt-auto pt-4">
                     <a href="{{ route('formulaireEntreprise') }}"
@@ -154,9 +147,7 @@
                                         'gruppo',
                                         'rokkitt'
                                     ];
-
                             @endphp
-
                             <select name="font" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
                                 @foreach ($fonts as $font)
                                     <option value="{{ $font }}" @if($carte->font == $font) selected
@@ -166,15 +157,15 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="flex justify-end" >
-                        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-48 mt-4 items-center">
-                            Enregistrer
-                        </button>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="bg-indigo-500 text-white px-4 py-2 rounded-full w-48 mt-4 items-center">
+                                Enregistrer
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
-
             <!-- QR Code (div2) -->
             <div class="col-span-1 row-span-2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
@@ -183,8 +174,6 @@
                     <img src="{{ $carte->lienQr }}"
                          alt="QR Code" class="w-full max-w-xs rounded-2xl">
                 </div>
-
-
                 <div class="mb-4 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
                     <!-- Form for Color Selection -->
                     <form action="{{ route('dashboardClientColor') }}" method="POST"
@@ -205,15 +194,11 @@
                         <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full">
                             Enregistrer
                         </button>
-
-
                     </form>
                 </div>
                 <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4  border-t-2 border-gray-200 ">
                     <p class="font-bold text-xl">Télécharger QR Codes</p>
                 </div>
-
-
                 <!-- Download Buttons -->
                 <div class=" border-b-2 border-b-gray-200">
                     <div class="flex justify-center space-x-4 mt-4 mb-4">
@@ -249,45 +234,45 @@
                         </a>
                     </div>
                 </div>
-<div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4 border-t-2 border-gray-200">
-    <p class="font-bold text-xl">Télécharger QR PDF</p>
-</div>
-
-<!-- Download Buttons -->
-<div class="flex justify-center space-x-4 mt-4 mb-4">
-    <a href="{{ route('download.qrcode.pdf.color') }}"
-       class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
-        Couleur
-        <!-- Espace entre le texte et le SVG -->
-        <span class="ml-2"></span>
-        <!-- Download svg -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-             fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             class="feather feather-download">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-    </a>
-    <a href="{{ route('download.qrcode.pdf') }}"
-       class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
-        Noir / Blanc
-        <!-- Espace entre le texte et le SVG -->
-        <span class="ml-2"></span>
-        <!-- Download svg -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-             fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             class="feather feather-download">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-    </a>
-</div>
-
-        </div>
+                <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                    <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4">
+                        <p class="font-bold text-xl">Télécharger QR PDF</p>
+                    </div>
+                    <!-- Download Buttons -->
+                    <div class="flex justify-center space-x-4 mt-4 mb-4">
+                        <a href="{{ route('download.qrcode.pdf.color') }}"
+                           class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                            Couleur
+                            <!-- Espace entre le texte et le SVG -->
+                            <span class="ml-2"></span>
+                            <!-- Download svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-download">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                        <a href="{{ route('download.qrcode.pdf') }}"
+                           class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                            Noir / Blanc
+                            <!-- Espace entre le texte et le SVG -->
+                            <span class="ml-2"></span>
+                            <!-- Download svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-download">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ route('updateHoraires') }}" method="POST">
@@ -328,9 +313,7 @@
                         Enregistrer
                     </button>
                 </form>
-
             </div>
-
             <!-- Template Selection (div4) -->
             <div class="col-span-5  row-span-2 bg-white rounded-lg shadow-lg p-4">
                 <form id="templateForm" action="{{ route('updateTemplate') }}" method="POST">
@@ -397,18 +380,11 @@
                                                 class="w-96 h-[750px] rounded-lg"></iframe>
                                     </div>
                                 </div>
-
-
-                                <!-- Message au-dessus -->
-                                <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif relative flex space-x-10 mt-4">
-
-                                </div>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-
             <script>
                 function submitTemplateForm() {
                     document.getElementById('templateForm').submit();
@@ -417,6 +393,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
