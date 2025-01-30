@@ -331,7 +331,7 @@
                     <!-- Formulaire d'upload -->
                     <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
                           enctype="multipart/form-data"
-                          class="space-y-4 w-full md:w-1/2 flex flex-col justify-between">
+                          class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
                         @csrf
                         @method('POST')
                         <div>
@@ -352,7 +352,7 @@
                     </form>
 
                     <!-- Affichage des images route public/entreprises/1_lidl/slider/...-->
-                    <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
+                    <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
                         @php
                             $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
                             $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
