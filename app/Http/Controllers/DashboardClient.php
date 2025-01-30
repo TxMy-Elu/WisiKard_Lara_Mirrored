@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
 
 class DashboardClient extends Controller
 {
@@ -1199,7 +1200,7 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du fichier.');
         }
     }
-    public function downloadQrCodesPDFColor()
+  public function downloadQrCodesPDFColor()
     {
         // Récupérer l'ID de la carte (vous pouvez ajuster cela en fonction de votre logique)
         $carteId = 1; // Exemple d'ID de carte
@@ -1213,10 +1214,11 @@ class DashboardClient extends Controller
 
         // Générer le QR code en couleur
         $qrCodeContent = $carte->lienPdf;
-        $qrCode = QrCode::size(300)->color(255, 0, 0)->generate($qrCodeContent);
+        $qrCodeUrl = "https://quickchart.io/qr?size=300&dark=FF0000&light=FFFFFF&format=svg&text=" . urlencode($qrCodeContent);
+        $qrCode = file_get_contents($qrCodeUrl);
 
         // Retourner le QR code en tant que réponse de téléchargement
-        return Response::make($qrCode)->header('Content-Type', 'image/png')->header('Content-Disposition', 'attachment; filename="qrcode_color.png"');
+        return Response::make($qrCode)->header('Content-Type', 'image/svg+xml')->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
 
     public function downloadQrCodesPDF()
@@ -1233,10 +1235,11 @@ class DashboardClient extends Controller
 
         // Générer le QR code en noir et blanc
         $qrCodeContent = $carte->lienPdf;
-        $qrCode = QrCode::size(300)->generate($qrCodeContent);
+        $qrCodeUrl = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=" . urlencode($qrCodeContent);
+        $qrCode = file_get_contents($qrCodeUrl);
 
         // Retourner le QR code en tant que réponse de téléchargement
-        return Response::make($qrCode)->header('Content-Type', 'image/png')->header('Content-Disposition', 'attachment; filename="qrcode_bw.png"');
+        return Response::make($qrCode)->header('Content-Type', 'image/svg+xml')->header('Content-Disposition', 'attachment; filename="qrcode_bw.svg"');
     }
 
     public function updateCustomLink(Request $request)
