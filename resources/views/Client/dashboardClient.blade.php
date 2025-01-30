@@ -157,7 +157,7 @@
             <!-- QR Code (div2) -->
             <div class="col-span-1 row-span-2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
-                <label for="font" class="text-lg font-semibold mb-4">Votre WisiCode</label>
+                <label for="font" class="text-lg font-semibold">Votre WisiCode</label>
                 <div class="mb-4 flex flex-col items-center">
                     <img src="{{ $carte->lienQr }}"
                          alt="QR Code" class="w-full max-w-xs">
@@ -189,7 +189,7 @@
                     </form>
                 </div>
                 <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4  border-t-2 border-gray-200 ">
-                    <p class="font-bold text-xl">Télécharger Qr Codes</p>
+                    <p class="font-bold text-xl">Télécharger QR Codes</p>
                 </div>
 
 
