@@ -113,43 +113,66 @@
                 </div>
             </div>
             <!-- Font (div5) -->
-            <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
-                <form action="{{ 'updateFont' }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-                    <div class="flex flex-col">
-                        <label for="font" class="text-lg font-semibold">Police</label>
-                        @php
-                            $fonts = [
-                                    'roboto',
-                                    'montserrat',
-                                    'oswald',
-                                    'ubuntu',
-                                    'playfair',
-                                    'work-sans',
-                                    'playwrite-india',
-                                    'bona-nova',
-                                    'exo-2',
-                                    'pacifico',
-                                    'gruppo',
-                                    'rokkitt'
-                                ];
-
-                        @endphp
-
-                        <select name="font" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
-                            @foreach ($fonts as $font)
-                                <option value="{{ $font }}" @if($carte->font == $font) selected
-                                        @endif style="font-family: '{{ $font }}';">
-                                    {{ $font }}
-                                </option>
-                            @endforeach
-                        </select>
+            <div class="relative col-span-2 row-span-1 ">
+                @if($compte->role == 'starter')
+                    <!-- Message abonnement, centré au-dessus du blur -->
+                    <div class="relative z-50 flex flex-col items-center justify-center">
+                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
+                           target="_blank"
+                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
+                            <p class="text-white text-base">Mettre à niveau</p>
+                            <!-- svg cursor mouse -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
+                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                <path d="M13 13l6 6"></path>
+                            </svg>
+                        </a>
                     </div>
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full mt-4">
-                        Enregistrer
-                    </button>
-                </form>
+                @endif
+                <!-- La zone floutée -->
+                <div class="bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                    <form action="{{ 'updateFont' }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <div class="flex flex-col">
+                            <label for="font" class="text-lg font-semibold">Police</label>
+                            @php
+                                $fonts = [
+                                        'roboto',
+                                        'montserrat',
+                                        'oswald',
+                                        'ubuntu',
+                                        'playfair',
+                                        'work-sans',
+                                        'playwrite-india',
+                                        'bona-nova',
+                                        'exo-2',
+                                        'pacifico',
+                                        'gruppo',
+                                        'rokkitt'
+                                    ];
+
+                            @endphp
+
+                            <select name="font" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
+                                @foreach ($fonts as $font)
+                                    <option value="{{ $font }}" @if($carte->font == $font) selected
+                                            @endif style="font-family: '{{ $font }}';">
+                                        {{ $font }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex justify-end" >
+                        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-48 mt-4 items-center">
+                            Enregistrer
+                        </button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <!-- QR Code (div2) -->
@@ -266,7 +289,7 @@
 
         </div>
             <!-- Horaires d'ouverture (div6) -->
-            <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4">
+            <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
                 <form action="{{ route('updateHoraires') }}" method="POST">
                     @csrf
                     <div class="flex flex-col">
@@ -315,7 +338,7 @@
                     <div class="flex flex-col">
                         <label for="template" class="text-lg font-semibold">Template</label>
                         <!-- radio button x4 (div4) -->
-                        <div class="flex justify-center items-center space-x-10 mt-4">
+                        <div class="flex justify-center items-center space-x-4 mt-4">
                             <div class="flex flex-col items-center">
                                 <input type="radio" name="idTemplate" id="template1" value="1"
                                        @if($idTemplate == 1) checked @endif class="mb-2"
@@ -325,33 +348,60 @@
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
                                         class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
-                            <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif flex space-x-10 mt-4">
-                                <div class="flex flex-col items-center">
-                                    <input type="radio" name="idTemplate" id="template2" value="2"
-                                           @if($idTemplate == 2) checked @endif class="mb-2"
-                                           onchange="submitTemplateForm()">
-                                    <label for="template2"></label>
-                                    <!-- template gradient  -->
-                                    <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
-                                            class="w-96 h-[750px] rounded-lg"></iframe>
+                            <div class="relative">
+                                @if($compte->role == 'starter')
+                                    <!-- Message abonnement, centré au-dessus du blur -->
+                                    <div class="relative z-50 flex flex-col items-center justify-center">
+                                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
+                                           target="_blank"
+                                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
+                                            <p class="text-white text-base">Mettre à niveau</p>
+                                            <!-- svg cursor mouse -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 viewBox="0 0 24 24"
+                                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
+                                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                                <path d="M13 13l6 6"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                @endif
+                                <!-- La zone floutée -->
+                                <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif  flex mt-4 space-x-4">
+                                    <!-- Contenu des templates -->
+                                    <div class="flex flex-col items-center">
+                                        <input type="radio" name="idTemplate" id="template2" value="2"
+                                               @if($idTemplate == 2) checked @endif class="mb-2"
+                                               onchange="submitTemplateForm()">
+                                        <label for="template2"></label>
+                                        <!-- template gradient -->
+                                        <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                                class="w-96 h-[750px] rounded-lg border border-gray-200"></iframe>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <input type="radio" name="idTemplate" id="template3" value="3"
+                                               @if($idTemplate == 3) checked @endif class="mb-2"
+                                               onchange="submitTemplateForm()">
+                                        <label for="template3"></label>
+                                        <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                                class="w-96 h-[750px] rounded-lg"></iframe>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <input type="radio" name="idTemplate" id="template4" value="4"
+                                               @if($idTemplate == 4) checked @endif class="mb-2"
+                                               onchange="submitTemplateForm()">
+                                        <label for="template4"></label>
+                                        <!-- template gradient -->
+                                        <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                                class="w-96 h-[750px] rounded-lg"></iframe>
+                                    </div>
                                 </div>
-                                <div class="flex flex-col items-center">
-                                    <input type="radio" name="idTemplate" id="template3" value="3"
-                                           @if($idTemplate == 3) checked @endif class="mb-2"
-                                           onchange="submitTemplateForm()">
-                                    <label for="template3"></label>
-                                    <!-- template gradient  -->
-                                    <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
-                                            class="w-96 h-[750px] rounded-lg"></iframe>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <input type="radio" name="idTemplate" id="template4" value="4"
-                                           @if($idTemplate == 4) checked @endif class="mb-2"
-                                           onchange="submitTemplateForm()">
-                                    <label for="template4"></label>
-                                    <!-- template gradient  -->
-                                    <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
-                                            class="w-96 h-[750px] rounded-lg"></iframe>
+
+
+                                <!-- Message au-dessus -->
+                                <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif relative flex space-x-10 mt-4">
+
                                 </div>
                             </div>
                         </div>
