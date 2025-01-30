@@ -352,7 +352,7 @@
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
                                         class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
-                            <div class="relative">
+                            <div class="relative items-center justify-center ">
                                 @if($compte->role == 'starter')
                                     <!-- Message abonnement, centré au-dessus du blur -->
                                     <div class="relative z-50 flex flex-col items-center justify-center">
