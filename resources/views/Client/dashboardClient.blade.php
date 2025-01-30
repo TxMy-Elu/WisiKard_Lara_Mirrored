@@ -181,12 +181,12 @@
                         @csrf
                         <div class="flex flex-wrap justify-center">
                             <div class="flex flex-col w-full md:w-1/2 mb-4">
-                                <label for="color1" class="w-full text-center mb-0.5 font-bold">Pixel</label>
+                                <label for="color1" class="w-full text-center mb-0.5 font-bold text-gray-800">Pixel</label>
                                 <input type="color" name="couleur1" id="color1" class="w-40 mx-auto bg-white"
                                        value="{{ $couleur1 }}">
                             </div>
                             <div class="flex flex-col w-full md:w-1/2 mb-4">
-                                <label for="color2" class="w-full text-center mb-0.5 font-bold">Fond</label>
+                                <label for="color2" class="w-full text-center mb-0.5 font-bold text-gray-800">Fond</label>
                                 <input type="color" name="couleur2" id="color2" class="w-40 mx-auto bg-white"
                                        value="{{ $couleur2 }}">
                             </div>
