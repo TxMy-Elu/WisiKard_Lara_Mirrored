@@ -265,7 +265,8 @@
         <p class='text-center'>{{ $carte->descriptif }}</p>
     </div>
 
-    <div class='flex justify-center items-center flex-wrap mt-2 mx-5'>
+
+    <div class='flex justify-center items-center flex-wrap mt-3 mx-5'>
         <!-- Bouton pour afficher le QR Code -->
         <button onclick="showQrCode()"
                 class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -276,6 +277,22 @@
             </lord-icon>
             QRCode
         </button>
+    <!-- Modal pour le QR Code -->
+    <div id='qrCodeModal' class="modal">
+        <div class="modalBody">
+            <div class="modalTitle">
+                <div class="modalTitleTxt">
+                    QR Code de {{ $carte['nomEntreprise'] }}
+                </div>
+                <div class="modalCloseBtn" onclick="hideQrCode()">
+                    ✖
+                </div>
+            </div>
+            <div class="modalContent">
+                <img src="{{ $carte['qrCode'] }}" alt="QR Code" class="modalQR">
+            </div>
+        </div>
+    </div>
 
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -321,6 +338,7 @@
             Mail
         </a>
 
+         <!--PDF-->
         @if($carte['pdf'])
             <a href="{{ $carte['pdf'] }}" target="_blank" rel="noopener noreferrer"
                class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -334,6 +352,7 @@
             </a>
         @endif
 
+        <!--RDV-->
         <a href="{{$carte['lienCommande']}}"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -344,6 +363,7 @@
             </lord-icon>{{ $carte['nomButtonCommande'] }}
         </a>
 
+        <!--Vcard-->
         <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
            download="Contact-Wisikard.vcf"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -356,6 +376,7 @@
             Vcard
         </a>
 
+        <!--Installer-->
         <a id="prompt"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
@@ -367,6 +388,7 @@
             Installer
         </a>
 
+        <!--Partager-->
         <button class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/udwhdpod.json"
                        trigger="loop"
@@ -376,6 +398,7 @@
             Partager
         </button>
 
+        <!--Horaire-->
         <!-- Bouton pour afficher les horaires dans un modal -->
         <button onclick="showHoraires()"
                 class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -387,6 +410,8 @@
             Horaires
         </button>
     </div>
+
+
 
     <div class="flex justify-center flex-wrap mx-5 my-4 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-4">
         @foreach($mergedSocial as $so)
@@ -405,80 +430,94 @@
     </div>
 </div>
 
-<!-- Modal pour le QR Code -->
-<div id='qrCodeModal' class="modal">
-    <div class="modalBody">
-        <div class="modalTitle">
-            <div class="modalTitleTxt">
-                QR Code de {{ $carte['nomEntreprise'] }}
-            </div>
-            <div class="modalCloseBtn" onclick="hideQrCode()">
-                ✖
-            </div>
-        </div>
-        <div class="modalContent">
-            <img src="{{ $carte['qrCode'] }}" alt="QR Code" class="modalQR">
-        </div>
-    </div>
-</div>
 
-<!-- Modal pour les horaires -->
-<div id='horairesModal' class="modal">
-    <div class="modalBody">
-        <div class="modalTitle">
-            <div class="modalTitleTxt">
-                Horaires de {{ $carte['nomEntreprise'] }}
-            </div>
-            <div class="modalCloseBtn" onclick="hideHoraires()">
-                ✖
-            </div>
-        </div>
-        <div class="modalContent">
-            <div class='horaires-container mx-2 my-2 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-2'>
-                @php
-                    $days = $horaires->chunk(2);
-                    $lastColumn = $days->pop();
-                @endphp
-                @foreach($days as $chunk)
-                    <div class="horaires-column">
-                        @foreach($chunk as $horaire)
-                            <div class="horaires-item flex items-center justify-center p-2">
-                                <div class="day text-white p-1 fill-white">
-                                    {{ $horaire->jour }}
-                                </div>
-                                <div class="hours text-center mt-1">
-                                    @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
-                                        <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
-                                        <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
-                                    @else
-                                        <p>Fermé</p>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endforeach
-                <div class="horaires-column">
-                    @foreach($lastColumn as $horaire)
-                        <div class="horaires-item flex items-center justify-center p-2">
-                            <div class="day text-white p-1 fill-white">
-                                {{ $horaire->jour }}
-                            </div>
-                            <div class="hours text-center mt-1">
-                                @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
-                                    <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
-                                    <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
-                                @else
-                                    <p>Fermé</p>
-                                @endif
-                            </div>
+<div class="w-auto p-3 relative flex justify-center items-center">
+    @php
+        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+        $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
+    @endphp
+    @if(!empty($sliderImages))
+        <div class="relative w-48 h-48">
+            <div class="carousel-container w-full h-full overflow-hidden">
+                <div class="carousel-track flex transition-transform ease-out duration-500">
+                    @foreach($sliderImages as $image)
+                        <div class="carousel-slide min-w-full">
+                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
+                                 alt="Image"
+                                 class="w-full h-full object-cover cursor-pointer hover:opacity-80">
                         </div>
                     @endforeach
                 </div>
             </div>
+            <!-- Navigation buttons -->
+            <button class="carousel-button-prev absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full" onclick="prevSlide()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button class="carousel-button-next absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full" onclick="nextSlide()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
         </div>
-    </div>
+    @endif
 </div>
+
+        <!-- Modal pour les horaires -->
+        <div id='horairesModal' class="modal">
+            <div class="modalBody">
+                <div class="modalTitle">
+                    <div class="modalTitleTxt">
+                        Horaires de {{ $carte['nomEntreprise'] }}
+                    </div>
+                    <div class="modalCloseBtn" onclick="hideHoraires()">
+                        ✖
+                    </div>
+                </div>
+                <div class="modalContent">
+                    <div class='horaires-container mx-2 my-2 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-2'>
+                        @php
+                            $days = $horaires->chunk(2);
+                            $lastColumn = $days->pop();
+                        @endphp
+                        @foreach($days as $chunk)
+                            <div class="horaires-column">
+                                @foreach($chunk as $horaire)
+                                    <div class="horaires-item flex items-center justify-center p-2">
+                                        <div class="day text-white p-1 fill-white">
+                                            {{ $horaire->jour }}
+                                        </div>
+                                        <div class="hours text-center mt-1">
+                                            @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                                <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                                <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                            @else
+                                                <p>Fermé</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
+                        <div class="horaires-column">
+                            @foreach($lastColumn as $horaire)
+                                <div class="horaires-item flex items-center justify-center p-2">
+                                    <div class="day text-white p-1 fill-white">
+                                        {{ $horaire->jour }}
+                                    </div>
+                                    <div class="hours text-center mt-1">
+                                        @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                            <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                            <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                        @else
+                                            <p>Fermé</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
 
 <footer class="text-center p-2">
     Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
@@ -501,7 +540,52 @@
     function hideHoraires() {
         document.getElementById('horairesModal').style.display = 'none';
     }
+
+
+    const carouselTrack = document.querySelector('.carousel-track');
+    const slides = Array.from(carouselTrack.children);
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    let currentIndex = 0;
+
+    const setSlidePosition = (slide, index) => {
+        slide.style.left = slideWidth * index + 'px';
+    };
+
+    slides.forEach(setSlidePosition);
+
+    const moveToSlide = (carouselTrack, currentSlide, targetSlide) => {
+        carouselTrack.style.transform = 'translateX(-' + targetSlide.style.left + ')';
+        currentSlide.classList.remove('current-slide');
+        targetSlide.classList.add('current-slide');
+    };
+
+    const prevSlide = () => {
+        const currentSlide = slides[currentIndex];
+        const prevSlide = slides[currentIndex - 1];
+        moveToSlide(carouselTrack, currentSlide, prevSlide);
+        currentIndex -= 1;
+    };
+
+    const nextSlide = () => {
+        const currentSlide = slides[currentIndex];
+        const nextSlide = slides[currentIndex + 1];
+        moveToSlide(carouselTrack, currentSlide, nextSlide);
+        currentIndex += 1;
+    };
+
+    document.querySelector('.carousel-button-prev').addEventListener('click', () => {
+        if (currentIndex > 0) {
+            prevSlide();
+        }
+    });
+
+    document.querySelector('.carousel-button-next').addEventListener('click', () => {
+        if (currentIndex < slides.length - 1) {
+            nextSlide();
+        }
+    });
 </script>
+
 </body>
 
 </html>
