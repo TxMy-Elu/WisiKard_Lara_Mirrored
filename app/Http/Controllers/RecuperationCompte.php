@@ -20,7 +20,7 @@ class RecuperationCompte extends Controller
             }
 
             if ($ok === true) {
-                return view('formulaireChangementMotDePasse', ["codeRecuperation" => $_GET["code"]]);
+                return view('Formulaire.formulaireChangementMotDePasse', ["codeRecuperation" => $_GET["code"]]);
             } else {
                 return view('pageErreur', ["messageErreur" => $messageErreur]);
             }

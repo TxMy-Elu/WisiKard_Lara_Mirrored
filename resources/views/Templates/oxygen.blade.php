@@ -411,8 +411,6 @@
         </button>
     </div>
 
-
-
     <div class="flex justify-center flex-wrap mx-5 my-4 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-4">
         @foreach($mergedSocial as $so)
             <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
