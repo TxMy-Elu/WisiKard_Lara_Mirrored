@@ -287,7 +287,7 @@
                             <!-- Première colonne : Lundi à Mercredi -->
                             <div class="flex flex-col space-y-6">
                                 @foreach(['lundi', 'mardi', 'mercredi' ,'jeudi'] as $jour)
-                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4">
+                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
                                         <label for="{{ $jour }}_ouverture_matin"
                                                class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
                                             {{ ucfirst($jour) }}
@@ -298,7 +298,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_ouverture_matin"
                                                         id="{{ $jour }}_ouverture_matin"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700 "
                                                         value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
                                                 />
                                                 <p class="text-sm text-gray-500">à</p>
@@ -306,7 +306,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_fermeture_matin"
                                                         id="{{ $jour }}_fermeture_matin"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
                                                 />
                                             </div>
@@ -316,7 +316,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_ouverture_aprmidi"
                                                         id="{{ $jour }}_ouverture_aprmidi"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
                                                 />
                                                 <p class="text-sm text-gray-500">à</p>
@@ -324,7 +324,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_fermeture_aprmidi"
                                                         id="{{ $jour }}_fermeture_aprmidi"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
                                                 />
                                             </div>
@@ -336,18 +336,18 @@
                             <!-- Deuxième colonne : Jeudi à Samedi -->
                             <div class="flex flex-col space-y-6">
                                 @foreach(['vendredi', 'samedi','dimanche'] as $jour)
-                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4">
+                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
                                         <label for="{{ $jour }}_ouverture_matin"
                                                class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
                                             {{ ucfirst($jour) }}
                                         </label>
-                                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4">
+                                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4 ">
                                             <div class="flex items-center space-x-2">
                                                 <input
                                                         type="time"
                                                         name="{{ $jour }}_ouverture_matin"
                                                         id="{{ $jour }}_ouverture_matin"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
                                                 />
                                                 <p class="text-sm text-gray-500">à</p>
@@ -355,7 +355,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_fermeture_matin"
                                                         id="{{ $jour }}_fermeture_matin"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
                                                 />
                                             </div>
@@ -365,7 +365,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_ouverture_aprmidi"
                                                         id="{{ $jour }}_ouverture_aprmidi"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
                                                 />
                                                 <p class="text-sm text-gray-500">à</p>
@@ -373,7 +373,7 @@
                                                         type="time"
                                                         name="{{ $jour }}_fermeture_aprmidi"
                                                         id="{{ $jour }}_fermeture_aprmidi"
-                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
                                                         value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
                                                 />
                                             </div>
@@ -381,7 +381,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                        </div>    
+                        </div>
                         <div class="flex justify-end">
                             <button
                                     type="submit"
