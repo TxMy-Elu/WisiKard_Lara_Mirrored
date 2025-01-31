@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body class="bg-white md:bg-zinc-100">
-@include('menu.menuClient')
 
 <div class="flex justify-center items-center min-h-screen">
     <div class="w-full max-w-md p-4 mx-4 bg-white md:bg-white md:rounded-[30px] md:shadow-red">

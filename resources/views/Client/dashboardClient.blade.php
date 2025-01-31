@@ -181,12 +181,14 @@
                         @csrf
                         <div class="flex flex-wrap justify-center">
                             <div class="flex flex-col w-full md:w-1/2 mb-4">
-                                <label for="color1" class="w-full text-center mb-0.5 font-bold text-gray-800">Pixel</label>
+                                <label for="color1"
+                                       class="w-full text-center mb-0.5 font-bold text-gray-800">Pixel</label>
                                 <input type="color" name="couleur1" id="color1" class="w-40 mx-auto bg-white"
                                        value="{{ $couleur1 }}">
                             </div>
                             <div class="flex flex-col w-full md:w-1/2 mb-4">
-                                <label for="color2" class="w-full text-center mb-0.5 font-bold text-gray-800">Fond</label>
+                                <label for="color2"
+                                       class="w-full text-center mb-0.5 font-bold text-gray-800">Fond</label>
                                 <input type="color" name="couleur2" id="color2" class="w-40 mx-auto bg-white"
                                        value="{{ $couleur2 }}">
                             </div>
@@ -275,65 +277,118 @@
             </div>
             <!-- Horaires d'ouverture (div6) -->
             <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
-                <form action="{{ route('updateHoraires') }}" method="POST" class="p-6 ">
+                <form action="{{ route('updateHoraires') }}" method="POST" class="p-6">
                     @csrf
                     <div class="flex flex-col space-y-6">
                         <h2 class="text-lg font-semibold text-gray-800">Horaires d'ouverture</h2>
 
-                        @foreach(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as $jour)
-                            <div class="flex flex-col md:flex-row items-center justify-between border-b pb-4 mb-4">
-                                <label for="{{ $jour }}_ouverture_matin"
-                                       class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
-                                    {{ ucfirst($jour) }}
-                                </label>
-
-                                <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4">
-                                    <div class="flex items-center space-x-2">
-                                        <input
-                                                type="time"
-                                                name="{{ $jour }}_ouverture_matin"
-                                                id="{{ $jour }}_ouverture_matin"
-                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
-                                                value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
-                                        />
-                                        <p class="text-sm text-gray-500">à</p>
-                                        <input
-                                                type="time"
-                                                name="{{ $jour }}_fermeture_matin"
-                                                id="{{ $jour }}_fermeture_matin"
-                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
-                                                value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
-                                        />
+                        <!-- Grille pour les autres jours -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Première colonne : Lundi à Mercredi -->
+                            <div class="flex flex-col space-y-6">
+                                @foreach(['lundi', 'mardi', 'mercredi' ,'jeudi'] as $jour)
+                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+                                        <label for="{{ $jour }}_ouverture_matin"
+                                               class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
+                                            {{ ucfirst($jour) }}
+                                        </label>
+                                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4">
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_matin"
+                                                        id="{{ $jour }}_ouverture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700 "
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_matin"
+                                                        id="{{ $jour }}_fermeture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
+                                                />
+                                            </div>
+                                            <p class="font-semibold text-gray-600">/</p>
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_aprmidi"
+                                                        id="{{ $jour }}_ouverture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_aprmidi"
+                                                        id="{{ $jour }}_fermeture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p class="font-semibold text-gray-600">/</p>
-                                    <div class="flex items-center space-x-2">
-                                        <input
-                                                type="time"
-                                                name="{{ $jour }}_ouverture_aprmidi"
-                                                id="{{ $jour }}_ouverture_aprmidi"
-                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
-                                                value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
-                                        />
-                                        <p class="text-sm text-gray-500">à</p>
-                                        <input
-                                                type="time"
-                                                name="{{ $jour }}_fermeture_aprmidi"
-                                                id="{{ $jour }}_fermeture_aprmidi"
-                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-blue-500 text-gray-700"
-                                                value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
-                                        />
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
-                        @endforeach
-                    </div>
 
-                    <div class="flex justify-end">
-                        <button
-                                type="submit"
-                                class="mt-6 w-48 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1">
-                            Enregistrer
-                        </button>
+                            <!-- Deuxième colonne : Jeudi à Samedi -->
+                            <div class="flex flex-col space-y-6">
+                                @foreach(['vendredi', 'samedi','dimanche'] as $jour)
+                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+                                        <label for="{{ $jour }}_ouverture_matin"
+                                               class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
+                                            {{ ucfirst($jour) }}
+                                        </label>
+                                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4 ">
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_matin"
+                                                        id="{{ $jour }}_ouverture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_matin"
+                                                        id="{{ $jour }}_fermeture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
+                                                />
+                                            </div>
+                                            <p class="font-semibold text-gray-600">/</p>
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_aprmidi"
+                                                        id="{{ $jour }}_ouverture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_aprmidi"
+                                                        id="{{ $jour }}_fermeture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button
+                                    type="submit"
+                                    class="mt-6 w-48 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1">
+                                Enregistrer
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
