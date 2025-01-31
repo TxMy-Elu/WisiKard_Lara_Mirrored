@@ -516,7 +516,6 @@
             </div>
 </div>
 
-
 <footer class="text-center p-2">
     Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
                                                                              class="text-blue-500">Wisikard</a>

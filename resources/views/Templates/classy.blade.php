@@ -174,6 +174,15 @@
             text-decoration: none;
             cursor: pointer;
         }
+        #img1{
+            position: relative;
+            z-index: 10;
+        }
+        #img2{
+            position: absolute;
+            z-index: 1;
+        }
+
     </style>
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
@@ -201,6 +210,8 @@
 
         gtag('js', new Date());
         gtag('config', 'G-080RS8FYWX');
+
+
     </script>
 </head>
 <body>
@@ -409,6 +420,47 @@
             </a>
         @endforeach
     </div>
+
+                 <!-- Affichage des images dans la galerie -->
+                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
+                            @php
+                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+                                $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
+                            @endphp
+
+                            @if(!empty($sliderImages))
+                                <!-- Galerie photo -->
+                                <div class="flex flex-wrap gap-4 ">
+                                    @foreach($sliderImages as $image)
+                                        <div class="relative translate-1/6">
+                                            <!-- Miniature -->
+                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
+                                                 alt="Image"
+                                                 id="img1"
+                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
+                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Modal pour afficher les images en grand -->
+                                <div id="imageModal"
+                                     class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
+                                    <div class="relative">
+                                        <button onclick="closeModal()"
+                                                class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
+                                        </button>
+                                        <img id="modalImage" src="" alt="Agrandissement de l'image"
+                                             class="object-contain w-96 h-[90%] rounded-lg">
+                                    </div>
+                                </div>
+                            @else
+                                <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
 </div>
 
 <footer class="text-center p-4">
@@ -416,5 +468,20 @@
                                                                                              class="text-blue-500">Wisikard</a>
 </footer>
 </body>
+<script>
+   function openModal(imageUrl) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
+        modal.classList.remove('hidden'); // Affiche le modal
+   }
+
+   function closeModal() {
+       const modal = document.getElementById('imageModal');
+       modal.classList.add('hidden'); // Cache le modal
+   }
+
+</script>
 
 </html>
