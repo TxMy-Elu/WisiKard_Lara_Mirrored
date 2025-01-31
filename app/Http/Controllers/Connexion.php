@@ -101,9 +101,6 @@ class Connexion extends Controller
         }
     }
 
-
-
-
     public function deconnexion()
     {
         if (session()->has('connexion')) {

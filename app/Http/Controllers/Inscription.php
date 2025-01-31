@@ -11,7 +11,7 @@ class Inscription extends Controller
     public function afficherFormulaireInscription()
     {
         $roles = DB::table('compte')->select('role')->distinct()->get();
-        return view('formulaire.formulaireInscription', ['roles' => $roles]);
+        return view('Formulaire.formulaireInscription', ['roles' => $roles]);
     }
 
 
@@ -38,19 +38,19 @@ class Inscription extends Controller
             }
 
             if ($validationFormulaire === false) {
-                return view('formulaire.formulaireInscription', ["messagesErreur" => $messagesErreur, 'roles' => $roles]);
+                return view('Formulaire.formulaireInscription', ["messagesErreur" => $messagesErreur, 'roles' => $roles]);
             } else {
                 $motDePasseHashe = password_hash($_POST["motDePasse1"], PASSWORD_BCRYPT);
 
                 Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"], $_POST["entreprise"]);
                 Logs::ecrireLog($_POST["email"], "Inscription");
 
-                return view('formulaire.formulaireInscription', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter", 'roles' => $roles]);
+                return view('Formulaire.formulaireInscription', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter", 'roles' => $roles]);
             }
         }
 
         // If the form is not submitted, display the form with roles
-        return view('formulaire.formulaireInscription', ['roles' => $roles]);
+        return view('Formulaire.formulaireInscription', ['roles' => $roles]);
     }
 
 }

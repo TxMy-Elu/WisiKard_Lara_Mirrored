@@ -45,7 +45,7 @@ class DashboardClient extends Controller
                 $horaires = collect();
             }
 
-            return view('client.dashboardClient', [
+            return view('Client.dashboardClient', [
                 'messageContent' => $messageContent,
                 'carte' => $carte,
                 'compte' => $compte,
@@ -120,14 +120,14 @@ class DashboardClient extends Controller
             ->get();
 
         if ($employes->isEmpty() && !empty($search)) {
-            return view('client.dashboardClientEmploye', [
+            return view('Client.dashboardClientEmploye', [
                 'employes' => $employes,
                 'search' => $search,
                 'error' => 'Aucun résultat trouvé pour votre recherche.'
             ]);
         }
 
-        return view('client.dashboardClientEmploye', [
+        return view('Client.dashboardClientEmploye', [
             'employes' => $employes,
             'search' => $search,
             'compte' => $compte
@@ -185,7 +185,7 @@ class DashboardClient extends Controller
             $activatedCustomLinksArray[$link->id_link] = ['activer' => $link->activer, 'lien' => $link->lien];
         }
 
-        return view('client.dashboardClientSocial', [
+        return view('Client.dashboardClientSocial', [
             'allSocial' => $allSocial,
             'activatedSocial' => $activatedSocialArray,
             'idCarte' => $idCarte,
@@ -348,13 +348,13 @@ class DashboardClient extends Controller
             ],
         ];
 
-        return view('client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData', 'compte'));
+        return view('Client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData', 'compte'));
     }
 
     public function afficherFormulaireModifEmpl($id)
     {
         $employe = Employer::findOrFail($id);
-        return view('formulaire.formulaireModifEmploye', compact('employe'));
+        return view('Formulaire.formulaireModifEmploye', compact('employe'));
     }
 
     public function modifierEmploye(Request $request, $id)
@@ -515,7 +515,7 @@ class DashboardClient extends Controller
             }
         }
 
-        return view('client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
+        return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
 
@@ -674,7 +674,7 @@ class DashboardClient extends Controller
             Log::info('URL personnalisée enregistrée avec succès', ['email' => $emailUtilisateur, 'customUrl' => $customUrl]);
             Logs::ecrireLog($emailUtilisateur, "Téléchargement URL personnalisée");
 
-            return view('client.dashboardClientPDF', [
+            return view('Client.dashboardClientPDF', [
                 'carte' => $carte,
                 'youtubeUrls' => $youtubeUrls ?? [],
                 'idCompte' => $idCompte,
@@ -1021,7 +1021,7 @@ class DashboardClient extends Controller
             $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
         }
 
-        return view('formulaire.formulaireEntreprise', compact('carte', 'compte'));
+        return view('Formulaire.formulaireEntreprise', compact('carte', 'compte'));
     }
 
     public function updateEntreprise(Request $request)
