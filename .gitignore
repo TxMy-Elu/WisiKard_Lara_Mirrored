@@ -5,6 +5,7 @@
 /storage/logs
 /vendor
 /storage/*
+/public/entreprises/*
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
