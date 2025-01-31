@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données : `wisikard2`
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     PRIMARY KEY (`idCarte`),
     KEY `carte_compte_FK` (`idCompte`),
     KEY `carte_template_FK` (`idTemplate`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `carte`
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `compte` (
     `tentativesCo` int NOT NULL DEFAULT '0',
     `estDesactiver` tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `compte`
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `custom_link` (
     `idCarte` int DEFAULT NULL,
     PRIMARY KEY (`id_link`),
     KEY `idCarte` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `employer` (
     `telephone` varchar(100) NOT NULL,
     PRIMARY KEY (`idEmp`),
     KEY `employer_carte_FK` (`idCarte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `employer`
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `horaires` (
     `fermeture_aprmidi` time DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `idCarte` (`idCarte`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `horaires`
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
     `idCompte` int NOT NULL,
     PRIMARY KEY (`idLog`),
     KEY `logs_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `logs`
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `message` (
                                          `message` varchar(500) NOT NULL,
     `afficher` tinyint(1) NOT NULL,
     PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `message`
@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `reactivation` (
     PRIMARY KEY (`idReactivation`),
     UNIQUE KEY `codeReactivation` (`codeReactivation`),
     KEY `reactivation_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `reactivation`
@@ -432,7 +432,7 @@ CREATE TABLE IF NOT EXISTS `recuperation` (
     PRIMARY KEY (`idRecuperation`),
     UNIQUE KEY `codeRecuperation` (`codeRecuperation`),
     KEY `recuperation_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `recuperation`
@@ -464,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `rediriger` (
     `activer` tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (`idSocial`,`idCarte`),
     KEY `rediriger_carte_FK` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `rediriger`
@@ -494,10 +494,10 @@ INSERT INTO `rediriger` (`idSocial`, `idCarte`, `lien`, `activer`) VALUES
 DROP TABLE IF EXISTS `social`;
 CREATE TABLE IF NOT EXISTS `social` (
                                         `idSocial` int NOT NULL AUTO_INCREMENT,
-                                        `nom` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    `lienLogo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                        `nom` varchar(500) CHARACTER SET utf8  NOT NULL,
+    `lienLogo` text CHARACTER SET utf8  NOT NULL,
     PRIMARY KEY (`idSocial`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `social`
@@ -530,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `template` (
                                           `idTemplate` int NOT NULL AUTO_INCREMENT,
                                           `nom` varchar(50) NOT NULL,
     PRIMARY KEY (`idTemplate`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `template`
@@ -558,7 +558,7 @@ CREATE TABLE IF NOT EXISTS `vue` (
                                      PRIMARY KEY (`idVue`),
     KEY `vue_carte_FK` (`idCarte`),
     KEY `vue_employer_FK` (`idEmp`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 --
 -- Déchargement des données de la table `vue`
@@ -659,7 +659,7 @@ CREATE TABLE IF NOT EXISTS `custom_link` (
     `idCarte` int DEFAULT NULL,
     PRIMARY KEY (`id_link`),
     KEY `idCarte` (`idCarte`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 --
 -- Contraintes pour les tables déchargées

@@ -44,7 +44,7 @@ class DashboardAdmin extends Controller
         $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
         $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-        return view('admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
+        return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
     }
 
     public function statistique(Request $request)
@@ -77,7 +77,7 @@ class DashboardAdmin extends Controller
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
-        return view('admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
+        return view('Admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
     private function formatPhoneNumber($phoneNumber)
@@ -100,7 +100,7 @@ class DashboardAdmin extends Controller
             'afficher' => true,
         ]);
 
-        return redirect()->route('dashboardAdminMessage');
+        return redirect()->route('Admin.dashboardAdminMessage');
     }
 
     public function toggleMessage($id)
@@ -114,7 +114,7 @@ class DashboardAdmin extends Controller
 
         Log::info('Message ' . $message->id . ' not found');
 
-        return redirect()->route('dashboardAdminMessage');
+        return redirect()->route('Admin.dashboardAdminMessage');
     }
 
     public function modifierMessage(Request $request, $id)
@@ -133,13 +133,13 @@ class DashboardAdmin extends Controller
 
         Log::info('Message ' . $message->id . ' updated');
         Logs::ecrireLog($request->session()->get('email'), 'Modification du message');
-        return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
+        return redirect()->route('Admin.dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
     public function afficherAllMessage()
     {
         $messages = $this->message->all();
-        return view('admin.dashboardAdminMessage', compact('messages'));
+        return view('Admin.dashboardAdminMessage', compact('messages'));
     }
 
     public function refreshQrCode($id)
@@ -157,6 +157,6 @@ class DashboardAdmin extends Controller
             }
         }
 
-        return redirect()->route('dashboardAdmin');
+        return redirect()->route('Admin.dashboardAdmin');
     }
 }
