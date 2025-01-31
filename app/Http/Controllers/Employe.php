@@ -13,7 +13,7 @@ class Employe extends Controller
 {
     public function afficherFormulaireInscEmpl()
     {
-        return view('formulaire.formulaireInscriptionEmploye');
+        return view('Formulaire.formulaireInscriptionEmploye');
     }
 
     public function boutonInscriptionEmploye(Request $request)
@@ -22,7 +22,7 @@ class Employe extends Controller
         $messagesErreur = array(); // Tableau contenant les messages d'erreur à afficher
 
         if ($validationFormulaire === false) {
-            return view('formulaire.formulaireEmploye', ["messagesErreur" => $messagesErreur]);
+            return view('Formulaire.formulaireEmploye', ["messagesErreur" => $messagesErreur]);
         } else {
 
             // Récupérer l'id du compte connecté
@@ -106,7 +106,7 @@ class Employe extends Controller
     public function edit($id)
     {
         $employe = Employer::findOrFail($id);
-        return view('formulaire.formulaireModifEmploye', compact('employe'));
+        return view('Formulaire.formulaireModifEmploye', compact('employe'));
     }
 
     public function update(Request $request, $id)
