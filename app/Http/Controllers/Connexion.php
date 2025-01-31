@@ -20,7 +20,7 @@ class Connexion extends Controller
         if (isset($_POST["boutonConnexion"])) {
             return $this->boutonConnexion();
         } else {
-            return redirect()->to('connexion')->send();
+            return redirect()->to('formulaireConnexion')->send();
         }
     }
 
@@ -86,9 +86,9 @@ class Connexion extends Controller
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
 
             if ($utilisateur->role === 'admin') {
-                return redirect()->route('Admin.dashboardAdmin');
+                return redirect()->route('dashboardAdmin');
             } elseif ($utilisateur->role === 'starter' || $utilisateur->role === 'advanced') {
-                return redirect()->route('Client.dashboardClient');
+                return redirect()->route('dashboardClient');
             } else {
                 $messagesErreur[] = "Votre rôle est non autorisé.";
                 return view('Formulaire.formulaireConnexion', ["messagesErreur" => $messagesErreur]);
@@ -97,7 +97,7 @@ class Connexion extends Controller
             if (isset($utilisateur)) {
                 Logs::ecrireLog($utilisateur->email, "Connexion échouée");
             }
-            return view('formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
+            return view('Formulaire.formulaireConnexion', ["messagesErreur" => $messagesErreur, "tentativesRestantes" => $tentativesRestantes]);
         }
     }
 
@@ -113,6 +113,6 @@ class Connexion extends Controller
             setcookie("auth", "", time() - 3600);
         }
 
-        return redirect()->to('formulaireConnexion')->send();
+        return redirect()->to('connexion')->send();
     }
 }
