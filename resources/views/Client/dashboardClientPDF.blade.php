@@ -164,8 +164,8 @@
             </div>
 
             <!-- Formulaire YouTube div3 -->
-            <div class="relative  col-span-2 row-span-3">
-                @if($compte->role == 'starter')
+            @if($compte->role == 'starter')
+                <div class="relative col-span-2 row-span-3">
                     <!-- Message abonnement, centré au-dessus du blur -->
                     <div class="relative z-50 flex flex-col items-center justify-center">
                         <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
@@ -182,9 +182,31 @@
                             </svg>
                         </a>
                     </div>
-                @endif
-                <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col
-            @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                    <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col blur-[3px] pointer-events-none opacity-50">
+                        <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="youtube_url" class="block text-sm font-medium text-gray-600 mb-2">
+                                    URL YouTube :
+                                </label>
+                                <input type="url" id="youtube_url" name="youtube_url"
+                                       class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                       placeholder="https://www.youtube.com/watch?v=...">
+                            </div>
+                            <div class="flex justify-end">
+                                <div type="submit"
+                                        class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Enregistrer
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+                        <!-- Card pour les vidéos YouTube -->
+                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
+                    </div>
+                </div>
+            @else
+                <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col col-span-2 row-span-3">
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
                     <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
                           enctype="multipart/form-data"
@@ -227,7 +249,8 @@
                                               method="POST" class="mt-4 w-full flex justify-end">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                                            <button type="submit"
+                                                    class="bg-red-500 text-white px-4 py-2 rounded-lg">
                                                 Supprimer
                                             </button>
                                         </form>
@@ -239,7 +262,9 @@
                         <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
                     @endif
                 </div>
-            </div>
+            @endif
+
+
 
             <!-- div 6 -->
             <!-- input lien avis google -->
@@ -365,7 +390,7 @@
                         </a>
                     </div>
                 @endif
-                <div class="bg-white rounded-lg shadow-md p-6 @if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+                <div class="bg-white rounded-lg shadow-md p-6 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
 
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">

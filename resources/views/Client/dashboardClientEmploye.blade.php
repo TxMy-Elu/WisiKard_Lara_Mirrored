@@ -31,7 +31,7 @@
             </div>
         @endif
 
-        <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif">
+        <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
             @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
                      role="alert">
