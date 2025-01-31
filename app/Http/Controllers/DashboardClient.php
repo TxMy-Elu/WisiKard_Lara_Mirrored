@@ -162,6 +162,7 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $idCarte = Carte::where('idCompte', $idCompte)->first()->idCarte;
+        $compte = Compte::where('idCompte', $idCompte)->first();
 
         $allSocial = Social::all();
         $activatedSocial = Rediriger::where('idCarte', $idCarte)
@@ -189,7 +190,8 @@ class DashboardClient extends Controller
             'activatedSocial' => $activatedSocialArray,
             'idCarte' => $idCarte,
             'custom' => $custom,
-            'activatedCustomLinks' => $activatedCustomLinksArray
+            'activatedCustomLinks' => $activatedCustomLinksArray,
+            'compte' => $compte
         ]);
     }
 

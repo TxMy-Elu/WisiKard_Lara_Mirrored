@@ -111,7 +111,7 @@
                 </div>
             @endif
 
-            <div class="@if($compte->role == 'starter') blur-sm pointer-events-none opacity-50 @endif  flex flex-col items-center justify-center ">
+            <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif  flex flex-col items-center justify-center ">
                 <div class="text-center mb-4">
                     <p class="font-bold text-2xl text-gray-800">Nombres de vues</p>
                     <p class="text-xl  text-gray-800">Par employes</p>
