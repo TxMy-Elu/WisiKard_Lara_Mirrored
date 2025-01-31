@@ -12,7 +12,7 @@ class Connexion extends Controller
 {
     public function afficherFormulaireConnexion()
     {
-        return view('formulaire.formulaireConnexion', []);
+        return view('Formulaire.formulaireConnexion', []);
     }
 
     public function validationFormulaire()
@@ -86,12 +86,12 @@ class Connexion extends Controller
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
 
             if ($utilisateur->role === 'admin') {
-                return redirect()->route('dashboardAdmin');
+                return redirect()->route('Admin.dashboardAdmin');
             } elseif ($utilisateur->role === 'starter' || $utilisateur->role === 'advanced') {
-                return redirect()->route('dashboardClient');
+                return redirect()->route('Client.dashboardClient');
             } else {
                 $messagesErreur[] = "Votre rôle est non autorisé.";
-                return view('formulaire.formulaireConnexion', ["messagesErreur" => $messagesErreur]);
+                return view('Formulaire.formulaireConnexion', ["messagesErreur" => $messagesErreur]);
             }
         } else {
             if (isset($utilisateur)) {
@@ -113,6 +113,6 @@ class Connexion extends Controller
             setcookie("auth", "", time() - 3600);
         }
 
-        return redirect()->to('connexion')->send();
+        return redirect()->to('formulaire.formulaireConnexion')->send();
     }
 }
