@@ -422,46 +422,25 @@
     </div>
 
                  <!-- Affichage des images dans la galerie -->
-                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
+                        <div class="w-full flex justify-center rounded-2xl p-6 bg-indigo-200">
                             @php
                                 $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
                                 $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
                             @endphp
 
                             @if(!empty($sliderImages))
-                                <!-- Galerie photo -->
-                                <div class="flex flex-wrap gap-4 ">
+
                                     @foreach($sliderImages as $image)
-                                        <div class="relative translate-1/6">
                                             <!-- Miniature -->
                                             <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
                                                  alt="Image"
-                                                 id="img1"
-                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
+                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80 relative"
                                                  onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
-                                        </div>
+
                                     @endforeach
-                                </div>
-
-                                <!-- Modal pour afficher les images en grand -->
-                                <div id="imageModal"
-                                     class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
-                                    <div class="relative">
-                                        <button onclick="closeModal()"
-                                                class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
-                                        </button>
-                                        <img id="modalImage" src="" alt="Agrandissement de l'image"
-                                             class="object-contain w-96 h-[90%] rounded-lg">
-                                    </div>
-                                </div>
-                            @else
-                                <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
                             @endif
-                        </div>
-                    </div>
-                </div>
+                         </div>
 
-</div>
 
 <footer class="text-center p-4">
     Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
