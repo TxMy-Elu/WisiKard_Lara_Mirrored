@@ -85,7 +85,7 @@
         </div>
     @endif
 
-    <!-- Commandes -->
+    <!-- site web -->
     @if($carte['LienCommande'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="{{ $carte['LienCommande'] }}"
@@ -97,7 +97,7 @@
                         colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
                         class="mr-2">
                 </lord-icon>
-                Prise de Commandes / Rendez-vous
+                Site web
             </a>
         </div>
     @endif
@@ -118,6 +118,74 @@
             </a>
         </div>
     @endif
+
+    <!-- Email -->
+    @if($compte['email'])
+        <div class="w-full h-full flex justify-center items-center mt-2">
+            <a href="mailto:{{ $compte['email'] }}"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+                <lord-icon
+                        src="https://cdn.lordicon.com/aycieyht.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        class="mr-2">
+                </lord-icon>
+                Email
+            </a>
+        </div>
+    @endif
+
+    <!-- PDF -->
+    @if($carte['pdf'])
+        <div class="w-full h-full flex justify-center items-center mt-2">
+            <a href="{{ $carte['PDF'] }}"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+                <lord-icon
+                        src="https://cdn.lordicon.com/wzwygmng.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        class="mr-2">
+                </lord-icon>
+                {{$carte['nomBtnPdf']}} (PDF)
+            </a>
+        </div>
+    @endif
+
+    <!-- Rdv -->
+    @if($carte['LienCommande'])
+        <div class="w-full h-full flex justify-center items-center mt-2">
+            <a href="{{ $carte['LienRdv'] }}"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+                <lord-icon
+                        src="https://cdn.lordicon.com/tdxypxgp.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        class="mr-2">
+                </lord-icon>
+                Prendre un rendez-vous
+            </a>
+        </div>
+    @endif
+
+    <!-- partage -->
+    <div class="w-full h-full flex justify-center items-center mt-2">
+        <!-- url de partage (actuel + les parametres) -->
+        <a href=" {{ url()->current().'?idCompte='.$carte->compte->idCompte }}"
+           class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+            <lord-icon
+                    src="https://cdn.lordicon.com/udwhdpod.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                    class="mr-2">
+            </lord-icon>
+            Partager
+        </a>
+    </div>
+
 
 </div>
 

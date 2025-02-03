@@ -327,7 +327,7 @@
             Téléphone
         </a>
 
-        <a href="mailto:{{ $carte['mailContact'] }}"
+        <a href="mailto:{{ $compte->email }}"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/aycieyht.json"
