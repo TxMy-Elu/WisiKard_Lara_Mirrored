@@ -431,23 +431,23 @@
         $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
     @endphp
 
-
     @if(!empty($sliderImages))
         <!-- Présentation de l'album -->
-        <div class="bg-slate-100 rounded-lg relative">
+        <div class="bg-slate-100 rounded-lg relative mb-4">
             <!-- Carré de quatre photos -->
             <div class="p-2 flex flex-col items-center bg-slate-100 rounded-lg" onClick="openAlbum()">
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     @for($i = 0; $i < 4; $i++)
                         @if(isset($sliderImages[$i]))
-                            <div class="relative w-24 h-24">
+                            <div class="relative w-24 h-24 md:w-28 md:h-28">
                                 <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$sliderImages[$i]) }}"
                                      class="w-full h-full object-cover rounded-md shadow-md"
-                                     alt="Photo de l'album">
+                                     alt="Image de l'album">
                             </div>
                         @else
                             <!-- Bloc fond gris s'il manque des images -->
-                            <div class="relative w-24 h-24 bg-gray-400 rounded-md shadow-md flex items-center justify-center">
+                            <div
+                                    class="relative w-24 h-24 bg-gray-400 rounded-md shadow-md flex items-center justify-center md:w-28 md:h-28">
                             </div>
                         @endif
                     @endfor
@@ -462,25 +462,59 @@
         </div>
 
         <!-- Modale pour afficher toutes les photos -->
-        <div id="albumModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
-            <!-- Contenu de l'album -->
-            <div class="p-6 flex flex-wrap gap-4 justify-center">
-                @foreach($sliderImages as $image)
-                    <div class="relative max-w-xs w-full">
-                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
-                             class="w-full h-auto rounded-lg shadow-md"
-                             alt="Image de l'album">
+        <div id="albumModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex justify-center items-center">
+            <!-- Contenu de l'album avec défilement -->
+            <div class="relative w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden max-h-full">
+                <!-- Zone Scrollable -->
+                <div class="overflow-y-auto p-6" style="max-height: 85vh;">
+                    <h3 class="text-center text-xl font-bold mb-4">Galerie</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
+                        @foreach($sliderImages as $image)
+                            <div class="flex items-center justify-center">
+                                <!-- Image cliquable -->
+                                <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
+                                     class="h-auto rounded-lg shadow-md w-28 cursor-pointer"
+                                     alt="Image de l'album"
+                                     onclick="openImageModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}')">
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
-            </div>
 
-            <!-- Bouton de fermeture -->
-            <button onclick="closeAlbum()"
-                    class="absolute top-5 right-5 bg-red-500 text-white text-xl px-4 py-2 rounded-full">
-                ✖
-            </button>
+                    <!-- Modal pour afficher l'image en grand -->
+                    <div id="imageModal"
+                         class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex justify-center items-center">
+                        <div class="relative">
+                            <!-- Image agrandie -->
+                            <img id="modalImage" src="" class="max-w-full max-h-screen rounded-lg shadow-lg"
+                                 alt="Grand format">
+                            <!-- Bouton de fermeture -->
+                            <button onclick="closeImageModal()"
+                                    class="absolute top-3 right-3 bg-red-500 text-white rounded-full px-3 py-1 text-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Bouton de fermeture -->
+                <button onclick="closeAlbum()"
+                        class="absolute top-5 right-5 bg-red-500 text-white text-xl px-4 py-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            @endif
         </div>
-    @endif
 </div>
 
 <footer class="text-center p-4">
@@ -496,6 +530,20 @@
 
     function closeAlbum() {
         document.getElementById('albumModal').classList.add('hidden');
+    }
+
+    // Fonction pour ouvrir le modal avec l'image sélectionnée
+    function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageSrc; // Affecte la source de l'image
+        modal.classList.remove('hidden'); // Affiche le modal
+    }
+
+    // Fonction pour fermer le modal
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('hidden'); // Cache le modal
     }
 </script>
 
