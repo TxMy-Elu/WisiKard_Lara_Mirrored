@@ -136,8 +136,12 @@
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
         /* Styles pour le modal QR code */
@@ -149,7 +153,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content {
@@ -174,13 +178,13 @@
             text-decoration: none;
             cursor: pointer;
         }
-        #img1{
-            position: relative;
-            z-index: 10;
+
+        .hidden {
+            display: none;
         }
-        #img2{
-            position: absolute;
-            z-index: 1;
+
+        #galleryModal img.active {
+            display: block;
         }
 
     </style>
@@ -421,46 +425,78 @@
         @endforeach
     </div>
 
-                 <!-- Affichage des images dans la galerie -->
-                        <div class="w-full flex justify-center rounded-2xl p-6 bg-indigo-200">
-                            @php
-                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
-                                $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
-                            @endphp
+    <!-- Affichage des images dans la galerie -->
+    @php
+        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+        $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
+    @endphp
 
-                            @if(!empty($sliderImages))
 
-                                    @foreach($sliderImages as $image)
-                                            <!-- Miniature -->
-                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
-                                                 alt="Image"
-                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80 relative"
-                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
+    @if(!empty($sliderImages))
+        <!-- Présentation de l'album -->
+        <div class="bg-slate-100 rounded-lg relative">
+            <!-- Carré de quatre photos -->
+            <div class="p-2 flex flex-col items-center bg-slate-100 rounded-lg" onClick="openAlbum()">
+                <div class="grid grid-cols-2 gap-2">
+                    @for($i = 0; $i < 4; $i++)
+                        @if(isset($sliderImages[$i]))
+                            <div class="relative w-24 h-24">
+                                <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$sliderImages[$i]) }}"
+                                     class="w-full h-full object-cover rounded-md shadow-md"
+                                     alt="Photo de l'album">
+                            </div>
+                        @else
+                            <!-- Bloc fond gris s'il manque des images -->
+                            <div class="relative w-24 h-24 bg-gray-400 rounded-md shadow-md flex items-center justify-center">
+                            </div>
+                        @endif
+                    @endfor
+                </div>
+            </div>
+            @if(count($sliderImages) > 4)
+                <!-- Badge pour indiquer le surplus d'images -->
+                <span class="absolute bottom-2 right-2 bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                +{{ count($sliderImages) - 4 }}
+            </span>
+            @endif
+        </div>
 
-                                    @endforeach
-                            @endif
-                         </div>
+        <!-- Modale pour afficher toutes les photos -->
+        <div id="albumModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
+            <!-- Contenu de l'album -->
+            <div class="p-6 flex flex-wrap gap-4 justify-center">
+                @foreach($sliderImages as $image)
+                    <div class="relative max-w-xs w-full">
+                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
+                             class="w-full h-auto rounded-lg shadow-md"
+                             alt="Image de l'album">
+                    </div>
+                @endforeach
+            </div>
 
+            <!-- Bouton de fermeture -->
+            <button onclick="closeAlbum()"
+                    class="absolute top-5 right-5 bg-red-500 text-white text-xl px-4 py-2 rounded-full">
+                ✖
+            </button>
+        </div>
+    @endif
+</div>
 
 <footer class="text-center p-4">
-    Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
-                                                                                             class="text-blue-500">Wisikard</a>
+    Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a
+            href="https://wisikard.fr"
+            class="text-blue-500">Wisikard</a>
 </footer>
 </body>
 <script>
-   function openModal(imageUrl) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
+    function openAlbum() {
+        document.getElementById('albumModal').classList.remove('hidden');
+    }
 
-        modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
-        modal.classList.remove('hidden'); // Affiche le modal
-   }
-
-   function closeModal() {
-       const modal = document.getElementById('imageModal');
-       modal.classList.add('hidden'); // Cache le modal
-   }
-
+    function closeAlbum() {
+        document.getElementById('albumModal').classList.add('hidden');
+    }
 </script>
 
 </html>
