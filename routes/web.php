@@ -47,9 +47,8 @@ Route::middleware([Authentification::class])->group(function () {
         Route::get('/refreshQrCode/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
         Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
 
-       Route::get('/modifier-mot-de-passe/{id}', [DashboardClient::class, 'showModifyPasswordForm'])->name('modifierMdp');
-       Route::put('/compte/{id}', [DashboardClient::class, 'updateMDP'])->name('updateMDP');
-
+        Route::get('/modifier-mot-de-passe/{id}', [DashboardAdmin::class, 'showModifyPasswordForm'])->name('modifierMdp');
+        Route::put('/compte/{id}', [DashboardAdmin::class, 'updateMDP'])->name('updateMDP');
     });
 
     // Groupe réservé aux Clients (après authentification)
@@ -83,7 +82,6 @@ Route::middleware([Authentification::class])->group(function () {
     //Logo
     Route::delete('/dashboardClientPDF/deleteLogo', [DashboardClient::class, 'deleteLogo'])->name('dashboardClientPDF.deleteLogo');
     Route::post('/dashboardClientPDF/uploadLogo', [DashboardClient::class, 'uploadLogo'])->name('dashboardClientPDF.uploadLogo');
-
     //Avis
     Route::post('/dashboardClientPDF/uploadAvis', [DashboardClient::class, 'uploadAvis'])->name('dashboardClientPDF.uploadAvis');
     Route::delete('/dashboardClientPDF/deleteAvis', [DashboardClient::class, 'deleteAvis'])->name('dashboardClientPDF.deleteAvis');

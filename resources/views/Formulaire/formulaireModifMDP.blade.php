@@ -29,6 +29,10 @@
 <div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
+        <div class="flex justify-between items-center mb-4">
+            <!-- Bouton Retour -->
+            <a href="{{ route('dashboardAdmin') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Retour</a>
+        </div>
         <div class="min-h-screen p-4 flex justify-center items-center">
 
             <!-- Messages de succès ou d'erreur -->
@@ -46,31 +50,30 @@
                 </div>
             @endif
 
+            <!-- Carte du formulaire -->
             <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <div class="justify-center mt-10">
-                    <div class="justify-between items-center pb-4">
-                        <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Modifier mot de passe</h1>
-                    </div>
-                    <form action="{{ route('updateMDP', $compte->idCompte) }}" method="POST" class="bg-white justify-between p-4 rounded-lg shadow-lg">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-4">
-                            <label for="mdp1" class="block text-gray-700 text-sm font-bold mb-2">Nouveau mot de passe:</label>
-                            <input type="password" id="mdp1" name="mdp1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="mdp2" class="block text-gray-700 text-sm font-bold mb-2">Retapez le mot de passe:</label>
-                            <input type="password" id="mdp2" name="mdp2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-
-                        <div id="error-message" class="text-red-500 text-sm mb-4" style="display: none;"></div>
-
-                        <div class="flex items-center justify-between">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
-                        </div>
-                    </form>
+                <div class="flex justify-between items-center pb-4">
+                    <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Modifier mot de passe</h1>
                 </div>
+                <form action="{{ route('updateMDP', $compte->idCompte) }}" method="POST" class="bg-white justify-between p-4 rounded-lg shadow-lg">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-4">
+                        <label for="mdp1" class="block text-gray-700 text-sm font-bold mb-2">Nouveau mot de passe:</label>
+                        <input type="password" id="mdp1" name="mdp1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="mdp2" class="block text-gray-700 text-sm font-bold mb-2">Retapez le mot de passe:</label>
+                        <input type="password" id="mdp2" name="mdp2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+
+                    <div id="error-message" class="text-red-500 text-sm mb-4" style="display: none;"></div>
+
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

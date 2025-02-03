@@ -46,6 +46,54 @@ class DashboardAdmin extends Controller
 
         return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
     }
+    public function showModifyPasswordForm($id)
+    {
+        $compte = Compte::find($id);
+        if (!$compte) {
+            abort(404, 'Compte non trouvé');
+        }
+        return view('Formulaire.formulaireModifMDP', compact('compte'));
+    }
+
+    public function updateMDP(Request $request, $id)
+    {
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        if ($request->isMethod('post')) {
+            $messagesErreur = [];
+            $validationFormulaire = true;
+
+            if ($request->input('mdp1') != $request->input('mdp2')) {
+                $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques";
+                $validationFormulaire = false;
+                Logs::ecrireLog($emailUtilisateur, "Erreur mdp non identiques : Modif MDP");
+            }
+
+            if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{12,}$/", $request->input('mdp1')) === 0) {
+                $messagesErreur[] = "Le mot de passe doit contenir au minimum 12 caractères comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
+                $validationFormulaire = false;
+                Logs::ecrireLog($emailUtilisateur, "Erreur pregmatch : Modif MDP");
+            }
+
+            if ($validationFormulaire) {
+                $motDePasseHashe = password_hash($request->input('mdp1'), PASSWORD_BCRYPT);
+                $compte = Compte::find($id);
+                if ($compte) {
+                    $compte->password = $motDePasseHashe;
+                    $compte->save();
+                    Logs::ecrireLog($compte->email, "Modification du mot de passe");
+                    return redirect()->route('dashboardAdmin')->with('success', 'Mot de passe modifié !');
+                } else {
+                    return redirect()->back()->with('error', 'Compte non trouvé');
+                    Logs::ecrireLog($emailUtilisateur, "Erreur Compte non trouvé : Modif MDP");
+
+                }
+            } else {
+                return redirect()->back()->with('error', implode('<br>', $messagesErreur));
+            }
+        }
+            return view('Formulaire.formulaireModifMDP');
+    }
 
     public function statistique(Request $request)
     {
