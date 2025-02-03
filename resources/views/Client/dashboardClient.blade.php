@@ -134,7 +134,7 @@
                             <select name="font" id="font" class="w-full p-2 border border-gray-300 rounded-lg">
                                 @foreach ($fonts as $font)
                                     <option value="{{ $font }}" @if($carte->font == $font) selected
-                                            @endif style="font-family: '{{ $font }}';">
+                                                @endif style="font-family: '{{ $font }}';">
                                         {{ $font }}
                                     </option>
                                 @endforeach
