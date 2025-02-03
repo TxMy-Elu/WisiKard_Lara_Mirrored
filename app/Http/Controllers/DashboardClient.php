@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardClient extends Controller
 {
@@ -61,7 +62,7 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-    public function updateHoraires(Request $request)
+    public function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Horaires(Request $request)
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
@@ -1091,7 +1092,7 @@ class DashboardClient extends Controller
         Log::info('Création de la VCard', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'tel' => $request->tel, 'mail' => $request->mail]);
 
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
-    }
+   }
 
     public function updateTemplate(Request $request)
     {

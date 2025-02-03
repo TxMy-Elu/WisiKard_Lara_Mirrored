@@ -132,7 +132,7 @@
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
                                 </button>
                             </form>
-                            <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+                            <a href="{{ route('modifierMdp', $entreprise->compte->idCompte) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier MDP</a>
                         </div>
                     </div>
                 @endforeach
