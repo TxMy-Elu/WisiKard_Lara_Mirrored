@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardClient extends Controller
 {
@@ -61,7 +62,7 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-    public function updateHoraires(Request $request)
+    public function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Horaires(Request $request)
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
@@ -1093,6 +1094,32 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
     }
 
+    public function showModifyPasswordForm($id)
+    {
+        $compte = Compte::find($id);
+        return view('Formulaire.formulaireModifMDP', compact('compte'));
+    }
+
+    public function updateMDP(Request $request, $id)
+    {
+    if(isset($_POST["modifiermdp"])){
+
+        if ($_POST["mdp1"] != $_POST["mdp2"]) {
+            $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques";
+            $validationFormulaire = false;
+        }
+        if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{12,}$/", $_POST["mdp1"]) === 0) {
+           $messagesErreur[] = "Le mot de passe doit contenir au minimum 12 caractères comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
+           $validationFormulaire = false;
+        }else{
+            $motDePasseHashe = password_hash($_POST["mdp1"], PASSWORD_BCRYPT);
+
+            Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"], $_POST["entreprise"]);
+            Logs::ecrireLog($_POST["email"], "Inscription");
+        }return view('Admin.dashboardAdmin', ["messageSucces" => "Mot de passe modifier !"]);
+
+        }
+    }
     public function updateTemplate(Request $request)
     {
         $idCompte = session('connexion');

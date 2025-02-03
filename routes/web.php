@@ -12,6 +12,9 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
 
+
+
+
 // Routes publiques (accessibles sans authentification)
 Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->name('accueil');
 Route::get('/connexion', [Connexion::class, 'afficherFormulaireConnexion'])->name('connexion');
@@ -43,6 +46,10 @@ Route::middleware([Authentification::class])->group(function () {
         Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
         Route::get('/refreshQrCode/{id}', [DashboardAdmin::class, 'refreshQrCode'])->name('refreshQrCode');
         Route::put('/modifierMessage/{id}', [DashboardAdmin::class, 'modifierMessage'])->name('modifierMessage');
+
+       Route::get('/modifier-mot-de-passe/{id}', [DashboardClient::class, 'showModifyPasswordForm'])->name('modifierMdp');
+       Route::put('/compte/{id}', [DashboardClient::class, 'updateMDP'])->name('updateMDP');
+
     });
 
     // Groupe réservé aux Clients (après authentification)
@@ -94,8 +101,8 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/downloadQrCodesColor', [DashboardClient::class, 'downloadQrCodesColor'])->name('downloadQrCodesColor');
 
     // QrCode pour pdf
-  Route::get('/download-qrcode-pdf-color', [DashboardClient::class, 'downloadQrCodesPDFColor'])->name('download.qrcode.pdf.color');
-  Route::get('/download-qrcode-pdf', [DashboardClient::class, 'downloadQrCodesPDF'])->name('download.qrcode.pdf');
+    Route::get('/download-qrcode-pdf-color', [DashboardClient::class, 'downloadQrCodesPDFColor'])->name('download.qrcode.pdf.color');
+    Route::get('/download-qrcode-pdf', [DashboardClient::class, 'downloadQrCodesPDF'])->name('download.qrcode.pdf');
 
     // Gestion Entreprises
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');
