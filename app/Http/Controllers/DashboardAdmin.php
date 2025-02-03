@@ -26,26 +26,27 @@ class DashboardAdmin extends Controller
         $this->message = $message;
     }
 
-    public function afficherDashboardAdmin(Request $request)
-    {
-        $search = $request->input('search');
-        $entreprises = $this->carte->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
-            ->when($search, function ($query, $search) {
-                return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
-                    ->orWhere('compte.email', 'like', "%{$search}%");
-            })
-            ->select('carte.*', 'compte.email as compte_email')
-            ->get();
+  public function afficherDashboardAdmin(Request $request)
+  {
+      $search = $request->input('search');
+      $entreprises = $this->carte->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+          ->when($search, function ($query, $search) {
+              return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
+                  ->orWhere('compte.email', 'like', "%{$search}%");
+          })
+          ->select('carte.*', 'compte.email as compte_email', 'compte.role as compte_role')
+          ->get();
 
-        foreach ($entreprises as $entreprise) {
-            $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
-        }
+      foreach ($entreprises as $entreprise) {
+          $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
+      }
 
-        $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
-        $messageContent = $message ? $message->message : 'Aucun message disponible';
+      $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
+      $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-        return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
-    }
+      return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
+  }
+
     public function showModifyPasswordForm($id)
     {
         $compte = Compte::find($id);
@@ -86,7 +87,6 @@ class DashboardAdmin extends Controller
                 } else {
                     return redirect()->back()->with('error', 'Compte non trouvé');
                     Logs::ecrireLog($emailUtilisateur, "Erreur Compte non trouvé : Modif MDP");
-
                 }
             } else {
                 return redirect()->back()->with('error', implode('<br>', $messagesErreur));

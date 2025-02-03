@@ -77,7 +77,7 @@
                                     <p class="text-xl font-semibold">{{ $entreprise->nomEntreprise }}</p>
                                 </div>
                                 <div class="mb-4">
-                                    <p class="text-lg text-gray-600">{{ $entreprise->compte->email }}</p>
+                                    <p class="text-lg text-gray-600">{{ $entreprise->compte_email }}</p>
                                 </div>
                                 <!-- Phone number -->
                                 <div>
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-end ">
-                                    <a href="{{ route('refreshQrCode', $entreprise->compte->idCompte) }}" class="ml-2">
+                                    <a href="{{ route('refreshQrCode', $entreprise->idCompte) }}" class="ml-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
@@ -109,13 +109,13 @@
                             </div>
                         </div>
 
-                        @if($entreprise->compte->role == 'starter')
+                        @if($entreprise->compte_role == 'starter')
                             <div class="pt-4">
                                 <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Starter</p>
                                 </div>
                             </div>
-                        @elseif($entreprise->compte->role == 'advanced')
+                        @elseif($entreprise->compte_role == 'advanced')
                             <div class="pt-4">
                                 <div class="bg-violet-500/65 border-solid border border-violet-500 rounded-full w-28 h-7 flex items-center justify-center">
                                     <p class="text-slate-50 text-base">Advanced</p>
@@ -132,7 +132,7 @@
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
                                 </button>
                             </form>
-                            <a href="{{ route('modifierMdp', $entreprise->compte->idCompte) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier MDP</a>
+                            <a href="{{ route('modifierMdp', $entreprise->idCompte) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier MDP</a>
                         </div>
                     </div>
                 @endforeach

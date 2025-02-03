@@ -30,8 +30,6 @@
     @include('menu.menuAdmin')
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         <div class="flex justify-between items-center mb-4">
-            <!-- Bouton Retour -->
-            <a href="{{ route('dashboardAdmin') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Retour</a>
         </div>
         <div class="min-h-screen p-4 flex justify-center items-center">
 
@@ -55,7 +53,7 @@
                 <div class="flex justify-between items-center pb-4">
                     <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Modifier mot de passe</h1>
                 </div>
-                <form action="{{ route('updateMDP', $compte->idCompte) }}" method="POST" class="bg-white justify-between p-4 rounded-lg shadow-lg">
+                <form action="{{ route('updateMDP', ['id' => $compte->idCompte]) }}" method="POST" class="bg-white justify-between p-4 rounded-lg shadow-lg">
                     @csrf
                     @method('PUT')
                     <div class="mb-4">
@@ -72,6 +70,8 @@
 
                     <div class="flex items-center justify-between">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
+                        <!-- Bouton Retour -->
+                        <a href="{{ route('dashboardAdmin') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Retour</a>
                     </div>
                 </form>
             </div>
