@@ -52,17 +52,20 @@
 
 <!-- VCard / Qr Code -->
 <div class="flex items-center justify-center w-full mt-4 gap-4">
-    <!-- Carte de Contact -->
-    <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
-       class="w-48 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
-        Fiche de Contact
-    </a>
+
 
     <!-- QR Codes -->
     <a href="{{ $carte['LienQr'] }}"
        class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800" >
         QR Code
     </a>
+
+    <!-- partage -->
+    <a href="{{ url()->current().'?idCompte='.$carte->compte->idCompte }}"
+       class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
+        Partager
+    </a>
+
 </div>
 
 <!-- Informations -->
@@ -169,22 +172,114 @@
         </div>
     @endif
 
-    <!-- partage -->
+    <!-- fiche de contacte -->
     <div class="w-full h-full flex justify-center items-center mt-2">
-        <!-- url de partage (actuel + les parametres) -->
-        <a href=" {{ url()->current().'?idCompte='.$carte->compte->idCompte }}"
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
            class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
             <lord-icon
-                    src="https://cdn.lordicon.com/udwhdpod.json"
+                    src="https://cdn.lordicon.com/kdduutaw.json"
                     trigger="loop"
                     delay="1000"
                     colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
                     class="mr-2">
             </lord-icon>
-            Partager
+            Fiche de contact
         </a>
     </div>
+
 </div>
+
+<!-- Gelerie -->
+<div class="w-full mt-4">
+    <div class="flex flex-wrap items-center justify-center gap-4">
+        <!-- Bouton pour afficher les photos -->
+        <button onclick="openGallery()"
+                class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+            <lord-icon
+                    src="https://cdn.lordicon.com/rszslpey.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:{{ $carte['couleur1'] }}">
+            </lord-icon>
+        </button>
+    </div>
+</div>
+
+<!-- Galerie Modale -->
+<!-- PHP : Liste des images extraites du dossier "slider" -->
+@php
+    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+    $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
+@endphp
+
+        <!-- Section pour afficher un bouton qui ouvre la galerie -->
+<div class="w-full mt-4 text-center">
+    <button onclick="openGallery()"
+            class="w-48 rounded-xl p-3 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+        Voir la Galerie
+    </button>
+</div>
+
+<!-- Galerie (Lightbox) -->
+<div id="photoGallery" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50">
+    <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
+        <!-- Bouton pour fermer la galerie -->
+        <button onclick="closeGallery()" class="absolute top-2 right-2 p-2 text-red-500 font-bold text-xl">
+            &times;
+        </button>
+
+        <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
+
+        <!-- Liste d'images -->
+        <div class="flex flex-wrap gap-4 justify-center items-center">
+            @foreach($sliderImages as $image)
+                <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
+                     alt="Image slider"
+                     class="w-1/3 rounded-lg shadow-md cursor-pointer"
+                     onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}')">
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Affichage d'une image en plein écran -->
+<div id="fullImage" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-50">
+    <div class="relative">
+        <!-- Image en taille réelle -->
+        <img id="fullImageContent" src="" alt="Image en grand" class="max-w-full max-h-full rounded-lg shadow-lg">
+
+        <!-- Bouton pour fermer -->
+        <button onclick="closeFullImage()" class="absolute top-2 right-2 text-red-800 text-2xl font-bold">
+            &times;
+        </button>
+    </div>
+</div>
+
+<!-- Scripts JavaScript -->
+<script>
+    // Fonction pour afficher la galerie en modale
+    function openGallery() {
+        document.getElementById('photoGallery').classList.remove('hidden');
+    }
+
+    // Fonction pour fermer la galerie
+    function closeGallery() {
+        document.getElementById('photoGallery').classList.add('hidden');
+    }
+
+    // Fonction pour afficher une image en grand
+    function viewImage(imageSrc) {
+        const fullImage = document.getElementById('fullImage');
+        const fullImageContent = document.getElementById('fullImageContent');
+        fullImageContent.src = imageSrc; // Définit la source de l'image
+        fullImage.classList.remove('hidden'); // Affiche l'image en plein écran
+    }
+
+    // Fonction pour fermer l'image en plein écran
+    function closeFullImage() {
+        document.getElementById('fullImage').classList.add('hidden');
+    }
+</script>
 
 <!-- Réseaux sociaux -->
 <div class="flex flex-wrap items-center justify-center w-full mt-4 gap-4">
