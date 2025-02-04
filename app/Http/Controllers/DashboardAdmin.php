@@ -183,6 +183,24 @@ class DashboardAdmin extends Controller
         Logs::ecrireLog($request->session()->get('email'), 'Modification du message');
         return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
+    public function SupprimerMessage(Request $request, $id)
+    {
+       /* $validator = Validator::make($request->all(), [
+            'message' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }*/
+
+        $message = $this->message->findOrFail($id);
+        $message->message = $request->input('message');
+        $message->delete();
+
+        Log::info('Message ' . $message->id . ' supprimer');
+        Logs::ecrireLog($request->session()->get('email'), 'Suppression du message');
+        return redirect()->route('dashboardAdminMessage')->with('success', 'Message supprimé avec succès.');
+    }
 
     public function afficherAllMessage()
     {
