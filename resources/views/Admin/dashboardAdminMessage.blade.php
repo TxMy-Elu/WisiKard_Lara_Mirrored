@@ -41,6 +41,12 @@
                             <p id="message-{{ $message->id }}">{{ $message->message }}</p>
                         </div>
                         <div class="flex items-center mt-2 md:mt-0">
+                            <form action="{{ route('SupprimerMessage', $message->id) }}" method="POST"
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg mr-2">Supprimer</button>
+                            </form>
                             <button type="button" onclick="toggleEdit({{ $message->id }})"
                                     class="bg-indigo-500 text-white px-4 py-2 rounded-lg mr-2">Modifier
                             </button>

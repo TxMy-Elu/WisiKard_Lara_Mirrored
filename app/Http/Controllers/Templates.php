@@ -198,13 +198,13 @@ class Templates extends Controller
         // Renvoyer la bonne vue selon l'idTemplate passé dans l'URL
         switch ($idTemplate) {
             case 1:
-                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
             case 2:
                 return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
             case 3:
                 return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
             case 4:
-                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
             default:
                 abort(404, 'Template non trouvé');
         }
