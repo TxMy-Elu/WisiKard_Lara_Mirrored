@@ -31,6 +31,12 @@
                                 <img src="{{ asset('icons/send.svg') }}" alt="message" width="35" height="35">
                             </a>
                         </li>
+
+                         <li class="nav-item mb-8">
+                             <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('InscriptionAttente') }}" title="Inscription en Attente">
+                                 <img src="{{ asset('icons/download.svg') }}" alt="InscriptionAttente" width="35" height="35">
+                             </a>
+                         </li>
                     </div>
                 </ul>
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
@@ -40,6 +46,7 @@
                         </a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>

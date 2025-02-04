@@ -8,11 +8,10 @@ use App\Http\Controllers\Entreprise;
 use App\Http\Controllers\Inscription;
 use App\Http\Controllers\RecuperationCompte;
 use App\Http\Controllers\Templates;
+use App\Http\Controllers\InscriptionAttente;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
-
-
 
 
 // Routes publiques (accessibles sans authentification)
@@ -42,6 +41,8 @@ Route::middleware([Authentification::class])->group(function () {
         Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
         Route::get('/dashboardAdminStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardAdminStatistique');
         Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
+        Route::get('/InscriptionAttente', [InscriptionAttente::class, 'InscripAttente'])->name('InscripAttente');
+
         Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
         Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
         Route::delete('/deleteMessage/{id}', [DashboardAdmin::class, 'SupprimerMessage'])->name('SupprimerMessage');
