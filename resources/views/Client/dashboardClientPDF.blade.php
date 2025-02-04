@@ -13,7 +13,6 @@
 
     <div class="flex-1 md:ml-24 p-4">
 
-
         <!-- Message Erreur -->
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
@@ -70,18 +69,14 @@
                         <p class="text-sm text-gray-500 mt-2">Aperçu du logo actuel</p>
                     </div>
                 </div>
-                @if($carte->logo)
-                    <!-- delete du logo -->
-                    <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST"
-                          class="mt-4 w-full flex justify-end">
-                        @csrf
-                        @method('DELETE')
-
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
-                            Supprimer
-                        </button>
-                    </form>
-                @endif
+                     <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST"
+                         class="mt-4 w-full flex justify-end">
+                         @csrf
+                         @method('DELETE')
+                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                           Supprimer
+                         </button>
+                     </form>
             </div>
 
             <!-- Formulaire PDF div2 -->
@@ -146,9 +141,8 @@
                     </div>
                 </div>
 
-                <!-- delete du PDF -->
-
                 @if($carte->pdf)
+                    <!-- delete du PDF -->
                     <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
                           class="mt-4 w-full flex justify-end">
                         @csrf
@@ -159,8 +153,6 @@
                         </button>
                     </form>
                 @endif
-
-
             </div>
 
             <!-- Formulaire YouTube div3 -->
@@ -264,8 +256,6 @@
                 </div>
             @endif
 
-
-
             <!-- div 6 -->
             <!-- input lien avis google -->
             <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
@@ -290,11 +280,9 @@
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google enregistré</h2>
                 <!-- Afficher l'URL de l'avis Google sous le bouton "Enregistrer" -->
-
                 @if($carte->lienAvis)
                     <div class="mt-4 w-auto h-auto">
-                        <div class="bg-white p-4 rounded-lg shadow
-                        -md relative w-auto h-auto">
+                        <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
                             <div class="video-container w-auto h-auto">
                                 <a href="{{$carte->lienAvis}}" class="text-blue-500 underline"
                                    target="_blank">Lien Google Avis</a>
@@ -316,9 +304,7 @@
                         </button>
                     </form>
                 @endif
-
             </div>
-
 
             <!-- div4 -->
             <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
@@ -367,7 +353,6 @@
                         </button>
                     </form>
                 @endif
-
             </div>
 
             <!-- div5 galerie photo -->
@@ -391,7 +376,6 @@
                     </div>
                 @endif
                 <div class="bg-white rounded-lg shadow-md p-6 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
-
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
                         <!-- Formulaire d'upload -->
@@ -399,7 +383,6 @@
                               enctype="multipart/form-data"
                               class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
                             @csrf
-                            @method('POST')
                             <div>
                                 <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
                                     Sélectionner une image :
@@ -476,7 +459,6 @@
                 </div>
             </div>
 
-
             <script>
                 function openModal(imageUrl) {
                     const modal = document.getElementById('imageModal');
@@ -526,16 +508,11 @@
                     // Soumettre le formulaire
                     uploadForm.submit();
                 }
-
-
             </script>
-
-
         </div>
     </div>
 </div>
 </div>
 </div>
-
 </body>
 </html>
