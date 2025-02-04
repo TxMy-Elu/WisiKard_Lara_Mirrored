@@ -250,7 +250,6 @@ class DashboardClient extends Controller
         }
     }
 
-
     public function statistique(Request $request)
     {
         $session = session('connexion');

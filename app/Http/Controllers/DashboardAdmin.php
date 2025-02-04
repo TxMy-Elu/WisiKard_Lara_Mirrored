@@ -148,7 +148,7 @@ class DashboardAdmin extends Controller
             'afficher' => true,
         ]);
 
-        return redirect()->route('Admin.dashboardAdminMessage');
+        return redirect()->route('dashboardAdminMessage');
     }
 
     public function toggleMessage($id)
@@ -162,7 +162,7 @@ class DashboardAdmin extends Controller
 
         Log::info('Message ' . $message->id . ' not found');
 
-        return redirect()->route('Admin.dashboardAdminMessage');
+        return redirect()->route('dashboardAdminMessage');
     }
 
     public function modifierMessage(Request $request, $id)
@@ -181,7 +181,7 @@ class DashboardAdmin extends Controller
 
         Log::info('Message ' . $message->id . ' updated');
         Logs::ecrireLog($request->session()->get('email'), 'Modification du message');
-        return redirect()->route('Admin.dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
+        return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
 
     public function afficherAllMessage()
@@ -205,6 +205,6 @@ class DashboardAdmin extends Controller
             }
         }
 
-        return redirect()->route('Admin.dashboardAdmin');
+        return redirect()->route('dashboardAdmin');
     }
 }
