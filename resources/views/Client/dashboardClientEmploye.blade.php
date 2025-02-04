@@ -66,7 +66,7 @@
                                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search..."
+                        <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Rechercher..."
                                class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow">
                     </form>
 

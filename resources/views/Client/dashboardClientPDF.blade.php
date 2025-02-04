@@ -401,7 +401,7 @@
                         </form>
 
                         <!-- Affichage des images dans la galerie -->
-                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-indigo-200">
+                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
                             @php
                                 $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
                                 $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
