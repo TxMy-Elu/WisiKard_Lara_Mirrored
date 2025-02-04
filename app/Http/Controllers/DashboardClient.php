@@ -62,7 +62,8 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-    public function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Horaires(Request $request)
+
+    public function updateHoraires(Request $request)
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
@@ -97,7 +98,6 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Horaires mis à jour avec succès.');
     }
-
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
@@ -202,7 +202,7 @@ class DashboardClient extends Controller
             $request->validate([
                 'idSocial' => 'required|integer',
                 'idCarte' => 'required|integer',
-                'lien' => 'nullable|url'
+                'lien' => 'required|url'
             ]);
 
             $idCompte = session('connexion');
@@ -243,6 +243,8 @@ class DashboardClient extends Controller
 
             return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
         } catch (\Exception $e) {
+            $idCompte = session('connexion');
+            $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
             Log::error('Erreur lors de la mise à jour du lien social', ['error' => $e->getMessage(), 'email' => $emailUtilisateur]);
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour du lien social.']);
         }
