@@ -11,10 +11,10 @@
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-tl from-red-800 to-zinc-900 h-full" style="font-family: '{{ $carte['font'] }}';">
+<body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
 
 <!-- Presentation entreprise -->
-<div class=" w-full h-52 text-white p-4">
+<div class=" w-full h-52 text-white p-4 bg-gradient-to-tl from-red-800 to-zinc-900 rounded-sm">
     <!-- Logo -->
     @php
         // Détection des différents types de fichiers
@@ -54,13 +54,13 @@
 <div class="flex items-center justify-center w-full mt-4 gap-4">
     <!-- Carte de Contact -->
     <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
-       class="w-48 bg-white rounded-xl p-2 font-bold text-gray-800 text-center shadow-lg ">
+       class="w-48 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
         Fiche de Contact
     </a>
 
     <!-- QR Codes -->
     <a href="{{ $carte['LienQr'] }}"
-       class="w-36 bg-white rounded-xl p-2 font-bold text-gray-800 text-center shadow-lg ">
+       class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800" >
         QR Code
     </a>
 </div>
@@ -194,11 +194,28 @@
             <div class="flex items-center justify-center">
                 <div class="w-12 h-12 flex items-center justify-center">
                     <!-- Apporter la couleur blanche aux logos -->
-                    <div class="text-white fill-white hover:fill-black">
+                    <div class="text-white fill-red-800 hover:fill-black">
                         {!! $so['logo'] !!}
                     </div>
                 </div>
             </div>
+        </a>
+    @endforeach
+</div>
+
+<!-- Custom Links -->
+<div class="w-full mt-4 flex flex-wrap items-center justify-center gap-4">
+    @foreach($custom as $link)
+        <a href="{{ $link['lien'] }}"
+           class="w-36 h-20 flex flex-col items-center justify-center bg-white font-bold rounded-lg text-gray-800 text-center p-3 border border-gray-200 transition-shadow duraion-300">
+            <lord-icon
+                    src="https://cdn.lordicon.com/gsjfryhc.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                    class="w-8 h-8 mb-2">
+            </lord-icon>
+            <span class="text-sm">{{ $link['nom'] }}</span>
         </a>
     @endforeach
 </div>
