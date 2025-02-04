@@ -11,11 +11,10 @@
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-tl from-red-800 to-zinc-900 h-screen">
+<body class="bg-gradient-to-tl from-red-800 to-zinc-900 h-full" style="font-family: '{{ $carte['font'] }}';">
 
 <!-- Presentation entreprise -->
-<div class=" w-full h-52 text-white p-4"
-     style="font-family: '{{ $carte['font'] }}';">
+<div class=" w-full h-52 text-white p-4">
     <!-- Logo -->
     @php
         // Détection des différents types de fichiers
@@ -56,7 +55,7 @@
     <!-- Carte de Contact -->
     <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
        class="w-48 bg-white rounded-xl p-2 font-bold text-gray-800 text-center shadow-lg ">
-        Carte de Contact
+        Fiche de Contact
     </a>
 
     <!-- QR Codes -->
@@ -159,7 +158,7 @@
             <a href="{{ $carte['LienRdv'] }}"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
-                        src="https://cdn.lordicon.com/tdxypxgp.json"
+                        src="https://cdn.lordicon.com/jdgfsfzr.json"
                         trigger="loop"
                         delay="1000"
                         colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
@@ -185,8 +184,23 @@
             Partager
         </a>
     </div>
+</div>
 
-
+<!-- Réseaux sociaux -->
+<div class="flex flex-wrap items-center justify-center w-full mt-4 gap-4">
+    @foreach($mergedSocial as $so)
+        <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
+           class="p-3">
+            <div class="flex items-center justify-center">
+                <div class="w-12 h-12 flex items-center justify-center">
+                    <!-- Apporter la couleur blanche aux logos -->
+                    <div class="text-white fill-white hover:fill-black">
+                        {!! $so['logo'] !!}
+                    </div>
+                </div>
+            </div>
+        </a>
+    @endforeach
 </div>
 
 
