@@ -153,7 +153,7 @@
     <!-- Bouton de partage -->
     <button
             onclick="shareOrCopyLink()"
-            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 hover:bg-zinc-700 transition">
+            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 cursor-pointer">
         Partager
     </button>
     {{--
@@ -250,7 +250,7 @@
     @if($carte['pdf'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="{{ $carte['pdf'] }}" download
-               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-300 text-gray-800 flex items-center hover:bg-gray-100 transition duration-200">
+               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
@@ -317,7 +317,7 @@
         <!-- Bouton principal -->
         <button id="toggleLinksButton"
                 onclick="toggleLinksDropdown()"
-                class="w-full h-12 mx-2 px-2 bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+                class="w-full h-12 mx-2 px-2 bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center cursor-pointer">
             <lord-icon
                     src="https://cdn.lordicon.com/lcvlsnre.json"
                     trigger="loop"
@@ -375,7 +375,7 @@
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <!-- Bouton pour afficher les photos -->
                 <button onclick="openGallery()"
-                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
                     <lord-icon
                             src="https://cdn.lordicon.com/rszslpey.json"
                             trigger="loop"
@@ -396,7 +396,7 @@
                 <!-- Section pour afficher un bouton qui ouvre la galerie -->
         <div class="w-full mt-4 text-center">
             <button onclick="openGallery()"
-                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
                 Voir la Galerie
             </button>
         </div>
@@ -446,7 +446,7 @@
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <!-- Bouton principal pour ouvrir la galerie de vidéos -->
                 <button onclick="openVideoGallery()"
-                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
                     <lord-icon
                             src="https://cdn.lordicon.com/bomiazxt.json"
                             trigger="loop"
@@ -460,7 +460,7 @@
         <!-- Section pour afficher un bouton individuel -->
         <div class="w-full mt-4 text-center">
             <button onclick="openVideoGallery()"
-                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
                 Voir les Vidéos
             </button>
         </div>

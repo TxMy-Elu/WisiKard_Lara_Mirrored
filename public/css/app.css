@@ -918,9 +918,6 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
-  .w-25 {
-    width: calc(var(--spacing) * 25);
-  }
   .w-100 {
     width: calc(var(--spacing) * 100);
   }
@@ -935,6 +932,9 @@
   }
   .w-24 {
     width: calc(var(--spacing) * 24);
+  }
+  .w-25 {
+    width: calc(var(--spacing) * 25);
   }
   .w-28 {
     width: calc(var(--spacing) * 28);
@@ -1491,6 +1491,9 @@
   .pt-8 {
     padding-top: calc(var(--spacing) * 8);
   }
+  .pb-3 {
+    padding-bottom: calc(var(--spacing) * 3);
+  }
   .pb-4 {
     padding-bottom: calc(var(--spacing) * 4);
   }
@@ -1915,6 +1918,13 @@
       }
     }
   }
+  .hover\:bg-gray-800 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-800);
+      }
+    }
+  }
   .hover\:bg-gray-900 {
     &:hover {
       @media (hover: hover) {
@@ -1954,6 +1964,13 @@
     &:hover {
       @media (hover: hover) {
         fill: var(--color-black);
+      }
+    }
+  }
+  .hover\:fill-gray-300 {
+    &:hover {
+      @media (hover: hover) {
+        fill: var(--color-gray-300);
       }
     }
   }
