@@ -62,7 +62,9 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-
+/*
+Ajoute et met à jour les horaires
+ */
     public function updateHoraires(Request $request)
     {
         $idCompte = session('connexion');
@@ -102,7 +104,9 @@ class DashboardClient extends Controller
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
     }
-
+/*
+Affiche les informations des employés
+ */
     public function employer(Request $request)
     {
         $idCompte = session('connexion');
@@ -134,7 +138,9 @@ class DashboardClient extends Controller
             'compte' => $compte
         ]);
     }
-
+/*
+Supprimer des employés
+ */
     public function destroy($id)
     {
         try {
@@ -352,13 +358,17 @@ class DashboardClient extends Controller
 
         return view('Client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData', 'compte'));
     }
-
+/*
+Affiche le formulaire pour modifier les employé
+ */
     public function afficherFormulaireModifEmpl($id)
     {
         $employe = Employer::findOrFail($id);
         return view('Formulaire.formulaireModifEmploye', compact('employe'));
     }
-
+/*
+Modifie les employé
+ */
     public function modifierEmploye(Request $request, $id)
     {
         $request->validate([
@@ -389,7 +399,9 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'employé.');
         }
     }
-
+/*
+Change la couleur du Qr Code
+ */
     public function updateColor(Request $request)
     {
         try {
@@ -432,7 +444,9 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour des couleurs.']);
         }
     }
-
+/*
+Télécharge le Qr Code entreprise en couleur
+ */
     public function downloadQrCodesColor()
     {
         $idCompte = session('connexion');
@@ -458,7 +472,9 @@ class DashboardClient extends Controller
         Log::info('QR Code downloaded for idCompte: ' . $idCompte);
         return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
     }
-
+/*
+Télécharge le Qr Code entreprise
+ */
     public function downloadQrCodes()
     {
         $idCompte = session('connexion');
@@ -520,7 +536,9 @@ class DashboardClient extends Controller
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
-
+/*
+Télécharge le logo dans les fichier et le chemin dans la BD
+ */
     public function uploadLogo(Request $request)
     {
         $idCompte = session('connexion');
@@ -584,7 +602,9 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
     }
-
+/*
+Enregistrer dans la BD l'url de prise de rendez-vous
+ */
     public function urlsrdv(Request $request)
     {
         $idCompte = session('connexion');
@@ -618,7 +638,9 @@ class DashboardClient extends Controller
         Log::warning('Aucune URL fournie pour RDV', ['email' => $emailUtilisateur]);
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-
+/*
+Télécharge les vidéos Youtube
+ */
     public function uploadYouTubeVideo(Request $request)
     {
         $idCompte = session('connexion');
@@ -688,6 +710,9 @@ class DashboardClient extends Controller
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
 
+/*
+Supprime les images
+ */
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
@@ -716,7 +741,9 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
-
+/*
+Supprime les images des slider
+ */
     public function deleteSliderImage(Request $request)
     {
         $idCompte = session('connexion'); // Récupérer l'ID du compte
@@ -771,7 +798,9 @@ class DashboardClient extends Controller
         Log::error('Image non trouvée dans la liste des fichiers du slider.');
         return redirect()->back()->with('error', 'Image non trouvée.');
     }
-
+/*
+Supprime le pdf + chemin dans bd + le nom dans bd
+ */
     public function deletePdf()
     {
 
@@ -791,7 +820,9 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('error', 'Fichier introuvable.');
     }
-
+/*
+Supprime le logo
+ */
     public function deleteLogo()
     {
         $idCompte = session('connexion');
@@ -834,45 +865,9 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Logo supprimé avec succès.');
     }
-
-    public function deleteVideo($index)
-    {
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        if (!$carte) {
-            Log::warning('Carte non trouvée pour la suppression de vidéo', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
-
-        if (File::exists($videosPath)) {
-            $videosData = json_decode(File::get($videosPath), true);
-
-            if (isset($videosData[$index])) {
-                unset($videosData[$index]);
-                $videosData = array_values($videosData);
-                File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
-
-                Log::info('Vidéo YouTube supprimée avec succès', ['email' => $emailUtilisateur, 'index' => $index]);
-                Logs::ecrireLog($emailUtilisateur, "Suppression Vidéo YouTube");
-
-                return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
-            } else {
-                Log::warning('Vidéo YouTube non trouvée pour la suppression', ['email' => $emailUtilisateur, 'index' => $index]);
-                return redirect()->back()->with('error', 'Vidéo YouTube non trouvée.');
-            }
-        } else {
-            Log::warning('Fichier de vidéos non trouvé pour la suppression', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Fichier de vidéos non trouvé.');
-        }
-    }
-
+/*
+Télécharge les images du slider
+ */
     public function uploadSlider(Request $request)
     {
         $idCompte = session('connexion');
@@ -942,7 +937,9 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Erreur lors du téléchargement de l\'image.');
         }
     }
-
+/*
+Met à jour la description
+ */
     public function updateInfo(Request $request)
     {
         $request->validate([
@@ -968,7 +965,9 @@ class DashboardClient extends Controller
 
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
+/*
 
+ */
     public function refreshQrCodeEmp($id, $idEmp)
     {
         try {

@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Log;
 
 class InscriptionAttente extends Controller
 {
+    /*
+    Affiche des informations sur les inscriptions en attentes
+    @param : request
+    @return : view dashboardAdminInscriptionAttente
+    */
      public function index(Request $request)
         {
             try {
@@ -41,8 +46,12 @@ class InscriptionAttente extends Controller
                 return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
             }
         }
-
-  public function ajout($id) //Ajout dans carte et compte
+/*
+Bascule les inscrit en attente dans les tables cartes et compte
+ @param :$id
+ @retrun :
+ */
+  public function ajout($id)
       {
 
           try {
@@ -85,8 +94,12 @@ class InscriptionAttente extends Controller
               return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de l\'ajout de l\'inscription à la table carte.']);
           }
       }
+/*
+ Ajout dans la table inscription_attente
+ @param : $request
+ */
 
-public function boutonInscriptionClient(Request $request) //Ajout dans la table inscription_attente
+public function boutonInscriptionClient(Request $request)
 {
 
     if ($request->isMethod('post')) {
@@ -134,7 +147,10 @@ public function boutonInscriptionClient(Request $request) //Ajout dans la table 
     return view('Formulaire.formulaireInscriptionClient');
 }
 
-
+/*
+Supprime des incription en attentes
+@param : $request
+ */
     public function destroy($id)
     {
         try {
