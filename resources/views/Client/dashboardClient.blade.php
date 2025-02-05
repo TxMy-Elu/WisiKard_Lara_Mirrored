@@ -432,7 +432,7 @@
                                     </div>
                                 @endif
                                 <!-- La zone floutée -->
-                                <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif  flex mt-4 space-x-4">
+                                <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif flex space-x-4">
                                     <!-- Contenu des templates -->
                                     <div class="flex flex-col items-center">
                                         <input type="radio" name="idTemplate" id="template2" value="2"
