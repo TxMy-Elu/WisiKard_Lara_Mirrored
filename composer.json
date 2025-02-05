@@ -12,6 +12,7 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "phpdocumentor/shim": "^3.6",
         "phpmailer/phpmailer": "^6.9"
     },
     "require-dev": {
@@ -57,7 +58,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpdocumentor/shim": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

@@ -555,8 +555,17 @@ CREATE TABLE IF NOT EXISTS `inscript_attente` (
     `mail` varchar(150) NOT NULL,
     `mdp` varchar(150) NOT NULL,
     `role` varchar(150) NOT NULL,
+    `date_inscription` varchar(150) NULL ,
     PRIMARY KEY (`idTemplate`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
+-- --------------------------------------------------------
+
+
+INSERT INTO `inscript_attente` (`id_inscripAttente`, `nom_entre`, `mail`, `mdp`, `role`, `date_inscription`) VALUES
+                                                                                                                 (1, 'Entreprise A', 'entrepriseA@example.com', 'password123', 'starter', '2023-10-01'),
+                                                                                                                 (2, 'Entreprise B', 'entrepriseB@example.com', 'password456', 'advanced', '2023-10-02'),
+                                                                                                                 (3, 'Entreprise C', 'entrepriseC@example.com', 'password789', 'starter', '2023-10-03');
+COMMIT;
 
 -- --------------------------------------------------------
 

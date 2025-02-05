@@ -32,6 +32,7 @@ class Inscription_attente extends Model
     {
         date_default_timezone_get();
         $date = date('Y/m/d');
+        $role = $request->query('CompteEmp');
 
         $nouvelInscrit_attente = new inscript_attente();
         $nouvelInscrit_attente->nom_entre = $nomEntreprise;

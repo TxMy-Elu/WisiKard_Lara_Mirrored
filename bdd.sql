@@ -139,14 +139,16 @@ CREATE TABLE IF NOT EXISTS `reactivation` (
 --
 DROP TABLE IF EXISTS `inscript_attente`;
 CREATE TABLE IF NOT EXISTS `inscript_attente` (
-                                                  `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
-                                                  `nom_entre` varchar(150) NOT NULL,
+    `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
+    `nom_entre` varchar(150) NOT NULL,
     `mail` varchar(150) NOT NULL,
     `mdp` varchar(150) NOT NULL,
     `role` varchar(150) NOT NULL,
-    `date_inscription` DATETIME NOT NULL,
+    `date_inscription` DATE NOT NULL default CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_inscripAttente`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
+ALTER TABLE inscript_attente MODIFY date_inscription TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
 -- --------------------------------------------------------
 
 --

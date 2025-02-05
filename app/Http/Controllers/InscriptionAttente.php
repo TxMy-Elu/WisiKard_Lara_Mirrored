@@ -13,41 +13,38 @@ use Illuminate\Support\Facades\Log;
 
 class InscriptionAttente extends Controller
 {
-    public function index(Request $request)
-       {
-           try {
-               $idCompte = session('connexion');
-               $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-               Log::info('Chargement du tableau de bord client', ['email' => $emailUtilisateur]);
+     public function index(Request $request)
+        {
+            try {
+                $idCompte = session('connexion');
+                $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+                Log::info('Chargement du tableau de bord client', ['email' => $emailUtilisateur]);
 
-               $carte = Carte::where('idCompte', $idCompte)->first();
-               $compte = Compte::where('idCompte', $idCompte)->first();
+                $carte = Carte::where('idCompte', $idCompte)->first();
+                $compte = Compte::where('idCompte', $idCompte)->first();
 
-               $inscriptions = Inscription_attente::all();
+                $inscriptions = Inscription_attente::all();
 
-               if ($inscriptions->isEmpty()) {
-                   Log::warning('Aucun inscrit en attente trouvé');
-               }
+                if ($inscriptions->isEmpty()) {
+                    Log::warning('Aucun inscrit en attente trouvé');
+                }
 
-               $message = Message::where('afficher', true)->orderBy('id', 'desc')->first(); //Message
-               $messageContent = $message ? $message->message : 'Aucun message disponible';
+                $message = Message::where('afficher', true)->orderBy('id', 'desc')->first(); //Message
+                $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-               // Récupérer les rôles
-               $roles = DB::table('compte')->select('role')->distinct()->get();
+                return view('Admin.dashboardAdminInscriptionAttente', [
+                    'messageContent' => $messageContent,
+                    'inscriptions' => $inscriptions,
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Erreur lors du chargement du tableau de bord client', ['error' => $e->getMessage()]);
+                return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
+            }
+        }
 
-               return view('Admin.dashboardAdminInscriptionAttente', [
-                   'messageContent' => $messageContent,
-                   'inscriptions' => $inscriptions,
-                   'roles' => $roles,
-               ]);
-           } catch (\Exception $e) {
-               Log::error('Erreur lors du chargement du tableau de bord client', ['error' => $e->getMessage()]);
-               return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
-           }
-       }
-
-  public function ajout($id,$role) //Ajout dans carte et compte
+  public function ajout($id) //Ajout dans carte et compte
       {
+
           try {
               // Récupérer l'inscription spécifique en utilisant l'ID
               $inscription = Inscription_attente::findOrFail($id);
@@ -89,51 +86,55 @@ class InscriptionAttente extends Controller
           }
       }
 
- public function boutonInscriptionClient(Request $request)
- {
-     // Récupérer les rôles de la table compte
-     $roles = DB::table('compte')->select('role')->distinct()->get();
+public function boutonInscriptionClient(Request $request) //Ajout dans la table inscription_attente
+{
 
-     if ($request->isMethod('post')) {
-         $validationFormulaire = true;
-         $messagesErreur = array();
+    if ($request->isMethod('post')) {
+        $validationFormulaire = true;
+        $messagesErreur = array();
 
-         $mail = $request->input('mail');
-         if (Inscription_attente::where('mail', $mail)->exists()) {
-             $messagesErreur[] = "Cette adresse email a déjà été utilisée";
-             $validationFormulaire = false;
-         }
-         if ($request->input('motDePasse1') != $request->input('motDePasse2')) {
-             $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques";
-             $validationFormulaire = false;
-         }
-         if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{12,}$/", $request->input('motDePasse1')) === 0) {
-             $messagesErreur[] = "Le mot de passe doit contenir au minimum 12 caractères comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
-             $validationFormulaire = false;
-         }
+        $mail = $request->input('mail');
+        if (Inscription_attente::where('mail', $mail)->exists()) {
+            $messagesErreur[] = "Cette adresse email a déjà été utilisée";
+            $validationFormulaire = false;
+        }
 
-         if ($validationFormulaire === false) {
-             return view('Formulaire.formulaireInscriptionClient', ["messagesErreur" => $messagesErreur, 'roles' => $roles]);
-         } else {
-             $motDePasseHashe = password_hash($request->input('motDePasse1'), PASSWORD_BCRYPT);
+        if ($request->input('motDePasse1') != $request->input('motDePasse2')) {
+            $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques";
+            $validationFormulaire = false;
+        }
 
-             Inscription_attente::create([
-                 'nom_entre' => $request->input('entreprise'),
-                 'mail' => $request->input('mail'),
-                 'mdp' => $motDePasseHashe,
-                 'role' => $role, // Utiliser le rôle passé en paramètre
-                 'date_inscription' => now(),
-             ]);
+        if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{12,}$/", $request->input('motDePasse1')) === 0) {
+            $messagesErreur[] = "Le mot de passe doit contenir au minimum 12 caractères comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
+            $validationFormulaire = false;
+        }
 
-             Logs::ecrireLog($request->input('mail'), "Inscription");
+        if ($validationFormulaire === false) {
+            return view('Formulaire.formulaireInscriptionClient', ["messagesErreur" => $messagesErreur]);
+        } else {
+            $motDePasseHashe = password_hash($request->input('motDePasse1'), PASSWORD_BCRYPT);
+            $role = $request->input('prodId');
+            date_default_timezone_get();
+            $date = date('Y/m/d');
 
-             return view('Formulaire.formulaireInscriptionClient', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter", 'roles' => $roles]);
-         }
-     }
+          Inscription_attente::create([
+                'nom_entre' => $request->input('entreprise'),
+                'mail' => $request->input('mail'),
+                'mdp' => $motDePasseHashe,
+                'role' => $role,
+                'date_inscription' => $date,
+            ]);
 
-     // Si le formulaire n'est pas soumis, afficher le formulaire avec les rôles
-     return view('Formulaire.formulaireInscriptionClient', ['roles' => $roles]);
- }
+            Logs::ecrireLog($request->input('mail'), "Inscription");
+           return view('Formulaire.formulaireInscriptionClient', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
+        }
+    }
+
+    // Si le formulaire n'est pas soumis, afficher le formulaire avec les rôles
+    return view('Formulaire.formulaireInscriptionClient');
+}
+
+
     public function destroy($id)
     {
         try {
