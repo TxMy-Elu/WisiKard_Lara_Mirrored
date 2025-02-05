@@ -152,6 +152,12 @@
     <!-- partage -->
     <!-- Bouton de partage -->
     <button
+            onclick="shareOrCopyLink()"
+            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 cursor-pointer">
+        Partager
+    </button>
+    {{--
+    <button
             onclick="copyLink()"
             class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 hover:bg-zinc-700 transition">
         Partager
@@ -166,6 +172,7 @@
             <div id="progressBar" class="bg-white h-full w-full"></div>
         </div>
     </div>
+    --}}
 
 </div>
 
@@ -243,7 +250,7 @@
     @if($carte['pdf'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="{{ $carte['pdf'] }}" download
-               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-300 text-gray-800 flex items-center hover:bg-gray-100 transition duration-200">
+               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
@@ -251,7 +258,7 @@
                         colors="primary:#000000,secondary:#9f0712"
                         class="mr-2 w-6 h-6">
                 </lord-icon>
-                {{$carte['nomBtnPdf']}} (Télécharger PDF)
+                {{$carte['nomBtnPdf']}}
             </a>
         </div>
     @endif
@@ -288,6 +295,77 @@
         </a>
     </div>
 
+    <!-- Liens Avis -->
+    @if($carte['lienAvis'])
+        <div class="w-full h-full flex justify-center items-center mt-2">
+            <a href="{{ $carte['lienAvis'] }}"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+                <lord-icon
+                        src="https://cdn.lordicon.com/fozsorqm.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#000000,secondary:#9f0712"
+                        class="mr-2">
+                </lord-icon>
+                Avis
+            </a>
+        </div>
+    @endif
+
+    <!-- Container principal -->
+    <div class="w-full h-full flex justify-center items-start mt-2 relative">
+        <!-- Bouton principal -->
+        <button id="toggleLinksButton"
+                onclick="toggleLinksDropdown()"
+                class="w-full h-12 mx-2 px-2 bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center cursor-pointer">
+            <lord-icon
+                    src="https://cdn.lordicon.com/lcvlsnre.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:#9f0712"
+                    class="mr-2">
+            </lord-icon>
+            Liens personnalisés
+        </button>
+
+        <!-- Liste déroulante personnalisée (cachée par défaut) -->
+        <div id="customLinksDropdown"
+             class="hidden absolute z-50 w-full bg-gray-100 rounded-lg border border-gray-300 shadow-lg mt-14 mx-2">
+            <ul class="divide-y divide-gray-300">
+                <!-- Boucle Laravel pour générer les liens -->
+                @foreach ($custom as $link)
+                    <li class="flex items-center h-12 px-2 ">
+                        <!-- Icône gauche -->
+                        <lord-icon
+                                src="https://cdn.lordicon.com/exymduqj.json"
+                                trigger="hover"
+                                delay="1000"
+                                colors="primary:#000000,secondary:#9f0712"
+                                class="w-6 h-6">
+                        </lord-icon>
+                        <!-- Texte du lien -->
+                        <a href="{{ $link['lien'] }}"
+                           target="_blank"
+                           class="ml-3 text-gray-800 font-bold text-sm flex-1">
+                            {{ $link['nom'] }}
+                        </a>
+                        <!-- Icône droite -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2"
+                             stroke="currentColor"
+                             class="w-5 h-5 text-gray-400">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+
 </div>
 
 <div class="flex items-center justify-center space-x-6">
@@ -297,7 +375,7 @@
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <!-- Bouton pour afficher les photos -->
                 <button onclick="openGallery()"
-                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
                     <lord-icon
                             src="https://cdn.lordicon.com/rszslpey.json"
                             trigger="loop"
@@ -318,7 +396,7 @@
                 <!-- Section pour afficher un bouton qui ouvre la galerie -->
         <div class="w-full mt-4 text-center">
             <button onclick="openGallery()"
-                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
                 Voir la Galerie
             </button>
         </div>
@@ -368,7 +446,7 @@
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <!-- Bouton principal pour ouvrir la galerie de vidéos -->
                 <button onclick="openVideoGallery()"
-                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
                     <lord-icon
                             src="https://cdn.lordicon.com/bomiazxt.json"
                             trigger="loop"
@@ -382,7 +460,7 @@
         <!-- Section pour afficher un bouton individuel -->
         <div class="w-full mt-4 text-center">
             <button onclick="openVideoGallery()"
-                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
                 Voir les Vidéos
             </button>
         </div>
@@ -412,19 +490,13 @@
                                  alt="Thumbnail"
                                  class="w-full h-full object-cover">
                             <div class="absolute inset-0 flex justify-center items-center">
-                                <lord-icon
-                                        src="https://cdn.lordicon.com/avtdsstd.json"
-                                        trigger="loop"
-                                        delay="1000"
-                                        colors="primary:#ffffff,secondary:#9f0712"
-                                        class="w-10 h-10">
-                                </lord-icon>
                             </div>
                         </a>
                     @endforeach
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -441,23 +513,6 @@
                     </div>
                 </div>
             </div>
-        </a>
-    @endforeach
-</div>
-
-<!-- Custom Links -->
-<div class="w-full mt-4 flex flex-wrap items-center justify-center gap-4 mb-2">
-    @foreach($custom as $link)
-        <a href="{{ $link['lien'] }}"
-           class="w-36 h-20 flex flex-col items-center justify-center bg-white font-bold rounded-lg text-gray-800 text-center p-3 border border-gray-200 transition-shadow duraion-300">
-            <lord-icon
-                    src="https://cdn.lordicon.com/gsjfryhc.json"
-                    trigger="loop"
-                    delay="1000"
-                    colors="primary:#000000,secondary:#9f0712"
-                    class="w-8 h-8 mb-2">
-            </lord-icon>
-            <span class="text-sm">{{ $link['nom'] }}</span>
         </a>
     @endforeach
 </div>
@@ -488,6 +543,7 @@
     }
 
     // **Script pour la copie du lien**
+    {{--
     function copyLink() {
         const linkToCopy = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
 
@@ -512,6 +568,30 @@
         }).catch(err => {
             console.error("Erreur lors de la copie du lien :", err);
         });
+    }--}}
+
+    function shareOrCopyLink() {
+        const linkToShare = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+
+        if (navigator.share) {
+            // Partage natif si disponible
+            navigator.share({
+                title: document.title,
+                text: "Découvrez cette entreprise sur Wisikard !",
+                url: linkToShare
+            }).then(() => {
+                console.log("Lien partagé avec succès !");
+            }).catch(err => {
+                console.error("Erreur lors du partage :", err);
+            });
+        } else {
+            // Fallback : copie dans le presse-papier
+            navigator.clipboard.writeText(linkToShare).then(() => {
+                alert("Lien copié dans le presse-papier !");
+            }).catch(err => {
+                console.error("Erreur lors de la copie :", err);
+            });
+        }
     }
 
     // **Scripts pour les galeries (photos et vidéos)**
@@ -544,6 +624,24 @@
     function closeVideoGallery() {
         document.getElementById('videoGallery').classList.add('hidden');
     }
+
+    function toggleLinksDropdown() {
+        const dropdown = document.getElementById('customLinksDropdown');
+
+        // Alterne entre afficher (supprimer `hidden`) et cacher (ajouter `hidden`)
+        dropdown.classList.toggle('hidden');
+    }
+
+    // Fermer le menu si l'utilisateur clique ailleurs
+    document.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('customLinksDropdown');
+        const button = document.getElementById('toggleLinksButton');
+
+        if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+            // Ajoute la classe `hidden` si clic en dehors
+            dropdown.classList.add('hidden');
+        }
+    });
 </script>
 
 <footer class="bg-zinc-900 text-center p-4 text-gray-200 text-sm bottom-0 w-full">
