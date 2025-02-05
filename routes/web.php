@@ -41,7 +41,9 @@ Route::middleware([Authentification::class])->group(function () {
         Route::post('/dashboardAdmin', [DashboardAdmin::class, 'afficherDashboardAdmin'])->name('dashboardAdmin');
         Route::get('/dashboardAdminStatistique', [DashboardAdmin::class, 'statistique'])->name('dashboardAdminStatistique');
         Route::get('/dashboardAdminMessage', [DashboardAdmin::class, 'afficherAllMessage'])->name('dashboardAdminMessage');
-        Route::get('/InscriptionAttente', [InscriptionAttente::class, 'InscripAttente'])->name('InscripAttente');
+        Route::get('/InscriptionAttente', [InscriptionAttente::class, 'index'])->name('InscriptionAttente');
+        Route::delete('/InscriptionAttente_destroy/{id}', [InscriptionAttente::class, 'destroy'])->name('inscription.destroy');
+        Route::post('/InscriptionAttente_ajout/{id}', [InscriptionAttente::class, 'ajout'])->name('inscription.ajout');
 
         Route::post('/ajoutMessage', [DashboardAdmin::class, 'ajoutMessage'])->name('ajoutMessage');
         Route::patch('/toggleMessage/{id}', [DashboardAdmin::class, 'toggleMessage'])->name('toggleMessage');
@@ -87,6 +89,9 @@ Route::middleware([Authentification::class])->group(function () {
     //Avis
     Route::post('/dashboardClientPDF/uploadAvis', [DashboardClient::class, 'uploadAvis'])->name('dashboardClientPDF.uploadAvis');
     Route::delete('/dashboardClientPDF/deleteAvis', [DashboardClient::class, 'deleteAvis'])->name('dashboardClientPDF.deleteAvis');
+    //Inscription client
+    Route::post('/boutonInscriptionClient', [InscriptionAttente::class, 'boutonInscriptionClient'])->name('boutonInscriptionClient');
+    Route::get('/boutonInscriptionClient', [InscriptionAttente::class, 'boutonInscriptionClient'])->name('boutonInscriptionClient');
 
     // Personnalisation des Clients
     Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');

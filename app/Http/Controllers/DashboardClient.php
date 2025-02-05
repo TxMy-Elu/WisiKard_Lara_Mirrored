@@ -1342,7 +1342,7 @@ class DashboardClient extends Controller
         return redirect()->back()->with('success', 'Avis enregistré avec succès.');
     }
 
-    public function deleteAvis()
+    public function deleteAvis()//lien avis google
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -1356,7 +1356,7 @@ class DashboardClient extends Controller
         return redirect()->back()->with('error', 'Carte non trouvée.');
     }
 
-    public function deleteRDV()
+    public function deleteRDV()//lien rdv
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();

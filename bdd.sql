@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `carte`;
 CREATE TABLE IF NOT EXISTS `carte` (
-                                       `idCarte` int NOT NULL AUTO_INCREMENT,
-                                       `nomEntreprise` varchar(255) NOT NULL,
-    `titre` varchar(150) NOT NULL,
-    `tel` varchar(25) NOT NULL,
-    `ville` varchar(255) NOT NULL,
+    `idCarte` int NOT NULL AUTO_INCREMENT,
+    `nomEntreprise` varchar(255) NOT NULL,
+    `titre` varchar(150) NULL,
+    `tel` varchar(25)  NULL,
+    `ville` varchar(255) NULL,
     `imgPres` varchar(100) DEFAULT NULL,
     `imgLogo` varchar(100) DEFAULT NULL,
     `pdf` varchar(100) DEFAULT NULL,
@@ -132,7 +132,21 @@ CREATE TABLE IF NOT EXISTS `reactivation` (
     UNIQUE KEY `codeReactivation` (`codeReactivation`),
     KEY `reactivation_compte_FK` (`idCompte`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+-- --------------------------------------------------------
 
+--
+-- Structure de la table `inscript_attente`
+--
+DROP TABLE IF EXISTS `inscript_attente`;
+CREATE TABLE IF NOT EXISTS `inscript_attente` (
+                                                  `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
+                                                  `nom_entre` varchar(150) NOT NULL,
+    `mail` varchar(150) NOT NULL,
+    `mdp` varchar(150) NOT NULL,
+    `role` varchar(150) NOT NULL,
+    `date_inscription` DATETIME NOT NULL,
+    PRIMARY KEY (`id_inscripAttente`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 -- --------------------------------------------------------
 
 --

@@ -555,7 +555,6 @@ CREATE TABLE IF NOT EXISTS `inscript_attente` (
     `mail` varchar(150) NOT NULL,
     `mdp` varchar(150) NOT NULL,
     `role` varchar(150) NOT NULL,
-    `activer` Boolean NULL DEFAULT NULL,
     PRIMARY KEY (`idTemplate`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
