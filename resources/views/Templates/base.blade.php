@@ -61,7 +61,8 @@
     </a>
 
     <!-- Modal QR Code -->
-    <div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
+    <div id="qrModal"
+         class="hidden fixed inset-0 bg-zinc-800 bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-sm">
             <!-- Titre -->
             <h2 class="text-2xl font-bold text-gray-800 text-center">Votre QR Code</h2>
