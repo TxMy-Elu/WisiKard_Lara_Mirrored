@@ -82,22 +82,6 @@
         </div>
     </div>
 
-    <!-- Scripts JavaScript -->
-    <script>
-        // Ouvre le modal QR Code
-        function openQrModal() {
-            const qrModal = document.getElementById('qrModal');
-            qrModal.classList.remove('hidden');
-            qrModal.classList.add('flex');
-        }
-
-        // Ferme le modal QR Code
-        function closeQrModal() {
-            const qrModal = document.getElementById('qrModal');
-            qrModal.classList.add('hidden');
-            qrModal.classList.remove('flex');
-        }
-    </script>
     <!-- horaires -->
     <!-- Bouton pour ouvrir le modal -->
     <div class="flex justify-center">
@@ -165,19 +149,6 @@
         </div>
     </div>
 
-    <!-- Scripts JavaScript -->
-    <script>
-        function openModal() {
-            const modal = document.getElementById('horairesModal');
-            modal.classList.remove('hidden');
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('horairesModal');
-            modal.classList.add('hidden');
-        }
-    </script>
-
     <!-- partage -->
     <!-- Bouton de partage -->
     <button
@@ -195,41 +166,6 @@
             <div id="progressBar" class="bg-white h-full w-full"></div>
         </div>
     </div>
-
-    <!-- Script JavaScript -->
-    <script>
-        function copyLink() {
-            // URL à copier dans le presse-papiers
-            const linkToCopy = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
-
-            // Utiliser l'API Clipboard pour copier le lien
-            navigator.clipboard.writeText(linkToCopy).then(() => {
-                const notification = document.getElementById('copyNotification');
-                const progressBar = document.getElementById('progressBar');
-
-                // Afficher la notification
-                notification.classList.remove('hidden');
-
-                // Réinitialiser la barre de progression (si elle a été réutilisée précédemment)
-                progressBar.style.width = '100%';
-
-                // Commencer à réduire la largeur de la barre sur 3 secondes
-                setTimeout(() => {
-                    progressBar.style.transition = 'width 3s linear';
-                    progressBar.style.width = '0%'; // Barre rétrécit avec animation
-                }, 10); // Petit délai pour déclencher l'animation
-
-                // Masquer automatiquement la notification après 3 secondes
-                setTimeout(() => {
-                    notification.classList.add('hidden');
-                    progressBar.style.transition = 'none'; // Réinitialiser l'animation
-                    progressBar.style.width = '100%'; // Réinitialiser pour la prochaine utilisation
-                }, 3100);
-            }).catch(err => {
-                console.error("Erreur lors de la copie du lien :", err);
-            });
-        }
-    </script>
 
 </div>
 
@@ -491,41 +427,6 @@
         </div>
     </div>
 </div>
-<!-- Scripts JavaScript -->
-<script>
-    // Fonction pour afficher la galerie en modale
-    function openGallery() {
-        document.getElementById('photoGallery').classList.remove('hidden');
-    }
-
-    // Fonction pour fermer la galerie
-    function closeGallery() {
-        document.getElementById('photoGallery').classList.add('hidden');
-    }
-
-    // Fonction pour afficher une image en grand
-    function viewImage(imageSrc) {
-        const fullImage = document.getElementById('fullImage');
-        const fullImageContent = document.getElementById('fullImageContent');
-        fullImageContent.src = imageSrc; // Définit la source de l'image
-        fullImage.classList.remove('hidden'); // Affiche l'image en plein écran
-    }
-
-    // Fonction pour fermer l'image en plein écran
-    function closeFullImage() {
-        document.getElementById('fullImage').classList.add('hidden');
-    }
-
-    // Fonction pour ouvrir la galerie vidéo
-    function openVideoGallery() {
-        document.getElementById('videoGallery').classList.remove('hidden');
-    }
-
-    // Fonction pour fermer la galerie vidéo
-    function closeVideoGallery() {
-        document.getElementById('videoGallery').classList.add('hidden');
-    }
-</script>
 
 <!-- Réseaux sociaux -->
 <div class="flex flex-wrap items-center justify-center w-full mt-4 gap-4">
@@ -561,13 +462,95 @@
     @endforeach
 </div>
 
-<!-- Footer -->
+<script>
+    // **Script pour le Modal QR Code**
+    function openQrModal() {
+        const qrModal = document.getElementById('qrModal');
+        qrModal.classList.remove('hidden');
+        qrModal.classList.add('flex');
+    }
+
+    function closeQrModal() {
+        const qrModal = document.getElementById('qrModal');
+        qrModal.classList.add('hidden');
+        qrModal.classList.remove('flex');
+    }
+
+    // **Script pour le Modal Horaires**
+    function openModal() {
+        const modal = document.getElementById('horairesModal');
+        modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('horairesModal');
+        modal.classList.add('hidden');
+    }
+
+    // **Script pour la copie du lien**
+    function copyLink() {
+        const linkToCopy = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+
+        navigator.clipboard.writeText(linkToCopy).then(() => {
+            const notification = document.getElementById('copyNotification');
+            const progressBar = document.getElementById('progressBar');
+
+            notification.classList.remove('hidden');
+
+            progressBar.style.width = '100%';
+
+            setTimeout(() => {
+                progressBar.style.transition = 'width 3s linear';
+                progressBar.style.width = '0%';
+            }, 10);
+
+            setTimeout(() => {
+                notification.classList.add('hidden');
+                progressBar.style.transition = 'none';
+                progressBar.style.width = '100%';
+            }, 3100);
+        }).catch(err => {
+            console.error("Erreur lors de la copie du lien :", err);
+        });
+    }
+
+    // **Scripts pour les galeries (photos et vidéos)**
+
+    // Galerie Photos
+    function openGallery() {
+        document.getElementById('photoGallery').classList.remove('hidden');
+    }
+
+    function closeGallery() {
+        document.getElementById('photoGallery').classList.add('hidden');
+    }
+
+    function viewImage(imageSrc) {
+        const fullImage = document.getElementById('fullImage');
+        const fullImageContent = document.getElementById('fullImageContent');
+        fullImageContent.src = imageSrc;
+        fullImage.classList.remove('hidden');
+    }
+
+    function closeFullImage() {
+        document.getElementById('fullImage').classList.add('hidden');
+    }
+
+    // Galerie Vidéos
+    function openVideoGallery() {
+        document.getElementById('videoGallery').classList.remove('hidden');
+    }
+
+    function closeVideoGallery() {
+        document.getElementById('videoGallery').classList.add('hidden');
+    }
+</script>
+
 <footer class="bg-zinc-900 text-center p-4 text-gray-200 text-sm bottom-0 w-full">
     © {{ date('Y') }} - Un service proposé par
     <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
     <a href="https://wisikard.fr" class="text-blue-400 hover:underline">Wisikard</a>
 </footer>
-
 
 </body>
 </html>
