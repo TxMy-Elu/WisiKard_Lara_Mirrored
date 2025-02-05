@@ -54,12 +54,49 @@
 <div class="flex items-center justify-center w-full mt-4 gap-4">
 
 
-    <!-- QR Codes -->
-    <a href="{{ $carte['LienQr'] }}"
-       class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
+    <!-- Bouton QR Code -->
+    <a onclick="openQrModal()"
+       class="cursor-pointer w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
         QR Code
     </a>
 
+    <!-- Modal QR Code -->
+    <div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-sm">
+            <!-- Titre -->
+            <h2 class="text-2xl font-bold text-gray-800 text-center">Votre QR Code</h2>
+
+            <!-- Contenu QR Code -->
+            <div class="mt-4 text-center">
+                <img src="{{ $carte['lienQr'] }}" alt="QR Code" class="mx-auto max-h-64">
+            </div>
+
+            <!-- Bouton de fermeture -->
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeQrModal()"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        // Ouvre le modal QR Code
+        function openQrModal() {
+            const qrModal = document.getElementById('qrModal');
+            qrModal.classList.remove('hidden');
+            qrModal.classList.add('flex');
+        }
+
+        // Ferme le modal QR Code
+        function closeQrModal() {
+            const qrModal = document.getElementById('qrModal');
+            qrModal.classList.add('hidden');
+            qrModal.classList.remove('flex');
+        }
+    </script>
     <!-- horaires -->
     <!-- Bouton pour ouvrir le modal -->
     <div class="flex justify-center">
@@ -141,10 +178,57 @@
     </script>
 
     <!-- partage -->
-    <a href="{{ url()->current().'?idCompte='.$carte->compte->idCompte }}"
-       class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
+    <!-- Bouton de partage -->
+    <button
+            onclick="copyLink()"
+            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 hover:bg-zinc-700 transition">
         Partager
-    </a>
+    </button>
+
+    <!-- Notification avec barre de progression -->
+    <div id="copyNotification"
+         class="hidden fixed bottom-5 right-5 bg-zinc-800 text-white text-lg px-3 py-2 rounded-lg shadow-lg w-48">
+        Lien copié !
+        <!-- Barre de progression -->
+        <div class="w-full bg-zinc-950 h-1 mt-2">
+            <div id="progressBar" class="bg-white h-full w-full"></div>
+        </div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        function copyLink() {
+            // URL à copier dans le presse-papiers
+            const linkToCopy = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+
+            // Utiliser l'API Clipboard pour copier le lien
+            navigator.clipboard.writeText(linkToCopy).then(() => {
+                const notification = document.getElementById('copyNotification');
+                const progressBar = document.getElementById('progressBar');
+
+                // Afficher la notification
+                notification.classList.remove('hidden');
+
+                // Réinitialiser la barre de progression (si elle a été réutilisée précédemment)
+                progressBar.style.width = '100%';
+
+                // Commencer à réduire la largeur de la barre sur 3 secondes
+                setTimeout(() => {
+                    progressBar.style.transition = 'width 3s linear';
+                    progressBar.style.width = '0%'; // Barre rétrécit avec animation
+                }, 10); // Petit délai pour déclencher l'animation
+
+                // Masquer automatiquement la notification après 3 secondes
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                    progressBar.style.transition = 'none'; // Réinitialiser l'animation
+                    progressBar.style.width = '100%'; // Réinitialiser pour la prochaine utilisation
+                }, 3100);
+            }).catch(err => {
+                console.error("Erreur lors de la copie du lien :", err);
+            });
+        }
+    </script>
 
 </div>
 
