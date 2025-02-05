@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+
+    @laravelPWA
 </head>
 <body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
 
@@ -358,13 +361,72 @@
                              class="w-5 h-5 text-gray-400">
                             <path stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                  d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                         </svg>
                     </li>
                 @endforeach
             </ul>
         </div>
     </div>
+
+    <!-- Télécharger PWA -->
+    <div class="w-full h-full flex justify-center items-center mt-2">
+        <button id="installButton"
+                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center cursor-pointer"
+                >
+            <lord-icon
+                    src="https://cdn.lordicon.com/dxnllioo.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:#9f0712"
+                    class="mr-2">
+            </lord-icon>
+            Télécharger l'application
+        </button>
+    </div>
+
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prévenir l'événement d'installation et le stocker pour une utilisation ultérieure.
+            e.preventDefault();
+            deferredPrompt = e;
+            // Afficher le bouton d'installation
+            document.getElementById('installButton').style.display = 'flex';
+        });
+
+        document.getElementById('installButton').addEventListener('click', (e) => {
+            // Afficher le prompt d'installation
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                // Attendre que l'utilisateur réponde au prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('L\'utilisateur a accepté l\'installation de la PWA');
+                    } else {
+                        console.log('L\'utilisateur a refusé l\'installation de la PWA');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+    </script>
+
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/serviceworker.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(error => {
+                    console.log('ServiceWorker registration failed: ', error);
+                });
+        }
+    </script>
+
+
 
 </div>
 
