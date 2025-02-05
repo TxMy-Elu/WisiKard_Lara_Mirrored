@@ -56,9 +56,89 @@
 
     <!-- QR Codes -->
     <a href="{{ $carte['LienQr'] }}"
-       class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800" >
+       class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
         QR Code
     </a>
+
+    <!-- horaires -->
+    <!-- Bouton pour ouvrir le modal -->
+    <div class="flex justify-center">
+        <btn onclick="openModal()"
+             class="w-12 h-12 flex items-center justify-center rounded-xl p-2 font-bold text-white text-center border border-gray-200 cursor-pointer">
+            <lord-icon
+                    src="https://cdn.lordicon.com/warimioc.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:#9f0712">
+            </lord-icon>
+        </btn>
+
+    </div>
+
+    <!-- Modal (invisible par défaut) -->
+    <div id="horairesModal"
+         class="hidden fixed inset-0 bg-zinc-800 bg-opacity-50 flex items-center justify-center z-50">
+        <!-- Contenu du modal -->
+        <div class="bg-white w-11/12 max-w-lg rounded-lg shadow-lg p-6">
+            <!-- Titre -->
+            <div class="flex justify-between items-center border-b border-zinc-700 pb-5">
+                <h3 class="text-2xl font-bold text-gray-800">Horaires de la semaine</h3>
+            </div>
+
+            <!-- Contenu des horaires -->
+            <div class="mt-4">
+                <ul class="text-gray-700 list-disc list-inside">
+                    @foreach($horaires as $jour => $horaire)
+                        <li>
+                            @php
+                                $jours = [
+                                    0 => 'Lundi',
+                                    1 => 'Mardi',
+                                    2 => 'Mercredi',
+                                    3 => 'Jeudi',
+                                    4 => 'Vendredi',
+                                    5 => 'Samedi',
+                                    6 => 'Dimanche'
+                                ];
+                            @endphp
+
+                            <strong class="text-red-600">{{ $jours[$jour] ?? 'Jour inconnu' }} :</strong>
+
+                            @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                {{ date('H:i', strtotime($horaire->ouverture_matin)) }}
+                                - {{ date('H:i', strtotime($horaire->fermeture_matin)) }} /
+                                {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }}
+                                - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}
+                            @else
+                                Fermé
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <!-- Bouton de fermeture -->
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeModal()"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        function openModal() {
+            const modal = document.getElementById('horairesModal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('horairesModal');
+            modal.classList.add('hidden');
+        }
+    </script>
 
     <!-- partage -->
     <a href="{{ url()->current().'?idCompte='.$carte->compte->idCompte }}"
@@ -79,7 +159,7 @@
                         src="https://cdn.lordicon.com/surcxhka.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        colors="primary:#000000,secondary:#9f0712"
                         class="mr-2">
                 </lord-icon>
                 Maps
@@ -96,7 +176,7 @@
                         src="https://cdn.lordicon.com/pbbsmkso.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        colors="primary:#000000,secondary:#9f0712"
                         class="mr-2">
                 </lord-icon>
                 Site web
@@ -113,7 +193,7 @@
                         src="https://cdn.lordicon.com/qtykvslf.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        colors="primary:#000000,secondary:#9f0712"
                         class="mr-2">
                 </lord-icon>
                 Téléphone
@@ -130,7 +210,7 @@
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        colors="primary:#000000,secondary:#9f0712"
                         class="mr-2">
                 </lord-icon>
                 Email
@@ -147,7 +227,7 @@
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        colors="primary:#000000,secondary:#9f0712"
                         class="mr-2">
                 </lord-icon>
                 {{$carte['nomBtnPdf']}} (PDF)
@@ -164,7 +244,7 @@
                         src="https://cdn.lordicon.com/jdgfsfzr.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                        colors="primary:#000000,secondary:#9f0712"
                         class="mr-2">
                 </lord-icon>
                 Prendre un rendez-vous
@@ -180,7 +260,7 @@
                     src="https://cdn.lordicon.com/kdduutaw.json"
                     trigger="loop"
                     delay="1000"
-                    colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                    colors="primary:#000000,secondary:#9f0712"
                     class="mr-2">
             </lord-icon>
             Fiche de contact
@@ -189,72 +269,143 @@
 
 </div>
 
-<!-- Gelerie -->
-<div class="w-full mt-4">
-    <div class="flex flex-wrap items-center justify-center gap-4">
-        <!-- Bouton pour afficher les photos -->
-        <button onclick="openGallery()"
-                class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
-            <lord-icon
-                    src="https://cdn.lordicon.com/rszslpey.json"
-                    trigger="loop"
-                    delay="1000"
-                    colors="primary:#000000,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>
-        </button>
+<div class="flex items-center justify-center space-x-6">
+    <div class="flex-cols">
+        <!-- Gelerie -->
+        <div class="w-full mt-4">
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <!-- Bouton pour afficher les photos -->
+                <button onclick="openGallery()"
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/rszslpey.json"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#000000,secondary:#9f0712">
+                    </lord-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Galerie Modale -->
+        <!-- PHP : Liste des images extraites du dossier "slider" -->
+        @php
+            $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+            $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
+        @endphp
+
+                <!-- Section pour afficher un bouton qui ouvre la galerie -->
+        <div class="w-full mt-4 text-center">
+            <button onclick="openGallery()"
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+                Voir la Galerie
+            </button>
+        </div>
+
+        <!-- Galerie (Lightbox) -->
+        <div id="photoGallery"
+             class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-75 flex justify-center items-center z-50">
+            <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
+                <!-- Bouton pour fermer la galerie -->
+                <button onclick="closeGallery()" class="absolute top-2 right-2 p-2 text-red-500 font-bold text-xl">
+                    &times;
+                </button>
+
+                <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
+
+                <!-- Liste d'images -->
+                <div class="flex flex-wrap gap-4 justify-center items-center">
+                    @foreach($sliderImages as $image)
+                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
+                             alt="Image slider"
+                             class="w-1/3 rounded-lg shadow-md cursor-pointer"
+                             onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}')">
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <!-- Affichage d'une image en plein écran -->
+        <div id="fullImage"
+             class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-90 flex justify-center items-center z-50">
+            <div class="relative">
+                <!-- Image en taille réelle -->
+                <img id="fullImageContent" src="" alt="Image en grand"
+                     class="max-w-full max-h-full rounded-lg shadow-lg">
+
+                <!-- Bouton pour fermer -->
+                <button onclick="closeFullImage()" class="absolute top-2 right-2 text-red-800 text-2xl font-bold">
+                    &times;
+                </button>
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- Galerie Modale -->
-<!-- PHP : Liste des images extraites du dossier "slider" -->
-@php
-    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
-    $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
-@endphp
+    <div class="flex-cols">
+        <!-- Section Vidéos -->
+        <div class="w-full mt-4">
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <!-- Bouton principal pour ouvrir la galerie de vidéos -->
+                <button onclick="openVideoGallery()"
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/bomiazxt.json"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#000000,secondary:#9f0712">
+                    </lord-icon>
+                </button>
+            </div>
+        </div>
 
-        <!-- Section pour afficher un bouton qui ouvre la galerie -->
-<div class="w-full mt-4 text-center">
-    <button onclick="openGallery()"
-            class="w-48 rounded-xl p-3 font-bold text-white text-center bg-zinc-800 border border-gray-200">
-        Voir la Galerie
-    </button>
-</div>
+        <!-- Section pour afficher un bouton individuel -->
+        <div class="w-full mt-4 text-center">
+            <button onclick="openVideoGallery()"
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200">
+                Voir les Vidéos
+            </button>
+        </div>
 
-<!-- Galerie (Lightbox) -->
-<div id="photoGallery" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50">
-    <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
-        <!-- Bouton pour fermer la galerie -->
-        <button onclick="closeGallery()" class="absolute top-2 right-2 p-2 text-red-500 font-bold text-xl">
-            &times;
-        </button>
+        <!-- Galerie Vidéos Modale -->
+        <div id="videoGallery"
+             class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-75 flex justify-center items-center z-50">
+            <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
+                <!-- Bouton pour fermer la galerie -->
+                <button onclick="closeVideoGallery()" class="absolute top-2 right-2 p-2 text-red-500 font-bold text-xl">
+                    &times;
+                </button>
 
-        <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
+                <h2 class="text-center font-bold text-lg mb-4">Galerie de Vidéos</h2>
 
-        <!-- Liste d'images -->
-        <div class="flex flex-wrap gap-4 justify-center items-center">
-            @foreach($sliderImages as $image)
-                <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
-                     alt="Image slider"
-                     class="w-1/3 rounded-lg shadow-md cursor-pointer"
-                     onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}')">
-            @endforeach
+                <!-- Liste des vidéos YouTube -->
+                <div class="flex flex-wrap gap-4 justify-center items-center">
+                    @foreach($youtubeUrls as $url)
+                        @php
+                            // Extraire l'ID vidéo YouTube
+                            $videoId = preg_replace('/^.*?v=([\w\-]+).*$/', '$1', $url);
+                        @endphp
+                                <!-- Miniature de vidéo cliquable -->
+                        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                           class="w-1/3 sm:w-1/4 lg:w-1/5 aspect-video relative rounded-lg overflow-hidden block">
+                            <img src="https://img.youtube.com/vi/{{ $videoId }}/mqdefault.jpg"
+                                 alt="Thumbnail"
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0 flex justify-center items-center">
+                                <lord-icon
+                                        src="https://cdn.lordicon.com/avtdsstd.json"
+                                        trigger="loop"
+                                        delay="1000"
+                                        colors="primary:#ffffff,secondary:#9f0712"
+                                        class="w-10 h-10">
+                                </lord-icon>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<!-- Affichage d'une image en plein écran -->
-<div id="fullImage" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-50">
-    <div class="relative">
-        <!-- Image en taille réelle -->
-        <img id="fullImageContent" src="" alt="Image en grand" class="max-w-full max-h-full rounded-lg shadow-lg">
-
-        <!-- Bouton pour fermer -->
-        <button onclick="closeFullImage()" class="absolute top-2 right-2 text-red-800 text-2xl font-bold">
-            &times;
-        </button>
-    </div>
-</div>
-
 <!-- Scripts JavaScript -->
 <script>
     // Fonction pour afficher la galerie en modale
@@ -279,6 +430,16 @@
     function closeFullImage() {
         document.getElementById('fullImage').classList.add('hidden');
     }
+
+    // Fonction pour ouvrir la galerie vidéo
+    function openVideoGallery() {
+        document.getElementById('videoGallery').classList.remove('hidden');
+    }
+
+    // Fonction pour fermer la galerie vidéo
+    function closeVideoGallery() {
+        document.getElementById('videoGallery').classList.add('hidden');
+    }
 </script>
 
 <!-- Réseaux sociaux -->
@@ -298,6 +459,7 @@
     @endforeach
 </div>
 
+
 <!-- Custom Links -->
 <div class="w-full mt-4 flex flex-wrap items-center justify-center gap-4">
     @foreach($custom as $link)
@@ -307,7 +469,7 @@
                     src="https://cdn.lordicon.com/gsjfryhc.json"
                     trigger="loop"
                     delay="1000"
-                    colors="primary:#000000,secondary:{{ $carte['couleur1'] }}"
+                    colors="primary:#000000,secondary:#9f0712"
                     class="w-8 h-8 mb-2">
             </lord-icon>
             <span class="text-sm">{{ $link['nom'] }}</span>

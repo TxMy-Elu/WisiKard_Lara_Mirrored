@@ -1,16 +1,19 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Carte;
 use App\Models\Compte;
 use App\Models\Custom_Link;
 use App\Models\Employer;
+use App\Models\Horaires;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Template;
 use App\Models\Vue;
-use App\Models\Horaires;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class Templates extends Controller
 {
@@ -111,6 +114,16 @@ class Templates extends Controller
         // Récupérer les horaires pour la carte spécifique
         $horaires = Horaires::where('idCarte', $idCarte)->get();
 
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $youtubeUrls = [];
+        if (File::exists($videosPath)) {
+            $youtubeUrls = json_decode(File::get($videosPath), true);
+        }
+
+
         // Définir les fonctions spécifiques
         $fonctions = [
             ['nom' => 'nopub'],
@@ -120,13 +133,13 @@ class Templates extends Controller
         // Renvoyer la bonne vue selon le template
         switch ($idTemplate ?? null) {
             case 1:
-                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 2:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 3:
-                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 4:
-                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             default:
                 // Si aucun template trouvé, retourner un message JSON ou une vue vide.
                 return response()->json([
@@ -192,19 +205,28 @@ class Templates extends Controller
 
         $employe = null;
 
+        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $youtubeUrls = [];
+        if (File::exists($videosPath)) {
+            $youtubeUrls = json_decode(File::get($videosPath), true);
+        }
+
         // Récupérer le modèle de la carte
         $template = Template::find($idTemplate);
 
         // Renvoyer la bonne vue selon l'idTemplate passé dans l'URL
         switch ($idTemplate) {
             case 1:
-                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 2:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 3:
-                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 4:
-                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires'));
+                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             default:
                 abort(404, 'Template non trouvé');
         }
