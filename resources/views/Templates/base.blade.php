@@ -306,16 +306,16 @@
     <!-- PDF -->
     @if($carte['pdf'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['PDF'] }}"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+            <a href="{{ $carte['pdf'] }}" download
+               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-300 text-gray-800 flex items-center hover:bg-gray-100 transition duration-200">
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
                         delay="1000"
                         colors="primary:#000000,secondary:#9f0712"
-                        class="mr-2">
+                        class="mr-2 w-6 h-6">
                 </lord-icon>
-                {{$carte['nomBtnPdf']}} (PDF)
+                {{$carte['nomBtnPdf']}} (Télécharger PDF)
             </a>
         </div>
     @endif
@@ -544,9 +544,8 @@
     @endforeach
 </div>
 
-
 <!-- Custom Links -->
-<div class="w-full mt-4 flex flex-wrap items-center justify-center gap-4">
+<div class="w-full mt-4 flex flex-wrap items-center justify-center gap-4 mb-2">
     @foreach($custom as $link)
         <a href="{{ $link['lien'] }}"
            class="w-36 h-20 flex flex-col items-center justify-center bg-white font-bold rounded-lg text-gray-800 text-center p-3 border border-gray-200 transition-shadow duraion-300">
@@ -561,6 +560,13 @@
         </a>
     @endforeach
 </div>
+
+<!-- Footer -->
+<footer class="bg-zinc-900 text-center p-4 text-gray-200 text-sm bottom-0 w-full">
+    © {{ date('Y') }} - Un service proposé par
+    <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
+    <a href="https://wisikard.fr" class="text-blue-400 hover:underline">Wisikard</a>
+</footer>
 
 
 </body>

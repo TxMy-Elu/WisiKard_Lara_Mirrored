@@ -594,6 +594,9 @@
   .right-5 {
     right: calc(var(--spacing) * 5);
   }
+  .bottom-0 {
+    bottom: calc(var(--spacing) * 0);
+  }
   .bottom-2 {
     bottom: calc(var(--spacing) * 2);
   }
@@ -1366,6 +1369,18 @@
   .bg-zinc-800 {
     background-color: var(--color-zinc-800);
   }
+  .bg-zinc-800\/25 {
+    background-color: color-mix(in oklab, var(--color-zinc-800) 25%, transparent);
+  }
+  .bg-zinc-800\/75 {
+    background-color: color-mix(in oklab, var(--color-zinc-800) 75%, transparent);
+  }
+  .bg-zinc-800\/85 {
+    background-color: color-mix(in oklab, var(--color-zinc-800) 85%, transparent);
+  }
+  .bg-zinc-800\/95 {
+    background-color: color-mix(in oklab, var(--color-zinc-800) 95%, transparent);
+  }
   .bg-zinc-900 {
     background-color: var(--color-zinc-900);
   }
@@ -1481,6 +1496,9 @@
   .pb-5 {
     padding-bottom: calc(var(--spacing) * 5);
   }
+  .pb-20 {
+    padding-bottom: calc(var(--spacing) * 20);
+  }
   .pl-10 {
     padding-left: calc(var(--spacing) * 10);
   }
@@ -1547,6 +1565,9 @@
   .font-semibold {
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
+  }
+  .text-blue-400 {
+    color: var(--color-blue-400);
   }
   .text-blue-500 {
     color: var(--color-blue-500);
@@ -1976,6 +1997,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-white);
+      }
+    }
+  }
+  .hover\:underline {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: underline;
       }
     }
   }
