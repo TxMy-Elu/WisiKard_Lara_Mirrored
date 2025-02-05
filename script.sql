@@ -542,6 +542,22 @@ INSERT INTO `template` (`idTemplate`, `nom`) VALUES
                                                  (3, 'peche'),
                                                  (4, 'Template4'),
                                                  (5, 'Template5');
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `inscript_attente`
+--
+
+DROP TABLE IF EXISTS `inscript_attente`;
+CREATE TABLE IF NOT EXISTS `inscript_attente` (
+    `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
+    `nom_entre` varchar(150) NOT NULL,
+    `mail` varchar(150) NOT NULL,
+    `mdp` varchar(150) NOT NULL,
+    `role` varchar(150) NOT NULL,
+    `activer` Boolean NULL DEFAULT NULL,
+    PRIMARY KEY (`idTemplate`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
