@@ -278,7 +278,8 @@ class DashboardClient extends Controller
                     'idSocial' => $request->idSocial,
                     'idCarte' => $request->idCarte,
                     'lien' => $request->lien,
-                    'activer' => $request->has('activer') ? 1 : 0
+                    // patch pour activer le lien par défaut
+                    'activer' => $request->has('activer', 1)
                 ]);
 
                 Logs::ecrireLog($emailUtilisateur, "Ajout Lien Social");
@@ -1245,7 +1246,7 @@ class DashboardClient extends Controller
     }
 
     /**
-     * Télécharge un PDF.
+     * Télécharge un PDF en conservant les majuscules dans les liens.
      *
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
@@ -1292,9 +1293,10 @@ class DashboardClient extends Controller
             // Récupérer le fichier téléchargé
             $file = $request->file('pdf');
 
-            // Récupérer le nouveau nom fourni (ou définir un nom par défaut)
+            // Récupérer le nouveau nom fourni
             $newName = $request->input('new_name');
-            $renamedFile = Str::slug($newName, '_') . '.pdf'; // Nommer le fichier dans un format sûr (slug)
+            // Conserver les majuscules en validant le format du nom (remplace les caractères invalides sauf majuscules)
+            $renamedFile = preg_replace('/[^A-Za-z0-9_\-]/', '_', $newName) . '.pdf';
 
             // Déplacer le fichier dans le dossier cible avec son nouveau nom
             $file->move($fullPath, $renamedFile);
@@ -1303,13 +1305,14 @@ class DashboardClient extends Controller
             // Enregistrer une entrée de log en base de données
             Logs::ecrireLog($carte->compte->email, "Téléchargement de PDF - Nom: {$renamedFile}");
 
-            // Enregistrer dans la base de données le nom du lien PDF et le nom du bouton
-            $carte->pdf = $destinationPath . '/' . $renamedFile;
-            $carte->nomBtnPdf = $newName;
+            // Mettre à jour les informations dans la base de données
+            $carte->pdf = $destinationPath . '/' . $renamedFile; // Enregistrer le chemin relatif avec les majuscules
+            $carte->nomBtnPdf = $newName; // Mettre à jour le nom du bouton
             $carte->save();
 
-            $pdfe = $carte->pdf;
-            $carte->lienPdf = $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&&format=svg&text=127.0.0.1:9000/pdf=" . $pdfe;
+            // Générer un lien QR Code avec les majuscules dans le lien
+            $pdfe = urlencode($carte->pdf); // Encoder l'URL avec les majuscules conservées
+            $carte->lienPdf = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/pdf" . $pdfe;
             $carte->save();
 
             // Succès : Redirection avec un message de confirmation

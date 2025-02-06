@@ -61,13 +61,14 @@ class Compte extends Model
         $tel = htmlspecialchars($tel, ENT_QUOTES, 'UTF-8');
         $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
-        // Créer le contenu valide de la vCard
-        $vCard = "BEGIN:VCARD\r\n";
-        $vCard .= "VERSION:4.0\r\n";
-        $vCard .= "FN:{$nomEntreprise}\r\n"; // Nom complet
-        $vCard .= "TEL;TYPE=HOME,VOICE:{$tel}\r\n"; // Numéro de téléphone
+        $vCard = "BEGIN:VCARD\r\n";                 // Début de la vCard
+        $vCard .= "VERSION:4.0\r\n";                // Version 4.0 compatible
+        $vCard .= "FN:{$nomEntreprise}\r\n";        // Nom complet
+        $vCard .= "TEL;TYPE=CELL,VOICE:{$tel}\r\n"; // Numéro de téléphone
         $vCard .= "EMAIL;TYPE=HOME,INTERNET:{$email}\r\n"; // Adresse email
-        $vCard .= "END:VCARD\r\n";
+        $vCard .= "END:VCARD\r\n";                  // Fin de la vCard
+
+
 
         // Définir le chemin complet pour enregistrer le fichier
         $directoryPath = public_path("entreprises/{$idCompte}_{$nomEntreprise}/VCF_Files");
@@ -99,44 +100,65 @@ class Compte extends Model
 
     public static function QrCode($id, $entreprise)
     {
+        // Récupérer les couleurs à partir de la base de données
+        $carte = Carte::where('idCompte', $id)->first();
 
-        $color1 = Carte::where('idCompte', $id)->first()->couleur1;
-        $color2 = Carte::where('idCompte', $id)->first()->couleur2;
+        if (!$carte) {
+            echo "Aucune carte trouvée pour l'idCompte : {$id}";
+            return;
+        }
 
-        //enleve le # pour le code couleur
-        $color1 = substr($color1, 1);
-        $color2 = substr($color2, 1);
+        $color1 = $carte->couleur1; // Couleur 1 (exemple : #FF0000)
+        $color2 = $carte->couleur2; // Couleur 2 (exemple : #FFFFFF)
 
-        $url = "https://quickchart.io/qr?size=300&dark=" . $color1 . "&light=" . $color2 . "&format=svg&text=https://app.wisikard.fr/Templates?idCompte=" . $id;
+        // Supprimer le symbole '#' pour formater les couleurs pour l'API
+        $color1 = ltrim($color1, '#');
+        $color2 = ltrim($color2, '#');
 
+        // Construire l'URL pour générer le QR Code depuis QuickChart.io
+        $baseUrl = "https://quickchart.io/qr";
+        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Templates?idCompte={$id}";
+
+        // Utiliser cURL pour effectuer une requête à l'API
         $ch = curl_init();
 
-        // Configurer les options cURL
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        // Retourner le contenu directement au lieu de l'afficher
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);        // Suivre les redirections HTTP, si nécessaire
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);       // Désactiver la vérification SSL (non recommandé pour la production)
 
-        // Exécuter la requête cURL et obtenir le contenu
         $content = curl_exec($ch);
 
+        // Gestion des erreurs cURL
         if (curl_errno($ch)) {
             echo 'Erreur cURL : ' . curl_error($ch);
-        } else {
-            // Fermer la session cURL
             curl_close($ch);
+            return;
+        }
 
-            // Chemin où enregistrer le fichier PNG
-            $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
-            $pngFilePath = "{$directoryPath}/QR_Code.svg";
+        // Fermer la session cURL
+        curl_close($ch);
 
-            // Créer le répertoire s'il n'existe pas
-            if (!file_exists($directoryPath)) {
-                mkdir($directoryPath, 0777, true);
-            }
+        // Vérifier si le contenu est valide
+        if (!$content) {
+            echo "Aucun contenu retourné par l'API.";
+            return;
+        }
 
-            // Enregistrer le contenu dans un fichier PNG
-            file_put_contents($pngFilePath, $content);
+        // Construire le chemin d'enregistrement du fichier SVG
+        $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
+        $svgFilePath = "{$directoryPath}/QR_Code.svg";
+
+        // Créer le répertoire s'il n'existe pas (en respectant la casse)
+        if (!file_exists($directoryPath)) {
+            mkdir($directoryPath, 0777, true); // Création récursive avec permissions
+        }
+
+        // Enregistrer le contenu dans le fichier SVG
+        if (file_put_contents($svgFilePath, $content) !== false) {
+            echo "QR Code enregistré avec succès ! Chemin : {$svgFilePath}";
+        } else {
+            echo "Échec de l'enregistrement du fichier QR Code.";
         }
     }
 }

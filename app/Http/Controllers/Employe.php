@@ -67,7 +67,7 @@ class Employe extends Controller
         $code = $id ."x".$idEmp;
 
 
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1:9000/Templates?CompteEmp=" . $code;
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Templates?CompteEmp=" . $code;
 
         $ch = curl_init();
 
