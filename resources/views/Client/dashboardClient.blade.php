@@ -813,6 +813,16 @@
                                         onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=1'"
                                         class="w-full h-[300px] rounded-lg"></iframe>
                             </div>
+                            <div class="flex flex-col items-center">
+                                <input type="radio" name="idTemplate" id="template1" value="1"
+                                       @if($idTemplate == 1) checked @endif class="mb-2"
+                                       onchange="submitTemplateForm()">
+                                <label for="template1"></label>
+                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=2'"
+                                        class="w-full h-[300px] rounded-lg"></iframe>
+                            </div>
+
                             @if($compte->role == 'starter')
                                 <div class="relative z-50 flex flex-col items-center justify-center mb-4">
                                     <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
@@ -835,8 +845,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <iframe
-                                        src="http://127.0.0.1:9000/iframe?idTemplate=2"
-                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=2'"
+                                        src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=3'"
                                         class="w-full h-[300px] rounded-lg border border-gray-200">
                                 </iframe>
                             </div>
@@ -847,8 +857,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <iframe
-                                        src="http://127.0.0.1:9000/iframe?idTemplate=3"
-                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=3'"
+                                        src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=4'"
                                         class="w-full h-[300px] rounded-lg">
                                 </iframe>
                             </div>
@@ -859,8 +869,8 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template4"></label>
                                 <iframe
-                                        src="http://127.0.0.1:9000/iframe?idTemplate=4"
-                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=4'"
+                                        src="http://127.0.0.1:9000/iframe?idTemplate=5"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=5'"
                                         class="w-full h-[300px] rounded-lg">
                                 </iframe>
                             </div>

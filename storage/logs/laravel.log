@@ -1,0 +1,5 @@
+[2025-02-06 16:37:36] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-06 16:38:24] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-06 16:39:10] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-06 16:41:47] local.INFO: Lien personnalisé ajouté avec succès {"email":"cli@cli.fr","nom":"test","lien":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"} 
+[2025-02-06 16:42:13] local.INFO: Lien personnalisé mis à jour avec succès {"email":"cli@cli.fr","id_link":"4","lien":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","activer":1} 
