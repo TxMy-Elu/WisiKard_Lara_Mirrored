@@ -18,6 +18,14 @@ class DashboardAdmin extends Controller
     protected $carte;
     protected $message;
 
+    /**
+     * DashboardAdmin constructor.
+     *
+     * @param Compte $compte
+     * @param Vue $vue
+     * @param Carte $carte
+     * @param Message $message
+     */
     public function __construct(Compte $compte, Vue $vue, Carte $carte, Message $message)
     {
         $this->compte = $compte;
@@ -26,27 +34,39 @@ class DashboardAdmin extends Controller
         $this->message = $message;
     }
 
-  public function afficherDashboardAdmin(Request $request)
-  {
-      $search = $request->input('search');
-      $entreprises = $this->carte->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
-          ->when($search, function ($query, $search) {
-              return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
-                  ->orWhere('compte.email', 'like', "%{$search}%");
-          })
-          ->select('carte.*', 'compte.email as compte_email', 'compte.role as compte_role')
-          ->get();
+    /**
+     * Affiche le tableau de bord administrateur.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function afficherDashboardAdmin(Request $request)
+    {
+        $search = $request->input('search');
+        $entreprises = $this->carte->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+            ->when($search, function ($query, $search) {
+                return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
+                    ->orWhere('compte.email', 'like', "%{$search}%");
+            })
+            ->select('carte.*', 'compte.email as compte_email', 'compte.role as compte_role')
+            ->get();
 
-      foreach ($entreprises as $entreprise) {
-          $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
-      }
+        foreach ($entreprises as $entreprise) {
+            $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
+        }
 
-      $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
-      $messageContent = $message ? $message->message : 'Aucun message disponible';
+        $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
+        $messageContent = $message ? $message->message : 'Aucun message disponible';
 
-      return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
-  }
+        return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
+    }
 
+    /**
+     * Affiche le formulaire de modification du mot de passe.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
     public function showModifyPasswordForm($id)
     {
         $compte = Compte::find($id);
@@ -56,6 +76,13 @@ class DashboardAdmin extends Controller
         return view('Formulaire.formulaireModifMDP', compact('compte'));
     }
 
+    /**
+     * Met à jour le mot de passe de l'utilisateur.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateMDP(Request $request, $id)
     {
         $idCompte = session('connexion');
@@ -92,9 +119,15 @@ class DashboardAdmin extends Controller
                 return redirect()->back()->with('error', implode('<br>', $messagesErreur));
             }
         }
-            return view('Formulaire.formulaireModifMDP');
+        return view('Formulaire.formulaireModifMDP');
     }
 
+    /**
+     * Affiche les statistiques du tableau de bord administrateur.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function statistique(Request $request)
     {
         $year = $request->query('year', date('Y'));
@@ -128,11 +161,23 @@ class DashboardAdmin extends Controller
         return view('Admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
     }
 
+    /**
+     * Formate un numéro de téléphone.
+     *
+     * @param string $phoneNumber
+     * @return string
+     */
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
     }
 
+    /**
+     * Ajoute un nouveau message.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function ajoutMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -151,6 +196,12 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage');
     }
 
+    /**
+     * Active ou désactive l'affichage d'un message.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function toggleMessage($id)
     {
         $message = $this->message->find($id);
@@ -165,6 +216,13 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage');
     }
 
+    /**
+     * Modifie un message existant.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function modifierMessage(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -183,18 +241,17 @@ class DashboardAdmin extends Controller
         Logs::ecrireLog($request->session()->get('email'), 'Modification du message');
         return redirect()->route('dashboardAdminMessage')->with('success', 'Message mis à jour avec succès.');
     }
+
+    /**
+     * Supprime un message.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function SupprimerMessage(Request $request, $id)
     {
-       /* $validator = Validator::make($request->all(), [
-            'message' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }*/
-
         $message = $this->message->findOrFail($id);
-        $message->message = $request->input('message');
         $message->delete();
 
         Log::info('Message ' . $message->id . ' supprimer');
@@ -202,12 +259,23 @@ class DashboardAdmin extends Controller
         return redirect()->route('dashboardAdminMessage')->with('success', 'Message supprimé avec succès.');
     }
 
+    /**
+     * Affiche tous les messages.
+     *
+     * @return \Illuminate\View\View
+     */
     public function afficherAllMessage()
     {
         $messages = $this->message->all();
         return view('Admin.dashboardAdminMessage', compact('messages'));
     }
 
+    /**
+     * Rafraîchit le QR Code d'une entreprise.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function refreshQrCode($id)
     {
         $compte = $this->compte->find($id);

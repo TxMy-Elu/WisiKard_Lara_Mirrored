@@ -1,6 +1,5 @@
 <?php
 
-// app/Http/Controllers/Entreprise.php
 namespace App\Http\Controllers;
 
 use App\Models\Carte;
@@ -12,28 +11,35 @@ use Illuminate\Support\Facades\Log;
 
 class Entreprise extends Controller
 {
+    /**
+     * Supprime une entreprise et toutes ses données associées.
+     *
+     * @param int $id L'ID de la carte de l'entreprise à supprimer.
+     * @return \Illuminate\Http\RedirectResponse Redirige vers la route dashboardAdmin avec un message de succès.
+     */
     public function destroy($id)
     {
         $carte = Carte::findOrFail($id);
 
-
-        //detruction du compte
+        // Suppression du compte associé
         $compte = Compte::findOrFail($carte->idCompte);
         $compte->delete();
-        Log::info('Le compte de l\'entreprise '.$carte->nomEntreprise.' a été supprimé avec succès.');
-        $carte->delete();
-        log::info('La carte de l\'entreprise '.$carte->nomEntreprise.' a été supprimé avec succès.');
+        Log::info('Le compte de l\'entreprise ' . $carte->nomEntreprise . ' a été supprimé avec succès.');
 
-        //delete le dossier de l'entreprise
-        $path = public_path('entreprises/'.$compte->idCompte.'_'.$carte->nomEntreprise);
-        if (file_exists($path)) {
+        // Suppression de la carte
+        $carte->delete();
+        Log::info('La carte de l\'entreprise ' . $carte->nomEntreprise . ' a été supprimée avec succès.');
+
+        // Suppression du dossier de l'entreprise
+        $path = public_path('entreprises/' . $compte->idCompte . '_' . $carte->nomEntreprise);
+        if (File::exists($path)) {
             File::deleteDirectory($path);
-            Log::info('Le dossier de l\'entreprise '.$carte->nomEntreprise.' a été supprimé avec succès.');
+            Log::info('Le dossier de l\'entreprise ' . $carte->nomEntreprise . ' a été supprimé avec succès.');
         }
 
+        // Enregistrement d'un log
         Logs::ecrireLog($compte->email, 'Suppression de compte');
+
         return redirect()->route('dashboardAdmin')->with('success', 'La carte a été supprimée avec succès.');
     }
-
-
 }

@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Connexion.php
 
 namespace App\Http\Controllers;
 
@@ -8,13 +7,28 @@ use App\Models\Logs;
 use App\Models\Reactivation;
 use Firebase\JWT\JWT;
 
+/**
+ * Class Connexion
+ *
+ * @package App\Http\Controllers
+ */
 class Connexion extends Controller
 {
+    /**
+     * Affiche le formulaire de connexion.
+     *
+     * @return \Illuminate\View\View
+     */
     public function afficherFormulaireConnexion()
     {
         return view('Formulaire.formulaireConnexion', []);
     }
 
+    /**
+     * Valide le formulaire de connexion.
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function validationFormulaire()
     {
         if (isset($_POST["boutonConnexion"])) {
@@ -24,6 +38,11 @@ class Connexion extends Controller
         }
     }
 
+    /**
+     * Gère la logique de connexion.
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function boutonConnexion()
     {
         $validationFormulaire = false;
@@ -101,6 +120,11 @@ class Connexion extends Controller
         }
     }
 
+    /**
+     * Déconnecte l'utilisateur.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deconnexion()
     {
         if (session()->has('connexion')) {
