@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard Admin</title>
+    <!-- Inclure les bibliothèques Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"
             integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -13,7 +14,7 @@
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
 <div class="flex flex-col">
-    @include('menu.menuAdmin')
+    @include('menu.menuAdmin') <!-- Inclure le menu admin -->
 
     <div class="flex-1 md:ml-24 p-6">
         <!-- Bloc Sélection Année -->

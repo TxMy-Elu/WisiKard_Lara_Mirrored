@@ -70,7 +70,7 @@
 </head>
 <body class="align-items-center bg-gray-100">
 <div class="flex flex-col md:flex-row">
-    @include('menu.menuClient')
+    @include('menu.menuClient') <!-- Inclure le menu client -->
     <div class="relative flex-1 md:ml-24 content mt-4">
         @if($compte->role == 'starter')
             <!-- Message abonnement, centré au-dessus du blur -->
@@ -79,7 +79,7 @@
                    target="_blank"
                    class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
                     <p class="text-white text-base">Mettre à niveau</p>
-                    <!-- svg cursor mouse -->
+                    <!-- Icône de curseur -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                          viewBox="0 0 24 24"
                          fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
@@ -93,6 +93,7 @@
 
         <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
             @if(session('success'))
+                <!-- Afficher un message de succès si disponible -->
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
                      role="alert">
                     <strong class="font-bold">Succès!</strong>
@@ -101,6 +102,7 @@
             @endif
 
             @if(session('error'))
+                <!-- Afficher un message d'erreur si disponible -->
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Erreur!</strong>
                     <span class="block sm:inline">{{ session('error') }}</span>
@@ -108,13 +110,14 @@
             @endif
 
             @if(isset($error))
+                <!-- Afficher un message d'erreur si disponible -->
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Erreur!</strong>
                     <span class="block sm:inline">{{ $error }}</span>
                 </div>
             @endif
 
-            <!-- Desktop Version -->
+            <!-- Version Desktop -->
             <div class="grid grid-cols-4 gap-4 p-4 desktop-only">
                 @foreach($employes as $employe)
                     <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
@@ -145,7 +148,8 @@
                                     <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}"
                                        class="ml-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                             viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"
+                                             viewBox="0 0 24 24" fill="none" stroke="#000"
+                                             stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
                                              class="feather feather-repeat mr-4">
                                             <polyline points="17 1 21 5 17 9"></polyline>
@@ -172,7 +176,7 @@
                 @endforeach
             </div>
 
-            <!-- Mobile Version -->
+            <!-- Version Mobile -->
             <div class="grid grid-cols-1 gap-4 p-4 mobile-only mb-4">
                 @foreach($employes as $employe)
                     <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col mb-4">
@@ -193,7 +197,8 @@
                                     <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}"
                                        class="ml-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                             viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"
+                                             viewBox="0 0 24 24" fill="none" stroke="#000"
+                                             stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
                                              class="feather feather-repeat mr-4">
                                             <polyline points="17 1 21 5 17 9"></polyline>
