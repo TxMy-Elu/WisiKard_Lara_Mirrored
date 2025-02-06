@@ -530,7 +530,7 @@
             <div class="flex items-center justify-center">
                 <div class="w-12 h-12 flex items-center justify-center">
                     <!-- Apporter la couleur blanche aux logos -->
-                    <div class="text-white hover:fill-black" style="fill: {{$carte->couleur2}};">
+                    <div class="text-white  hover:fill-black" style="fill: {{$carte->couleur2}};">
                         {!! $so['logo'] !!}
                     </div>
                 </div>
