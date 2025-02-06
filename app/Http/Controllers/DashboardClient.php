@@ -263,7 +263,7 @@ class DashboardClient extends Controller
                 ]);
 
                 $rediriger->lien = $request->lien;
-                $rediriger->activer = $request->has('activer') ? 1 : 0;
+                $rediriger->activer = $request->has('activer') ? 1 : 0; // Activer ou désactiver selon la valeur
                 $rediriger->save();
 
                 Logs::ecrireLog($emailUtilisateur, "Modification Lien Social");
@@ -274,12 +274,12 @@ class DashboardClient extends Controller
                     'email' => $emailUtilisateur
                 ]);
 
+                // Création d'un nouveau lien social actif par défaut
                 Rediriger::create([
                     'idSocial' => $request->idSocial,
                     'idCarte' => $request->idCarte,
                     'lien' => $request->lien,
-                    // patch pour activer le lien par défaut
-                    'activer' => $request->has('activer', 1)
+                    'activer' => 1 // Toujours actif par défaut
                 ]);
 
                 Logs::ecrireLog($emailUtilisateur, "Ajout Lien Social");
@@ -289,7 +289,10 @@ class DashboardClient extends Controller
         } catch (\Exception $e) {
             $idCompte = session('connexion');
             $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-            Log::error('Erreur lors de la mise à jour du lien social', ['error' => $e->getMessage(), 'email' => $emailUtilisateur]);
+            Log::error('Erreur lors de la mise à jour du lien social', [
+                'error' => $e->getMessage(),
+                'email' => $emailUtilisateur
+            ]);
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour du lien social.']);
         }
     }
