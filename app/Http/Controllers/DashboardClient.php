@@ -183,7 +183,7 @@ Supprimer des employés
         }
 
         $custom = Custom_link::where('idCarte', $idCarte)->get();
-        $activatedCustomLinks = Custom_Link::where('idCarte', $idCarte)
+        $activatedCustomLinks = Custom_link::where('idCarte', $idCarte)
             ->select('id_link', 'activer', 'lien')
             ->get();
 
@@ -1269,7 +1269,7 @@ Met à jour la description
             'lien' => 'required|url'
         ]);
 
-        Custom_Link::create([
+        Custom_link::create([
             'nom' => $request->input('nom'),
             'lien' => $request->input('lien'),
             'activer' => 0,
@@ -1287,7 +1287,7 @@ Met à jour la description
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
 
-        $customLink = Custom_Link::where('id_link', $request->id_link)->first();
+        $customLink = Custom_link::where('id_link', $request->id_link)->first();
 
         if ($customLink) {
             $customLink->lien = $request->lien;

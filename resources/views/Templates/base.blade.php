@@ -50,9 +50,25 @@
     @endif
 </div>
 
+<!-- employes -->
+@if($employe != null)
+    <div class='flex justify-center items-center flex-wrap mt-2'>
+            <div class='flex flex-col items-center justify-center w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2'>
+                <h3 class="text-lg font-bold mt-2">{{ $employe->prenom }} {{ $employe->nom }}</h3>
+                <p class="text-gray-600">{{ $employe->fonction }}</p>
+                <p class="text-gray-600">{{ $employe->telephone }}</p>
+                <p class="text-gray-600">{{ $employe->mail }}</p>
+            </div>
+    </div>
+@endif
+
+
+
+
+
+
 <!-- VCard / Qr Code -->
 <div class="flex items-center justify-center w-full mt-4 gap-4">
-
 
     <!-- Bouton QR Code -->
     <a onclick="openQrModal()"
@@ -644,7 +660,7 @@
     });
 </script>
 
-<footer class="bg-zinc-900 text-center p-4 text-gray-200 text-sm bottom-0 w-full">
+<footer class="bg-zinc-900 text-center p-4 text-gray-200 text-sm mt-6">
     © {{ date('Y') }} - Un service proposé par
     <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
     <a href="https://wisikard.fr" class="text-blue-400 hover:underline">Wisikard</a>

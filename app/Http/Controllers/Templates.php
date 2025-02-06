@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carte;
 use App\Models\Compte;
-use App\Models\Custom_Link;
+use App\Models\Custom_link;
 use App\Models\Employer;
 use App\Models\Horaires;
 use App\Models\Rediriger;
@@ -76,7 +76,7 @@ class Templates extends Controller
         // Récupération des données du compte, template, etc.
         $compte = isset($idCompte) ? Compte::find($idCompte) : null;
         $lien = Rediriger::where('idCarte', $idCarte)->get(); // Tous les liens associés à une carte
-        $custom = Custom_Link::where('idCarte', $idCarte)->where('activer', 1)->get(); // Liens personnalisés activés (custom_link)
+        $custom = Custom_link::where('idCarte', $idCarte)->where('activer', 1)->get(); // Liens personnalisés activés (custom_link)
         $vue = Vue::where('idCarte', $idCarte)->get(); // Toutes les vues d'une carte
         $template = isset($idTemplate) ? Template::find($idTemplate) : null;
 
@@ -161,7 +161,7 @@ class Templates extends Controller
         $idCarte = $carte->idCarte ?? null;
         $compte = Compte::find($idCompte);
         $lien = Rediriger::where('idCarte', $idCarte)->get(); // Tous les liens associés à une carte
-        $custom = Custom_Link::where('idCarte', $idCarte)->where('activer', 1)->get(); // Liens personnalisés activés (custom_link)
+        $custom = Custom_link::where('idCarte', $idCarte)->where('activer', 1)->get(); // Liens personnalisés activés (custom_link)
         $vue = Vue::where('idCarte', $idCarte)->get(); // Toutes les vues d'une carte
 
         // Récupérer les réseaux sociaux

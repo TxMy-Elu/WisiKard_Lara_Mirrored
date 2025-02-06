@@ -800,6 +800,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=1'"
                                         class="w-full h-[300px] rounded-lg"></iframe>
                             </div>
                             @if($compte->role == 'starter')
@@ -823,24 +824,35 @@
                                        @if($idTemplate == 2) checked @endif class="mb-2"
                                        onchange="submitTemplateForm()">
                                 <label for="template2"></label>
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
-                                        class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                <iframe
+                                        src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=2'"
+                                        class="w-full h-[300px] rounded-lg border border-gray-200">
+                                </iframe>
                             </div>
+
                             <div class="flex flex-col items-center @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
                                 <input type="radio" name="idTemplate" id="template3" value="3"
                                        @if($idTemplate == 3) checked @endif class="mb-2"
                                        onchange="submitTemplateForm()">
                                 <label for="template3"></label>
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
-                                        class="w-full h-[300px] rounded-lg"></iframe>
+                                <iframe
+                                        src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=3'"
+                                        class="w-full h-[300px] rounded-lg">
+                                </iframe>
                             </div>
+
                             <div class="flex flex-col items-center @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
                                 <input type="radio" name="idTemplate" id="template4" value="4"
                                        @if($idTemplate == 4) checked @endif class="mb-2"
                                        onchange="submitTemplateForm()">
                                 <label for="template4"></label>
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
-                                        class="w-full h-[300px] rounded-lg"></iframe>
+                                <iframe
+                                        src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=4'"
+                                        class="w-full h-[300px] rounded-lg">
+                                </iframe>
                             </div>
                         </div>
                     </div>

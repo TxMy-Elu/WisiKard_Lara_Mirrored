@@ -16,14 +16,14 @@
                                       d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
-                        <img class="origin-center rotate-45" src="{{ asset('icons/qr.svg') }}" alt="entreprise"
+                        <img class="origin-center rotate-45" src="{{ asset('public/icons/qr.svg') }}" alt="entreprise"
                              width="40" height="40">
                     </li>
                     <div class="mt-14">
                         <!-- Tooltip Exemple -->
                         <li class="nav-item mb-8 relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
-                                <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="35" height="35">
+                                <img src="{{ asset('public/icons/home.svg') }}" alt="entreprise" width="35" height="35">
                             </a>
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
@@ -32,7 +32,7 @@
                         </li>
                         <li class="nav-item mb-8 relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
-                                <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
+                                <img src="{{ asset('public/icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
                             </a>
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
@@ -41,7 +41,7 @@
                         </li>
                         <li class="nav-item mb-8 relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientSocial') }}">
-                                <img src="{{ asset('icons/share-2.svg') }}" alt="social" width="35" height="35">
+                                <img src="{{ asset('public/icons/share-2.svg') }}" alt="social" width="35" height="35">
                             </a>
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
@@ -50,7 +50,7 @@
                         </li>
                         <li class="nav-item mb-8 relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye') }}">
-                                <img src="{{ asset('icons/user.svg') }}" alt="user" width="35" height="35">
+                                <img src="{{ asset('public/icons/user.svg') }}" alt="user" width="35" height="35">
                             </a>
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
@@ -59,7 +59,7 @@
                         </li>
                         <li class="nav-item mb-8 relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientPDF') }}">
-                                <img src="{{ asset('icons/image.svg') }}" alt="image" width="35" height="35">
+                                <img src="{{ asset('public/icons/image.svg') }}" alt="image" width="35" height="35">
                             </a>
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
@@ -71,7 +71,7 @@
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
                     <li class="nav-item mb-8 relative group">
                         <a class="nav-link p-2 hover:text-red-500" href="{{ route('deconnexion') }}">
-                            <img src="{{ asset('icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
+                            <img src="{{ asset('public/icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
                         </a>
                         <!-- Tooltip -->
                         <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
