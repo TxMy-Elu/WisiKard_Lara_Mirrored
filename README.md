@@ -11,12 +11,12 @@
    - [Gestion des Inscriptions en Attente](#gestion-des-inscriptions-en-attente)
 4. [Tableau de Bord Client](#tableau-de-bord-client)
    - [Informations de l'Entreprise](#informations-de-lentreprise)
-   - [Gestion des Liens](#gestion-des-liens)
+     - [Gestion des Horaires](#gestion-des-horaires)
+     - [Gestion des Réseaux Sociaux](#gestion-des-réseaux-sociaux)
    - [Gestion des Employés](#gestion-des-employés)
    - [Gestion des Templates](#gestion-des-templates)
-   - [Gestion des Réseaux Sociaux](#gestion-des-réseaux-sociaux)
+   - [Gestion des Liens](#gestion-des-liens)
    - [Gestion des PDF et Images](#gestion-des-pdf-et-images)
-   - [Gestion des Horaires](#gestion-des-horaires)
 5. [Mot de passe oublié ?](#mot-de-passe-oublié-)
 6. [Support et Assistance](#support-et-assistance)
 7. [Architecture du projet](#architecture-du-projet)
@@ -25,6 +25,7 @@
 
 Wisikard est une plateforme conçue pour aider les entreprises à créer et gérer des cartes de visite numériques grâce à des QR Codes. Ces cartes peuvent inclure des informations sur l'entreprise, des liens vers des réseaux sociaux, des PDF, des images, et bien plus encore.
 
+Consulté ce lien pour en s'avoir plus : [Wisikard](https://wisikard.fr/)
 ## Inscription et Connexion
 
 Pour commencer, inscrivez-vous en fournissant les informations nécessaires telles que votre adresse e-mail, un mot de passe sécurisé, et les détails de votre entreprise.
@@ -49,11 +50,9 @@ Accédez aux statistiques de l'application, comme le nombre de vues par mois.
 
 Vous pouvez afficher et gérer les messages destinés aux utilisateurs.
 
+---
+
 ### Gestion des Inscriptions en Attente
-
-#### Voir les Inscriptions
-
-Consultez la liste des inscriptions en attente.
 
 #### Approuver une Inscription
 
@@ -63,73 +62,64 @@ Approuvez les inscriptions pour créer de nouveaux comptes utilisateurs.
 
 Supprimez les inscriptions qui ne sont plus nécessaires.
 
+
 ## Tableau de Bord Client
 
 ### Informations de l'Entreprise
 
 Mettez à jour les informations de votre entreprise, telles que le nom, le numéro de téléphone, et l'adresse e-mail.
 
-### Gestion des Liens
+#### Gestion des Horaires
 
-Ajoutez des liens personnalisés et des liens vers des réseaux sociaux.
+- **Ajouter des Horaires** : Définissez les horaires d'ouverture et de fermeture de votre entreprise.
+
+- **Modifier des Horaires** : Mettez à jour les horaires existants en fonction des changements de votre emploi du temps.
+
+---
+
+#### Gestion des Réseaux Sociaux
+
+- **Ajouter des Liens** : Ajoutez des liens avec vos URL dirigeant vers vos profils sur les réseaux sociaux.
+
+- **Activer/Désactiver des Liens** : Activez ou désactivez les liens vers les réseaux sociaux selon vos besoins.
+
+---
 
 ### Gestion des Employés
 
-#### Ajouter un Employé
 
-Ajoutez de nouveaux employés à votre entreprise en fournissant leurs informations de contact.
+**Ajouter un Employé** : Ajoutez de nouveaux employés à votre entreprise en fournissant leurs informations de contact.
 
-#### Modifier un Employé
+**Modifier un Employé** : Mettez à jour les informations des employés existants.
 
-Mettez à jour les informations des employés existants.
+**Supprimer un Employé** : Supprimez les employés qui ne font plus partie de votre entreprise.
 
-#### Supprimer un Employé
-
-Supprimez les employés qui ne font plus partie de votre entreprise.
-
+---
 ### Gestion des Templates
 
-#### Choisir un Template
+**Choisir un Template** : Sélectionnez un template pour votre carte de visite parmi les options disponibles.
 
-Sélectionnez un template pour votre carte de visite parmi les options disponibles.
+**Personnalisez un template** : Personnalisez le template choisi en ajoutant des couleurs, des images, et des liens.
 
-#### Personnaliser le Template
-
-Personnalisez le template choisi en ajoutant des couleurs, des images, et des liens.
-
-### Gestion des Réseaux Sociaux
-
-#### Ajouter des Liens
-
-Ajoutez des liens vers vos profils sur les réseaux sociaux.
-
-#### Activer/Désactiver des Liens
-
-Activez ou désactivez les liens vers les réseaux sociaux selon vos besoins.
+---
 
 ### Gestion des PDF et Images
 
-#### Télécharger des Images
+**Ajouter votre Logo** : Téléchargez un logo pour personnaliser votre carte de visite.
 
-Téléchargez des images pour personnaliser votre carte de visite.
+**Télécharger des Images** : Téléchargez des images pour personnaliser votre carte de visite.
 
-#### Télécharger des PDF
+**Télécharger des PDF** : Téléchargez des fichiers PDF pour les inclure dans votre carte de visite.
 
-Téléchargez des fichiers PDF pour les inclure dans votre carte de visite.
+**Ajouter des Vidéos Youtube** : Téléchargez des vidéos Youtube grace à son url pour les inclure dans votre carte de visite.
 
-#### Gérer les Fichiers
+**Gestion des Liens** : Ajoutez des liens ramenant aux avis google et à votre page de prise de rendez-vous.
 
-Supprimez ou mettez à jour les fichiers PDF et images téléchargés.
+**Gestion de la Galerie** : Ajoutez des images à votre gallerie pour personnaliser votre carte de visite.
 
-### Gestion des Horaires
+**Gérer les Fichiers** : Supprimez ou mettez à jour les fichiers PDF et images téléchargés.
 
-#### Ajouter des Horaires
 
-Définissez les horaires d'ouverture et de fermeture de votre entreprise.
-
-#### Modifier des Horaires
-
-Mettez à jour les horaires existants en fonction des changements de votre emploi du temps.
 
 ## Mot de passe oublié ?
 
@@ -141,10 +131,6 @@ Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser en suivan
 4. **Suivez les instructions** : Vous recevrez un e-mail avec des instructions pour réinitialiser votre mot de passe. Suivez ces instructions pour créer un nouveau mot de passe.
 
 ## Support et Assistance
-
-### FAQ
-
-Consultez la section FAQ pour obtenir des réponses aux questions courantes.
 
 ### Contact
 
@@ -187,6 +173,7 @@ Directory structure:
     │   │   │   ├── Employe.php
     │   │   │   ├── Entreprise.php
     │   │   │   ├── Inscription.php
+    │   │   │   ├── InscriptionAttente.php
     │   │   │   ├── Profil.php
     │   │   │   ├── RecuperationCompte.php
     │   │   │   └── Templates.php
@@ -208,6 +195,8 @@ Directory structure:
     │   │   ├── Compte.php
     │   │   ├── Custom_Link.php
     │   │   ├── Employer.php
+    │   │   ├── Horaires.php
+    │   │   ├── Inscription_attente.php
     │   │   ├── Logs.php
     │   │   ├── Message.php
     │   │   ├── Reactivation.php
@@ -345,3 +334,5 @@ Directory structure:
         │   └── ExampleTest.php
         └── Unit/
             └── ExampleTest.php
+```
+Projet réalisé par l'équipe de [SENDIX](https://sendix.fr/) - [Wisikard](https://wisikard.fr/)
