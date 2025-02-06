@@ -13,28 +13,28 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
-                        <img class="origin-center rotate-45" src="{{ asset('icons/qr.svg') }}" alt="entreprise" width="40" height="40">
+                        <img class="origin-center rotate-45" src="{{ asset('public/icons/qr.svg') }}" alt="entreprise" width="40" height="40">
                     </li>
                     <div class="mt-14">
                         <li class="nav-item mb-8">
                             <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardAdmin') }}" title="Accueil">
-                                <img src="{{ asset('icons/home.svg') }}" alt="entreprise" width="35" height="35">
+                                <img src="{{ asset('public/icons/home.svg') }}" alt="entreprise" width="35" height="35">
                             </a>
                         </li>
                         <li class="nav-item mb-8">
                             <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardAdminStatistique') }}" title="Statistiques">
-                                <img src="{{ asset('icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
+                                <img src="{{ asset('public/icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
                             </a>
                         </li>
                         <li class="nav-item mb-8">
                             <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('dashboardAdminMessage') }}" title="Messages">
-                                <img src="{{ asset('icons/send.svg') }}" alt="message" width="35" height="35">
+                                <img src="{{ asset('public/icons/send.svg') }}" alt="message" width="35" height="35">
                             </a>
                         </li>
 
                          <li class="nav-item mb-8">
                              <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('InscriptionAttente') }}" title="Inscription en Attente">
-                                 <img src="{{ asset('icons/download.svg') }}" alt="InscriptionAttente" width="35" height="35">
+                                 <img src="{{ asset('public/icons/download.svg') }}" alt="InscriptionAttente" width="35" height="35">
                              </a>
                          </li>
                     </div>
@@ -42,7 +42,7 @@
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
                     <li class="nav-item mb-8">
                         <a class="nav-link p-2 hover:text-red-500 tooltip" href="{{ route('deconnexion') }}" title="Déconnexion">
-                            <img src="{{ asset('icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
+                            <img src="{{ asset('public/icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
                         </a>
                     </li>
                 </ul>
