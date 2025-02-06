@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `inscript_attente` (
     `mail` varchar(150) NOT NULL,
     `mdp` varchar(150) NOT NULL,
     `role` varchar(150) NOT NULL,
-    `date_inscription` DATE NOT NULL default CURRENT_TIMESTAMP,
+    `date_inscription` DATE NOT NULL,
     PRIMARY KEY (`id_inscripAttente`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
 ALTER TABLE inscript_attente MODIFY date_inscription TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
@@ -165,6 +165,27 @@ CREATE TABLE IF NOT EXISTS `recuperation` (
     UNIQUE KEY `codeRecuperation` (`codeRecuperation`),
     KEY `recuperation_compte_FK` (`idCompte`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+
+
+-- -------------------------------------------------------
+
+-- Structure de la table horaires
+--
+
+DROP TABLE IF EXISTS horaires;
+CREATE TABLE IF NOT EXISTS horaires (
+                                        id int NOT NULL AUTO_INCREMENT,
+                                        idCarte int NOT NULL,
+                                        jour varchar(255) NOT NULL,
+    created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ouverture_matin time DEFAULT NULL,
+    fermeture_matin time DEFAULT NULL,
+    ouverture_aprmidi time DEFAULT NULL,
+    fermeture_aprmidi time DEFAULT NULL,
+    PRIMARY KEY (id),
+    KEY idCarte (idCarte)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 

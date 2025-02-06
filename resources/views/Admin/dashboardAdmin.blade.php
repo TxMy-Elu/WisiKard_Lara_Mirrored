@@ -21,6 +21,37 @@
             max-width: 100%; /* Assure que l'image s'adapte au conteneur */
             max-height: 100%;
         }
+
+        @media (max-width: 768px) {
+            .qr-code-container {
+                width: 80px; /* Taille fixe pour le conteneur du QR code sur mobile */
+                height: 80px;
+            }
+
+            .grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .md\:flex-row {
+                flex-direction: column;
+            }
+
+            .md\:ml-24 {
+                margin-left: 0;
+            }
+
+            .md\:w-64 {
+                width: 100%;
+            }
+
+            .md\:w-auto {
+                width: 100%;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="align-items-center bg-grey-600">
@@ -41,7 +72,6 @@
                 <form method="GET" action="{{ route('dashboardAdmin') }}"
                       class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
                     <div class="absolute left-2 top-1/2 transform -translate-y-1/2">
-
                         <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -50,7 +80,6 @@
                     </div>
                     <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search..."
                            class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow">
-                    <!-- Adjusted padding-left to pl-10 -->
                 </form>
                 <!-- Link to the registration form -->
                 <div class="flex items-center w-full md:w-auto">
