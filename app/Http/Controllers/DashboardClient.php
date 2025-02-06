@@ -561,18 +561,20 @@ class DashboardClient extends Controller
     public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Email inconnu'; // Récupération de l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
-
         $compte = Compte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
+            Log::warning("Carte introuvable pour l'utilisateur : {$emailUtilisateur}");
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        // Conserve les majuscules dans les noms d'entreprise
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
 
+        // Récupération des images dans le répertoire
         $imagesPath = public_path("entreprises/{$folderName}/images");
         $images = [];
         if (File::exists($imagesPath)) {
@@ -582,28 +584,38 @@ class DashboardClient extends Controller
             }, $images);
         }
 
+        // Récupération des URLs YouTube depuis le fichier videos.json
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
         $youtubeUrls = [];
         if (File::exists($videosPath)) {
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
-        // Détection des différents types de fichiers
+        // Détection du logo parmi plusieurs formats possibles
         $logoPath = '';
-        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaires
         foreach ($formats as $format) {
-            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
-            if (file_exists($path)) {
-                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            $path = public_path("entreprises/{$folderName}/logos/logo.{$format}");
+            if (File::exists($path)) {
+                $logoPath = asset("entreprises/{$folderName}/logos/logo.{$format}");
                 break;
             }
         }
 
+        // Log le processus de récupération des données pour le dashboard
+        Log::info("Affichage du tableau de bord pour l'utilisateur : {$emailUtilisateur}", [
+            'email' => $emailUtilisateur,
+            'imagesCount' => count($images),
+            'youtubeUrlsCount' => count($youtubeUrls),
+            'logoPath' => $logoPath,
+        ]);
+
+        // Retourner la vue avec les données récupérées du compte, de la carte, des images et des vidéos
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
     /**
-     * Télécharge le logo dans les fichiers et le chemin dans la BD.
+     * Télécharge le logo dans les fichiers et enregistre le chemin dans la BD tout en conservant la casse.
      *
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
@@ -619,14 +631,14 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise); // Conserve majuscules dans le dossier.
         $folderName = "{$idCompte}_{$entrepriseName}";
         $logoPath = public_path("entreprises/{$folderName}/logos");
 
         // Créer récursivement tous les répertoires nécessaires (entreprises/ + sous-dossiers)
         if (!File::exists($logoPath)) {
             try {
-                File::makeDirectory($logoPath, 0755, true); // Paramètre "true" pour une création récursive
+                File::makeDirectory($logoPath, 0755, true); // Création récursive des répertoires.
             } catch (\Exception $e) {
                 Log::error("Erreur lors de la création du répertoire {$logoPath}", [
                     'email' => $emailUtilisateur,
@@ -638,11 +650,11 @@ class DashboardClient extends Controller
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $fileType = $file->getClientOriginalExtension();
+            $fileType = $file->getClientOriginalExtension(); // Conserve la casse originale de l'extension.
             $mimeType = $file->getMimeType();
 
             // Vérifier les extensions et les MIME types acceptés
-            if (in_array($fileType, ['jpg', 'jpeg', 'png', 'svg']) && strpos($mimeType, 'image/') === 0) {
+            if (in_array(strtolower($fileType), ['jpg', 'jpeg', 'png', 'svg']) && strpos($mimeType, 'image/') === 0) {
                 // Supprimer l'ancien logo s'il existe
                 if (File::exists($logoPath)) {
                     $existingLogos = File::files($logoPath);
@@ -651,11 +663,11 @@ class DashboardClient extends Controller
                     }
                 }
 
-                // Sauvegarder le nouveau logo
-                $fileName = "logo.{$fileType}";
+                // Sauvegarder le nouveau logo tout en conservant l'extension d'origine
+                $fileName = "logo.{$fileType}"; // Conserve les majuscules de l'extension si présentes.
                 $file->move($logoPath, $fileName);
 
-                // Mettre à jour la base de données avec le nouveau chemin du logo
+                // Mettre à jour la base de données avec le nouveau chemin du logo (avec casse conservée)
                 $carte->imgLogo = "entreprises/{$folderName}/logos/{$fileName}";
                 $carte->save();
 
@@ -713,7 +725,7 @@ class DashboardClient extends Controller
     }
 
     /**
-     * Télécharge les vidéos YouTube.
+     * Télécharge et enregistre les vidéos YouTube ou URL personnalisées.
      *
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
@@ -722,36 +734,37 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
-
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur anonyme';
 
         if (!$carte) {
             Log::warning('Carte non trouvée pour le téléchargement de vidéo YouTube', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        // Conserve les majuscules lors de la création du dossier
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
 
         if ($request->has('youtube_url')) {
             $youtubeUrl = $request->input('youtube_url');
 
-            // Vérifier si l'URL YouTube est valide
-            if (preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)$/', $youtubeUrl)) {
+            // Vérifier la validité de l'URL YouTube avec une expression améliorée
+            if (preg_match('/^https:\/\/(www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]+$/', $youtubeUrl)) {
                 $videosPath = public_path("entreprises/{$folderName}/videos");
 
                 if (!File::exists($videosPath)) {
-                    File::makeDirectory($videosPath, 0755, true);
+                    File::makeDirectory($videosPath, 0755, true); // Créer le dossier si inexistant
                 }
 
                 $videosFile = $videosPath . '/videos.json';
                 $videosData = [];
 
+                // Charger les données existantes si le fichier existe
                 if (File::exists($videosFile)) {
                     $videosData = json_decode(File::get($videosFile), true);
                 }
 
+                // Ajouter la nouvelle URL à la liste des vidéos
                 $videosData[] = $youtubeUrl;
                 File::put($videosFile, json_encode($videosData, JSON_PRETTY_PRINT));
 
@@ -760,29 +773,34 @@ class DashboardClient extends Controller
 
                 return redirect()->route('dashboardClientPDF')->with('success', 'URL YouTube enregistrée avec succès.');
             } else {
+                // Si l'URL est invalide, log niveau warning
                 Log::warning('URL YouTube non valide', ['email' => $emailUtilisateur, 'youtubeUrl' => $youtubeUrl]);
                 return redirect()->back()->with('error', 'URL YouTube non valide.');
             }
-        } else {
-            Log::warning('Aucune URL YouTube fournie', ['email' => $emailUtilisateur]);
-            return redirect()->back()->with('error', 'Aucune URL YouTube fournie.');
         }
 
-        if ($request->filled('custom_url')) { // URLs personnalisées
+        // Gestion des URLs personnalisées (le champ `custom_url`)
+        if ($request->filled('custom_url')) {
             $customUrl = $request->input('custom_url');
 
-            // Passer l'URL à la vue pour l'affichage
-            Log::info('URL personnalisée enregistrée avec succès', ['email' => $emailUtilisateur, 'customUrl' => $customUrl]);
-            Logs::ecrireLog($emailUtilisateur, "Téléchargement URL personnalisée");
+            // Valider la structure de l'URL personnalisée (facultatif, peut être étendu)
+            if (filter_var($customUrl, FILTER_VALIDATE_URL)) {
+                Log::info('URL personnalisée enregistrée avec succès', ['email' => $emailUtilisateur, 'customUrl' => $customUrl]);
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement URL personnalisée");
 
-            return view('Client.dashboardClientPDF', [
-                'carte' => $carte,
-                'youtubeUrls' => $youtubeUrls ?? [],
-                'idCompte' => $idCompte,
-                'customUrl' => $customUrl
-            ])->with('success', 'URL personnalisée enregistrée avec succès.');
+                return view('Client.dashboardClientPDF', [
+                    'carte' => $carte,
+                    'youtubeUrls' => isset($youtubeUrls) ? $youtubeUrls : [],
+                    'idCompte' => $idCompte,
+                    'customUrl' => $customUrl
+                ])->with('success', 'URL personnalisée enregistrée avec succès.');
+            } else {
+                Log::warning('URL personnalisée invalide', ['email' => $emailUtilisateur, 'customUrl' => $customUrl]);
+                return redirect()->back()->with('error', 'URL personnalisée invalide.');
+            }
         }
 
+        // Si aucune URL n'est fournie
         Log::warning('Aucune URL fournie', ['email' => $emailUtilisateur]);
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
@@ -796,28 +814,49 @@ class DashboardClient extends Controller
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu'; // Gestion en cas d'email manquant
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
-            Log::warning('Carte non trouvée pour la suppression d\'image', ['email' => $emailUtilisateur]);
+            Log::warning("Carte introuvable pour la suppression d'une image", ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        // Conserver les majuscules dans les noms des dossiers
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
 
+        // Construction du chemin du fichier
         $filePath = public_path("entreprises/{$folderName}/images/{$filename}");
 
+        // Vérification et suppression du fichier
         if (File::exists($filePath)) {
-            File::delete($filePath);
+            try {
+                File::delete($filePath);
 
-            Log::info('Image supprimée avec succès', ['email' => $emailUtilisateur, 'filename' => $filename]);
-            Logs::ecrireLog($emailUtilisateur, "Suppression Image");
+                Log::info('Image supprimée avec succès', [
+                    'email' => $emailUtilisateur,
+                    'filename' => $filename,
+                    'filePath' => $filePath,
+                ]);
+                Logs::ecrireLog($emailUtilisateur, "Suppression Image");
 
-            return redirect()->back()->with('success', 'Image supprimée avec succès.');
+                return redirect()->back()->with('success', 'Image supprimée avec succès.');
+            } catch (\Exception $e) {
+                Log::error("Erreur lors de la suppression de l'image", [
+                    'email' => $emailUtilisateur,
+                    'filename' => $filename,
+                    'filePath' => $filePath,
+                    'exception' => $e->getMessage(),
+                ]);
+                return redirect()->back()->with('error', 'Une erreur est survenue lors de la suppression de l\'image.');
+            }
         } else {
-            Log::warning('Image non trouvée pour la suppression', ['email' => $emailUtilisateur, 'filename' => $filename]);
+            Log::warning('Image non trouvée pour suppression', [
+                'email' => $emailUtilisateur,
+                'filename' => $filename,
+                'filePath' => $filePath,
+            ]);
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
@@ -833,53 +872,67 @@ class DashboardClient extends Controller
         $idCompte = session('connexion'); // Récupérer l'ID du compte
         $carte = Carte::where('idCompte', $idCompte)->first();
 
+        // Vérification si la carte est introuvable
         if (!$carte) {
-            Log::warning('Carte non trouvée pour la suppression d\'image de slider');
+            Log::warning('Carte non trouvée pour la suppression d\'image du slider');
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
         Log::info('Carte trouvée : ' . $carte->nomEntreprise);
 
-        // Construire le chemin des images
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        // Construire le nom du répertoire tout en conservant les majuscules
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
         $sliderImagesPath = public_path("entreprises/{$folderName}/slider");
 
         Log::info('Chemin des images slider : ' . $sliderImagesPath);
 
-        // Vérifier si le dossier existe
+        // Vérifier si le répertoire existe
         if (!File::exists($sliderImagesPath)) {
             Log::error('Répertoire slider inexistant : ' . $sliderImagesPath);
             return redirect()->back()->with('error', 'Aucune image trouvée.');
         }
 
-        // Récupérer la liste des fichiers
+        // Récupérer tous les fichiers présents dans le répertoire slider
         $sliderImages = File::files($sliderImagesPath);
         $sliderImages = array_map(function ($file) {
-            return $file->getFilename(); // Retourner uniquement les noms des fichiers
+            return $file->getFilename(); // Retourner uniquement le nom des fichiers
         }, $sliderImages);
 
-        // Récupérer le nom du fichier de la requête
+        // Récupérer le nom du fichier envoyé dans la requête
         $filename = $request->input('filename');
         Log::info('Nom du fichier demandé pour suppression : ' . $filename);
 
-        // Vérifier si le fichier demandé existe dans le slider
+        // Vérifier si le fichier existe dans la liste des fichiers
         if (in_array($filename, $sliderImages)) {
             $filePath = "{$sliderImagesPath}/{$filename}";
-            Log::info('Chemin complet de l\'image : ' . $filePath);
+            Log::info('Chemin complet du fichier à supprimer : ' . $filePath);
 
-            // Vérifier si le fichier existe réellement avant suppression
+            // Vérification de l'existence réelle du fichier avant la suppression
             if (File::exists($filePath)) {
-                File::delete($filePath); // Supprimer le fichier
+                try {
+                    File::delete($filePath); // Supprimer le fichier correspondant
 
-                Log::info('Image de slider supprimée avec succès', ['filename' => $filename]);
-                return redirect()->back()->with('success', 'Image de slider supprimée avec succès.');
+                    Log::info('Image de slider supprimée avec succès', [
+                        'filename' => $filename
+                    ]);
+                    return redirect()->back()->with('success', 'Image de slider supprimée avec succès.');
+                } catch (\Exception $e) {
+                    // Enregistrer les erreurs rencontrées lors de la suppression
+                    Log::error('Erreur lors de la suppression de l\'image de slider', [
+                        'filename' => $filename,
+                        'exception' => $e->getMessage()
+                    ]);
+                    return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'image.');
+                }
             }
 
             Log::warning('Fichier trouvé dans la liste mais inexistant ou inaccessible : ' . $filePath);
+        } else {
+            // L'image n'est pas trouvée dans la liste
+            Log::error('Image non trouvée dans la liste des fichiers du slider : ' . $filename);
         }
 
-        Log::error('Image non trouvée dans la liste des fichiers du slider.');
         return redirect()->back()->with('error', 'Image non trouvée.');
     }
 
@@ -915,43 +968,46 @@ class DashboardClient extends Controller
     public function deleteLogo()
     {
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
+        $compte = Compte::find($idCompte);
+        $emailUtilisateur = $compte ? $compte->email : 'Utilisateur inconnu'; // Gestion du cas où le compte est introuvable
         $carte = Carte::where('idCompte', $idCompte)->first();
 
+        // Vérification si la carte existe
         if (!$carte) {
             Log::warning('Carte non trouvée pour la suppression du logo', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
+        // Définir les chemins des logos en fonction des formats
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $carte->nomEntreprise); // Garder les majuscules et caractères valides
         $folderName = "{$idCompte}_{$entrepriseName}";
+        $logoFormats = ['jpg', 'jpeg', 'png', 'svg'];
 
-        $logoPathJpg = public_path("entreprises/{$folderName}/logos/logo.jpg");
-        $logoPathJpeg = public_path("entreprises/{$folderName}/logos/logo.jpeg");
-        $logoPathPng = public_path("entreprises/{$folderName}/logos/logo.png");
-        $logoPathSvg = public_path("entreprises/{$folderName}/logos/logo.svg");
+        $logoDeleted = false; // Pour suivre si un fichier a été supprimé
 
-        if (File::exists($logoPathJpg)) {
-            File::delete($logoPathJpg);
-            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathJpg]);
-            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
-        } elseif (File::exists($logoPathJpeg)) {
-            File::delete($logoPathJpeg);
-            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathJpeg]);
-            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
-        } elseif (File::exists($logoPathPng)) {
-            File::delete($logoPathPng);
-            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathPng]);
-            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
-        } elseif (File::exists($logoPathSvg)) {
-            File::delete($logoPathSvg);
-            Log::info('Logo supprimé avec succès', ['email' => $emailUtilisateur, 'logoPath' => $logoPathSvg]);
-            Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
-        } else {
+        foreach ($logoFormats as $format) {
+            $logoPath = public_path("entreprises/{$folderName}/logos/logo.{$format}");
+
+            if (File::exists($logoPath)) {
+                File::delete($logoPath);
+                $logoDeleted = true;
+
+                // Logging
+                Log::info("Logo supprimé avec succès", ['email' => $emailUtilisateur, 'logoPath' => $logoPath]);
+                Logs::ecrireLog($emailUtilisateur, "Suppression Logo");
+
+                // Sortir de la boucle dès qu'un logo est supprimé
+                break;
+            }
+        }
+
+        // Si aucun logo n'a été trouvé et supprimé
+        if (!$logoDeleted) {
             Log::warning('Logo non trouvé pour la suppression', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Logo non trouvé.');
         }
 
+        // Succès : Redirection avec message
         return redirect()->back()->with('success', 'Logo supprimé avec succès.');
     }
 
@@ -972,19 +1028,20 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Compte non trouvé.');
         }
 
-        // Définir le chemin de destination pour les images
-        $destinationPath = 'entreprises/' . $idCompte . '_' . Str::slug($carte->nomEntreprise, '_') . '/slider';
+        // Conserver les majuscules dans le nom de l'entreprise
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
+        $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
 
         try {
             // Valider le fichier d'image dans la requête
-            $request->validate([
-                'image' => 'required|mimes:jpg,jpeg,png|max:2048', // Limite à 2MB et extensions autorisées
+            $validated = $request->validate([
+                'image' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Limite à 2048KB avec formats autorisés
             ]);
 
-            // Récupérer le fichier de la requête
+            // Récupérer les informations du fichier
             $file = $request->file('image');
 
-            // Vérification du type MIME réel
+            // Vérification supplémentaire du type MIME réel
             $realMimeType = $file->getMimeType();
             $allowedMimeTypes = ['image/jpeg', 'image/png'];
             if (!in_array($realMimeType, $allowedMimeTypes)) {
@@ -992,41 +1049,33 @@ class DashboardClient extends Controller
                 return redirect()->back()->with('error', 'Type de fichier non autorisé.');
             }
 
-            // Vérification de l'extension finale
-            $realExtension = strtolower($file->getClientOriginalExtension());
-            $allowedExtensions = ['jpg', 'jpeg', 'png'];
-            if (!in_array($realExtension, $allowedExtensions)) {
-                Log::error("Extension invalide : {$realExtension} pour le fichier {$file->getClientOriginalName()}");
-                return redirect()->back()->with('error', 'Extension de fichier non autorisée.');
-            }
-
-            // Créer le dossier cible s'il n'existe pas
-            if (!file_exists(public_path($destinationPath))) {
-                mkdir(public_path($destinationPath), 0755, true);
-                Log::info("Création du dossier : {$destinationPath}");
-            }
-
             // Définir un nom de fichier unique
             $fileName = uniqid() . '_' . $file->getClientOriginalName();
 
-            // Déplacer le fichier vers le chemin cible
-            $file->move(public_path($destinationPath), $fileName);
-            Log::info("Fichier {$fileName} enregistré dans : {$destinationPath}");
+            // Créer le répertoire cible s'il n'existe pas
+            if (!File::exists(public_path($destinationPath))) {
+                File::makeDirectory(public_path($destinationPath), 0755, true);
+                Log::info("Création du dossier : {$destinationPath}");
+            }
 
-            // Enregistrer un log en base de données
+            // Déplacer le fichier vers le répertoire cible
+            $file->move(public_path($destinationPath), $fileName);
+            Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
+
+            // Enregistrer un log personnalisé en base de données
             Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
 
-            // Rediriger avec un message de succès
+            // Redirection avec un message de succès
             return redirect()->back()->with('success', 'Image téléchargée avec succès.');
 
         } catch (\Exception $e) {
-            // Log de l'erreur
-            Log::error("Erreur lors du téléchargement de l'image pour le compte : {$idCompte}. Détails : {$e->getMessage()}");
+            // En cas d'erreur, journaliser les détails
+            Log::error("Erreur lors du téléchargement de l'image pour le compte : {$idCompte}. Message : {$e->getMessage()}");
 
-            // Enregistrer l'erreur en base de données
+            // Ajouter un log d'erreur en base de données
             Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
 
-            // Rediriger avec un message d'erreur
+            // Redirection avec un message d'erreur
             return redirect()->back()->with('error', 'Erreur lors du téléchargement de l\'image.');
         }
     }
@@ -1137,9 +1186,10 @@ class DashboardClient extends Controller
      *
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
-     */
+     * */
     public function updateEntreprise(Request $request)
     {
+        // Validation des données de requête
         $request->validate([
             'nomEntreprise' => 'required|string|max:255',
             'tel' => 'required|string|max:20',
@@ -1148,62 +1198,104 @@ class DashboardClient extends Controller
         ]);
 
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
-        $carte = Carte::where('idCompte', $idCompte)->first();
         $compte = Compte::find($idCompte);
 
+        // Vérification si le compte et la carte existent
+        if (!$compte) {
+            Log::warning('Compte non trouvé pour mise à jour des informations.', ['idCompte' => $idCompte]);
+            return redirect()->back()->with('error', 'Compte non trouvé.');
+        }
+
+        $emailUtilisateur = $compte->email;
+        $carte = Carte::where('idCompte', $idCompte)->first();
+
         if (!$carte) {
-            Log::warning('Carte non trouvée pour mise à jour des informations de l\'entreprise', ['email' => $emailUtilisateur]);
+            Log::warning('Carte introuvable pour mise à jour des informations.', ['idCompte' => $idCompte]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $carte->nomEntreprise = $request->nomEntreprise;
+        // Mise à jour des informations de la carte
         $carte->tel = $request->tel;
         $carte->ville = $request->adresse;
 
-        $nomEntreprise = Carte::where('idCompte', $idCompte)->first()->nomEntreprise;
-        if ($nomEntreprise != $request->nomEntreprise) {
-            $entrepriseName = Str::slug($request->nomEntreprise, '_');
-            $folderName = "{$idCompte}_{$entrepriseName}";
-            $oldFolderName = "{$idCompte}_" . Str::slug($nomEntreprise, '_');
+        // Ancien et nouveau nom de l'entreprise
+        $ancienNomEntreprise = $carte->nomEntreprise;
+        $nouveauNomEntreprise = $request->nomEntreprise;
 
-            $oldPath = public_path("entreprises/{$oldFolderName}");
-            $newPath = public_path("entreprises/{$folderName}");
+        if ($ancienNomEntreprise !== $nouveauNomEntreprise) {
+            $ancienFolderName = "{$idCompte}_" . preg_replace('/[^A-Za-z0-9_-]/', '_', $ancienNomEntreprise);
+            $nouveauFolderName = "{$idCompte}_" . preg_replace('/[^A-Za-z0-9_-]/', '_', $nouveauNomEntreprise);
 
-            if (File::exists($oldPath)) {
-                if (File::exists($newPath)) {
-                    Log::error('Le dossier avec le nouveau nom existe déjà', ['email' => $emailUtilisateur, 'oldPath' => $oldPath, 'newPath' => $newPath]);
+            $ancienPath = public_path("entreprises/{$ancienFolderName}");
+            $nouveauPath = public_path("entreprises/{$nouveauFolderName}");
+
+            // Si l'ancien dossier existe, on le renomme
+            if (File::exists($ancienPath)) {
+                // Cas où le nouveau dossier existe déjà
+                if (strcasecmp($ancienFolderName, $nouveauFolderName) === 0) {
+                    // Si seule la casse change, renommer directement
+                    File::move($ancienPath, $nouveauPath);
+                    Log::info("Dossier renommé avec changement de casse : {$ancienPath} -> {$nouveauPath}");
+                } elseif (File::exists($nouveauPath)) {
+                    Log::error('Un dossier avec le nouveau nom de l\'entreprise existe déjà.', [
+                        'ancienPath' => $ancienPath,
+                        'nouveauPath' => $nouveauPath,
+                    ]);
                     return redirect()->back()->with('error', 'Le dossier avec le nouveau nom existe déjà.');
+                } else {
+                    // Renommer si aucun conflit
+                    File::move($ancienPath, $nouveauPath);
+                    Log::info("Dossier renommé avec succès : {$ancienPath} -> {$nouveauPath}");
                 }
-
-                File::move($oldPath, $newPath);
             } else {
-                Log::error('Ancien dossier introuvable', ['email' => $emailUtilisateur, 'oldPath' => $oldPath]);
+                Log::error("L'ancien dossier est introuvable pour la mise à jour.", ['ancienPath' => $ancienPath]);
                 return redirect()->back()->with('error', 'Ancien dossier introuvable.');
             }
 
-            $couleur1 = $carte->couleur1;
-            $couleur2 = $carte->couleur2;
+            // Mise à jour des chemins dans la base de données
+            if ($carte->imgLogo) {
+                $carte->imgLogo = str_replace($ancienFolderName, $nouveauFolderName, $carte->imgLogo);
+                Log::info('Chemin du logo mis à jour après le renommage du dossier.', ['imgLogo' => $carte->imgLogo]);
+            }
 
-            $lien = "/entreprises/1_" . $request->nomEntreprise . "/QR_Codes/QR_Code.svg";
-            $carte->lienQr = $lien;
+            //recuperer le nom du pdf dans le dossier
+            $pdf = $carte->pdf;
+            $namePdf = basename($pdf);
 
-            $carte->save();
-            Logs::ecrireLog($emailUtilisateur, "Mise à jour du nom de l'entreprise et du lien QR Code");
-            Log::info('Mise à jour du nom de l\'entreprise et du lien QR Code', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'lienQr' => $lien]);
+            //modifier le chemin du pdf
+           $carte->pdf = "/entreprises/{$nouveauFolderName}/pdf/".$namePdf;
+
+            $carte->lienQr = "/entreprises/{$nouveauFolderName}/QR_Codes/QR_Code.svg";
+
+            Log::info('Mise à jour des chemins dans la base de données après le renommage du dossier.', [
+                'imglogo' => $carte->imgLogo,
+                'lienQr' => $carte->lienQr,
+            ]);
         }
 
+        // Mise à jour des informations (nom, tel, adresse) dans la base de données
+        $carte->nomEntreprise = $request->nomEntreprise;
         $carte->save();
-        Log::info('Informations de l\'entreprise mises à jour avec succès', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'tel' => $request->tel, 'adresse' => $request->adresse]);
 
+        // Mise à jour de l'email dans le compte
         $compte->email = $request->mail;
         $compte->save();
 
+        // Création de la nouvelle vCard
         Compte::creerVCard($request->nomEntreprise, $request->tel, $request->mail, $idCompte);
         Logs::ecrireLog($emailUtilisateur, "Création de la VCard");
-        Logs::ecrireLog($emailUtilisateur, "Modification Entreprise");
-        Log::info('Création de la VCard', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'tel' => $request->tel, 'mail' => $request->mail]);
+        Logs::ecrireLog($emailUtilisateur, "Modification des informations de l'entreprise");
 
+        // Journaliser la mise à jour réussie
+        Log::info('Informations de l\'entreprise mises à jour avec succès.', [
+            'email' => $emailUtilisateur,
+            'nomEntreprise' => $request->nomEntreprise,
+            'tel' => $request->tel,
+            'mail' => $request->mail,
+            'adresse' => $request->adresse,
+        ]);
+
+        // Retour avec un message de succès
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
     }
 
@@ -1263,70 +1355,69 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Compte introuvable.');
         }
 
-        // Définir le chemin de destination pour l'enregistrement des fichiers PDF
-        $destinationPath = 'entreprises/' . $idCompte . '_' . Str::slug($carte->nomEntreprise, '_') . '/pdf';
+        // Conserver les majuscules et créer le chemin de destination
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $carte->nomEntreprise);
+        $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/pdf";
 
         try {
-            // Valider l'entrée de la requête
+            // Valider les données de la requête
             $request->validate([
-                'pdf' => 'required|mimes:pdf', // Assurez-vous que le fichier est un PDF
-                'new_name' => 'required|string', // Assurez-vous que le nouveau nom est une chaîne et est requis
+                'pdf' => 'required|mimes:pdf', // Autoriser uniquement les fichiers PDF
+                'new_name' => 'required|string|max:255', // Le nouveau nom doit être une chaîne valide
             ]);
 
-            // Vérifier si un fichier existe déjà dans le répertoire
-            $fullPath = public_path($destinationPath); // Chemin complet
+            // Vérifier et gérer les fichiers existants dans le répertoire
+            $fullPath = public_path($destinationPath);
             if (File::exists($fullPath)) {
-                // Scanner les fichiers dans le répertoire
                 $existingFiles = File::files($fullPath);
                 if (count($existingFiles) > 0) {
-                    Log::error("Échec : Un fichier existe déjà dans le dossier {$destinationPath}.");
-                    return redirect()->back()->with('error', 'Un fichier existe déjà. Supprimez-le avant de télécharger un nouveau fichier.');
+                    Log::error("Échec : Un fichier existe déjà dans le répertoire {$destinationPath}.");
+                    return redirect()->back()->with('error', 'Un fichier existe déjà dans ce dossier. Supprimez-le avant de télécharger un nouveau fichier.');
                 }
             }
 
-            // Créer le dossier cible s'il n'existe pas
+            // Créer le répertoire cible s'il n'existe pas
             if (!File::exists($fullPath)) {
                 File::makeDirectory($fullPath, 0755, true);
-                Log::info("Création du dossier : {$fullPath}");
+                Log::info("Création du répertoire : {$fullPath}");
             }
 
-            // Récupérer le fichier téléchargé
+            // Récupérer le fichier et le nouveau nom soumis via la requête
             $file = $request->file('pdf');
-
-            // Récupérer le nouveau nom fourni
             $newName = $request->input('new_name');
-            // Conserver les majuscules en validant le format du nom (remplace les caractères invalides sauf majuscules)
-            $renamedFile = preg_replace('/[^A-Za-z0-9_\-]/', '_', $newName) . '.pdf';
 
-            // Déplacer le fichier dans le dossier cible avec son nouveau nom
-            $file->move($fullPath, $renamedFile);
-            Log::info("Fichier PDF renommé en {$renamedFile} et enregistré dans : {$destinationPath}");
+            // Renommer le fichier en conservant les majuscules et en remplaçant les caractères invalides
+            $sanitizedFileName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $newName) . '.pdf';
 
-            // Enregistrer une entrée de log en base de données
-            Logs::ecrireLog($carte->compte->email, "Téléchargement de PDF - Nom: {$renamedFile}");
+            // Déplacer le fichier dans le répertoire cible
+            $file->move($fullPath, $sanitizedFileName);
+            Log::info("Le fichier PDF a été renommé en {$sanitizedFileName} et sauvegardé dans {$destinationPath}");
 
-            // Mettre à jour les informations dans la base de données
-            $carte->pdf = $destinationPath . '/' . $renamedFile; // Enregistrer le chemin relatif avec les majuscules
-            $carte->nomBtnPdf = $newName; // Mettre à jour le nom du bouton
+            // Mettre à jour la base de données
+            $carte->pdf = "{$destinationPath}/{$sanitizedFileName}"; // Enregistrer le chemin relatif
+            $carte->nomBtnPdf = $newName; // Mettre à jour le bouton selon le nouveau nom
             $carte->save();
 
-            // Générer un lien QR Code avec les majuscules dans le lien
-            $pdfe = urlencode($carte->pdf); // Encoder l'URL avec les majuscules conservées
-            $carte->lienPdf = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/pdf" . $pdfe;
+            // Générer un lien de QR Code avec l'encodage nécessaire au texte
+            $encodedPdfUrl = urlencode(url($carte->pdf));
+            $carte->lienPdf = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text={$encodedPdfUrl}";
             $carte->save();
 
-            // Succès : Redirection avec un message de confirmation
-            return redirect()->back()->with('success', 'Votre fichier PDF a été téléchargé et renommé avec succès.');
+            // Ajouter une log pour le succès
+            Logs::ecrireLog($carte->compte->email, "Téléchargement de PDF : {$sanitizedFileName}");
+
+            // Retourner un message de succès
+            return redirect()->back()->with('success', 'Votre fichier PDF a été téléchargé avec succès.');
 
         } catch (\Exception $e) {
-            // Gestion des erreurs / Écriture d'un log d'erreur
-            Log::error("Erreur lors du téléchargement du PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()} ");
-            Log::debug('Données soumises pour télécharger un PDF : ', $request->all());
+            // Gérer et journaliser les erreurs
+            Log::error("Erreur lors du téléchargement du fichier PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()}.");
+            Log::debug('Données reçues pour le téléchargement : ', $request->all());
 
-            // Enregistrer une erreur en base de données
-            Logs::ecrireLog($carte->compte->email, "Erreur lors du téléchargement d'un PDF");
+            // Enregistrer un log d'erreur en base de données
+            Logs::ecrireLog($carte->compte->email, "Erreur lors du téléchargement du PDF");
 
-            // Retour avec un message d'erreur
+            // Retourner un message d'erreur
             return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du fichier.');
         }
     }
