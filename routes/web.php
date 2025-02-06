@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Connexion;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardClient;
@@ -12,7 +11,6 @@ use App\Http\Controllers\InscriptionAttente;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authentification;
 use Illuminate\Support\Facades\Route;
-
 
 // Routes publiques (accessibles sans authentification)
 Route::get('/', [Connexion::class, 'afficherFormulaireConnexion'])->name('accueil');
@@ -120,5 +118,4 @@ Route::middleware([Authentification::class])->group(function () {
     Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
 
     Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
-
 });

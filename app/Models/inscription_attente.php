@@ -34,7 +34,7 @@ class Inscription_attente extends Model
         $date = date('Y/m/d');
         $role = $request->query('CompteEmp');
 
-        $nouvelInscrit_attente = new inscript_attente();
+        $nouvelInscrit_attente = new Inscription_attente();
         $nouvelInscrit_attente->nom_entre = $nomEntreprise;
         $nouvelInscrit_attente->mail = $email;
         $nouvelInscrit_attente->mdp = $motDePasseHache;

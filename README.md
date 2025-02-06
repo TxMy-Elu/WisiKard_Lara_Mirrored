@@ -1,4 +1,160 @@
-Directory structure:
+# Manuel d'utilisation Wisikard
+
+## Table des Matières
+
+1. [Introduction](#introduction)
+2. [Inscription et Connexion](#inscription-et-connexion)
+3. [Tableau de Bord Admin](#tableau-de-bord-admin)
+   - [Gestion des Comptes](#gestion-des-comptes)
+   - [Statistiques](#statistiques)
+   - [Messages](#messages)
+   - [Gestion des Inscriptions en Attente](#gestion-des-inscriptions-en-attente)
+4. [Tableau de Bord Client](#tableau-de-bord-client)
+   - [Informations de l'Entreprise](#informations-de-lentreprise)
+   - [Gestion des Liens](#gestion-des-liens)
+   - [Gestion des Employés](#gestion-des-employés)
+   - [Gestion des Templates](#gestion-des-templates)
+   - [Gestion des Réseaux Sociaux](#gestion-des-réseaux-sociaux)
+   - [Gestion des PDF et Images](#gestion-des-pdf-et-images)
+   - [Gestion des Horaires](#gestion-des-horaires)
+5. [Mot de passe oublié ?](#mot-de-passe-oublié-)
+6. [Support et Assistance](#support-et-assistance)
+7. [Architecture du projet](#architecture-du-projet)
+
+## Introduction
+
+Wisikard est une plateforme conçue pour aider les entreprises à créer et gérer des cartes de visite numériques grâce à des QR Codes. Ces cartes peuvent inclure des informations sur l'entreprise, des liens vers des réseaux sociaux, des PDF, des images, et bien plus encore.
+
+## Inscription et Connexion
+
+Pour commencer, inscrivez-vous en fournissant les informations nécessaires telles que votre adresse e-mail, un mot de passe sécurisé, et les détails de votre entreprise.
+
+![Texte alternatif](/public/images/inscriptionclient.png "Inscrire")
+
+Une fois inscrit, connectez-vous à l'application en utilisant votre adresse e-mail et votre mot de passe.
+
+![Texte alternatif](/public/images/Connexion.png "Connexion")
+
+## Tableau de Bord Admin
+
+### Gestion des Comptes
+
+En tant qu'**administrateur**, vous pouvez voir et gérer tous les comptes utilisateurs. Vous pouvez activer, désactiver ou supprimer des comptes.
+
+### Statistiques
+
+Accédez aux statistiques de l'application, comme le nombre de vues par mois.
+
+### Messages
+
+Vous pouvez afficher et gérer les messages destinés aux utilisateurs.
+
+### Gestion des Inscriptions en Attente
+
+#### Voir les Inscriptions
+
+Consultez la liste des inscriptions en attente.
+
+#### Approuver une Inscription
+
+Approuvez les inscriptions pour créer de nouveaux comptes utilisateurs.
+
+#### Supprimer une Inscription
+
+Supprimez les inscriptions qui ne sont plus nécessaires.
+
+## Tableau de Bord Client
+
+### Informations de l'Entreprise
+
+Mettez à jour les informations de votre entreprise, telles que le nom, le numéro de téléphone, et l'adresse e-mail.
+
+### Gestion des Liens
+
+Ajoutez des liens personnalisés et des liens vers des réseaux sociaux.
+
+### Gestion des Employés
+
+#### Ajouter un Employé
+
+Ajoutez de nouveaux employés à votre entreprise en fournissant leurs informations de contact.
+
+#### Modifier un Employé
+
+Mettez à jour les informations des employés existants.
+
+#### Supprimer un Employé
+
+Supprimez les employés qui ne font plus partie de votre entreprise.
+
+### Gestion des Templates
+
+#### Choisir un Template
+
+Sélectionnez un template pour votre carte de visite parmi les options disponibles.
+
+#### Personnaliser le Template
+
+Personnalisez le template choisi en ajoutant des couleurs, des images, et des liens.
+
+### Gestion des Réseaux Sociaux
+
+#### Ajouter des Liens
+
+Ajoutez des liens vers vos profils sur les réseaux sociaux.
+
+#### Activer/Désactiver des Liens
+
+Activez ou désactivez les liens vers les réseaux sociaux selon vos besoins.
+
+### Gestion des PDF et Images
+
+#### Télécharger des Images
+
+Téléchargez des images pour personnaliser votre carte de visite.
+
+#### Télécharger des PDF
+
+Téléchargez des fichiers PDF pour les inclure dans votre carte de visite.
+
+#### Gérer les Fichiers
+
+Supprimez ou mettez à jour les fichiers PDF et images téléchargés.
+
+### Gestion des Horaires
+
+#### Ajouter des Horaires
+
+Définissez les horaires d'ouverture et de fermeture de votre entreprise.
+
+#### Modifier des Horaires
+
+Mettez à jour les horaires existants en fonction des changements de votre emploi du temps.
+
+## Mot de passe oublié ?
+
+Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser en suivant ces étapes :
+
+1. **Accédez à la page de connexion** : Allez sur la page de connexion de l'application.
+2. **Cliquez sur "Mot de passe oublié ?"** : Cliquez sur le lien "Mot de passe oublié ?" sous le champ de saisie du mot de passe.
+3. **Entrez votre adresse e-mail** : Saisissez l'adresse e-mail associée à votre compte.
+4. **Suivez les instructions** : Vous recevrez un e-mail avec des instructions pour réinitialiser votre mot de passe. Suivez ces instructions pour créer un nouveau mot de passe.
+
+## Support et Assistance
+
+### FAQ
+
+Consultez la section FAQ pour obtenir des réponses aux questions courantes.
+
+### Contact
+
+Si vous avez besoin d'aide, n'hésitez pas à contacter notre équipe de support via l'adresse e-mail de support fournie dans l'application.
+
+En suivant ce guide, vous devriez être en mesure de naviguer et d'utiliser efficacement l'application Wisikard pour créer et gérer vos cartes de visite numériques.
+
+[Retour à la table des matières](#table-des-matières)
+
+## Architecture du projet
 
 ```txt
 Directory structure:
@@ -189,6 +345,3 @@ Directory structure:
         │   └── ExampleTest.php
         └── Unit/
             └── ExampleTest.php
-
-
-```
