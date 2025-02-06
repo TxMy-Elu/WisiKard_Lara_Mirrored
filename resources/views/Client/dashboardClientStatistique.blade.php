@@ -153,7 +153,7 @@
 
 
         <!-- divStat4 (Graphique par employés) -->
-        <div class="relative col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6">
+        <div class="relative col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 ">
             @if($compte->role == 'starter')
                 <!-- Message abonnement, centré au-dessus du blur -->
                 <div class="relative z-50 flex flex-col items-center justify-center mb-10">
@@ -204,7 +204,7 @@
         </div>
 
         <!-- divStat5 (Graphique par mois) -->
-        <div class="col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 flex flex-col items-center justify-center">
+        <div class="col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6 flex flex-col items-center ">
             <div class="text-center mb-4">
                 <p class="font-bold text-2xl text-gray-800">Nombres de vues</p>
                 <p class="text-xl text-gray-800">Par mois</p>
