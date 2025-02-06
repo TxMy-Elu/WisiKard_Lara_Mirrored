@@ -55,7 +55,7 @@
     <div class="flex justify-center items-center mt-4">
         <div class="bg-white shadow-md rounded-lg overflow-hidden w-80">
             <div class="p-4">
-                <h3 class="text-xl font-bold text-center mb-2">{{ $employe->prenom }} {{ $employe->nom }}</h3>
+                <h3 class="text-xl font-bold text-center mb-2 text-gray-800 ">{{ $employe->nom }} {{ $employe->prenom }} </h3>
                 <p class="text-gray-600 text-center mb-4">{{ $employe->fonction }}</p>
                 <hr class="my-4">
                 <div class="text-sm text-gray-600">

@@ -61,6 +61,7 @@ class Templates extends Controller
             // Sinon, récupérer l'idCompte
             $idCompte = $request->query('idCompte');
 
+
             // Récupérer d'abord l'idTemplate
             $idTemplate = Carte::where('idCompte', $idCompte)->value('idTemplate');
 
