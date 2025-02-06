@@ -6,6 +6,66 @@
     <title>Dashboard Client</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <style>
+        /* Styles pour la version mobile */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .col-span-2 {
+                grid-column: span 1;
+            }
+            .row-span-2 {
+                grid-row: span 1;
+            }
+            .row-span-3 {
+                grid-row: span 1;
+            }
+            .col-span-4 {
+                grid-column: span 1;
+            }
+            .row-span-4 {
+                grid-row: span 1;
+            }
+            .md\:flex-nowrap {
+                flex-wrap: wrap;
+            }
+            .md\:space-x-12 {
+                margin-bottom: 1rem;
+            }
+            .md\:w-1\/2 {
+                width: 100%;
+            }
+            .md\:w-1\/3 {
+                width: 100%;
+            }
+            .md\:ml-24 {
+                margin-left: 0;
+            }
+            .flex-1 {
+                flex: 1 1 100%;
+            }
+            .h-96 {
+                height: auto;
+            }
+            .w-86 {
+                width: 100%;
+            }
+            .h-40 {
+                height: 200px;
+            }
+            .w-32 {
+                width: 100%;
+            }
+            .h-32 {
+                height: auto;
+            }
+            .p-32 {
+                padding: 2rem;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
@@ -62,7 +122,6 @@
                 <div class="relative">
                     @if($compte->role == 'starter')
                         <!-- Message abonnement, centré au-dessus du blur -->
-
                         <div class="relative z-50 flex flex-col items-center justify-center">
                             <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
                                target="_blank"

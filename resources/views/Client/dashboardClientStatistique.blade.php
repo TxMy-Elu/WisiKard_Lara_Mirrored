@@ -9,25 +9,85 @@
             integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        /* Styles pour la version mobile */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .col-span-2 {
+                grid-column: span 1;
+            }
+            .row-span-2 {
+                grid-row: span 1;
+            }
+            .row-span-3 {
+                grid-row: span 1;
+            }
+            .col-span-4 {
+                grid-column: span 1;
+            }
+            .row-span-4 {
+                grid-row: span 1;
+            }
+            .md\:flex-nowrap {
+                flex-wrap: wrap;
+            }
+            .md\:space-x-12 {
+                margin-bottom: 1rem;
+            }
+            .md\:w-1\/2 {
+                width: 100%;
+            }
+            .md\:w-1\/3 {
+                width: 100%;
+            }
+            .md\:ml-24 {
+                margin-left: 0;
+            }
+            .flex-1 {
+                flex: 1 1 100%;
+            }
+            .h-96 {
+                height: auto;
+            }
+            .w-86 {
+                width: 100%;
+            }
+            .h-40 {
+                height: 200px;
+            }
+            .w-32 {
+                width: 100%;
+            }
+            .h-32 {
+                height: auto;
+            }
+            .p-32 {
+                padding: 2rem;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
-<div class="flex flex-col">
+<div class="flex flex-col md:flex-row">
     @include('menu.menuClient')
 
-    <div class="flex-1 md:ml-24 p-6 grid grid-cols-4 grid-rows-5 gap-5">
+    <div class="flex-1 md:ml-24 p-6 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-5">
         <!-- divStat1 -->
-        <div class="col-span-2 row-span-1 bg-white rounded-lg border shadow-md p-6 flex items-center justify-center">
+        <div class="col-span-2 md:col-span-2 row-span-1 bg-white rounded-lg border shadow-md p-6 flex items-center justify-center">
             <form id="yearWeekForm" action="{{ route('dashboardClientStatistique') }}" method="get"
                   class="flex items-center justify-center w-full">
                 <!-- Conteneur des champs année et semaine sur la même ligne avec ESPACE -->
-                <div class="flex items-center space-x-52">
+                <div class="flex items-center space-x-4">
                     <!-- Bloc de sélection de l'année -->
                     <div class="text-center">
-                        <label for="yearSelect" class="block text-2xl font-bold text-gray-800">Sélectionnez
+                        <label for="yearSelect" class="block text-xl font-bold text-gray-800">Sélectionnez
                             l'année</label>
                         <select name="year" id="yearSelect"
-                                class="w-32 text-center border border-gray-300 rounded-md p-2 text-lg focus:ring focus:ring-indigo-500 focus:outline-none"
+                                class="w-full text-center border border-gray-300 rounded-md p-2 text-lg focus:ring focus:ring-indigo-500 focus:outline-none"
                                 onchange="updateWeekToCurrent()">
                             @foreach($years as $year)
                                 <option value="{{ $year }}"
@@ -38,7 +98,7 @@
 
                     <!-- Bloc de sélection de la semaine -->
                     <div class="text-center">
-                        <label for="weekSelect" class="block text-2xl font-bold text-gray-800">Sélectionnez la
+                        <label for="weekSelect" class="block text-xl font-bold text-gray-800">Sélectionnez la
                             semaine</label>
                         <div class="flex items-center justify-center">
                             <input type="hidden" name="week" id="weekInput" value="{{ $selectedWeek }}">
@@ -60,7 +120,7 @@
         </div>
 
         <!-- divStat2 (Compteur global) -->
-        <div class="col-start-4 row-span-1 bg-white rounded-lg border shadow-md p-6">
+        <div class="col-span-2 md:col-span-1 row-span-1 bg-white rounded-lg border shadow-md p-6">
             <div class="text-center mb-4">
                 <p class="font-bold text-2xl text-gray-800">Nombre de vues</p>
                 <p class="text-xl text-gray-800">Global</p>
@@ -71,7 +131,7 @@
         </div>
 
         <!-- divStat3 (Compteur hebdomadaire) -->
-        <div class="col-start-4 row-start-2 bg-white rounded-lg border shadow-md p-6">
+        <div class="col-span-2 md:col-span-1 row-span-1 bg-white rounded-lg border shadow-md p-6">
             <div class="text-center mb-4">
                 <p class="font-bold text-2xl text-gray-800">Nombre de vues</p>
                 <p class="text-xl text-gray-800">Semaine</p>
@@ -89,6 +149,8 @@
 
         <!-- div place vide -->
         <div class="col-span-2 row-span-1"></div>
+        <div class="col-span-2 row-span-1"></div>
+
 
         <!-- divStat4 (Graphique par employés) -->
         <div class="relative col-span-2 row-span-3 bg-white rounded-lg border shadow-md p-6">
@@ -111,16 +173,16 @@
                 </div>
             @endif
 
-            <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif  flex flex-col items-center justify-center ">
+            <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif flex flex-col items-center justify-center">
                 <div class="text-center mb-4">
                     <p class="font-bold text-2xl text-gray-800">Nombres de vues</p>
-                    <p class="text-xl  text-gray-800">Par employes</p>
+                    <p class="text-xl text-gray-800">Par employés</p>
                 </div>
                 @if(empty($employerData['datasets'][0]['data']))
                     <p class="text-center text-lg text-gray-500">Aucune donnée disponible pour le graphique.</p>
                 @else
                     <!-- Réduction de la taille du graphique avec des classes pour ajuster largeur et hauteur -->
-                    <div class="w-full flex justify-center overflow-hidden">
+                    <div class="w-full h-96 flex justify-center overflow-hidden">
                         <canvas id="yearChart" class="max-w-xs max-h-96"></canvas>
                     </div>
                     <script>
