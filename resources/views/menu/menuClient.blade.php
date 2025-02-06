@@ -84,22 +84,20 @@
     </nav>
 </div>
 
+<button class="block lg:hidden px-3 py-2 my-4 border rounded text-gray-700 border-gray-700" type="button"
+        id="navbarToggleButton" onclick="toggleNavbar()">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+    </svg>
+</button>
 
-    <button class="block lg:hidden px-3 py-2 my-4 border rounded text-gray-700 border-gray-700" type="button"
-            id="navbarToggleButton" onclick="toggleNavbar()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-    </button>
-
-    <script>
-        function toggleNavbar() {
-            var navbar = document.getElementById('navbarNav');
-            var toggleButton = document.getElementById('navbarToggleButton');
-            var closeButton = document.getElementById('closeNavbarButton');
-            navbar.classList.toggle('hidden');
-            toggleButton.classList.toggle('hidden');
-            closeButton.classList.toggle('hidden');
-        }
-    </script>
-</div>
+<script>
+    function toggleNavbar() {
+        var navbar = document.getElementById('navbarNav');
+        var toggleButton = document.getElementById('navbarToggleButton');
+        var closeButton = document.getElementById('closeNavbarButton');
+        navbar.classList.toggle('hidden');
+        toggleButton.classList.toggle('hidden');
+        closeButton.classList.toggle('hidden');
+    }
+</script>
