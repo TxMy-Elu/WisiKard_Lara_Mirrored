@@ -72,7 +72,7 @@ class Connexion extends Controller
 
                         $message = "Bonjour,<br><br>";
                         $message .= "Votre compte a été désactivé suite à 10 tentatives de connexion échouées.<br>";
-                        $message .= "Pour réactiver votre compte, veuillez cliquer sur <a href='http://172.17.0.12:9000/reactivation?code=" . $codeReactivation . "'>ce lien</a>.<br><br>";
+                        $message .= "Pour réactiver votre compte, veuillez cliquer sur <a href='https://app.wisikard.fr/reactivation?code=" . $codeReactivation . "'>ce lien</a>.<br><br>";
                         $message .= "Cordialement,<br>L'équipe de développement";
                         if (Email::envoyerEmail($utilisateur->email, "Réactivation de votre compte", $message)) {
                             Logs::ecrireLog($utilisateur->email, "Désactivation");
@@ -95,7 +95,7 @@ class Connexion extends Controller
         if ($validationFormulaire === true) {
             $cle = "T3mUjGjhC6WuxyNGR2rkUt2uQgrlFUHx";
             $payload = [
-                "iss" => "http://172.0.0.1:9000",
+                "iss" => "https://app.wisikard.fr",
                 "sub" => $utilisateur->idCompte,
                 "iat" => time(),
                 "exp" => time() + 3600
