@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Carte;
@@ -21,6 +22,12 @@ use Illuminate\Support\Facades\Hash;
 
 class DashboardClient extends Controller
 {
+    /**
+     * Affiche le tableau de bord client.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Retourne la vue dashboardClient avec les informations nécessaires ou redirige en cas d'erreur.
+     */
     public function afficherDashboardClient(Request $request)
     {
         try {
@@ -40,7 +47,7 @@ class DashboardClient extends Controller
 
             if ($carte) {
                 $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
-                 $horaires = $carte->horaires;
+                $horaires = $carte->horaires;
             } else {
                 Log::warning('Aucune carte associée au compte.', ['email' => $emailUtilisateur]);
                 $horaires = collect();
@@ -62,9 +69,13 @@ class DashboardClient extends Controller
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors du chargement du tableau de bord.']);
         }
     }
-/*
-Ajoute et met à jour les horaires
- */
+
+    /**
+     * Ajoute et met à jour les horaires.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateHoraires(Request $request)
     {
         $idCompte = session('connexion');
@@ -100,13 +111,24 @@ Ajoute et met à jour les horaires
 
         return redirect()->back()->with('success', 'Horaires mis à jour avec succès.');
     }
+
+    /**
+     * Formate un numéro de téléphone.
+     *
+     * @param string $phoneNumber Le numéro de téléphone à formater.
+     * @return string Le numéro de téléphone formaté.
+     */
     private function formatPhoneNumber($phoneNumber)
     {
         return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
     }
-/*
-Affiche les informations des employés
- */
+
+    /**
+     * Affiche les informations des employés.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\View\View Retourne la vue dashboardClientEmploye avec les informations des employés.
+     */
     public function employer(Request $request)
     {
         $idCompte = session('connexion');
@@ -138,9 +160,13 @@ Affiche les informations des employés
             'compte' => $compte
         ]);
     }
-/*
-Supprimer des employés
- */
+
+    /**
+     * Supprime un employé.
+     *
+     * @param int $id L'ID de l'employé à supprimer.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function destroy($id)
     {
         try {
@@ -164,6 +190,11 @@ Supprimer des employés
         }
     }
 
+    /**
+     * Affiche les informations des réseaux sociaux.
+     *
+     * @return \Illuminate\View\View Retourne la vue dashboardClientSocial avec les informations des réseaux sociaux.
+     */
     public function social()
     {
         $idCompte = session('connexion');
@@ -183,7 +214,7 @@ Supprimer des employés
         }
 
         $custom = Custom_link::where('idCarte', $idCarte)->get();
-        $activatedCustomLinks = Custom_Link::where('idCarte', $idCarte)
+        $activatedCustomLinks = Custom_link::where('idCarte', $idCarte)
             ->select('id_link', 'activer', 'lien')
             ->get();
 
@@ -202,6 +233,12 @@ Supprimer des employés
         ]);
     }
 
+    /**
+     * Met à jour un lien de réseau social.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateSocialLink(Request $request)
     {
         try {
@@ -256,6 +293,12 @@ Supprimer des employés
         }
     }
 
+    /**
+     * Affiche les statistiques.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\View\View Retourne la vue dashboardClientStatistique avec les statistiques.
+     */
     public function statistique(Request $request)
     {
         $session = session('connexion');
@@ -331,7 +374,6 @@ Supprimer des employés
             ->groupBy('week');
 
         $weeklyViews = $weeklyViewsQuery->pluck('count', 'week')->toArray();
-
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year;
 
@@ -358,17 +400,26 @@ Supprimer des employés
 
         return view('Client.dashboardClientStatistique', compact('yearlyData', 'years', 'selectedYear', 'totalViewsCard', 'weeklyViews', 'selectedWeek', 'selectedMonth', 'employerData', 'monthlyData', 'compte'));
     }
-/*
-Affiche le formulaire pour modifier les employé
- */
+
+    /**
+     * Affiche le formulaire de modification d'un employé.
+     *
+     * @param int $id L'ID de l'employé à modifier.
+     * @return \Illuminate\View\View Retourne la vue formulaireModifEmploye avec les informations de l'employé.
+     */
     public function afficherFormulaireModifEmpl($id)
     {
         $employe = Employer::findOrFail($id);
         return view('Formulaire.formulaireModifEmploye', compact('employe'));
     }
-/*
-Modifie les employé
- */
+
+    /**
+     * Modifie un employé.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @param int $id L'ID de l'employé à modifier.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function modifierEmploye(Request $request, $id)
     {
         $request->validate([
@@ -391,7 +442,7 @@ Modifie les employé
             $compte = Compte::find($employe->idCarte);
             if ($compte) {
                 $emailUtilisateur = $compte->email;
-                Logs::ecrireLog($emailUtilisateur, "Modification Employe");
+                Logs::ecrireLog($emailUtilisateur, "Modification Employé");
             }
 
             return redirect()->route('dashboardClientEmploye')->with('success', 'L\'employé a été modifié avec succès.');
@@ -399,9 +450,13 @@ Modifie les employé
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'employé.');
         }
     }
-/*
-Change la couleur du Qr Code
- */
+
+    /**
+     * Change la couleur du QR Code.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateColor(Request $request)
     {
         try {
@@ -444,9 +499,12 @@ Change la couleur du Qr Code
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour des couleurs.']);
         }
     }
-/*
-Télécharge le Qr Code entreprise en couleur
- */
+
+    /**
+     * Télécharge le QR Code entreprise en couleur.
+     *
+     * @return \Illuminate\Http\Response Retourne le QR Code en couleur en tant que réponse de téléchargement.
+     */
     public function downloadQrCodesColor()
     {
         $idCompte = session('connexion');
@@ -472,9 +530,12 @@ Télécharge le Qr Code entreprise en couleur
         Log::info('QR Code downloaded for idCompte: ' . $idCompte);
         return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
     }
-/*
-Télécharge le Qr Code entreprise
- */
+
+    /**
+     * Télécharge le QR Code entreprise.
+     *
+     * @return \Illuminate\Http\Response Retourne le QR Code en noir et blanc en tant que réponse de téléchargement.
+     */
     public function downloadQrCodes()
     {
         $idCompte = session('connexion');
@@ -489,9 +550,13 @@ Télécharge le Qr Code entreprise
         return response()->streamDownload(function () use ($url) {
             echo file_get_contents($url);
         }, 'QR_Code.svg');
-
     }
 
+    /**
+     * Affiche le tableau de bord client en PDF.
+     *
+     * @return \Illuminate\View\View Retourne la vue dashboardClientPDF avec les informations nécessaires.
+     */
     public function afficherDashboardClientPDF()
     {
         $idCompte = session('connexion');
@@ -536,9 +601,12 @@ Télécharge le Qr Code entreprise
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
-/*
-Télécharge le logo dans les fichier et le chemin dans la BD
- */
+    /**
+     * Télécharge le logo dans les fichiers et le chemin dans la BD.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function uploadLogo(Request $request)
     {
         $idCompte = session('connexion');
@@ -602,9 +670,13 @@ Télécharge le logo dans les fichier et le chemin dans la BD
 
         return redirect()->back()->with('error', 'Aucun fichier téléchargé.');
     }
-/*
-Enregistrer dans la BD l'url de prise de rendez-vous
- */
+
+    /**
+     * Enregistre dans la BD l'URL de prise de rendez-vous.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function urlsrdv(Request $request)
     {
         $idCompte = session('connexion');
@@ -638,9 +710,13 @@ Enregistrer dans la BD l'url de prise de rendez-vous
         Log::warning('Aucune URL fournie pour RDV', ['email' => $emailUtilisateur]);
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
-/*
-Télécharge les vidéos Youtube
- */
+
+    /**
+     * Télécharge les vidéos YouTube.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function uploadYouTubeVideo(Request $request)
     {
         $idCompte = session('connexion');
@@ -710,9 +786,12 @@ Télécharge les vidéos Youtube
         return redirect()->back()->with('error', 'Aucune URL fournie.');
     }
 
-/*
-Supprime les images
- */
+    /**
+     * Supprime les images.
+     *
+     * @param string $filename Le nom du fichier à supprimer.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function deleteImage($filename)
     {
         $idCompte = session('connexion');
@@ -741,9 +820,13 @@ Supprime les images
             return redirect()->back()->with('error', 'Image non trouvée.');
         }
     }
-/*
-Supprime les images des slider
- */
+
+    /**
+     * Supprime les images du slider.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function deleteSliderImage(Request $request)
     {
         $idCompte = session('connexion'); // Récupérer l'ID du compte
@@ -798,16 +881,18 @@ Supprime les images des slider
         Log::error('Image non trouvée dans la liste des fichiers du slider.');
         return redirect()->back()->with('error', 'Image non trouvée.');
     }
-/*
-Supprime le pdf + chemin dans bd + le nom dans bd
- */
+
+    /**
+     * Supprime le PDF, le chemin dans la BD et le nom dans la BD.
+     *
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function deletePdf()
     {
-
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
-        // Remplacez 'path/to/pdf' par le chemin réel du répertoire des fichiers PDF
+        // Remplacer 'path/to/pdf' par le chemin réel du répertoire des fichiers PDF
         $filePath = $carte->pdf;
 
         if (file_exists($filePath)) {
@@ -820,9 +905,12 @@ Supprime le pdf + chemin dans bd + le nom dans bd
 
         return redirect()->back()->with('error', 'Fichier introuvable.');
     }
-/*
-Supprime le logo
- */
+
+    /**
+     * Supprime le logo.
+     *
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function deleteLogo()
     {
         $idCompte = session('connexion');
@@ -865,9 +953,13 @@ Supprime le logo
 
         return redirect()->back()->with('success', 'Logo supprimé avec succès.');
     }
-/*
-Télécharge les images du slider
- */
+
+    /**
+     * Télécharge les images du slider.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function uploadSlider(Request $request)
     {
         $idCompte = session('connexion');
@@ -879,7 +971,7 @@ Télécharge les images du slider
             return redirect()->back()->with('error', 'Compte non trouvé.');
         }
 
-        // Définit le chemin de destination pour les images
+        // Définir le chemin de destination pour les images
         $destinationPath = 'entreprises/' . $idCompte . '_' . Str::slug($carte->nomEntreprise, '_') . '/slider';
 
         try {
@@ -888,7 +980,7 @@ Télécharge les images du slider
                 'image' => 'required|mimes:jpg,jpeg,png|max:2048', // Limite à 2MB et extensions autorisées
             ]);
 
-            // Récupère le fichier de la requête
+            // Récupérer le fichier de la requête
             $file = $request->file('image');
 
             // Vérification du type MIME réel
@@ -907,23 +999,23 @@ Télécharge les images du slider
                 return redirect()->back()->with('error', 'Extension de fichier non autorisée.');
             }
 
-            // Crée le dossier cible s'il n'existe pas
+            // Créer le dossier cible s'il n'existe pas
             if (!file_exists(public_path($destinationPath))) {
                 mkdir(public_path($destinationPath), 0755, true);
                 Log::info("Création du dossier : {$destinationPath}");
             }
 
-            // Définit un nom de fichier unique
+            // Définir un nom de fichier unique
             $fileName = uniqid() . '_' . $file->getClientOriginalName();
 
-            // Déplace le fichier vers le chemin cible
+            // Déplacer le fichier vers le chemin cible
             $file->move(public_path($destinationPath), $fileName);
             Log::info("Fichier {$fileName} enregistré dans : {$destinationPath}");
 
             // Enregistrer un log en base de données
             Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
 
-            // Redirige avec un message de succès
+            // Rediriger avec un message de succès
             return redirect()->back()->with('success', 'Image téléchargée avec succès.');
 
         } catch (\Exception $e) {
@@ -933,13 +1025,17 @@ Télécharge les images du slider
             // Enregistrer l'erreur en base de données
             Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
 
-            // Redirection avec un message d'erreur
+            // Rediriger avec un message d'erreur
             return redirect()->back()->with('error', 'Erreur lors du téléchargement de l\'image.');
         }
     }
-/*
-Met à jour la description
- */
+
+    /**
+     * Met à jour la description.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateInfo(Request $request)
     {
         $request->validate([
@@ -965,9 +1061,14 @@ Met à jour la description
 
         return redirect()->back()->with('success', 'Informations mises à jour avec succès.');
     }
-/*
 
- */
+    /**
+     * Rafraîchit le QR Code d'un employé.
+     *
+     * @param int $id L'ID du compte.
+     * @param int $idEmp L'ID de l'employé.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function refreshQrCodeEmp($id, $idEmp)
     {
         try {
@@ -1011,6 +1112,11 @@ Met à jour la description
         }
     }
 
+    /**
+     * Affiche le formulaire d'entreprise.
+     *
+     * @return \Illuminate\View\View Retourne la vue formulaireEntreprise avec les informations nécessaires.
+     */
     public function afficherFormulaireEntreprise()
     {
         $idCompte = session('connexion');
@@ -1025,6 +1131,12 @@ Met à jour la description
         return view('Formulaire.formulaireEntreprise', compact('carte', 'compte'));
     }
 
+    /**
+     * Met à jour les informations de l'entreprise.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateEntreprise(Request $request)
     {
         $request->validate([
@@ -1092,18 +1204,24 @@ Met à jour la description
         Log::info('Création de la VCard', ['email' => $emailUtilisateur, 'nomEntreprise' => $request->nomEntreprise, 'tel' => $request->tel, 'mail' => $request->mail]);
 
         return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour avec succès.');
-   }
+    }
 
+    /**
+     * Met à jour le template.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateTemplate(Request $request)
     {
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
         $carte = Carte::where('idCompte', $idCompte)->first();
-    
+
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-    
+
         switch ($request->idTemplate) {
             case 1:
                 $carte->idTemplate = 1;
@@ -1116,16 +1234,22 @@ Met à jour la description
                 break;
             case 4:
                 $carte->idTemplate = 4;
-            break;    
+                break;
         }
-    
+
         $carte->save();
         Log::info('Template mis à jour avec succès', ['email' => $emailUtilisateur, 'idTemplate' => $request->idTemplate]);
         Logs::ecrireLog($emailUtilisateur, "Modification Template");
-    
+
         return redirect()->back()->with('success', 'Template mis à jour avec succès.');
     }
 
+    /**
+     * Télécharge un PDF.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function uploadPdf(Request $request)
     {
         // Récupérer l'identifiant du compte via la session
@@ -1144,8 +1268,8 @@ Met à jour la description
         try {
             // Valider l'entrée de la requête
             $request->validate([
-                'pdf' => 'required|mimes:pdf', // Ensure the file is a PDF
-                'new_name' => 'required|string', // Ensure the new name is a string and is required
+                'pdf' => 'required|mimes:pdf', // Assurez-vous que le fichier est un PDF
+                'new_name' => 'required|string', // Assurez-vous que le nouveau nom est une chaîne et est requis
             ]);
 
             // Vérifier si un fichier existe déjà dans le répertoire
@@ -1203,9 +1327,14 @@ Met à jour la description
             return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du fichier.');
         }
     }
-  public function downloadQrCodesPDFColor()
-    {
 
+    /**
+     * Télécharge le QR Code PDF en couleur.
+     *
+     * @return \Illuminate\Http\Response Retourne le QR Code en couleur en tant que réponse de téléchargement.
+     */
+    public function downloadQrCodesPDFColor()
+    {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
@@ -1225,9 +1354,13 @@ Met à jour la description
         return Response::make($qrCode)->header('Content-Type', 'image/svg+xml')->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
 
+    /**
+     * Télécharge le QR Code PDF en noir et blanc.
+     *
+     * @return \Illuminate\Http\Response Retourne le QR code en noir et blanc en tant que réponse de téléchargement.
+     */
     public function downloadQrCodesPDF()
     {
-
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
 
@@ -1247,6 +1380,12 @@ Met à jour la description
         return Response::make($qrCode)->header('Content-Type', 'image/svg+xml')->header('Content-Disposition', 'attachment; filename="qrcode_bw.svg"');
     }
 
+    /**
+     * Met à jour un lien personnalisé.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateCustomLink(Request $request)
     {
         $session = session('connexion');
@@ -1282,6 +1421,12 @@ Met à jour la description
         return redirect()->back()->with('success', 'Lien personnalisé ajouté avec succès.');
     }
 
+    /**
+     * Met à jour un lien personnalisé.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateSocialLinkCustom(Request $request)
     {
         $idCompte = session('connexion');
@@ -1303,7 +1448,12 @@ Met à jour la description
         return redirect()->back()->with('success', 'Lien mis à jour avec succès.');
     }
 
-
+    /**
+     * Met à jour la police.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function updateFont(Request $request)
     {
         $idCompte = session('connexion');
@@ -1316,7 +1466,7 @@ Met à jour la description
         }
 
         $carte->font = $request->font;
-        $carte->save(); // Save the changes to the database
+        $carte->save(); // Enregistrer les modifications dans la base de données
 
         Log::info('Police mise à jour avec succès', ['email' => $emailUtilisateur, 'font' => $request->font]);
         Logs::ecrireLog($emailUtilisateur, "Mise à jour de la police");
@@ -1324,6 +1474,12 @@ Met à jour la description
         return redirect()->back()->with('success', 'Police mise à jour avec succès.');
     }
 
+    /**
+     * Télécharge les avis.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
     public function uploadAvis(Request $request)
     {
         $idCompte = session('connexion');
@@ -1341,7 +1497,12 @@ Met à jour la description
         return redirect()->back()->with('success', 'Avis enregistré avec succès.');
     }
 
-    public function deleteAvis()//lien avis google
+    /**
+     * Supprime les avis.
+     *
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
+    public function deleteAvis()
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -1355,7 +1516,12 @@ Met à jour la description
         return redirect()->back()->with('error', 'Carte non trouvée.');
     }
 
-    public function deleteRDV()//lien rdv
+    /**
+     * Supprime le lien RDV.
+     *
+     * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
+     */
+    public function deleteRDV()
     {
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -1368,5 +1534,4 @@ Met à jour la description
 
         return redirect()->back()->with('error', 'Carte non trouvée.');
     }
-
 }

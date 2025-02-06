@@ -4,20 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Compte;
 use App\Models\Logs;
-use Illuminate\Support\Facades\DB;// pour role
+use Illuminate\Support\Facades\DB;
 
 class Inscription extends Controller
 {
+    /**
+     * Affiche le formulaire d'inscription avec les rôles disponibles.
+     *
+     * @return \Illuminate\View\View Retourne la vue formulaireInscription avec les rôles disponibles.
+     */
     public function afficherFormulaireInscription()
     {
         $roles = DB::table('compte')->select('role')->distinct()->get();
         return view('Formulaire.formulaireInscription', ['roles' => $roles]);
     }
 
-
+    /**
+     * Gère la soumission du formulaire d'inscription.
+     *
+     * @return \Illuminate\View\View Retourne la vue formulaireInscription avec des messages d'erreur ou de succès.
+     */
     public function boutonInscription()
     {
-        //recupere le role de la table compte
+        // Récupère les rôles de la table compte
         $roles = DB::table('compte')->select('role')->distinct()->get();
 
         if (isset($_POST["boutonInscription"])) {
@@ -49,8 +58,7 @@ class Inscription extends Controller
             }
         }
 
-        // If the form is not submitted, display the form with roles
+        // Si le formulaire n'est pas soumis, afficher le formulaire avec les rôles
         return view('Formulaire.formulaireInscription', ['roles' => $roles]);
     }
-
 }

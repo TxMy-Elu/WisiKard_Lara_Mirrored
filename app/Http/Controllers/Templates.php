@@ -17,6 +17,12 @@ use Illuminate\Support\Str;
 
 class Templates extends Controller
 {
+    /**
+     * Affiche les templates de cartes de visite en fonction des paramètres de la requête.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse Retourne la vue correspondant au template spécifié avec les données nécessaires ou un message JSON en cas d'erreur.
+     */
     public function afficherTemplates(Request $request)
     {
         // Vérifier si "CompteEmp" est présent dans la requête
@@ -123,7 +129,6 @@ class Templates extends Controller
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
-
         // Définir les fonctions spécifiques
         $fonctions = [
             ['nom' => 'nopub'],
@@ -149,6 +154,12 @@ class Templates extends Controller
         }
     }
 
+    /**
+     * Affiche les templates de cartes de visite dans un iframe en fonction des paramètres de la requête.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse Retourne la vue correspondant au template spécifié avec les données nécessaires ou une erreur 404 si le template n'est pas trouvé.
+     */
     public function afficherIframe(Request $request)
     {
         // Récupérer l'idCompte depuis la session
