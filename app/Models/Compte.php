@@ -15,8 +15,6 @@ class Compte extends Model
     {
         return $this->hasMany(Logs::class);
     }
-
-
     public static function existeEmail($email)
     {
         $nb = self::where("email", $email)->count();
@@ -27,25 +25,6 @@ class Compte extends Model
             return false;
         }
     }
-
-    public function estAdmin()
-    {
-        return $this->role === 'admin';
-    }
-
-    public function desactiverCompte()
-    {
-        $this->estDesactiver = 1;
-        $this->save();
-    }
-
-    public function reactiverCompte()
-    {
-        $this->estDesactiver = 0;
-        $this->tentativesCo = 0;
-        $this->save();
-    }
-
     public static function inscription($email, $motDePasseHache, $role, $nomEntreprise)
     {
         $nouvelUtilisateur = new Compte();
@@ -118,7 +97,7 @@ class Compte extends Model
         return $employe;
     }
 
-    public function QrCode($id, $entreprise)
+    public static function QrCode($id, $entreprise)
     {
 
         $color1 = Carte::where('idCompte', $id)->first()->couleur1;
