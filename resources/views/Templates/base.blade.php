@@ -52,17 +52,20 @@
 
 <!-- employes -->
 @if($employe != null)
-    <div class='flex justify-center items-center flex-wrap mt-2'>
-            <div class='flex flex-col items-center justify-center w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2'>
-                <h3 class="text-lg font-bold mt-2">{{ $employe->prenom }} {{ $employe->nom }}</h3>
-                <p class="text-gray-600">{{ $employe->fonction }}</p>
-                <p class="text-gray-600">{{ $employe->telephone }}</p>
-                <p class="text-gray-600">{{ $employe->mail }}</p>
+    <div class="flex justify-center items-center mt-4">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden w-80">
+            <div class="p-4">
+                <h3 class="text-xl font-bold text-center mb-2">{{ $employe->prenom }} {{ $employe->nom }}</h3>
+                <p class="text-gray-600 text-center mb-4">{{ $employe->fonction }}</p>
+                <hr class="my-4">
+                <div class="text-sm text-gray-600">
+                    <p><strong>Téléphone : </strong>{{ $employe->telephone }}</p>
+                    <p><strong>Email : </strong>{{ $employe->mail }}</p>
+                </div>
             </div>
+        </div>
     </div>
 @endif
-
-
 
 
 
