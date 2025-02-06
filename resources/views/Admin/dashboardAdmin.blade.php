@@ -6,6 +6,7 @@
     <title>Dashboard Admin</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
+        /* Styles pour le conteneur du QR code */
         .qr-code-container {
             width: 100px; /* Taille fixe pour le conteneur du QR code */
             height: 100px;
@@ -17,11 +18,13 @@
             border-radius: 8px; /* Coins arrondis */
         }
 
+        /* Styles pour l'image du QR code */
         .qr-code-container img {
             max-width: 100%; /* Assure que l'image s'adapte au conteneur */
             max-height: 100%;
         }
 
+        /* Styles responsive pour les écrans de taille inférieure à 768px */
         @media (max-width: 768px) {
             .qr-code-container {
                 width: 80px; /* Taille fixe pour le conteneur du QR code sur mobile */
@@ -57,9 +60,10 @@
 <body class="align-items-center bg-grey-600">
 
 <div class="flex flex-col md:flex-row">
-    @include('menu.menuAdmin')
-    <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
+    @include('menu.menuAdmin') <!-- Inclure le menu admin -->
+    <div class="flex-1 md:ml-24 content"> <!-- Contenu principal avec marge à gauche pour le menu -->
         @if($messageContent != "Aucun message disponible" || empty($messageContent))
+            <!-- Afficher un message d'information si disponible -->
             <div class="bg-zinc-400/45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
                  role="alert">
                 <strong class="font-bold">Information :</strong>
@@ -68,7 +72,7 @@
         @endif
         <div class="w-full p-4">
             <div class="flex flex-col md:flex-row justify-between items-center pb-4">
-                <!-- Search bar -->
+                <!-- Barre de recherche -->
                 <form method="GET" action="{{ route('dashboardAdmin') }}"
                       class="flex items-center relative w-full md:w-64 mb-4 md:mb-0">
                     <div class="absolute left-2 top-1/2 transform -translate-y-1/2">
@@ -81,7 +85,7 @@
                     <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search..."
                            class="p-2 pl-10 border border-gray-900 rounded-lg text-sm flex-grow">
                 </form>
-                <!-- Link to the registration form -->
+                <!-- Lien vers le formulaire d'inscription -->
                 <div class="flex items-center w-full md:w-auto">
                     <a href="{{ route('inscription') }}"
                        class="w-full md:w-auto px-4 py-2 border border-gray-900 rounded-lg text-sm flex items-center justify-center hover:bg-gray-900 hover:text-white">
@@ -95,12 +99,13 @@
                 </div>
             </div>
 
+            <!-- Grille des entreprises -->
             <div class="grid grid-cols-4 gap-4 mr-4">
                 @foreach($entreprises as $entreprise)
                     <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
-                        <!-- Title -->
+                        <!-- Titre de l'entreprise -->
                         <div class="flex justify-between">
-                            <!-- Company and email -->
+                            <!-- Nom et email de l'entreprise -->
                             <div class="flex flex-col">
                                 <div class="mb-4">
                                     <p class="text-xl font-semibold">{{ $entreprise->nomEntreprise }}</p>
@@ -108,20 +113,21 @@
                                 <div class="mb-4">
                                     <p class="text-lg text-gray-600">{{ $entreprise->compte_email }}</p>
                                 </div>
-                                <!-- Phone number -->
+                                <!-- Numéro de téléphone -->
                                 <div>
                                     <p class="text-sm text-gray-600">{{ $entreprise->formattedTel }}</p>
                                 </div>
                             </div>
 
                             <div class="flex flex-col">
-                                <!-- QR Code (you can replace with an actual QR code image) -->
+                                <!-- QR Code -->
                                 <div class="justify-center mb-2">
                                     <div class="qr-code-container">
                                         <img src="{{ $entreprise->lienQr }}" alt="QR Code"
                                              class="max-w-full max-h-full">
                                     </div>
                                 </div>
+                                <!-- Lien pour rafraîchir le QR Code -->
                                 <div class="flex justify-end ">
                                     <a href="{{ route('refreshQrCode', $entreprise->idCompte) }}" class="ml-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -138,6 +144,7 @@
                             </div>
                         </div>
 
+                        <!-- Badge de rôle -->
                         @if($entreprise->compte_role == 'starter')
                             <div class="pt-4">
                                 <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center">
@@ -152,8 +159,9 @@
                             </div>
                         @endif
 
-                        <!-- Buttons -->
+                        <!-- Boutons d'action -->
                         <div class="flex flex-row-reverse mt-auto pt-4">
+                            <!-- Bouton pour supprimer l'entreprise -->
                             <form action="{{ route('entreprise.destroy', $entreprise->idCarte) }}" method="POST"
                                   onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
                                 @csrf
@@ -161,6 +169,7 @@
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
                                 </button>
                             </form>
+                            <!-- Lien pour modifier le mot de passe -->
                             <a href="{{ route('modifierMdp', $entreprise->idCompte) }}" class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier MDP</a>
                         </div>
                     </div>
