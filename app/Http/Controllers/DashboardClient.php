@@ -1330,8 +1330,8 @@ class DashboardClient extends Controller
     {
         // Validation des données de la requête
         $request->validate([
-            'titre' => 'required|string|max:255',
-            'descriptif' => 'required|string|max:255',
+            'titre' => 'nullable|string|max:255',
+            'descriptif' => 'nullable|string|max:255',
         ]);
 
         // Récupérer l'ID de compte de l'utilisateur depuis la session
@@ -1353,9 +1353,9 @@ class DashboardClient extends Controller
         }
 
         // Mise à jour des informations de la carte
-        $carte->titre = $request->titre;            // Mise à jour du titre
-        $carte->descriptif = $request->descriptif;  // Mise à jour du descriptif
-        $carte->save();                             // Sauvegarde des modifications
+        $carte->titre = $request->input('titre', null);            // Mettre à jour ou à null si absent
+        $carte->descriptif = $request->input('descriptif', null);  // Mettre à jour ou à null si absent
+        $carte->save();                                            // Sauvegarde des modifications
 
         // Journaux pour consigner l'opération
         Logs::ecrireLog($emailUtilisateur, "Modification Info");
