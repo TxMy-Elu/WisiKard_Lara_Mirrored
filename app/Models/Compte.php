@@ -114,9 +114,12 @@ class Compte extends Model
         $color1 = ltrim($color1, '#');
         $color2 = ltrim($color2, '#');
 
+        //nom de l'entreprise
+        $nomEntreprise = $carte->nomEntreprise;
+
         // Construire l'URL pour générer le QR Code depuis QuickChart.io
         $baseUrl = "https://quickchart.io/qr";
-        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Templates?idCompte={$id}";
+        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Kard/{$nomEntreprise}?idCompte={$id}";
 
         // Utiliser cURL pour effectuer une requête à l'API
         $ch = curl_init();

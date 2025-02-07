@@ -66,8 +66,13 @@ class Employe extends Controller
         //concatenation de id et IdEmploye
         $code = $id ."x".$idEmp;
 
+        // Récupérer les infos de la carte
+        $carte = Carte::where('idCompte', $id)->first();
 
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Templates?CompteEmp=" . $code;
+        //nom de l'entreprise
+        $nomEntreprise = $carte->nomEntreprise;
+
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Kard/{$nomEntreprise}?CompteEmp=" . $code;
 
         $ch = curl_init();
 

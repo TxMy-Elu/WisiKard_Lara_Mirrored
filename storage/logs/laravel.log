@@ -1,0 +1,34 @@
+[2025-02-07 10:54:40] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 10:54:42] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#eaff05","couleur2":"#1858bf"},"newColors":{"couleur1":"#eaff05","couleur2":"#1858bf"}} 
+[2025-02-07 10:54:42] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 12:59:45] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 13:06:52] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#eaff05","couleur2":"#1858bf"},"newColors":{"couleur1":"#eaff05","couleur2":"#1858bf"}} 
+[2025-02-07 13:06:52] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 13:08:19] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:21] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:21] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:21] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:41] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:42] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:43] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:43] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:08:43] local.ERROR: Erreur lors du rafraîchissement du QR code : Call to undefined method App\Models\Employer::QrCodeEmploye()  
+[2025-02-07 13:18:17] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FKard%2FElio%3FCompteEmp%3D21x26  
+[2025-02-07 13:18:18] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio/QR_Codes/QR_Code_26.svg  
+[2025-02-07 13:18:18] local.INFO: QR code rafraîchi avec succès pour idCompte : 21  
+[2025-02-07 13:18:19] local.INFO: Tentative de génération de QR Code via URL : https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=127.0.0.1%3A9000%2FKard%2FElio%3FCompteEmp%3D21x27  
+[2025-02-07 13:18:19] local.INFO: QR Code généré et enregistré à : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio/QR_Codes/QR_Code_27.svg  
+[2025-02-07 13:18:19] local.INFO: QR code rafraîchi avec succès pour idCompte : 21  
+[2025-02-07 13:24:20] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 13:27:01] local.INFO: Dossier renommé avec succès : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio -> C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio14  
+[2025-02-07 13:27:01] local.INFO: Mise à jour des chemins dans la base de données. {"imgLogo":"/entreprises/21_Elio14/logos/logo.png","lienQr":"/entreprises/21_Elio14/QR_Codes/QR_Code.svg"} 
+[2025-02-07 13:27:01] local.INFO: Informations de l'entreprise mises à jour avec succès. {"email":"cli@cli.fr","nomEntreprise":"Elio14","tel":"0682087970","mail":"cli@cli.fr","adresse":"verdun"} 
+[2025-02-07 13:27:06] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#eaff05","couleur2":"#1858bf"},"newColors":{"couleur1":"#eaff05","couleur2":"#1858bf"}} 
+[2025-02-07 13:27:06] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 13:28:05] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 13:28:10] local.INFO: Dossier renommé avec succès : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio14 -> C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio  
+[2025-02-07 13:28:10] local.INFO: Mise à jour des chemins dans la base de données. {"imgLogo":"/entreprises/21_Elio/logos/logo.png","lienQr":"/entreprises/21_Elio/QR_Codes/QR_Code.svg"} 
+[2025-02-07 13:28:10] local.INFO: Informations de l'entreprise mises à jour avec succès. {"email":"cli@cli.fr","nomEntreprise":"Elio","tel":"0682087970","mail":"cli@cli.fr","adresse":"verdun"} 
+[2025-02-07 13:28:15] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 13:28:16] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#eaff05","couleur2":"#1858bf"},"newColors":{"couleur1":"#eaff05","couleur2":"#1858bf"}} 
+[2025-02-07 13:28:16] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 

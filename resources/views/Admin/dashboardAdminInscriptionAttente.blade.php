@@ -60,6 +60,7 @@
     @include('menu.menuAdmin')
     <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
         @if($messageContent != "Aucun message disponible" || empty($messageContent))
+            ²
             <div class="bg-zinc-400/45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
                  role="alert">
                 <strong class="font-bold">Information :</strong>
@@ -98,15 +99,20 @@
 
                     <!-- Buttons -->
                     <div class="flex flex-row justify-between">
-                        <form action="{{ route('inscription.ajout', $inscription->id_inscripAttente) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir accepter cette inscription ?');">
+                        <form action="{{ route('inscription.ajout', $inscription->id_inscripAttente) }}" method="POST"
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir accepter cette inscription ?');">
                             @csrf
                             @method('POST')
-                            <button type="submit" name="ajout" onclick="boutonInscriptionClient()" class="bg-indigo-500 text-white px-4 py-2 rounded-full">Ajouter</button>
+                            <button type="submit" name="ajout" onclick="boutonInscriptionClient()"
+                                    class="bg-indigo-500 text-white px-4 py-2 rounded-full">Ajouter
+                            </button>
                         </form>
-                        <form action="{{ route('inscription.destroy', $inscription->id_inscripAttente) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">
+                        <form action="{{ route('inscription.destroy', $inscription->id_inscripAttente) }}" method="POST"
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer</button>
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">Supprimer
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -114,6 +120,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

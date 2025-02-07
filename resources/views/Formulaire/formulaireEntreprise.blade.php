@@ -6,6 +6,23 @@
     <title>Modifier Entreprise</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <script>
+        // Fonction pour vérifier avant la soumission
+        function confirmEntrepriseModification(event) {
+            const form = event.target;
+            const nomActuel = "{{ $carte->nomEntreprise }}"; // Nom actuel de l'entreprise
+            const nomEntreprisInput = document.getElementById('nomEntreprise').value;
+
+            if (nomEntreprisInput !== nomActuel) {
+                const confirmation = confirm(
+                    'Attention : La modification du nom de l\'entreprise entraînera l\'invalidation de tous les anciens QR codes. Vous devrez régénérer tous les QR codes manuellement pour qu\'ils soient de nouveau utilisables. Voulez-vous continuer ?'
+                );
+                if (!confirmation) {
+                    event.preventDefault(); // Annule la soumission si l'utilisateur refuse
+                }
+            }
+        }
+    </script>
 </head>
 <body class="align-items-center bg-gray-100 w-100">
 <div class="flex flex-col md:flex-row">
@@ -28,7 +45,7 @@
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
-            <form action="{{ route('updateEntreprise') }}" method="POST" class="bg-white p-4 rounded-lg shadow-lg">
+            <form action="{{ route('updateEntreprise') }}" method="POST" class="bg-white p-4 rounded-lg shadow-lg" onsubmit="confirmEntrepriseModification(event)">
                 @csrf
                 @method('POST')
                 <div class="mb-4">
@@ -37,15 +54,15 @@
                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
-                    <label for="mail" class="block text-gray-700 text-sm font-bold mb-2">adresse mail</label>
+                    <label for="mail" class="block text-gray-700 text-sm font-bold mb-2">Adresse mail</label>
                     <input type="email" id="mail" name="mail" value="{{ $carte->compte->email }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
-                    <label for="tel" class="block text-gray-700 text-sm font-bold mb-2">Telephone</label>
+                    <label for="tel" class="block text-gray-700 text-sm font-bold mb-2">Téléphone</label>
                     <input type="text" id="tel" name="tel" value="{{ $carte->tel }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
-                    <label for="adresse" class="block text-gray-700 text-sm font-bold mb-2">adresse</label>
+                    <label for="adresse" class="block text-gray-700 text-sm font-bold mb-2">Adresse</label>
                     <input type="text" id="adresse" name="adresse" value="{{ $carte->ville }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="flex items-center justify-between">
