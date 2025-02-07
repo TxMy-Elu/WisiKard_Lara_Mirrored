@@ -161,7 +161,9 @@
                                 @if($logoPath)
                                     <img src="{{ $logoPath }}" alt="Logo" class="w-full h-auto rounded-lg">
                                 @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                         stroke-linecap="round" stroke-linejoin="round">
                                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                                         <circle cx="8.5" cy="8.5" r="1.5"></circle>
                                         <polyline points="21 15 16 10 5 21"></polyline>
@@ -181,7 +183,7 @@
             <!-- Font (div5) -->
             <div class="relative col-span-2 row-span-1 ">
                 <!-- La zone floutée -->
-                <div class="bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
+                <div class="bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif mb-2">
                     <form action="{{ 'updateFont' }}" method="POST">
                         @csrf
                         @method('PATCH')
@@ -220,7 +222,79 @@
                         </div>
                     </form>
                 </div>
+
+
+                <!-- Section contenant le titre, descriptif et le bouton -->
+                <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col relative">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex flex-col">
+                            @if($carte->titre)
+                                <p class="text-xl font-semibold text-gray-800">Titre: {{$carte->titre}}</p>
+                            @else
+                                <p class="text-xl font-semibold text-gray-800">Titre: Non défini</p>
+                            @endif
+
+                            @if($carte->descriptif)
+                                <p class="text-lg text-gray-600">Description: {{$carte->descriptif}}</p>
+                            @else
+                                <p class="text-lg text-gray-600">Description: Non défini</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <!-- Bouton pour ouvrir le modal -->
+                        <button class="bg-indigo-500 text-white p-2 rounded-full text-sm"
+                                onclick="document.getElementById('modalForm').classList.remove('hidden')">
+                            Ajouter / Modifier Titre et Description
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div id="modalForm"
+                     class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden z-50">
+                    <div class="bg-white rounded-lg shadow-xl p-6 w-1/3 relative">
+                        <!-- Bouton de fermeture du modal (croix) -->
+                        <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+                                onclick="document.getElementById('modalForm').classList.add('hidden')">
+                            ✕
+                        </button>
+
+                        <h2 class="text-xl font-bold mb-4">Modifier le titre et la description</h2>
+                        <form action="{{ route('dashboardClientInfo') }}" method="POST">
+                            @csrf
+                            <!-- Champ pour le titre -->
+                            <div class="mb-4">
+                                <label for="titre" class="block text-gray-700 font-semibold">Titre</label>
+                                <input type="text" id="titre" name="titre"
+                                       class="w-full border border-gray-300 rounded px-3 py-2"
+                                       placeholder="Entrez le titre"
+                                       value="{{$carte->titre}}">
+                            </div>
+                            <!-- Champ pour la description -->
+                            <div class="mb-4">
+                                <label for="descriptif" class="block text-gray-700 font-semibold">Description</label>
+                                <textarea id="descriptif" name="descriptif"
+                                          class="w-full border border-gray-300 rounded px-3 py-2"
+                                          placeholder="Entrez la description">{{$carte->descriptif}}</textarea>
+                            </div>
+                            <!-- Boutons du formulaire -->
+                            <div class="flex justify-end">
+                                <button type="button"
+                                        class="bg-gray-300 text-gray-700 px-3 py-2 rounded mr-2"
+                                        onclick="document.getElementById('modalForm').classList.add('hidden')">
+                                    Annuler
+                                </button>
+                                <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded">
+                                    Enregistrer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+
             <!-- QR Code (div2) -->
             <div class="col-span-1 row-span-2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
                 <!-- QR Code Image -->
@@ -635,6 +709,77 @@
                         </button>
                     </div>
                 </form>
+            </div>
+
+            <!-- Section mobile contenant le titre, descriptif et le bouton -->
+            <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col mb-4 relative">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex flex-col">
+                        <!-- Affichage conditionnel pour le Titre -->
+                        @if($carte->titre)
+                            <p class="text-xl font-semibold text-gray-800">Titre: {{$carte->titre}}</p>
+                        @else
+                            <p class="text-xl font-semibold text-gray-800">Titre: Non défini</p>
+                        @endif
+
+                        <!-- Affichage conditionnel pour la Description -->
+                        @if($carte->descriptif)
+                            <p class="text-lg text-gray-600">Description: {{$carte->descriptif}}</p>
+                        @else
+                            <p class="text-lg text-gray-600">Description: Non défini</p>
+                        @endif
+                    </div>
+                </div>
+                <div class="flex justify-end mt-4">
+                    <!-- Bouton pour ouvrir le modal -->
+                    <button class="bg-indigo-500 text-white p-2 rounded-full text-sm w-full"
+                            onclick="document.getElementById('modalFormMobile').classList.remove('hidden')">
+                        Ajouter / Modifier Titre et Description
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal mobile -->
+            <div id="modalFormMobile"
+                 class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden z-50">
+                <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 max-w-md relative">
+                    <!-- Bouton de fermeture du modal (croix) -->
+                    <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            onclick="document.getElementById('modalFormMobile').classList.add('hidden')">
+                        ✕
+                    </button>
+
+                    <h2 class="text-xl font-bold mb-4">Modifier le titre et la description</h2>
+                    <form action="{{ route('dashboardClientInfo') }}" method="POST">
+                        @csrf
+                        <!-- Champ pour le titre -->
+                        <div class="mb-4">
+                            <label for="titreMobile" class="block text-gray-700 font-semibold">Titre</label>
+                            <input type="text" id="titreMobile" name="titre"
+                                   class="w-full border border-gray-300 rounded px-3 py-2"
+                                   placeholder="Entrez le titre"
+                                   value="{{$carte->titre}}">
+                        </div>
+                        <!-- Champ pour la description -->
+                        <div class="mb-4">
+                            <label for="descriptifMobile" class="block text-gray-700 font-semibold">Description</label>
+                            <textarea id="descriptifMobile" name="descriptif"
+                                      class="w-full border border-gray-300 rounded px-3 py-2"
+                                      placeholder="Entrez la description">{{$carte->descriptif}}</textarea>
+                        </div>
+                        <!-- Boutons du formulaire -->
+                        <div class="flex justify-end">
+                            <button type="button"
+                                    class="bg-gray-300 text-gray-700 px-3 py-2 rounded mr-2"
+                                    onclick="document.getElementById('modalFormMobile').classList.add('hidden')">
+                                Annuler
+                            </button>
+                            <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <!-- QR Code (div2) -->

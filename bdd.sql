@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 15 jan. 2025 à 14:58
+-- Généré le : ven. 07 fév. 2025 à 09:57
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -11,10 +11,11 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données : `wisikard2`
@@ -28,26 +29,28 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `carte`;
 CREATE TABLE IF NOT EXISTS `carte` (
-    `idCarte` int NOT NULL AUTO_INCREMENT,
-    `nomEntreprise` varchar(255) NOT NULL,
-    `titre` varchar(150) NULL,
-    `tel` varchar(25)  NULL,
-    `ville` varchar(255) NULL,
+                                       `idCarte` int NOT NULL AUTO_INCREMENT,
+                                       `nomEntreprise` varchar(255) NOT NULL,
+    `titre` varchar(150) CHARACTER SET utf8  DEFAULT NULL,
+    `tel` varchar(25) NOT NULL,
+    `ville` varchar(255) NOT NULL,
     `imgPres` varchar(100) DEFAULT NULL,
     `imgLogo` varchar(100) DEFAULT NULL,
     `pdf` varchar(100) DEFAULT NULL,
     `nomBtnPdf` varchar(100) DEFAULT NULL,
     `couleur1` varchar(10) DEFAULT NULL,
     `couleur2` varchar(10) DEFAULT NULL,
-    `descriptif` varchar(500) DEFAULT NULL,
+    `descriptif` text CHARACTER SET utf8 ,
     `LienCommande` varchar(150) DEFAULT NULL,
     `lienQr` varchar(500) NOT NULL,
+    `lienPdf` varchar(500) DEFAULT NULL,
+    `font` varchar(500) CHARACTER SET utf8  NOT NULL DEFAULT 'roboto',
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
     PRIMARY KEY (`idCarte`),
     KEY `carte_compte_FK` (`idCompte`),
     KEY `carte_template_FK` (`idTemplate`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -64,7 +67,24 @@ CREATE TABLE IF NOT EXISTS `compte` (
     `tentativesCo` int NOT NULL DEFAULT '0',
     `estDesactiver` tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `custom_link`
+--
+
+DROP TABLE IF EXISTS `custom_link`;
+CREATE TABLE IF NOT EXISTS `custom_link` (
+                                             `id_link` int NOT NULL AUTO_INCREMENT,
+                                             `nom` varchar(150) NOT NULL,
+    `lien` varchar(300) DEFAULT NULL,
+    `activer` tinyint(1) NOT NULL DEFAULT '0',
+    `idCarte` int DEFAULT NULL,
+    PRIMARY KEY (`id_link`),
+    KEY `idCarte` (`idCarte`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -83,7 +103,45 @@ CREATE TABLE IF NOT EXISTS `employer` (
     `telephone` varchar(100) NOT NULL,
     PRIMARY KEY (`idEmp`),
     KEY `employer_carte_FK` (`idCarte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `horaires`
+--
+
+DROP TABLE IF EXISTS `horaires`;
+CREATE TABLE IF NOT EXISTS `horaires` (
+                                          `id` int NOT NULL AUTO_INCREMENT,
+                                          `idCarte` int NOT NULL,
+                                          `jour` varchar(255) NOT NULL,
+    `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `ouverture_matin` time DEFAULT NULL,
+    `fermeture_matin` time DEFAULT NULL,
+    `ouverture_aprmidi` time DEFAULT NULL,
+    `fermeture_aprmidi` time DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idCarte` (`idCarte`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `inscript_attente`
+--
+
+DROP TABLE IF EXISTS `inscript_attente`;
+CREATE TABLE IF NOT EXISTS `inscript_attente` (
+                                                  `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
+                                                  `nom_entre` varchar(150) NOT NULL,
+    `mail` varchar(150) NOT NULL,
+    `mdp` varchar(150) NOT NULL,
+    `role` varchar(150) NOT NULL,
+    `date_inscription` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_inscripAttente`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -100,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
     `idCompte` int NOT NULL,
     PRIMARY KEY (`idLog`),
     KEY `logs_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -114,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `message` (
                                          `message` varchar(500) NOT NULL,
     `afficher` tinyint(1) NOT NULL,
     PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -131,23 +189,7 @@ CREATE TABLE IF NOT EXISTS `reactivation` (
     PRIMARY KEY (`idReactivation`),
     UNIQUE KEY `codeReactivation` (`codeReactivation`),
     KEY `reactivation_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
--- --------------------------------------------------------
-
---
--- Structure de la table `inscript_attente`
---
-DROP TABLE IF EXISTS `inscript_attente`;
-CREATE TABLE IF NOT EXISTS `inscript_attente` (
-    `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
-    `nom_entre` varchar(150) NOT NULL,
-    `mail` varchar(150) NOT NULL,
-    `mdp` varchar(150) NOT NULL,
-    `role` varchar(150) NOT NULL,
-    `date_inscription` DATE NOT NULL,
-    PRIMARY KEY (`id_inscripAttente`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ;
-ALTER TABLE inscript_attente MODIFY date_inscription TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -164,28 +206,7 @@ CREATE TABLE IF NOT EXISTS `recuperation` (
     PRIMARY KEY (`idRecuperation`),
     UNIQUE KEY `codeRecuperation` (`codeRecuperation`),
     KEY `recuperation_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
-
-
--- -------------------------------------------------------
-
--- Structure de la table horaires
---
-
-DROP TABLE IF EXISTS horaires;
-CREATE TABLE IF NOT EXISTS horaires (
-                                        id int NOT NULL AUTO_INCREMENT,
-                                        idCarte int NOT NULL,
-                                        jour varchar(255) NOT NULL,
-    created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ouverture_matin time DEFAULT NULL,
-    fermeture_matin time DEFAULT NULL,
-    ouverture_aprmidi time DEFAULT NULL,
-    fermeture_aprmidi time DEFAULT NULL,
-    PRIMARY KEY (id),
-    KEY idCarte (idCarte)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -198,12 +219,11 @@ CREATE TABLE IF NOT EXISTS `rediriger` (
                                            `idSocial` int NOT NULL,
                                            `idCarte` int NOT NULL,
                                            `lien` varchar(500) DEFAULT NULL,
-    `activer` tinyint(1) NOT NULL DEFAULT '0',
+    `activer` tinyint(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (`idSocial`,`idCarte`),
     KEY `rediriger_carte_FK` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 -- --------------------------------------------------------
 
 --
@@ -213,10 +233,10 @@ CREATE TABLE IF NOT EXISTS `rediriger` (
 DROP TABLE IF EXISTS `social`;
 CREATE TABLE IF NOT EXISTS `social` (
                                         `idSocial` int NOT NULL AUTO_INCREMENT,
-                                        `nom` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    `lienLogo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                        `nom` varchar(500) CHARACTER SET utf8  NOT NULL,
+    `lienLogo` text CHARACTER SET utf8  NOT NULL,
     PRIMARY KEY (`idSocial`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -229,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `template` (
                                           `idTemplate` int NOT NULL AUTO_INCREMENT,
                                           `nom` varchar(50) NOT NULL,
     PRIMARY KEY (`idTemplate`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -239,32 +259,14 @@ CREATE TABLE IF NOT EXISTS `template` (
 
 DROP TABLE IF EXISTS `vue`;
 CREATE TABLE IF NOT EXISTS `vue` (
-    `idVue` int NOT NULL AUTO_INCREMENT,
-    `date` date NOT NULL,
-    `idCarte` int NOT NULL,
-    `idEmp` int DEFAULT NULL,
-    PRIMARY KEY (`idVue`),
+                                     `idVue` int NOT NULL AUTO_INCREMENT,
+                                     `date` date NOT NULL,
+                                     `idCarte` int NOT NULL,
+                                     `idEmp` int DEFAULT NULL,
+                                     PRIMARY KEY (`idVue`),
     KEY `vue_carte_FK` (`idCarte`),
     KEY `vue_employer_FK` (`idEmp`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
-
--- --------------------------------------------------------
--- Structure de la table custom_link
---
-
-DROP TABLE IF EXISTS custom_link;
-CREATE TABLE IF NOT EXISTS custom_link (
-      id_link int NOT NULL AUTO_INCREMENT,
-       nom varchar(150) NOT NULL,
-    lien varchar(300) DEFAULT NULL,
-    `activer` tinyint(1) NOT NULL DEFAULT '0',
-    idCarte int DEFAULT NULL,
-    PRIMARY KEY (id_link),
-    KEY idCarte (idCarte)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-
-
--- --------------------------------------------------------
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contraintes pour les tables déchargées
@@ -276,6 +278,12 @@ CREATE TABLE IF NOT EXISTS custom_link (
 ALTER TABLE `carte`
     ADD CONSTRAINT `carte_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE,
   ADD CONSTRAINT `carte_template_FK` FOREIGN KEY (`idTemplate`) REFERENCES `template` (`idTemplate`);
+
+--
+-- Contraintes pour la table `custom_link`
+--
+ALTER TABLE `custom_link`
+    ADD CONSTRAINT `fk_custom_link_carte` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`);
 
 --
 -- Contraintes pour la table `employer`
@@ -314,13 +322,6 @@ ALTER TABLE `rediriger`
 ALTER TABLE `vue`
     ADD CONSTRAINT `vue_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
   ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
-
---                                                                                                  --
--- Contraintes pour la table `vue`
---
-ALTER TABLE custom_link
-    ADD CONSTRAINT fk_custom_link_carte
-        FOREIGN KEY (idCarte) REFERENCES carte(idCarte);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -36,7 +36,6 @@ class Compte extends Model
         $entreprise = new Carte();
         $entreprise->idCompte = $nouvelUtilisateur->idCompte;
         $entreprise->nomEntreprise = $nomEntreprise;
-        $entreprise->titre = "titre";
         $entreprise->tel = "tel";
         $entreprise->ville = "ville";
         $entreprise->idTemplate = 1;
