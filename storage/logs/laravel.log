@@ -760,3 +760,59 @@
 [2025-02-07 14:09:28] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/33_esffesf/QR_Codes/QR_Code.svg  
 [2025-02-07 14:09:30] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/33_esffesf/QR_Codes/QR_Code.svg  
 [2025-02-07 14:09:30] local.INFO: QR Code for esffesf refreshed  
+[2025-02-07 14:38:03] local.INFO: Le compte de l'entreprise esffesf a été supprimé avec succès.  
+[2025-02-07 14:38:03] local.INFO: La carte de l'entreprise esffesf a été supprimée avec succès.  
+[2025-02-07 14:38:03] local.INFO: Le dossier de l'entreprise esffesf a été supprimé avec succès.  
+[2025-02-07 14:38:03] local.ERROR: Aucun compte trouvé pour l'adresse email : cli@cli.fref  
+[2025-02-07 14:38:13] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 14:55:55] local.INFO: Informations mises à jour pour idCompte: 21  
+[2025-02-07 14:55:55] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 14:56:42] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 14:57:05] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 14:57:24] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 14:58:17] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:11:07] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:11:38] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:12:05] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:12:13] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:17:29] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:18:03] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:18:30] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:18:35] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:34:11] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:34:14] local.INFO: Logo supprimé avec succès {"email":"cli@cli.fr","logoPath":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:34:14] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:34:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:34:29] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:35:00] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:35:04] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:35:09] local.INFO: Logo téléchargé avec succès {"email":"cli@cli.fr","fileName":"logo.png"} 
+[2025-02-07 15:35:09] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:35:16] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:55:55] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:55:58] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:56:00] local.INFO: Logo supprimé avec succès {"email":"cli@cli.fr","logoPath":"C:\\wamp64\\www\\stage\\WisiKard_Lara\\public\\entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:56:00] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:05] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:20] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:34] local.WARNING: Logo non trouvé pour la suppression {"email":"cli@cli.fr"} 
+[2025-02-07 15:56:34] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-07 15:56:39] local.INFO: Logo téléchargé avec succès {"email":"cli@cli.fr","fileName":"logo.png"} 
+[2025-02-07 15:56:39] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png"} 
+[2025-02-07 15:56:47] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 15:56:58] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#eaff05","couleur2":"#1858bf"},"newColors":{"couleur1":"#22ec7a","couleur2":"#17325e"}} 
+[2025-02-07 15:56:59] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\stage\WisiKard_Lara\public\entreprises/21_Elio/QR_Codes/QR_Code.svg  
+[2025-02-07 15:56:59] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
