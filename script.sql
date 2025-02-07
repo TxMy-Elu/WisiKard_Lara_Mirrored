@@ -46,9 +46,9 @@ DROP TABLE IF EXISTS `carte`;
 CREATE TABLE IF NOT EXISTS `carte` (
     `idCarte` int NOT NULL AUTO_INCREMENT,
     `nomEntreprise` varchar(255) NOT NULL,
-    `titre` varchar(150) NOT NULL,
-    `tel` varchar(25) NOT NULL,
-    `ville` varchar(255) NOT NULL,
+    `titre` varchar(150) NULL,
+    `tel` varchar(25) NULL,
+    `ville` varchar(255) NULL,
     `imgPres` varchar(100) DEFAULT NULL,
     `imgLogo` varchar(100) DEFAULT NULL,
     `pdf` varchar(100) DEFAULT NULL,
