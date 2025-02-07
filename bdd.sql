@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `inscript_attente` (
     `role` varchar(150) NOT NULL,
     `date_inscription` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_inscripAttente`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -323,6 +323,11 @@ ALTER TABLE `vue`
     ADD CONSTRAINT `vue_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
   ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
 COMMIT;
+
+ALTER TABLE custom_link
+    ADD CONSTRAINT fk_custom_link_carte
+        FOREIGN KEY (idCarte) REFERENCES carte (idCarte)
+            ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
