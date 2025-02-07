@@ -15,6 +15,14 @@
         </div>
         <div class="justify-center mt-10">
             <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Wisikard</h1>
+
+            <!-- Afficher le message de succès -->
+            @if(session('success'))
+                <div class="mt-4 p-2 bg-green-200 text-green-800 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <div class="mt-10">
                 <form action="{{ route('boutonInscriptionClient') }}" method="post">
                     @csrf
@@ -46,7 +54,7 @@
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                required>
                     </div>
-                <input id="prodId" name="prodId" type="hidden" value="{{ isset($_GET['role']) ? htmlspecialchars($_GET['role']) : '' }}" />
+                    <input id="prodId" name="prodId" type="hidden" value="{{ isset($_GET['role']) ? htmlspecialchars($_GET['role']) : '' }}" />
                     <div class="mb-6">
                         @include('messageErreur')
                         <div class="mb-4">

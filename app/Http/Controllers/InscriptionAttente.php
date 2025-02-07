@@ -141,6 +141,8 @@ class InscriptionAttente extends Controller
                     'date_inscription' => $date,
                 ]);
                 Logs::ecrireLog($request->input('mail'), "Inscription");
+                session()->flash('success', 'Inscription réussie en attente de l\'approbation de l\'administrateur.');
+
                 return view('Formulaire.formulaireInscriptionClient', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
             }
         }
