@@ -1015,28 +1015,28 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion'); // Récupérer l'ID du compte
         $carte = Carte::where('idCompte', $idCompte)->first();
-
+    
         // Vérification si la carte est introuvable
         if (!$carte) {
             Log::warning('Carte non trouvée pour la suppression d\'image du slider');
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-
+    
         Log::info('Carte trouvée : ' . $carte->nomEntreprise);
-
+    
         // Construire le nom du répertoire tout en conservant les majuscules
         $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
         $sliderImagesPath = public_path("entreprises/{$folderName}/slider");
-
+    
         Log::info('Chemin des images slider : ' . $sliderImagesPath);
-
+    
         // Vérifier si le répertoire existe
         if (!File::exists($sliderImagesPath)) {
             Log::error('Répertoire slider inexistant : ' . $sliderImagesPath);
             return redirect()->back()->with('error', 'Aucune image trouvée.');
         }
-
+    
         // Récupérer tous les fichiers présents dans le répertoire slider
         $sliderImages = File::files($sliderImagesPath);
         $sliderImages = array_map(function ($file) {
@@ -1045,8 +1045,8 @@ class DashboardClient extends Controller
 
         // Récupérer le nom du fichier envoyé dans la requête
         $filename = $request->input('filename');
-        Log::info('Nom du fichier demandé pour suppression : ' . $filename);
-
+            Log::info('Nom du fichier demandé pour suppression : ' . $filename);
+    
         // Vérifier si le fichier existe dans la liste des fichiers
         if (in_array($filename, $sliderImages)) {
             $filePath = "{$sliderImagesPath}/{$filename}";
@@ -1072,14 +1072,14 @@ class DashboardClient extends Controller
             }
 
             Log::warning('Fichier trouvé dans la liste mais inexistant ou inaccessible : ' . $filePath);
-        } else {
+            } else {
             // L'image n'est pas trouvée dans la liste
             Log::error('Image non trouvée dans la liste des fichiers du slider : ' . $filename);
         }
-
+    
         return redirect()->back()->with('error', 'Image non trouvée.');
     }
-
+    
 
     /**
      * Supprime un fichier PDF associé à une carte, ainsi que ses métadonnées dans la base de données.
@@ -1239,68 +1239,71 @@ class DashboardClient extends Controller
     {
         // Récupérer l'ID de compte depuis la session
         $idCompte = session('connexion');
-
+    
         // Trouver la carte associée au compte
         $carte = Carte::where('idCompte', $idCompte)->first();
-
-        // Vérification si la carte existe
+    
+        // Vérifier si la carte existe
         if (!$carte) {
             Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
-            return redirect()->back()->with('error', 'Compte non trouvé.');
+            return response()->json(['error' => 'Compte introuvable.'], 404);
         }
-
-        // Construire le chemin cible pour le stockage
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise); // Nettoyer le nom de l'entreprise
+    
+        // Construire le chemin de destination pour le slider
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
-
+    
         try {
             // Valider les données de la requête
-            $validated = $request->validate([
-                'image' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Taille max : 2MB et formats appropriés
+            $request->validate([
+                'image.*' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Taille max : 2MB et formats appropriés
             ]);
-
-            // Récupérer le fichier uploadé
-            $file = $request->file('image');
-
-            // Vérification du type MIME réel du fichier uploadé
-            $realMimeType = $file->getMimeType();
-            $allowedMimeTypes = ['image/jpeg', 'image/png'];
-            if (!in_array($realMimeType, $allowedMimeTypes)) {
-                Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
-                return redirect()->back()->with('error', 'Type de fichier non autorisé.');
-            }
-
-            // Générer un nom de fichier unique
-            $fileName = uniqid() . '_' . $file->getClientOriginalName();
-
+    
+            // Récupérer les fichiers téléchargés
+            $files = $request->file('image');
+    
             // Vérifier et créer le répertoire de destination si nécessaire
             if (!File::exists(public_path($destinationPath))) {
                 File::makeDirectory(public_path($destinationPath), 0755, true);
                 Log::info("Création du dossier : {$destinationPath}");
             }
-
-            // Déplacer le fichier vers le répertoire cible
-            $file->move(public_path($destinationPath), $fileName);
-            Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
-
+    
+            // Enregistrer chaque fichier
+            foreach ($files as $file) {
+                // Vérification du type MIME réel du fichier téléchargé
+                $realMimeType = $file->getMimeType();
+                $allowedMimeTypes = ['image/jpeg', 'image/png'];
+                if (!in_array($realMimeType, $allowedMimeTypes)) {
+                    Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
+                    return response()->json(['error' => 'Type de fichier non autorisé.'], 400);
+                }
+    
+                // Générer un nom de fichier unique
+                $fileName = uniqid() . '_' . $file->getClientOriginalName();
+    
+                // Déplacer le fichier vers le répertoire cible
+                $file->move(public_path($destinationPath), $fileName);
+                Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
+            }
+    
             // Enregistrer un log personnalisé en base de données
             Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
-
+    
             // Retourner un message de succès
-            return redirect()->back()->with('success', 'Image téléchargée avec succès.');
-
+            return response()->json(['success' => 'Images téléchargées avec succès.']);
+    
         } catch (\Exception $e) {
             // Gestion des erreurs (exceptions)
             Log::error("Erreur lors du téléchargement de l'image pour le compte : {$idCompte}. Message : {$e->getMessage()}");
-
+    
             // Ajouter un log d'erreur personnalisé en base de données
             Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
-
+    
             // Retourner un message d'erreur
-            return redirect()->back()->with('error', 'Erreur lors du téléchargement de l\'image.');
+            return response()->json(['error' => 'Erreur lors du traitement des fichiers.'], 500);
         }
     }
-
+    
     /**
      * Met à jour les informations d'une carte, telles que le titre et la description.
      *

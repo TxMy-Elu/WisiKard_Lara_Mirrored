@@ -1,70 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Client PDF</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
-    <style>
-        /* Styles pour la version mobile */
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-            }
-            .col-span-2 {
-                grid-column: span 1;
-            }
-            .row-span-2 {
-                grid-row: span 1;
-            }
-            .row-span-3 {
-                grid-row: span 1;
-            }
-            .col-span-4 {
-                grid-column: span 1;
-            }
-            .row-span-4 {
-                grid-row: span 1;
-            }
-            .md\:flex-nowrap {
-                flex-wrap: wrap;
-            }
-            .md\:space-x-12 {
-                margin-bottom: 1rem;
-            }
-            .md\:w-1\/2 {
-                width: 100%;
-            }
-            .md\:w-1\/3 {
-                width: 100%;
-            }
-            .md\:ml-24 {
-                margin-left: 0;
-            }
-            .flex-1 {
-                flex: 1 1 100%;
-            }
-            .h-96 {
-                height: auto;
-            }
-            .w-86 {
-                width: 100%;
-            }
-            .h-40 {
-                height: 200px;
-            }
-            .w-32 {
-                width: 100%;
-            }
-            .h-32 {
-                height: auto;
-            }
-            .p-32 {
-                padding: 2rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 
@@ -199,20 +142,20 @@
                         @endif
                         <p class="text-sm text-gray-500 mt-2">Aperçu du PDF actuel</p>
                     </div>
-                </div>
 
-                @if($carte->pdf)
-                    <!-- delete du PDF -->
-                    <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
-                          class="mt-4 w-full flex justify-end">
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
-                            Supprimer
-                        </button>
-                    </form>
-                @endif
+                    @if($carte->pdf)
+                        <!-- delete du PDF -->
+                        <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
+                              class="mt-4 w-full flex justify-end">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                                Supprimer
+                            </button>
+                        </form>
+                    @endif
+                </div>
             </div>
 
             <!-- Formulaire YouTube div3 -->
@@ -439,22 +382,19 @@
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
                         <!-- Formulaire d'upload -->
-                        <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
-                              enctype="multipart/form-data"
-                              class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
-                            @csrf
-                            <div>
-                                <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
-                                    Sélectionner une image :
-                                </label>
-                                <input type="file" id="image" name="image"
-                                       class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
-                                       accept=".jpg,.jpeg,.png">
-                            </div>
+                        <div id="dropzone-container" class="dropzone-container bg-white rounded-lg shadow-md col-span-2 row-span-2 p-6 h-96 flex flex-col">
+    <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
+    <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="dropzone" id="image-dropzone">
+        @csrf
+        <div class="dz-message">
+            <p>Glissez-déposez vos images ici ou cliquez pour télécharger</p>
+        </div>
+    </form>
+</div>
+
 
                             <div class="flex justify-end">
-                                <button type="submit"
-                                        class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                <button type="submit" class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                                     Enregistrer
                                 </button>
                             </div>
@@ -572,6 +512,24 @@
         // Soumettre le formulaire
         uploadForm.submit();
     }
+
+    Dropzone.options.imageDropzone = {
+        url: "{{ route('dashboardClientPDF.uploadSlider') }}",
+        paramName: "image", // Nom du paramètre pour les fichiers
+        maxFilesize: 2, // Taille maximale des fichiers en Mo
+        acceptedFiles: ".jpeg,.jpg,.png", // Types de fichiers acceptés
+        dictDefaultMessage: "Glissez-déposez vos images ici ou cliquez pour télécharger",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        success: function(file, response) {
+            console.log(response);
+            // Gérer la réponse du serveur
+        },
+        error: function(file, response) {
+            console.error('Erreur:', response);
+        }
+    };
 </script>
 </body>
 </html>
