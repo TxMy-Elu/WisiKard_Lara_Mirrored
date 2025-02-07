@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 
 class Compte extends Model
 {
@@ -158,9 +159,9 @@ class Compte extends Model
 
         // Enregistrer le contenu dans le fichier SVG
         if (file_put_contents($svgFilePath, $content) !== false) {
-            echo "QR Code enregistré avec succès ! Chemin : {$svgFilePath}";
+          Log::info("Fichier QR Code enregistré avec succès : {$svgFilePath}");
         } else {
-            echo "Échec de l'enregistrement du fichier QR Code.";
+            Log::error("Impossible d'enregistrer le fichier QR Code : {$svgFilePath}");
         }
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carte;
 use App\Models\Compte;
 use App\Models\Logs;
+use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 
 class Inscription extends Controller
@@ -54,11 +56,42 @@ class Inscription extends Controller
                 Compte::inscription($_POST["email"], $motDePasseHashe, $_POST["role"], $_POST["entreprise"]);
                 Logs::ecrireLog($_POST["email"], "Inscription");
 
-                return view('Formulaire.formulaireInscription', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter", 'roles' => $roles]);
+
+                // Récupération des entreprises et des mails des comptes
+                $entreprises = Carte::join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+                    ->select('carte.*', 'compte.*')
+                    ->get();
+
+                // Formatage des numéros de téléphone de chaque entreprise
+                foreach ($entreprises as $entreprise) {
+                    $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
+                }
+
+                // Récupération du dernier message à afficher
+                $message =Message::orderBy('id', 'desc')->first();
+                $messageContent = $message ? $message->message : 'Aucun message disponible';
+
+                return view('Admin.dashboardAdmin', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter", 'roles' => $roles, 'entreprises' => $entreprises, 'messageContent' => $messageContent]);
             }
         }
 
         // Si le formulaire n'est pas soumis, afficher le formulaire avec les rôles
         return view('Formulaire.formulaireInscription', ['roles' => $roles]);
     }
+
+    /**
+     * Formate un numéro de téléphone en ajoutant un point entre chaque groupe de deux chiffres.
+     *
+     * @param string $phoneNumber Numéro de téléphone à formater.
+     * @return string Le numéro de téléphone formaté avec des points entre chaque groupe de deux chiffres.
+     *
+     * Cette méthode utilise une expression régulière pour diviser le numéro de téléphone en groupes
+     * de deux chiffres, en insérant un point (.) après chaque groupe, sauf le dernier.
+     * Par exemple, un numéro "0612345678" sera transformé en "06.12.34.56.78".
+     */
+    private function formatPhoneNumber($phoneNumber)
+    {
+        return preg_replace("/(\d{2})(?=\d)/", "$1.", $phoneNumber);
+    }
+
 }
