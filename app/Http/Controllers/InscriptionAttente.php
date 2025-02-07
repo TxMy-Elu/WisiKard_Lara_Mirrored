@@ -57,46 +57,60 @@ class InscriptionAttente extends Controller
     public function ajout($id)
     {
         try {
+            // Vérifier si l'inscription existe
+            if (!Inscription_attente::existeId($id)) {
+                Log::error('Inscription non trouvée', ['id_inscripAttente' => $id]);
+                return redirect()->back()->withErrors(['error' => 'L\'inscription demandée n\'existe pas.']);
+            }
+    
             // Récupérer l'inscription spécifique en utilisant l'ID
-            $inscription = Inscription_attente::findOrFail($id); // Corrigé ici
-
+            $inscription = Inscription_attente::findOrFail($id);
+    
             // Créer un nouveau compte
             $nouvelUtilisateur = new Compte();
             $nouvelUtilisateur->email = $inscription->mail;
             $nouvelUtilisateur->password = $inscription->mdp;
             $nouvelUtilisateur->role = $inscription->role;
             $nouvelUtilisateur->save();
-
+    
             // Insérer les informations dans la table `carte`
             $carte = new Carte();
             $carte->nomEntreprise = $inscription->nom_entre;
-            $carte->titre = NULL;
-            $carte->tel = NULL;
-            $carte->ville = NULL;
+            $carte->titre = 'Sans titre'; // Fournir une valeur par défaut
+            $carte->tel = 'Non fourni'; // Fournir une valeur par défaut
+            $carte->ville = 'Non spécifiée'; // Fournir une valeur par défaut
             $carte->idCompte = $nouvelUtilisateur->idCompte;
             $carte->idTemplate = 1; // ID de template par défaut
             $carte->couleur1 = "#000000";
             $carte->couleur2 = "#FFFFFF";
             $carte->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$inscription->nom_entre}/QR_Codes/QR_Code.svg";
+    
+            // Log avant la sauvegarde pour vérifier les données
+            Log::info('Données de la carte avant sauvegarde', [
+                'nomEntreprise' => $carte->nomEntreprise,
+                'idCompte' => $carte->idCompte,
+                'lienQr' => $carte->lienQr,
+            ]);
+    
             $carte->save();
-
+    
             // Appeler les méthodes pour générer le QR Code et la vCard
             Compte::QrCode($nouvelUtilisateur->idCompte, $inscription->nom_entre);
             Compte::creerVCard($carte->nomEntreprise, $carte->tel, $nouvelUtilisateur->email, $nouvelUtilisateur->idCompte);
-
-            // Supprimer l'inscription de la table `inscription_attente`
+    
+            // Supprimer l'inscription de la table `inscript_attente`
             $inscription->delete();
-
+    
             // Enregistrer un log
             Logs::ecrireLog($inscription->mail, "Inscription ajoutée à la table carte");
-
+    
             return redirect()->route('InscriptionAttente')->with('success', 'L\'inscription a été ajoutée à la table carte avec succès.');
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'ajout de l\'inscription à la table carte', ['id_inscripAttente' => $id, 'error' => $e->getMessage()]);
             return redirect()->back()->withErrors(['error' => 'Une erreur est survenue lors de l\'ajout de l\'inscription à la table carte.']);
         }
     }
-
+    
     /**
      * Ajoute une nouvelle inscription dans la table inscription_attente.
      *
@@ -141,8 +155,9 @@ class InscriptionAttente extends Controller
                     'date_inscription' => $date,
                 ]);
                 Logs::ecrireLog($request->input('mail'), "Inscription");
-                session()->flash('success', 'Inscription réussie en attente de l\'approbation de l\'administrateur.');
 
+                session()->flash('success', 'Inscription réussie en attente de l\'approbation de l\'administrateur.');
+               
                 return view('Formulaire.formulaireInscriptionClient', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
             }
         }

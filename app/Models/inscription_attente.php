@@ -28,6 +28,11 @@ class Inscription_attente extends Model
         }
     }
 
+    public static function existeId($id)
+    {
+        return self::where('id_inscripAttente', $id)->exists();
+    }
+    
     public static function inscription_attente($email, $motDePasseHache, $role, $nomEntreprise)
     {
         date_default_timezone_get();
