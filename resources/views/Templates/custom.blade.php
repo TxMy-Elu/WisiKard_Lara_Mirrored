@@ -13,9 +13,8 @@
 </head>
 <body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
 
-
 <!-- Presentation entreprise -->
-<div class=" w-full h-52 text-white p-4 rounded-sm" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
+<div class=" w-full h-56 text-white p-4 rounded-sm" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
 ">
 
 <!-- Logo -->
@@ -42,6 +41,13 @@
     @if($carte['nomEntreprise'])
         <div class="mt-2">
             <h1 class="text-white text-3xl text-center">{{ $carte['nomEntreprise'] }}</h1>
+        </div>
+    @endif
+
+    <!-- Titre de l'entreprise -->
+    @if($carte['titre'])
+        <div>
+            <h2 class="text-white text-center text-lg">{{ $carte['titre'] }}</h2>
         </div>
     @endif
 

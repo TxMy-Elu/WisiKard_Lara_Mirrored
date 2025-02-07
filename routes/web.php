@@ -26,7 +26,7 @@ Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('rea
 Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
 
 // Routes Templates
-Route::get('/Templates', [Templates::class, 'afficherTemplates'])->name('Templates');
+Route::get('/Kard/{companyName}', [Templates::class, 'afficherTemplates'])->name('Templates');
 Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
 
 // Routes protégées par authentification

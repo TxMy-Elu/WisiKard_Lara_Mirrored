@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 
 class Compte extends Model
 {
@@ -114,9 +115,12 @@ class Compte extends Model
         $color1 = ltrim($color1, '#');
         $color2 = ltrim($color2, '#');
 
+        //nom de l'entreprise
+        $nomEntreprise = $carte->nomEntreprise;
+
         // Construire l'URL pour générer le QR Code depuis QuickChart.io
         $baseUrl = "https://quickchart.io/qr";
-        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Templates?idCompte={$id}";
+        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Kard/{$nomEntreprise}?idCompte={$id}";
 
         // Utiliser cURL pour effectuer une requête à l'API
         $ch = curl_init();
@@ -150,14 +154,14 @@ class Compte extends Model
 
         // Créer le répertoire s'il n'existe pas (en respectant la casse)
         if (!file_exists($directoryPath)) {
-            mkdir($directoryPath, 0777, true); // Création récursive avec permissions
+            mkdir($directoryPath, 0755, true); // Création récursive avec permissions
         }
 
         // Enregistrer le contenu dans le fichier SVG
         if (file_put_contents($svgFilePath, $content) !== false) {
-            echo "QR Code enregistré avec succès ! Chemin : {$svgFilePath}";
+          Log::info("Fichier QR Code enregistré avec succès : {$svgFilePath}");
         } else {
-            echo "Échec de l'enregistrement du fichier QR Code.";
+            Log::error("Impossible d'enregistrer le fichier QR Code : {$svgFilePath}");
         }
     }
 }
