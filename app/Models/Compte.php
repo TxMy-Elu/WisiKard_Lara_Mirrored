@@ -154,7 +154,7 @@ class Compte extends Model
 
         // Créer le répertoire s'il n'existe pas (en respectant la casse)
         if (!file_exists($directoryPath)) {
-            mkdir($directoryPath, 0777, true); // Création récursive avec permissions
+            mkdir($directoryPath, 0755, true); // Création récursive avec permissions
         }
 
         // Enregistrer le contenu dans le fichier SVG
