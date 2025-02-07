@@ -199,6 +199,8 @@ Directory structure:
     ├── server.php
     ├── webpack.mix.js
     ├── .env.example
+    ├── .env.prod
+    ├── .htaccess
     ├── .styleci.yml
     ├── app/
     │   ├── Console/
@@ -236,10 +238,9 @@ Directory structure:
     │   ├── Models/
     │   │   ├── Carte.php
     │   │   ├── Compte.php
-    │   │   ├── Custom_Link.php
+    │   │   ├── Custom_link.php
     │   │   ├── Employer.php
     │   │   ├── Horaires.php
-    │   │   ├── Inscription_attente.php
     │   │   ├── Logs.php
     │   │   ├── Message.php
     │   │   ├── Reactivation.php
@@ -247,7 +248,8 @@ Directory structure:
     │   │   ├── Rediriger.php
     │   │   ├── Social.php
     │   │   ├── Template.php
-    │   │   └── Vue.php
+    │   │   ├── Vue.php
+    │   │   └── inscription_attente.php
     │   └── Providers/
     │       ├── AppServiceProvider.php
     │       ├── AuthServiceProvider.php
@@ -287,25 +289,12 @@ Directory structure:
     │       └── DatabaseSeeder.php
     ├── public/
     │   ├── index.php
+    │   ├── mix-manifest.json
     │   ├── robots.txt
     │   ├── css/
+    │   │   ├── app.css
     │   │   └── styles.css
     │   ├── entreprises/
-    │   │   ├── 14_nomEntreprise/
-    │   │   │   └── QR_Codes/
-    │   │   ├── 14_nomentreprise/
-    │   │   │   └── images/
-    │   │   ├── 1_lidl/
-    │   │   │   ├── QR_Codes/
-    │   │   │   ├── images/
-    │   │   │   ├── logos/
-    │   │   │   ├── slider/
-    │   │   │   └── videos/
-    │   │   │       └── videos.json
-    │   │   ├── 23_OUIOUI/
-    │   │   │   └── QR_Codes/
-    │   │   ├── 2_Entreprise2/
-    │   │   │   └── QR_Codes/
     │   │   ├── 3_Entreprise3/
     │   │   │   └── QR_Codes/
     │   │   ├── 4_Entreprise4/
@@ -313,7 +302,9 @@ Directory structure:
     │   │   └── 6_1/
     │   │       └── QR_Codes/
     │   ├── icons/
-    │   └── images/
+    │   ├── images/
+    │   └── js/
+    │       └── app.js
     ├── resources/
     │   ├── css/
     │   │   └── app.css
@@ -334,6 +325,7 @@ Directory structure:
     │       ├── welcome.blade.php
     │       ├── Admin/
     │       │   ├── dashboardAdmin.blade.php
+    │       │   ├── dashboardAdminInscriptionAttente.blade.php
     │       │   ├── dashboardAdminMessage.blade.php
     │       │   └── dashboardAdminStatistique.blade.php
     │       ├── Client/
@@ -348,21 +340,24 @@ Directory structure:
     │       │   ├── formulaireEmploye.blade.php
     │       │   ├── formulaireEntreprise.blade.php
     │       │   ├── formulaireInscription.blade.php
+    │       │   ├── formulaireInscriptionClient.blade.php
     │       │   ├── formulaireInscriptionEmploye.blade.php
     │       │   ├── formulaireModifEmploye.blade.php
+    │       │   ├── formulaireModifMDP.blade.php
     │       │   └── formulaireRecuperation.blade.php
     │       ├── Templates/
+    │       │   ├── base.blade.php
+    │       │   ├── classy.blade.php
+    │       │   ├── custom.blade.php
+    │       │   ├── oxygen.blade.php
+    │       │   ├── pomme.blade.php
     │       │   └── Iframe/
     │       │       ├── fraise.blade.php
     │       │       ├── peche.blade.php
     │       │       └── pomme.blade.php
-    │       ├── menu/
-    │       │   ├── menuAdmin.blade.php
-    │       │   └── menuClient.blade.php
-    │       └── templates/
-    │           ├── fraise.blade.php
-    │           ├── peche.blade.php
-    │           └── pomme.blade.php
+    │       └── menu/
+    │           ├── menuAdmin.blade.php
+    │           └── menuClient.blade.php
     ├── routes/
     │   ├── api.php
     │   ├── channels.php
