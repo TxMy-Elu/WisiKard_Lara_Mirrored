@@ -3,3 +3,15 @@
 [2025-02-06 16:39:10] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-02-06 16:41:47] local.INFO: Lien personnalisé ajouté avec succès {"email":"cli@cli.fr","nom":"test","lien":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"} 
 [2025-02-06 16:42:13] local.INFO: Lien personnalisé mis à jour avec succès {"email":"cli@cli.fr","id_link":"4","lien":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","activer":1} 
+[2025-02-07 08:06:47] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 08:07:06] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#00ffbf","couleur2":"#0a2547"},"newColors":{"couleur1":"#00ffbf","couleur2":"#ea7f06"}} 
+[2025-02-07 08:07:07] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 08:07:19] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#00ffbf","couleur2":"#ea7f06"},"newColors":{"couleur1":"#720808","couleur2":"#ea7f06"}} 
+[2025-02-07 08:07:19] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 08:07:28] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#720808","couleur2":"#ea7f06"},"newColors":{"couleur1":"#ce870d","couleur2":"#ea7f06"}} 
+[2025-02-07 08:07:28] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 08:07:31] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#ce870d","couleur2":"#ea7f06"},"newColors":{"couleur1":"#ce870d","couleur2":"#ea0606"}} 
+[2025-02-07 08:07:31] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 08:07:48] local.INFO: Couleurs mises à jour avec succès {"email":"cli@cli.fr","oldColors":{"couleur1":"#ce870d","couleur2":"#ea0606"},"newColors":{"couleur1":"#07df7a","couleur2":"#3406ea"}} 
+[2025-02-07 08:07:48] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-07 08:31:50] local.INFO: Employé modifié avec succès.  
