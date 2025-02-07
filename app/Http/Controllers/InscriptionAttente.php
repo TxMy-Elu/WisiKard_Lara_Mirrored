@@ -133,14 +133,13 @@ class InscriptionAttente extends Controller
                 date_default_timezone_get();
                 $date = date('Y/m/d');
 
-                Inscription_attente::create([ // Corrigé ici
+                inscription_attente::create([ // Corrigé ici
                     'nom_entre' => $request->input('entreprise'),
                     'mail' => $request->input('mail'),
                     'mdp' => $motDePasseHashe,
                     'role' => $role,
                     'date_inscription' => $date,
                 ]);
-
                 Logs::ecrireLog($request->input('mail'), "Inscription");
                 return view('Formulaire.formulaireInscriptionClient', ["messageSucces" => "Inscription réussie, vous pouvez maintenant vous connecter"]);
             }
