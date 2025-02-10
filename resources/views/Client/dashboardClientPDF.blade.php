@@ -382,23 +382,17 @@
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
                         <!-- Formulaire d'upload -->
-                        <div id="dropzone-container" class="dropzone-container bg-white rounded-lg shadow-md col-span-2 row-span-2 p-6 h-96 flex flex-col">
-    <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
-    <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="dropzone" id="image-dropzone">
-        @csrf
-        <div class="dz-message">
-            <p>Glissez-déposez vos images ici ou cliquez pour télécharger</p>
-        </div>
-    </form>
-</div>
+                    <form id="image-dropzone-form" action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="dropzone" id="image-dropzone"></div>
+                        <div class="flex justify-end mt-4">
+                            <button type="button" id="submit-button" class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
 
 
-                            <div class="flex justify-end">
-                                <button type="submit" class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    Enregistrer
-                                </button>
-                            </div>
-                        </form>
 
                         <!-- Affichage des images dans la galerie -->
                         <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
@@ -512,22 +506,50 @@
         // Soumettre le formulaire
         uploadForm.submit();
     }
-
-    Dropzone.options.imageDropzone = {
+  Dropzone.options.imageDropzone = {
         url: "{{ route('dashboardClientPDF.uploadSlider') }}",
         paramName: "image", // Nom du paramètre pour les fichiers
         maxFilesize: 2, // Taille maximale des fichiers en Mo
         acceptedFiles: ".jpeg,.jpg,.png", // Types de fichiers acceptés
         dictDefaultMessage: "Glissez-déposez vos images ici ou cliquez pour télécharger",
+        autoProcessQueue: false, // Désactive l'envoi automatique
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        success: function(file, response) {
-            console.log(response);
-            // Gérer la réponse du serveur
-        },
-        error: function(file, response) {
-            console.error('Erreur:', response);
+        init: function() {
+            var myDropzone = this;
+
+            // Ajoutez un gestionnaire d'événement pour le bouton de soumission
+            document.getElementById('submit-button').addEventListener('click', function() {
+                // Vérifiez si des fichiers sont présents dans le Dropzone
+                if (myDropzone.getQueuedFiles().length > 0) {
+                    // Soumettez le formulaire si des fichiers sont présents
+                    myDropzone.processQueue();
+                } else {
+                    // Affichez un message si aucun fichier n'est présent
+                    alert('Aucun fichier à télécharger.');
+                }
+            });
+
+            // Ajoutez un gestionnaire d'événement pour vérifier les fichiers avant l'envoi
+            myDropzone.on("addedfile", function(file) {
+                console.log('Fichier ajouté :', file);
+            });
+
+            // Ajoutez un gestionnaire d'événement pour vérifier les fichiers avant l'envoi
+            myDropzone.on("sending", function(file, xhr, formData) {
+                console.log('Envoi du fichier :', file);
+            });
+
+            // Ajoutez un gestionnaire d'événement pour vérifier les fichiers après l'envoi
+            myDropzone.on("success", function(file, response) {
+                console.log('Fichier téléchargé avec succès :', response);
+            });
+
+            // Ajoutez un gestionnaire d'événement pour vérifier les fichiers en cas d'erreur
+            myDropzone.on("error", function(file, response) {
+                console.error('Erreur lors du téléchargement du fichier :', response);
+            });
         }
     };
 </script>

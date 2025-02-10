@@ -1235,75 +1235,82 @@ class DashboardClient extends Controller
      * - Taille maximale autorisée : 2MB.
      * - Formats autorisés : `.jpg`, `.jpeg`, `.png`.
      */
-    public function uploadSlider(Request $request)
-    {
-        // Récupérer l'ID de compte depuis la session
-        $idCompte = session('connexion');
-    
-        // Trouver la carte associée au compte
-        $carte = Carte::where('idCompte', $idCompte)->first();
-    
-        // Vérifier si la carte existe
-        if (!$carte) {
-            Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
-            return response()->json(['error' => 'Compte introuvable.'], 404);
-        }
-    
-        // Construire le chemin de destination pour le slider
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
-    
-        try {
-            // Valider les données de la requête
-            $request->validate([
-                'image.*' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Taille max : 2MB et formats appropriés
-            ]);
-    
-            // Récupérer les fichiers téléchargés
-            $files = $request->file('image');
-    
-            // Vérifier et créer le répertoire de destination si nécessaire
-            if (!File::exists(public_path($destinationPath))) {
-                File::makeDirectory(public_path($destinationPath), 0755, true);
-                Log::info("Création du dossier : {$destinationPath}");
-            }
-    
-            // Enregistrer chaque fichier
-            foreach ($files as $file) {
-                // Vérification du type MIME réel du fichier téléchargé
-                $realMimeType = $file->getMimeType();
-                $allowedMimeTypes = ['image/jpeg', 'image/png'];
-                if (!in_array($realMimeType, $allowedMimeTypes)) {
-                    Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
-                    return response()->json(['error' => 'Type de fichier non autorisé.'], 400);
-                }
-    
-                // Générer un nom de fichier unique
-                $fileName = uniqid() . '_' . $file->getClientOriginalName();
-    
-                // Déplacer le fichier vers le répertoire cible
-                $file->move(public_path($destinationPath), $fileName);
-                Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
-            }
-    
-            // Enregistrer un log personnalisé en base de données
-            Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
-    
-            // Retourner un message de succès
-            return response()->json(['success' => 'Images téléchargées avec succès.']);
-    
-        } catch (\Exception $e) {
-            // Gestion des erreurs (exceptions)
-            Log::error("Erreur lors du téléchargement de l'image pour le compte : {$idCompte}. Message : {$e->getMessage()}");
-    
-            // Ajouter un log d'erreur personnalisé en base de données
-            Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
-    
-            // Retourner un message d'erreur
-            return response()->json(['error' => 'Erreur lors du traitement des fichiers.'], 500);
-        }
-    }
-    
+ public function uploadSlider(Request $request)
+ {
+     // Récupérer l'ID de compte depuis la session
+     $idCompte = session('connexion');
+
+     // Trouver la carte associée au compte
+     $carte = Carte::where('idCompte', $idCompte)->first();
+
+     // Vérifier si la carte existe
+     if (!$carte) {
+         Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+         return response()->json(['error' => 'Compte introuvable.'], 404);
+     }
+
+     // Construire le chemin de destination pour le slider
+     $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
+     $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
+
+     try {
+         // Valider les données de la requête
+         $request->validate([
+             'image.*' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Taille max : 2MB et formats appropriés
+         ]);
+
+         // Récupérer les fichiers téléchargés
+         $files = $request->file('image');
+         Log::info('Fichiers téléchargés :', ['files' => $files]);
+
+         // Vérifier si des fichiers ont été téléchargés
+         if (!$files || !is_array($files)) {
+             Log::error("Aucun fichier téléchargé pour le compte : {$idCompte}");
+             return response()->json(['error' => 'Aucun fichier téléchargé.'], 400);
+         }
+
+         // Vérifier et créer le répertoire de destination si nécessaire
+         if (!File::exists(public_path($destinationPath))) {
+             File::makeDirectory(public_path($destinationPath), 0755, true);
+             Log::info("Création du répertoire : {$destinationPath}");
+         }
+
+         // Enregistrer chaque fichier
+         foreach ($files as $file) {
+             // Vérification du type MIME réel du fichier téléchargé
+             $realMimeType = $file->getMimeType();
+             $allowedMimeTypes = ['image/jpeg', 'image/png'];
+             if (!in_array($realMimeType, $allowedMimeTypes)) {
+                 Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
+                 return response()->json(['error' => 'Type de fichier non autorisé.'], 400);
+             }
+
+             // Générer un nom de fichier unique
+             $fileName = uniqid() . '_' . $file->getClientOriginalName();
+
+             // Déplacer le fichier vers le répertoire cible
+             $file->move(public_path($destinationPath), $fileName);
+             Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
+         }
+
+         // Enregistrer un log personnalisé en base de données
+         Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
+
+         // Retourner un message de succès
+         return response()->json(['success' => 'Images téléchargées avec succès.']);
+
+     } catch (\Exception $e) {
+         // Gestion des erreurs (exceptions)
+         Log::error("Erreur lors du téléchargement de l'image pour le compte : {$idCompte}. Message : {$e->getMessage()}");
+
+         // Ajouter un log d'erreur personnalisé en base de données
+         Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
+
+         // Retourner un message d'erreur
+         return response()->json(['error' => 'Erreur lors du traitement des fichiers.'], 500);
+     }
+ }
+
     /**
      * Met à jour les informations d'une carte, telles que le titre et la description.
      *
