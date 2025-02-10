@@ -430,3 +430,23 @@
 [2025-02-10 09:51:24] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
 [2025-02-10 09:51:24] local.INFO: Fichiers téléchargés : {"files":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php271B.tmp"}} 
 [2025-02-10 09:51:24] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:27:45] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-10 10:27:51] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-10 10:28:29] local.INFO: Fichiers téléchargés : {"files":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php15D5.tmp"}} 
+[2025-02-10 10:28:29] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:28:29] local.INFO: Fichiers téléchargés : {"files":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php1809.tmp"}} 
+[2025-02-10 10:28:29] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:33:47] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-10 10:34:14] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-10 10:38:42] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-10 10:38:50] local.INFO: Fichiers téléchargés : {"files":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php9164.tmp"}} 
+[2025-02-10 10:38:50] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:38:50] local.INFO: Fichiers téléchargés : {"files":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php91E2.tmp"}} 
+[2025-02-10 10:38:50] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:40:54] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-10 10:41:01] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:41:01] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:44:56] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-10 10:45:03] local.INFO: Fichiers téléchargés : {"files":{"Illuminate\\Http\\UploadedFile":"C:\\wamp64\\tmp\\php44B2.tmp"}} 
+[2025-02-10 10:45:03] local.ERROR: Aucun fichier téléchargé pour le compte : 1  
+[2025-02-10 10:53:34] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 

@@ -382,17 +382,14 @@
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
                         <!-- Formulaire d'upload -->
-                    <form id="image-dropzone-form" action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="dropzone" id="image-dropzone"></div>
-                        <div class="flex justify-end mt-4">
-                            <button type="button" id="submit-button" class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Enregistrer
-                            </button>
-                        </div>
-                    </form>
-
-
+                <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="dropzone" id="image-dropzone">
+                    @csrf
+                    <div class="dz-message">
+                        <p>Glissez-déposez vos images ici ou cliquez pour télécharger</p>
+                    </div>
+                    <!-- Champ input caché pour stocker les fichiers sélectionnés -->
+                    <input type="file" name="images[]" id="hidden-input" multiple style="display:none;">
+                </form>
 
                         <!-- Affichage des images dans la galerie -->
                         <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
@@ -506,7 +503,7 @@
         // Soumettre le formulaire
         uploadForm.submit();
     }
-  Dropzone.options.imageDropzone = {
+Dropzone.options.imageDropzone = {
         url: "{{ route('dashboardClientPDF.uploadSlider') }}",
         paramName: "image", // Nom du paramètre pour les fichiers
         maxFilesize: 2, // Taille maximale des fichiers en Mo
@@ -518,6 +515,18 @@
         },
         init: function() {
             var myDropzone = this;
+            var hiddenInput = document.getElementById('hidden-input');
+
+            // Ajoutez un gestionnaire d'événement pour mettre à jour le champ input caché
+            myDropzone.on("addedfile", function(file) {
+                // Ajouter le fichier au champ input caché
+                var fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.name = 'images[]';
+                fileInput.style.display = 'none';
+                fileInput.files = myDropzone.files;
+                hiddenInput.parentNode.appendChild(fileInput);
+            });
 
             // Ajoutez un gestionnaire d'événement pour le bouton de soumission
             document.getElementById('submit-button').addEventListener('click', function() {
@@ -529,11 +538,6 @@
                     // Affichez un message si aucun fichier n'est présent
                     alert('Aucun fichier à télécharger.');
                 }
-            });
-
-            // Ajoutez un gestionnaire d'événement pour vérifier les fichiers avant l'envoi
-            myDropzone.on("addedfile", function(file) {
-                console.log('Fichier ajouté :', file);
             });
 
             // Ajoutez un gestionnaire d'événement pour vérifier les fichiers avant l'envoi
