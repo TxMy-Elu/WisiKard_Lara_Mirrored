@@ -64,6 +64,8 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/refreshQrCodeEmp/{id}/{empId}', [DashboardClient::class, 'refreshQrCodeEmp'])->name('refreshQrCodeEmp');
     Route::get('/formulaireEntreprise', [DashboardClient::class, 'afficherFormulaireEntreprise'])->name('formulaireEntreprise');
     Route::post('/updateEntreprise', [DashboardClient::class, 'updateEntreprise'])->name('updateEntreprise');
+    //Page d'aide
+    Route::get('/dashboardClientAide', [DashboardClient::class, 'afficherDashboardClientAide'])->name('dashboardClientAide');
 
     // Gestion des PDF
     Route::get('/dashboardClientPDF', [DashboardClient::class, 'afficherDashboardClientPDF'])->name('dashboardClientPDF');

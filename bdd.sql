@@ -254,6 +254,49 @@ CREATE TABLE IF NOT EXISTS `template` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `guide`
+--
+
+DROP TABLE IF EXISTS `guide`;
+CREATE TABLE IF NOT EXISTS `guide` (
+                                          `id_guide` int NOT NULL AUTO_INCREMENT,
+                                          `titre` varchar(100) NOT NULL,
+    PRIMARY KEY (`id_guide`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `txt`
+--
+
+DROP TABLE IF EXISTS `txt`;
+CREATE TABLE IF NOT EXISTS `txt` (
+                                     `id_txt` int NOT NULL AUTO_INCREMENT,
+                                     `num_txt` int NOT NULL,
+                                     `categorie` varchar(50) NOT NULL,
+    `id_guide` int NOT NULL,
+    `txt` varchar(250) NOT NULL,
+    PRIMARY KEY (`id_txt`),
+    KEY `id_guide` (`id_guide`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `IMG`
+--
+
+DROP TABLE IF EXISTS `img`;
+CREATE TABLE IF NOT EXISTS `img` (
+                                      `id_img` int NOT NULL AUTO_INCREMENT,
+                                      `num_img` int NOT NULL,
+                                      `categorie` VARCHAR(50) NOT NULL//id_guide
+    PRIMARY KEY (`id_img`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+--
 -- Structure de la table `vue`
 --
 

@@ -69,6 +69,17 @@
                     </div>
                 </ul>
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
+                     <li class="nav-item mb-8 relative group">
+                           <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientAide') }}">
+                               <img src="{{ asset('public/icons/help-circle.svg') }}" alt="aide" width="35" height="35">
+                           </a>
+                           <!-- Tooltip -->
+                          <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                              Aide
+                          </div>
+                     </li>
+                </ul>
+                <ul class="flex flex-col items-center lg:ml-0 mt-auto">
                     <li class="nav-item mb-8 relative group">
                         <a class="nav-link p-2 hover:text-red-500" href="{{ route('deconnexion') }}">
                             <img src="{{ asset('public/icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
