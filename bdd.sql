@@ -44,7 +44,10 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `LienCommande` varchar(150) DEFAULT NULL,
     `lienQr` varchar(500) NOT NULL,
     `lienPdf` varchar(500) DEFAULT NULL,
+    `lienAvis` varchar(500) DEFAULT NULL,
+    'lienSiteWeb' varchar(500) DEFAULT NULL,
     `font` varchar(500) CHARACTER SET utf8  NOT NULL DEFAULT 'roboto',
+
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
     PRIMARY KEY (`idCarte`),
@@ -279,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `txt` (
     `txt` varchar(250) NOT NULL,
     PRIMARY KEY (`id_txt`),
     KEY `id_guide` (`id_guide`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -291,7 +294,7 @@ DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
                                       `id_img` int NOT NULL AUTO_INCREMENT,
                                       `num_img` int NOT NULL,
-                                      `categorie` VARCHAR(50) NOT NULL//id_guide
+                                      `categorie` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id_img`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
