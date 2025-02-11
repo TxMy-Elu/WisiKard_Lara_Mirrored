@@ -12,7 +12,6 @@ use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
-use App\Models\Horaires;
 use App\Models\Guide;
 use App\Models\Img;
 use App\Models\Txt;
@@ -713,9 +712,7 @@ class DashboardClient extends Controller
         // Retour de la vue avec les données nécessaires
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
-<<<<<<< HEAD
 
-=======
 
     public function afficherDashboardClientAide()
     {
@@ -775,7 +772,6 @@ class DashboardClient extends Controller
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
->>>>>>> dd35793b0eb5a1cddb29b758bdafedceaefd3e41
     /**
      * Télécharge le logo de l'entreprise et enregistre son chemin dans la base de données tout en conservant la casse.
      *
@@ -1841,16 +1837,6 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
-     public function afficherDashboardClientAide()
-     {
-         // Récupérer les titres depuis la table guide sans doublons
-         $titres = Guide::select('titre')->distinct()->pluck('titre');
-
-         // Récupérer les catégories depuis la table txt sans doublons
-         $categories = Txt::select('categorie')->distinct()->pluck('categorie');
-         // Passer les titres et les catégories à la vue
-         return view('Client.dashboardClientAide', compact('titres', 'categories'));
-     }
 
      public function afficherDashboardClientDescription()
      {

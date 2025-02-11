@@ -47,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `lienAvis` varchar(500) DEFAULT NULL,
     'lienSiteWeb' varchar(500) DEFAULT NULL,
     `font` varchar(500) CHARACTER SET utf8  NOT NULL DEFAULT 'roboto',
-
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
     PRIMARY KEY (`idCarte`),
