@@ -222,9 +222,9 @@
     @endif
 
     <!-- site web -->
-    @if($carte['LienCommande'])
+    @if($carte['lienSiteWeb'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['LienCommande'] }}"
+            <a href="{{ $carte['lienSiteWeb'] }}"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/pbbsmkso.json"

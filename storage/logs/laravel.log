@@ -21516,3 +21516,8 @@
 [2025-02-11 10:09:30] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
 [2025-02-11 10:16:06] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
 [2025-02-11 10:16:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-11 10:16:53] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-11 10:17:15] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-11 10:17:52] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-11 10:17:54] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-11 10:19:42] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
