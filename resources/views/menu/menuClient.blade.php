@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
 <div>
-    <nav class="bg-zinc-900 p-4 h-full w-24 fixed lg:block hidden navbar" id="navbarNav">
+    <nav class="bg-zinc-900 p-4 h-100% w-24 fixed scroll-auto lg:block hidden navbar" id="navbarNav">
         <div class="container mx-auto flex flex-col items-center h-full">
             <a class="text-xl font-bold mb-4" href="#"></a>
             <div class="w-full lg:flex lg:flex-col lg:items-center lg:w-auto flex-grow">

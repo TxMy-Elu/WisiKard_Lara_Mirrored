@@ -36,14 +36,17 @@ class Compte extends Model
 
         $entreprise = new Carte();
         $entreprise->idCompte = $nouvelUtilisateur->idCompte;
+        //remplacer les espaces par des underscores
+        $nomEntrepriseDir = str_replace(' ', '_', $nomEntreprise);
+        Log::info("nomEntrepriseDir : {$nomEntrepriseDir}");
         $entreprise->nomEntreprise = $nomEntreprise;
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
-        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntreprise}/QR_Codes/QR_Code.svg";
+        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntrepriseDir}/QR_Codes/QR_Code.svg";
         $entreprise->save();
 
-        Compte::QrCode($nouvelUtilisateur->idCompte, $nomEntreprise);
+        Compte::QrCode($nouvelUtilisateur->idCompte, $nomEntrepriseDir);
 
         //creation de la vcard
         Compte::creerVCard($entreprise->nomEntreprise, $entreprise->tel, $nouvelUtilisateur->email, $nouvelUtilisateur->idCompte);
@@ -66,10 +69,11 @@ class Compte extends Model
         $vCard .= "EMAIL;TYPE=HOME,INTERNET:{$email}\r\n"; // Adresse email
         $vCard .= "END:VCARD\r\n";                  // Fin de la vCard
 
-
+        // Remplacer les espaces par des underscores pour le nom du répertoire
+        $nomEntrepriseDir = str_replace(' ', '_', $nomEntreprise);
 
         // Définir le chemin complet pour enregistrer le fichier
-        $directoryPath = public_path("entreprises/{$idCompte}_{$nomEntreprise}/VCF_Files");
+        $directoryPath = public_path("entreprises/{$idCompte}_{$nomEntrepriseDir}/VCF_Files");
         $filePath = "{$directoryPath}/contact.vcf";
 
         // Créer les répertoires manquants avec les permissions appropriées
