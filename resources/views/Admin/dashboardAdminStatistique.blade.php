@@ -58,7 +58,7 @@
 
             <!-- Graphique Annuel -->
             <div class="w-full md:w-2/3 p-6 bg-white rounded-lg border border-gray-300 shadow-md flex justify-center items-center">
-                <canvas id="yearChart" width="100" height="50"></canvas>
+                <canvas id="yearChart"></canvas>
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         const yearlyData = @json($yearlyData);
