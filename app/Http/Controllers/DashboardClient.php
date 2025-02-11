@@ -713,69 +713,8 @@ class DashboardClient extends Controller
         // Retour de la vue avec les données nécessaires
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
-<<<<<<< HEAD
 
-=======
 
-    public function afficherDashboardClientAide()
-    {
-        // Récupération des informations du compte en session
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Email inconnu'; // Récupère l'email ou retourne par défaut "Email inconnu"
-        $carte = Carte::where('idCompte', $idCompte)->first();
-        $compte = Compte::where('idCompte', $idCompte)->first();
-
-        // Vérification si la carte existe
-        if (!$carte) {
-            Log::warning("Carte introuvable pour l'utilisateur : {$emailUtilisateur}");
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        // Construction du nom de dossier en assurant un format valide
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        // Récupération des images associées
-        $imagesPath = public_path("entreprises/{$folderName}/images");
-        $images = [];
-        if (File::exists($imagesPath)) {
-            $images = File::files($imagesPath);
-            $images = array_map(function ($file) {
-                return $file->getFilename();
-            }, $images);
-        }
-
-        // Récupération des URLs des vidéos YouTube depuis un fichier JSON spécifique
-        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
-        $youtubeUrls = [];
-        if (File::exists($videosPath)) {
-            $youtubeUrls = json_decode(File::get($videosPath), true);
-        }
-
-        // Détection du logo avec différents formats compatibles
-        $logoPath = '';
-        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Liste des formats pris en charge
-        foreach ($formats as $format) {
-            $path = public_path("entreprises/{$folderName}/logos/logo.{$format}");
-            if (File::exists($path)) {
-                $logoPath = asset("entreprises/{$folderName}/logos/logo.{$format}");
-                break;
-            }
-        }
-
-        // Journalisation des informations extraites pour le tableau de bord
-        Log::info("Affichage du tableau de bord pour l'utilisateur : {$emailUtilisateur}", [
-            'email' => $emailUtilisateur,
-            'imagesCount' => count($images),
-            'youtubeUrlsCount' => count($youtubeUrls),
-            'logoPath' => $logoPath,
-        ]);
-
-        // Retour de la vue avec les données nécessaires
-        return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
-    }
-
->>>>>>> dd35793b0eb5a1cddb29b758bdafedceaefd3e41
     /**
      * Télécharge le logo de l'entreprise et enregistre son chemin dans la base de données tout en conservant la casse.
      *
