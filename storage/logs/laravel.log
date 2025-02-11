@@ -1420,10 +1420,10 @@ Did you mean one of these?
 [2025-02-11 13:05:20] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
 [2025-02-11 13:32:41] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-02-11 13:32:44] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
-[2025-02-11 13:35:27] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-02-11 13:35:29] local.INFO: QR Code téléchargé pour idCompte: 1  
-[2025-02-11 16:19:39] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/2_Entreprise2/QR_Codes/QR_Code.svg  
-[2025-02-11 16:19:39] local.INFO: QR Code for Entreprise2 refreshed  
+[2025-02-11 13:35:27] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-02-11 13:35:29] local.INFO: QR Code téléchargé pour idCompte: 1
+[2025-02-11 16:19:39] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/2_Entreprise2/QR_Codes/QR_Code.svg
+[2025-02-11 16:19:39] local.INFO: QR Code for Entreprise2 refreshed
 [2025-02-11 16:20:13] local.ERROR: SQLSTATE[HY000]: General error: 1364 Field 'font' doesn't have a default value (SQL: insert into `carte` (`idCompte`, `nomEntreprise`, `idTemplate`, `couleur1`, `couleur2`, `lienQr`) values (16, Sas Grs, 1, #000000, #FFFFFF, /entreprises/16_Sas_Grs/QR_Codes/QR_Code.svg)) {"exception":"[object] (Illuminate\\Database\\QueryException(code: HY000): SQLSTATE[HY000]: General error: 1364 Field 'font' doesn't have a default value (SQL: insert into `carte` (`idCompte`, `nomEntreprise`, `idTemplate`, `couleur1`, `couleur2`, `lienQr`) values (16, Sas Grs, 1, #000000, #FFFFFF, /entreprises/16_Sas_Grs/QR_Codes/QR_Code.svg)) at C:\\wamp64\\www\\Stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:712)
 [stacktrace]
 #0 C:\\wamp64\\www\\Stage\\WisiKard_Lara\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('insert into `ca...', Array, Object(Closure))
@@ -1545,30 +1545,30 @@ Did you mean one of these?
 #56 C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #57 C:\\wamp64\\www\\Stage\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\S...')
 #58 {main}
-"} 
-[2025-02-11 16:23:27] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/17_SAs szs/QR_Codes/QR_Code.svg  
-[2025-02-11 16:23:31] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/17_SAs szs/QR_Codes/QR_Code.svg  
-[2025-02-11 16:23:31] local.INFO: QR Code for SAs szs refreshed  
-[2025-02-11 16:24:58] local.INFO: Le compte de l'entreprise SAs szs a été supprimé avec succès.  
-[2025-02-11 16:24:58] local.INFO: La carte de l'entreprise SAs szs a été supprimée avec succès.  
-[2025-02-11 16:24:58] local.INFO: Le dossier de l'entreprise SAs szs a été supprimé avec succès.  
-[2025-02-11 16:24:58] local.ERROR: Aucun compte trouvé pour l'adresse email : sara.grs09@gmail.com  
-[2025-02-11 16:25:19] local.INFO: nomEntrepriseDir : SAS_yuo  
-[2025-02-11 16:25:20] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/18_SAS yuo/QR_Codes/QR_Code.svg  
-[2025-02-11 16:27:12] local.INFO: Le compte de l'entreprise SAS yuo a été supprimé avec succès.  
-[2025-02-11 16:27:12] local.INFO: La carte de l'entreprise SAS yuo a été supprimée avec succès.  
-[2025-02-11 16:27:12] local.INFO: Le dossier de l'entreprise SAS yuo a été supprimé avec succès.  
-[2025-02-11 16:27:12] local.ERROR: Aucun compte trouvé pour l'adresse email : sara.grs09@gmail.com  
-[2025-02-11 16:27:31] local.INFO: nomEntrepriseDir : SAS_elio  
-[2025-02-11 16:27:31] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/19_SAS_elio/QR_Codes/QR_Code.svg  
-[2025-02-11 16:28:43] local.INFO: Le compte de l'entreprise SAS elio a été supprimé avec succès.  
-[2025-02-11 16:28:43] local.INFO: La carte de l'entreprise SAS elio a été supprimée avec succès.  
-[2025-02-11 16:28:43] local.ERROR: Aucun compte trouvé pour l'adresse email : sara.grs09@gmail.com  
-[2025-02-11 16:29:01] local.INFO: nomEntrepriseDir : SAS_elio  
-[2025-02-11 16:29:01] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/20_SAS_elio/QR_Codes/QR_Code.svg  
-[2025-02-11 16:29:27] local.INFO: nomEntrepriseDir : L'elu  
-[2025-02-11 16:29:27] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/21_L'elu/QR_Codes/QR_Code.svg  
-[2025-02-11 16:29:45] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-02-11 16:37:02] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-02-11 16:38:30] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
-[2025-02-11 16:38:56] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+"}
+[2025-02-11 16:23:27] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/17_SAs szs/QR_Codes/QR_Code.svg
+[2025-02-11 16:23:31] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/17_SAs szs/QR_Codes/QR_Code.svg
+[2025-02-11 16:23:31] local.INFO: QR Code for SAs szs refreshed
+[2025-02-11 16:24:58] local.INFO: Le compte de l'entreprise SAs szs a été supprimé avec succès.
+[2025-02-11 16:24:58] local.INFO: La carte de l'entreprise SAs szs a été supprimée avec succès.
+[2025-02-11 16:24:58] local.INFO: Le dossier de l'entreprise SAs szs a été supprimé avec succès.
+[2025-02-11 16:24:58] local.ERROR: Aucun compte trouvé pour l'adresse email : sara.grs09@gmail.com
+[2025-02-11 16:25:19] local.INFO: nomEntrepriseDir : SAS_yuo
+[2025-02-11 16:25:20] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/18_SAS yuo/QR_Codes/QR_Code.svg
+[2025-02-11 16:27:12] local.INFO: Le compte de l'entreprise SAS yuo a été supprimé avec succès.
+[2025-02-11 16:27:12] local.INFO: La carte de l'entreprise SAS yuo a été supprimée avec succès.
+[2025-02-11 16:27:12] local.INFO: Le dossier de l'entreprise SAS yuo a été supprimé avec succès.
+[2025-02-11 16:27:12] local.ERROR: Aucun compte trouvé pour l'adresse email : sara.grs09@gmail.com
+[2025-02-11 16:27:31] local.INFO: nomEntrepriseDir : SAS_elio
+[2025-02-11 16:27:31] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/19_SAS_elio/QR_Codes/QR_Code.svg
+[2025-02-11 16:28:43] local.INFO: Le compte de l'entreprise SAS elio a été supprimé avec succès.
+[2025-02-11 16:28:43] local.INFO: La carte de l'entreprise SAS elio a été supprimée avec succès.
+[2025-02-11 16:28:43] local.ERROR: Aucun compte trouvé pour l'adresse email : sara.grs09@gmail.com
+[2025-02-11 16:29:01] local.INFO: nomEntrepriseDir : SAS_elio
+[2025-02-11 16:29:01] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/20_SAS_elio/QR_Codes/QR_Code.svg
+[2025-02-11 16:29:27] local.INFO: nomEntrepriseDir : L'elu
+[2025-02-11 16:29:27] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/21_L'elu/QR_Codes/QR_Code.svg
+[2025-02-11 16:29:45] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-02-11 16:37:02] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-02-11 16:38:30] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}
+[2025-02-11 16:38:56] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"}

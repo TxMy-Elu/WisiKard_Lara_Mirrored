@@ -1783,29 +1783,24 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
-  public function afficherDashboardClientAide()
+     public function afficherDashboardClientAide()
      {
          // Récupérer les titres depuis la table guide sans doublons
-         $titres = Guide::select('titre')->distinct()->pluck('titre');
+         $titres = Guide::select('id_guide', 'titre')->get();
 
-         // Récupérer les catégories depuis la table txt sans doublons
-         $categories = Txt::select('categorie')->distinct()->pluck('categorie');
-         // Passer les titres et les catégories à la vue
-         return view('Client.dashboardClientAide', compact('titres', 'categories'));
+         // Passer les titres à la vue
+         return view('Client.dashboardClientAide', compact('titres'));
      }
-     public function afficherDashboardClientDescription($id_guide, $categorie)
+
+     public function afficherDashboardClientDescription($id_guide)
      {
-         // Récupérer les titres depuis la table guide sans doublons
-         $titres = Guide::select('titre')->distinct()->pluck('titre');
+         // Récupérer les textes correspondant à l'id_guide
+         $txts = Txt::where('id_guide', $id_guide)->get();
 
-         // Récupérer les textes correspondant à l'id_guide et à la catégorie
-         $txts = Txt::where('id_guide', $id_guide)
-                    ->where('categorie', $categorie)
-                    ->pluck('txt');
-
-         // Passer les titres et les textes à la vue
-         return view('Client.dashboardClientDescription', compact('titres', 'txts', 'categorie'));
+         // Passer les textes à la vue
+         return view('Client.dashboardClientDescription', compact('txts'));
      }
+
     /**
      * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
      *
