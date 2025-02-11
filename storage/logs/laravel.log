@@ -1247,3 +1247,11 @@ Did you mean one of these?
 [2025-02-11 10:49:27] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-02-11 10:49:40] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
 [2025-02-11 10:49:46] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png"} 
+[2025-02-11 10:52:34] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:52:36] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:52:38] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:52:43] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:52:44] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:52:51] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:53:02] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 
+[2025-02-11 10:53:05] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":""} 

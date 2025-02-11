@@ -105,13 +105,14 @@
             </div>
 
             <!-- Réseaux Sociaux -->
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
-                <p class="text-xl font-semibold text-red-800">Réseaux Sociaux</p>
-                <p class="text-gray-800">Ajouter un Réseau Social</p>
-                <p class="text-gray-800">Mettre à jour un Réseau Social</p>
-                <p class="text-gray-800">Activer/Désactiver un Réseau Social</p>
-                <p class="text-gray-800">Ajouter un Autre Réseau Social</p>
-            </div>
+          <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
+              <p class="text-xl font-semibold text-red-800">Réseaux Sociaux</p>
+              <a href="{{ route('dashboardClientDescription', ['id_guide' => 3, 'categorie' => 'Ajouter un Réseau Social']) }}" class="text-gray-800 hover:text-red-500">Ajouter un Réseau Social</a>
+              <a href="{{ route('dashboardClientDescription', ['id_guide' => 3, 'categorie' => 'Mettre à jour un Réseau Social']) }}" class="text-gray-800 hover:text-red-500">Mettre à jour un Réseau Social</a>
+              <a href="{{ route('dashboardClientDescription', ['id_guide' => 3, 'categorie' => 'Activer/Désactiver un Réseau Social']) }}" class="text-gray-800 hover:text-red-500">Activer/Désactiver un Réseau Social</a>
+              <a href="{{ route('dashboardClientDescription', ['id_guide' => 3, 'categorie' => 'Ajouter un Autre Réseau Social']) }}" class="text-gray-800 hover:text-red-500">Ajouter un Autre Réseau Social</a>
+          </div>
+
 
             <!-- Employé -->
             <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
