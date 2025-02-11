@@ -715,3 +715,4 @@
 [2025-02-10 16:24:49] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
 [2025-02-10 16:45:46] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
 [2025-02-10 16:55:58] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":""} 
+[2025-02-11 08:08:01] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
