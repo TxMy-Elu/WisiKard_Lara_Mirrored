@@ -12,6 +12,9 @@ use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
 use App\Models\Horaires;
+use App\Models\Guide;
+use App\Models\Img;
+use App\Models\Txt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -706,63 +709,7 @@ class DashboardClient extends Controller
         // Retour de la vue avec les données nécessaires
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
-    public function afficherDashboardClientAide()
-    {
-        // Récupération des informations du compte en session
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Email inconnu'; // Récupère l'email ou retourne par défaut "Email inconnu"
-        $carte = Carte::where('idCompte', $idCompte)->first();
-        $compte = Compte::where('idCompte', $idCompte)->first();
 
-        // Vérification si la carte existe
-        if (!$carte) {
-            Log::warning("Carte introuvable pour l'utilisateur : {$emailUtilisateur}");
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        // Construction du nom de dossier en assurant un format valide
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
-
-        // Récupération des images associées
-        $imagesPath = public_path("entreprises/{$folderName}/images");
-        $images = [];
-        if (File::exists($imagesPath)) {
-            $images = File::files($imagesPath);
-            $images = array_map(function ($file) {
-                return $file->getFilename();
-            }, $images);
-        }
-
-        // Récupération des URLs des vidéos YouTube depuis un fichier JSON spécifique
-        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
-        $youtubeUrls = [];
-        if (File::exists($videosPath)) {
-            $youtubeUrls = json_decode(File::get($videosPath), true);
-        }
-
-        // Détection du logo avec différents formats compatibles
-        $logoPath = '';
-        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Liste des formats pris en charge
-        foreach ($formats as $format) {
-            $path = public_path("entreprises/{$folderName}/logos/logo.{$format}");
-            if (File::exists($path)) {
-                $logoPath = asset("entreprises/{$folderName}/logos/logo.{$format}");
-                break;
-            }
-        }
-
-        // Journalisation des informations extraites pour le tableau de bord
-        Log::info("Affichage du tableau de bord pour l'utilisateur : {$emailUtilisateur}", [
-            'email' => $emailUtilisateur,
-            'imagesCount' => count($images),
-            'youtubeUrlsCount' => count($youtubeUrls),
-            'logoPath' => $logoPath,
-        ]);
-
-        // Retour de la vue avec les données nécessaires
-        return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
-    }
     /**
      * Télécharge le logo de l'entreprise et enregistre son chemin dans la base de données tout en conservant la casse.
      *
@@ -1828,7 +1775,28 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
+     public function afficherDashboardClientAide()
+     {
+         // Récupérer les titres depuis la table guide sans doublons
+         $titres = Guide::select('titre')->distinct()->pluck('titre');
 
+         // Récupérer les catégories depuis la table txt sans doublons
+         $categories = Txt::select('categorie')->distinct()->pluck('categorie');
+         // Passer les titres et les catégories à la vue
+         return view('Client.dashboardClientAide', compact('titres', 'categories'));
+     }
+
+     public function afficherDashboardClientDescription()
+     {
+         // Récupérer les titres depuis la table guide sans doublons
+         $titres = Guide::select('titre')->distinct()->pluck('titre');
+
+         // Récupérer les catégories depuis la table txt sans doublons
+         $categories = Txt::select('categorie')->distinct()->pluck('categorie');
+         $txt = Txt::select('txt')->distinct()->pluck('txt');
+         // Passer les titres et les catégories à la vue
+         return view('Client.dashboardClientDescription', compact('titres', 'categories','txt'));
+     }
     /**
      * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
      *
