@@ -14,7 +14,7 @@
 <body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
 
 <!-- Presentation entreprise -->
-<div class=" w-full h-56 text-white p-4 bg-gradient-to-tl from-red-800 to-zinc-900 rounded-sm">
+<div class=" w-full h-60 text-white p-4 bg-gradient-to-tl from-red-800 to-zinc-900 rounded-sm">
     <!-- Logo -->
     @php
         // Détection des différents types de fichiers
@@ -30,14 +30,14 @@
     @endphp
 
     @if(!empty($logoPath))
-        <div class="">
-            <img src="{{ $logoPath }}" alt="Logo de l'entreprise" class="h-24 w-24 mx-auto ">
+        <div class="w-full h-full max-h-24 mx-auto">
+            <img src="{{ $logoPath }}" alt="Logo de l'entreprise" class="w-full h-full object-contain">
         </div>
     @endif
 
     <!-- Nom de l'entreprise -->
     @if($carte['nomEntreprise'])
-        <div class="mt-2">
+        <div class="mt-1">
             <h1 class="text-white text-3xl text-center">{{ $carte['nomEntreprise'] }}</h1>
         </div>
     @endif
@@ -52,7 +52,7 @@
     <!-- description de l'entreprise -->
     @if($carte['descriptif'])
         <div>
-            <p class="text-white text-center text-lg">{{ $carte['descriptif'] }}</p>
+            <p class="text-white text-center text-sm">{{ $carte['descriptif'] }}</p>
         </div>
     @endif
 </div>

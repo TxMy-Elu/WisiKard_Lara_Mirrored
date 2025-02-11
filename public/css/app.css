@@ -882,6 +882,12 @@
   .h-px {
     height: 1px;
   }
+  .max-h-24 {
+    max-height: calc(var(--spacing) * 24);
+  }
+  .max-h-30 {
+    max-height: calc(var(--spacing) * 30);
+  }
   .max-h-64 {
     max-height: calc(var(--spacing) * 64);
   }
@@ -971,6 +977,12 @@
   }
   .max-w-6xl {
     max-width: var(--container-6xl);
+  }
+  .max-w-24 {
+    max-width: calc(var(--spacing) * 24);
+  }
+  .max-w-30 {
+    max-width: calc(var(--spacing) * 30);
   }
   .max-w-full {
     max-width: 100%;

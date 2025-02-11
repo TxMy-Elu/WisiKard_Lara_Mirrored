@@ -264,7 +264,7 @@
                 map.setView([lat, lon], 15);
                 L.marker([lat, lon]).addTo(map);
             } else {
-                alert("Aucune entreprise ou adresse trouvée.");
+                console.log("Aucune entreprise ou adresse trouvée.");
             }
         } catch (error) {
             console.error("Erreur lors de la recherche d'entreprise ou d'adresse:", error);

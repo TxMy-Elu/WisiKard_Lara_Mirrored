@@ -122,7 +122,7 @@
            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
                <p class="text-xl font-semibold text-red-800">Contenu</p>
 
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter&sol;Supprimer un Logo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Logo</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un Logo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Logo</a>
                <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un PDF']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un PDF</a>
                <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer des Vidéos YouTube']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer des Vidéos YouTube</a>
                <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un Lien d\'Avis Google']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Lien d'Avis Google</a>
