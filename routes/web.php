@@ -119,5 +119,9 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/employe/{id}/edit', [Employe::class, 'edit'])->name('employe.edit');
     Route::put('/employe/{id}', [Employe::class, 'update'])->name('employe.update');
 
+    // liens site
+    Route::post('/dashboardClientPDF/uploadSiteWeb', [DashboardClient::class, 'uploadSiteWeb'])->name('dashboardClientPDF.uploadSiteWeb');
+    Route::delete('/dashboardClientPDF/deleteSiteWeb', [DashboardClient::class, 'deleteSiteWeb'])->name('dashboardClientPDF.deleteSiteWeb');
+
     Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
 });

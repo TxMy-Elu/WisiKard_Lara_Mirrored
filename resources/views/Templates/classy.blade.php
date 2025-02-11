@@ -207,9 +207,10 @@
                 </a>
             </div>
         @endif
-        <!-- Site Web -->
-        <div></div>
-        <!-- Rdv -->
+       <!-- rdv -->
+
+
+        <!-- site -->
         @if($carte['LienCommande'])
             <div class="flex justify-center">
                 <a href="{{ $carte['LienCommande'] }}"
