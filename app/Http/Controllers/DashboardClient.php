@@ -1497,10 +1497,11 @@ class DashboardClient extends Controller
         // Validation des entrées utilisateur
         $request->validate([
             'nomEntreprise' => 'required|string|max:255',
-            'tel' => 'required|string|max:20',
+            'tel' => 'nullable|string|max:20', // Le champ 'tel' peut être null
             'mail' => 'required|email|max:255',
-            'adresse' => 'required|string|max:255',
+            'adresse' => 'nullable|string|max:255', // Le champ 'ville/adresse' peut être null
         ]);
+
 
         // Récupération de l'ID de compte depuis la session
         $idCompte = session('connexion');

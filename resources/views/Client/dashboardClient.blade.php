@@ -556,6 +556,7 @@
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
                                 <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
+                                        onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=1'"
                                         class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
                             <div class="relative items-center justify-center ">
@@ -587,6 +588,7 @@
                                         <label for="template2"></label>
                                         <!-- template gradient -->
                                         <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                                onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=2'"
                                                 class="w-96 h-[750px] rounded-lg border border-gray-200"></iframe>
                                     </div>
                                     <div class="flex flex-col items-center">
@@ -595,6 +597,7 @@
                                                onchange="submitTemplateForm()">
                                         <label for="template3"></label>
                                         <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                                onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=3'"
                                                 class="w-96 h-[750px] rounded-lg"></iframe>
                                     </div>
                                     <div class="flex flex-col items-center">
@@ -604,6 +607,7 @@
                                         <label for="template4"></label>
                                         <!-- template gradient -->
                                         <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                                onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=4'"
                                                 class="w-96 h-[750px] rounded-lg"></iframe>
                                     </div>
                                 </div>
