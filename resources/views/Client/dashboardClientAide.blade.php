@@ -72,37 +72,30 @@
     @include('menu.menuClient') <!-- Inclure le menu client -->
     <div class="flex-1 md:ml-24 p-4 mt-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Accueil -->
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
-                <p class="text-xl font-semibold text-red-800">Accueil</p>
-                <p class="text-gray-800">Modifier les Informations de l'Entreprise</p>
-                <p class="text-gray-800">Changer la Police</p>
-                <p class="text-gray-800">Changer le Titre et la Description</p>
-                <p class="text-gray-800">Gestion des Horaires</p>
-                <p class="text-gray-800">Changer la Couleur du QR Code</p>
-                <p class="text-gray-800">Télécharger le QR Code de l'Entreprise</p>
-                <p class="text-gray-800">Télécharger le QR Code du PDF</p>
-                <p class="text-gray-800">Changer le Thème de la Carte</p>
-            </div>
 
-            <!-- Choisir l'Année -->
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
-                <p class="text-xl font-semibold text-red-800">Choisir l'Année</p>
-                <p class="text-gray-800">Choisir la Semaine</p>
-                <p class="text-gray-800">Nombre de Vues par Employé</p>
-                <p class="text-gray-800">Nombre Global de Vues</p>
-                <p class="text-gray-800">Nombre de Vues par Semaine</p>
-            </div>
 
-            <!-- Statistiques -->
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
-                <p class="text-xl font-semibold text-red-800">Statistiques</p>
-                <p class="text-gray-800">Choisir l'Année</p>
-                <p class="text-gray-800">Choisir la Semaine</p>
-                <p class="text-gray-800">Nombre de Vues par Employé</p>
-                <p class="text-gray-800">Nombre Global de Vues</p>
-                <p class="text-gray-800">Nombre de Vues par Semaine</p>
-            </div>
+        <!-- Accueil -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
+            <p class="text-xl font-semibold text-red-800">Accueil</p>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Modifier les Informations de l\'Entreprise']) }}" class="text-gray-800 hover:text-red-500">Modifier les Informations de l'Entreprise</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Changer la Police']) }}" class="text-gray-800 hover:text-red-500">Changer la Police</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Changer le Titre et la Description']) }}" class="text-gray-800 hover:text-red-500">Changer le Titre et la Description</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Gestion des Horaires']) }}" class="text-gray-800 hover:text-red-500">Gestion des Horaires</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Changer la Couleur du QR Code']) }}" class="text-gray-800 hover:text-red-500">Changer la Couleur du QR Code</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Télécharger le QR Code de l\'Entreprise']) }}" class="text-gray-800 hover:text-red-500">Télécharger le QR Code de l'Entreprise</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Télécharger le QR Code du PDF']) }}" class="text-gray-800 hover:text-red-500">Télécharger le QR Code du PDF</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 1, 'categorie' => 'Changer le Thème de la Carte']) }}" class="text-gray-800 hover:text-red-500">Changer le Thème de la Carte</a>
+        </div>
+
+        <!-- Statistiques -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
+            <p class="text-xl font-semibold text-red-800">Statistiques</p>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 2, 'categorie' => "Choisir l'Année"]) }}" class="text-gray-800 hover:text-red-500">Choisir l'Année</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 2, 'categorie' => 'Choisir la Semaine']) }}" class="text-gray-800 hover:text-red-500">Choisir la Semaine</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 2, 'categorie' => 'Nombre de Vues par Employé']) }}" class="text-gray-800 hover:text-red-500">Nombre de Vues par Employé</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 2, 'categorie' => 'Nombre Global de Vues']) }}" class="text-gray-800 hover:text-red-500">Nombre Global de Vues</a>
+            <a href="{{ route('dashboardClientDescription', ['id_guide' => 2, 'categorie' => 'Nombre de Vues par Semaine']) }}" class="text-gray-800 hover:text-red-500">Nombre de Vues par Semaine</a>
+        </div>
 
             <!-- Réseaux Sociaux -->
           <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
@@ -114,15 +107,30 @@
           </div>
 
 
-            <!-- Employé -->
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
-                <p class="text-xl font-semibold text-red-800">Employé</p>
-                <p class="text-gray-800">Recherche</p>
-                <p class="text-gray-800">Modifier les Informations de l'Employé</p>
-                <p class="text-gray-800">Supprimer un Employé</p>
-                <p class="text-gray-800">Rafraîchir le QR Code de l'Employé</p>
-                <p class="text-gray-800">Ajouter un Employé</p>
-            </div>
+           <!-- Employé -->
+           <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
+               <p class="text-xl font-semibold text-red-800">Employé</p>
+
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 4, 'categorie' => 'Recherche']) }}" class="text-gray-800 hover:text-red-500">Recherche</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 4, 'categorie' => "Modifier les Informations de l'Employé"]) }}" class="text-gray-800 hover:text-red-500">Modifier les Informations de l'Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 4, 'categorie' => 'Supprimer un Employé']) }}" class="text-gray-800 hover:text-red-500">Supprimer un Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 4, 'categorie' => "Rafraîchir le QR Code de l'Employé"]) }}" class="text-gray-800 hover:text-red-500">Rafraîchir le QR Code de l'Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 4, 'categorie' => 'Ajouter un Employé']) }}" class="text-gray-800 hover:text-red-500">Ajouter un Employé</a>
+           </div>
+
+           <!-- Contenu -->
+           <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
+               <p class="text-xl font-semibold text-red-800">Contenu</p>
+
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter&sol;Supprimer un Logo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Logo</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un PDF']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un PDF</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer des Vidéos YouTube']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer des Vidéos YouTube</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un Lien d\'Avis Google']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Lien d'Avis Google</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer une Galerie Photo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer une Galerie Photo</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer une URL de Prise de Rendez-vous']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer une URL de Prise de Rendez-vous</a>
+
+           </div>
+
         </div>
     </div>
 </body>
