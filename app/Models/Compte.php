@@ -37,8 +37,6 @@ class Compte extends Model
         $entreprise = new Carte();
         $entreprise->idCompte = $nouvelUtilisateur->idCompte;
         $entreprise->nomEntreprise = $nomEntreprise;
-        $entreprise->tel = "tel";
-        $entreprise->ville = "ville";
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
