@@ -141,20 +141,22 @@
                             <p class="text-gray-500 italic border-2 p-10">Aucun PDF disponible.</p>
                         @endif
                         <p class="text-sm text-gray-500 mt-2">Aperçu du PDF actuel</p>
+
+                        @if($carte->pdf)
+                            <!-- delete du PDF -->
+                            <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
+                                  class="mt-4 w-full flex justify-end">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                                    Supprimer
+                                </button>
+                            </form>
+                        @endif
                     </div>
 
-                    @if($carte->pdf)
-                        <!-- delete du PDF -->
-                        <form action="{{ route('dashboardClientPDF.deletePdf') }}" method="POST"
-                              class="mt-4 w-full flex justify-end">
-                            @csrf
-                            @method('DELETE')
-                            <input type="hidden" name="filename" value="{{ $carte->nomBtnPdf }}">
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
-                                Supprimer
-                            </button>
-                        </form>
-                    @endif
+
                 </div>
             </div>
 
@@ -309,8 +311,60 @@
                 @endif
             </div>
 
-            <!-- div4 -->
+            <!-- div7 -->
+            <!-- lien site web -->
             <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien Site Web</h2>
+                <form action="{{ route('dashboardClientPDF.uploadSiteWeb') }}" method="POST"
+                      enctype="multipart/form-data"
+                      class="space-y-4">
+                    @csrf
+                    <div>
+                        <label for="site_web" class="block text-sm font-medium text-gray-600 mb-2">
+                            URL du site web :
+                        </label>
+                        <input type="url" id="site_web" name="site_web"
+                               class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                               placeholder="https://www.exemple.com">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Site Web enregistré</h2>
+                <!-- Afficher l'URL du site Web sous le bouton "Enregistrer" -->
+                @if($carte->lienSiteWeb)
+                    <div class="mt-4 w-auto h-auto">
+                        <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
+                            <div class="video-container w-auto h-auto">
+                                <a href="{{ $carte->lienSiteWeb }}" class="text-blue-500 underline"
+                                   target="_blank">{{ $carte->lienSiteWeb }}</a>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de site Web enregistré.</p>
+                @endif
+
+                @if($carte->lienSiteWeb)
+                    <!-- btn sup lien -->
+                    <form action="{{ route('dashboardClientPDF.deleteSiteWeb') }}" method="POST"
+                          class="mt-4 w-full flex justify-end">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                            Supprimer
+                        </button>
+                    </form>
+                @endif
+            </div>
+
+
+            <!-- div4 -->
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-2 p-6">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">URL de prise de rendez-vous</h2>
                 <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data"
                       class="space-y-4">
@@ -358,8 +412,9 @@
                 @endif
             </div>
 
-            <!-- div5 galerie photo -->
-            <div class="relative col-span-4 row-span-4">
+
+            <!-- Section qui va occuper 2 lignes -->
+            <div class="relative col-span-3 row-span-2 h-full">
                 @if($compte->role == 'starter')
                     <!-- Message abonnement, centré au-dessus du blur -->
                     <div class="relative z-50 flex flex-col items-center justify-center">
@@ -378,25 +433,29 @@
                         </a>
                     </div>
                 @endif
-                <div class="bg-white rounded-lg shadow-md p-6 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
+                <div class="bg-white rounded-lg shadow-md p-6 h-full @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
                         <!-- Formulaire d'upload -->
-               <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST" enctype="multipart/form-data" class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
-                   @csrf
-                   <div>
-                       <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
-                           Sélectionner des images :
-                       </label>
-                       <input type="file" id="image" name="image[]" class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm" accept=".jpg,.jpeg,.png" multiple>
-                   </div>
-                   <div class="flex justify-end">
-                       <button type="submit" class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                           Enregistrer
-                       </button>
-                   </div>
-               </form>
-
+                        <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
+                              enctype="multipart/form-data"
+                              class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
+                            @csrf
+                            <div>
+                                <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
+                                    Sélectionner des images :
+                                </label>
+                                <input type="file" id="image" name="image[]"
+                                       class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                       accept=".jpg,.jpeg,.png" multiple>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                        class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Enregistrer
+                                </button>
+                            </div>
+                        </form>
 
                         <!-- Affichage des images dans la galerie -->
                         <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
@@ -456,62 +515,59 @@
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-</div>
 
-<script>
-    function openModal(imageUrl) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
+        <script>
+            function openModal(imageUrl) {
+                const modal = document.getElementById('imageModal');
+                const modalImage = document.getElementById('modalImage');
 
-        modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
-        modal.classList.remove('hidden'); // Affiche le modal
-    }
+                modalImage.src = imageUrl; // Met à jour l'URL de l'image dans le modal
+                modal.classList.remove('hidden'); // Affiche le modal
+            }
 
-    function closeModal() {
-        const modal = document.getElementById('imageModal');
-        modal.classList.add('hidden'); // Cache le modal
-    }
+            function closeModal() {
+                const modal = document.getElementById('imageModal');
+                modal.classList.add('hidden'); // Cache le modal
+            }
 
-    /* pdf */
-    // Fonction pour ouvrir la modale
-    function openModalPdf() {
-        const modal = document.getElementById('nameModal'); // Cible la modale par son ID
-        modal.classList.remove('hidden'); // Affiche la modale en supprimant la classe 'hidden'
-    }
+            /* pdf */
+            // Fonction pour ouvrir la modale
+            function openModalPdf() {
+                const modal = document.getElementById('nameModal'); // Cible la modale par son ID
+                modal.classList.remove('hidden'); // Affiche la modale en supprimant la classe 'hidden'
+            }
 
-    // Fonction pour fermer la modale
-    function closeModalPdf() {
-        const modal = document.getElementById('nameModal'); // Cible la modale par son ID
-        modal.classList.add('hidden'); // Cache la modale en ajoutant la classe 'hidden'
-    }
+            // Fonction pour fermer la modale
+            function closeModalPdf() {
+                const modal = document.getElementById('nameModal'); // Cible la modale par son ID
+                modal.classList.add('hidden'); // Cache la modale en ajoutant la classe 'hidden'
+            }
 
-    // Fonction pour valider et soumettre le formulaire avec le nouveau nom
-    function saveAndSubmit() {
-        // Récupérer les valeurs du nouveau nom de fichier
-        const newName = document.getElementById('newName').value;
+            // Fonction pour valider et soumettre le formulaire avec le nouveau nom
+            function saveAndSubmit() {
+                // Récupérer les valeurs du nouveau nom de fichier
+                const newName = document.getElementById('newName').value;
 
-        // Vérifier que le champ "new_name" n'est pas vide
-        if (!newName) {
-            alert('Veuillez renseigner un nom pour le fichier.');
-            return;
-        }
+                // Vérifier que le champ "new_name" n'est pas vide
+                if (!newName) {
+                    alert('Veuillez renseigner un nom pour le fichier.');
+                    return;
+                }
 
-        // Ajouter la valeur du nouveau nom au formulaire principal
-        const uploadForm = document.getElementById('uploadForm');
-        const inputNewName = document.createElement('input');
-        inputNewName.type = 'hidden';
-        inputNewName.name = 'new_name';
-        inputNewName.value = newName;
-        uploadForm.appendChild(inputNewName);
+                // Ajouter la valeur du nouveau nom au formulaire principal
+                const uploadForm = document.getElementById('uploadForm');
+                const inputNewName = document.createElement('input');
+                inputNewName.type = 'hidden';
+                inputNewName.name = 'new_name';
+                inputNewName.value = newName;
+                uploadForm.appendChild(inputNewName);
 
-        // Soumettre le formulaire
-        uploadForm.submit();
-    }
+                // Soumettre le formulaire
+                uploadForm.submit();
+            }
 
 
-</script>
+        </script>
 </body>
 </html>

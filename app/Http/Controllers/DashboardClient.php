@@ -6,22 +6,23 @@ use App\Models\Carte;
 use App\Models\Compte;
 use App\Models\Custom_link;
 use App\Models\Employer;
+use App\Models\Horaires;
 use App\Models\Logs;
 use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
 use App\Models\Vue;
+<<<<<<< HEAD
 use App\Models\Horaires;
 use App\Models\Guide;
 use App\Models\Img;
 use App\Models\Txt;
+=======
+>>>>>>> dd35793b0eb5a1cddb29b758bdafedceaefd3e41
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Hash;
 
 class DashboardClient extends Controller
 {
@@ -53,6 +54,7 @@ class DashboardClient extends Controller
             // Récupération du message global à afficher
             $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
             $messageContent = $message ? $message->message : 'Aucun message disponible';
+
 
             if ($carte) {
                 // Formatage spécifique des données de la carte
@@ -687,6 +689,72 @@ class DashboardClient extends Controller
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
+        //lien site web
+        $lienSiteWeb = $carte->lienSiteWeb;
+
+
+        // Détection du logo avec différents formats compatibles
+        $logoPath = '';
+        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Liste des formats pris en charge
+        foreach ($formats as $format) {
+            $path = public_path("entreprises/{$folderName}/logos/logo.{$format}");
+            if (File::exists($path)) {
+                $logoPath = asset("entreprises/{$folderName}/logos/logo.{$format}");
+                break;
+            }
+        }
+
+        // Journalisation des informations extraites pour le tableau de bord
+        Log::info("Affichage du tableau de bord pour l'utilisateur : {$emailUtilisateur}", [
+            'email' => $emailUtilisateur,
+            'imagesCount' => count($images),
+            'youtubeUrlsCount' => count($youtubeUrls),
+            'logoPath' => $logoPath,
+            'lienSiteWeb' => $lienSiteWeb
+        ]);
+
+        // Retour de la vue avec les données nécessaires
+        return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
+    }
+<<<<<<< HEAD
+
+=======
+
+    public function afficherDashboardClientAide()
+    {
+        // Récupération des informations du compte en session
+        $idCompte = session('connexion');
+        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Email inconnu'; // Récupère l'email ou retourne par défaut "Email inconnu"
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        $compte = Compte::where('idCompte', $idCompte)->first();
+
+        // Vérification si la carte existe
+        if (!$carte) {
+            Log::warning("Carte introuvable pour l'utilisateur : {$emailUtilisateur}");
+            return redirect()->back()->with('error', 'Carte non trouvée.');
+        }
+
+        // Construction du nom de dossier en assurant un format valide
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
+        $folderName = "{$idCompte}_{$entrepriseName}";
+
+        // Récupération des images associées
+        $imagesPath = public_path("entreprises/{$folderName}/images");
+        $images = [];
+        if (File::exists($imagesPath)) {
+            $images = File::files($imagesPath);
+            $images = array_map(function ($file) {
+                return $file->getFilename();
+            }, $images);
+        }
+
+        // Récupération des URLs des vidéos YouTube depuis un fichier JSON spécifique
+        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $youtubeUrls = [];
+        if (File::exists($videosPath)) {
+            $youtubeUrls = json_decode(File::get($videosPath), true);
+        }
+
         // Détection du logo avec différents formats compatibles
         $logoPath = '';
         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Liste des formats pris en charge
@@ -710,6 +778,7 @@ class DashboardClient extends Controller
         return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
+>>>>>>> dd35793b0eb5a1cddb29b758bdafedceaefd3e41
     /**
      * Télécharge le logo de l'entreprise et enregistre son chemin dans la base de données tout en conservant la casse.
      *
@@ -1018,28 +1087,28 @@ class DashboardClient extends Controller
     {
         $idCompte = session('connexion'); // Récupérer l'ID du compte
         $carte = Carte::where('idCompte', $idCompte)->first();
-    
+
         // Vérification si la carte est introuvable
         if (!$carte) {
             Log::warning('Carte non trouvée pour la suppression d\'image du slider');
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
-    
+
         Log::info('Carte trouvée : ' . $carte->nomEntreprise);
-    
+
         // Construire le nom du répertoire tout en conservant les majuscules
         $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
         $sliderImagesPath = public_path("entreprises/{$folderName}/slider");
-    
+
         Log::info('Chemin des images slider : ' . $sliderImagesPath);
-    
+
         // Vérifier si le répertoire existe
         if (!File::exists($sliderImagesPath)) {
             Log::error('Répertoire slider inexistant : ' . $sliderImagesPath);
             return redirect()->back()->with('error', 'Aucune image trouvée.');
         }
-    
+
         // Récupérer tous les fichiers présents dans le répertoire slider
         $sliderImages = File::files($sliderImagesPath);
         $sliderImages = array_map(function ($file) {
@@ -1048,8 +1117,8 @@ class DashboardClient extends Controller
 
         // Récupérer le nom du fichier envoyé dans la requête
         $filename = $request->input('filename');
-            Log::info('Nom du fichier demandé pour suppression : ' . $filename);
-    
+        Log::info('Nom du fichier demandé pour suppression : ' . $filename);
+
         // Vérifier si le fichier existe dans la liste des fichiers
         if (in_array($filename, $sliderImages)) {
             $filePath = "{$sliderImagesPath}/{$filename}";
@@ -1075,14 +1144,14 @@ class DashboardClient extends Controller
             }
 
             Log::warning('Fichier trouvé dans la liste mais inexistant ou inaccessible : ' . $filePath);
-            } else {
+        } else {
             // L'image n'est pas trouvée dans la liste
             Log::error('Image non trouvée dans la liste des fichiers du slider : ' . $filename);
         }
-    
+
         return redirect()->back()->with('error', 'Image non trouvée.');
     }
-    
+
 
     /**
      * Supprime un fichier PDF associé à une carte, ainsi que ses métadonnées dans la base de données.
@@ -1238,63 +1307,63 @@ class DashboardClient extends Controller
      * - Taille maximale autorisée : 2MB.
      * - Formats autorisés : `.jpg`, `.jpeg`, `.png`.
      */
-   public function uploadSlider(Request $request)
-   {
-       // Récupérer l'ID de compte depuis la session
-       $idCompte = session('connexion');
-       // Trouver la carte associée au compte
-       $carte = Carte::where('idCompte', $idCompte)->first();
-       // Vérification si la carte existe
-       if (!$carte) {
-           Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
-           return redirect()->back()->with('error', 'Compte non trouvé.');
-       }
-       // Construire le chemin cible pour le stockage
-       $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise); // Nettoyer le nom de l'entreprise
-       $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
+    public function uploadSlider(Request $request)
+    {
+        // Récupérer l'ID de compte depuis la session
+        $idCompte = session('connexion');
+        // Trouver la carte associée au compte
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        // Vérification si la carte existe
+        if (!$carte) {
+            Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+            return redirect()->back()->with('error', 'Compte non trouvé.');
+        }
+        // Construire le chemin cible pour le stockage
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise); // Nettoyer le nom de l'entreprise
+        $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
 
-       try {
-           // Valider les données de la requête
-           $validated = $request->validate([
-               'image.*' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Taille max : 2MB et formats appropriés
-           ]);
+        try {
+            // Valider les données de la requête
+            $validated = $request->validate([
+                'image.*' => 'required|file|mimes:jpg,jpeg,png|max:2048', // Taille max : 2MB et formats appropriés
+            ]);
 
-           // Vérifier et créer le répertoire de destination si nécessaire
-           if (!File::exists(public_path($destinationPath))) {
-               File::makeDirectory(public_path($destinationPath), 0755, true);
-               Log::info("Création du dossier : {$destinationPath}");
-           }
+            // Vérifier et créer le répertoire de destination si nécessaire
+            if (!File::exists(public_path($destinationPath))) {
+                File::makeDirectory(public_path($destinationPath), 0755, true);
+                Log::info("Création du dossier : {$destinationPath}");
+            }
 
-           // Parcourir chaque fichier uploadé
-           foreach ($request->file('image') as $file) {
-               // Vérification du type MIME réel du fichier uploadé
-               $realMimeType = $file->getMimeType();
-               $allowedMimeTypes = ['image/jpeg', 'image/png'];
-               if (!in_array($realMimeType, $allowedMimeTypes)) {
-                   Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
-                   return redirect()->back()->with('error', 'Type de fichier non autorisé.');
-               }
+            // Parcourir chaque fichier uploadé
+            foreach ($request->file('image') as $file) {
+                // Vérification du type MIME réel du fichier uploadé
+                $realMimeType = $file->getMimeType();
+                $allowedMimeTypes = ['image/jpeg', 'image/png'];
+                if (!in_array($realMimeType, $allowedMimeTypes)) {
+                    Log::error("Type MIME invalide : {$realMimeType} pour le fichier {$file->getClientOriginalName()}");
+                    return redirect()->back()->with('error', 'Type de fichier non autorisé.');
+                }
 
-               // Générer un nom de fichier unique
-               $fileName = uniqid() . '_' . $file->getClientOriginalName();
-               // Déplacer le fichier vers le répertoire cible
-               $file->move(public_path($destinationPath), $fileName);
-               Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
-           }
+                // Générer un nom de fichier unique
+                $fileName = uniqid() . '_' . $file->getClientOriginalName();
+                // Déplacer le fichier vers le répertoire cible
+                $file->move(public_path($destinationPath), $fileName);
+                Log::info("Fichier téléchargé avec succès : {$fileName} dans {$destinationPath}");
+            }
 
-           // Enregistrer un log personnalisé en base de données
-           Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
-           // Retourner un message de succès
-           return redirect()->back()->with('success', 'Images téléchargées avec succès.');
-       } catch (\Exception $e) {
-           // Gestion des erreurs (exceptions)
-           Log::error("Erreur lors du téléchargement des images pour le compte : {$idCompte}. Message : {$e->getMessage()}");
-           // Ajouter un log d'erreur personnalisé en base de données
-           Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
-           // Retourner un message d'erreur
-           return redirect()->back()->with('error', 'Erreur lors du téléchargement des images.');
-       }
-   }
+            // Enregistrer un log personnalisé en base de données
+            Logs::ecrireLog($carte->compte->email, "Téléchargement Image Slider");
+            // Retourner un message de succès
+            return redirect()->back()->with('success', 'Images téléchargées avec succès.');
+        } catch (\Exception $e) {
+            // Gestion des erreurs (exceptions)
+            Log::error("Erreur lors du téléchargement des images pour le compte : {$idCompte}. Message : {$e->getMessage()}");
+            // Ajouter un log d'erreur personnalisé en base de données
+            Logs::ecrireLog($carte->compte->email, "Erreur Téléchargement Image Slider");
+            // Retourner un message d'erreur
+            return redirect()->back()->with('error', 'Erreur lors du téléchargement des images.');
+        }
+    }
 
     /**
      * Met à jour les informations d'une carte, telles que le titre et la description.
@@ -2063,5 +2132,89 @@ class DashboardClient extends Controller
 
         // Retourner une erreur si la carte est introuvable
         return redirect()->back()->with('error', 'Carte non trouvée.');
+    }
+
+    public function uploadSiteWeb(Request $request)
+    {
+        try {
+            // Récupérer l'ID de compte depuis la session
+            $idCompte = session('connexion');
+            $carte = Carte::where('idCompte', $idCompte)->first();
+
+            // Vérifier si la carte existe
+            if (!$carte) {
+                Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+                return redirect()->back()->with('error', 'Compte introuvable.');
+            }
+
+
+            // Valider les données de la requête
+            $request->validate([
+                'site_web' => 'required|url', // Autorisation uniquement des fichiers PDF
+            ]);
+
+            $lienSiteWeb = $request->site_web;
+
+            // Mise à jour du lien et journalisation
+            $carte->lienSiteWeb = $lienSiteWeb;
+            $carte->save();
+
+            //mail
+            $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu';
+
+            // Journaliser l'opération réussie
+            Log::info('Lien du site web mis à jour avec succès', ['email' => $emailUtilisateur, 'lien' => $lienSiteWeb]);
+            Logs::ecrireLog($emailUtilisateur, "Mise à jour du lien du site web");
+
+            // Retourner un message de succès
+            return redirect()->back()->with('success', 'Lien du site web mis à jour avec succès.');
+
+        } catch (\Exception $e) {
+            // Gestion et journalisation des erreurs
+            Log::error("Erreur lors de la mise à jour du lien du site web pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
+            Logs::ecrireLog($carte->compte->email, "Erreur lors de la mise à jour du lien du site web");
+
+            // Retourner un message d'erreur
+            return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du lien.');
+        }
+
+    }
+
+    public function deleteSiteWeb(Request $request)
+    {
+        try{
+            // Récupérer l'ID de compte depuis la session
+            $idCompte = session('connexion');
+            $carte = Carte::where('idCompte', $idCompte)->first();
+
+            // Vérifier si la carte existe
+            if (!$carte) {
+                Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
+                return redirect()->back()->with('error', 'Compte introuvable.');
+            }
+
+            // Mise à jour du lien et journalisation
+            $carte->lienSiteWeb = null;
+            $carte->save();
+
+            //mail
+            $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu';
+
+            // Journaliser l'opération réussie
+            Log::info('Lien du site web supprimé avec succès', ['email' => $emailUtilisateur]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression du lien du site web");
+
+            // Retourner un message de succès
+            return redirect()->back()->with('success', 'Lien du site web supprimé avec succès.');
+
+        } catch (\Exception $e) {
+            // Gestion et journalisation des erreurs
+            Log::error("Erreur lors de la suppression du lien du site web pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
+            Logs::ecrireLog($carte->compte->email, "Erreur lors de la suppression du lien du site web");
+
+            // Retourner un message d'erreur
+            return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du lien.');
+        }
+
     }
 }
