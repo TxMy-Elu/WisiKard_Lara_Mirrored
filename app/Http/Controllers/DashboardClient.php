@@ -626,8 +626,12 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email ?? null; // Email de l'utilisateur ou null si non trouvé
 
+        //nom entreprise
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        $entrepriseName = $carte->nomEntreprise;
+
         // Génération de l'URL du QR Code avec les paramètres requis
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Templates?idCompte=" . $idCompte;
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Kard/{$entrepriseName}?idCompte=" . $idCompte;
 
         // Journalisation si les informations d'utilisateur sont valides
         if (!empty($idCompte) && !empty($emailUtilisateur)) {
