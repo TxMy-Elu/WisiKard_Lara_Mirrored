@@ -364,7 +364,7 @@
 
 
             <!-- div4 -->
-            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-2 p-6">
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">URL de prise de rendez-vous</h2>
                 <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data"
                       class="space-y-4">
@@ -414,7 +414,7 @@
 
 
             <!-- Section qui va occuper 2 lignes -->
-            <div class="relative col-span-3 row-span-2 h-full">
+            <div class="relative col-span-3 row-span-3 h-full">
                 @if($compte->role == 'starter')
                     <!-- Message abonnement, centré au-dessus du blur -->
                     <div class="relative z-50 flex flex-col items-center justify-center">
