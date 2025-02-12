@@ -1795,12 +1795,16 @@ class DashboardClient extends Controller
 
     public function afficherDashboardClientDescription($id_guide)
     {
+        // Récupérer le titre correspondant à l'id_guide
+        $titre = Guide::where('id_guide', $id_guide)->value('titre');
+    
         // Récupérer les textes correspondant à l'id_guide
         $txts = Txt::where('id_guide', $id_guide)->get();
-
-        // Passer les textes à la vue
-        return view('Client.dashboardClientDescription', compact('txts'));
+    
+        // Passer le titre et les textes à la vue
+        return view('Client.dashboardClientDescription', compact('txts', 'titre'));
     }
+    
 
     /**
      * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
