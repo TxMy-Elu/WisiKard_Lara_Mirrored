@@ -1783,23 +1783,24 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
-     public function afficherDashboardClientAide()
-     {
-         // Récupérer les titres depuis la table guide sans doublons
-         $titres = Guide::select('id_guide', 'titre')->get();
 
-         // Passer les titres à la vue
-         return view('Client.dashboardClientAide', compact('titres'));
-     }
+    public function afficherDashboardClientAide()
+    {
+        // Récupérer les titres depuis la table guide sans doublons
+        $titres = Guide::select('id_guide', 'titre')->get();
 
-     public function afficherDashboardClientDescription($id_guide)
-     {
-         // Récupérer les textes correspondant à l'id_guide
-         $txts = Txt::where('id_guide', $id_guide)->get();
+        // Passer les titres à la vue
+        return view('Client.dashboardClientAide', compact('titres'));
+    }
 
-         // Passer les textes à la vue
-         return view('Client.dashboardClientDescription', compact('txts'));
-     }
+    public function afficherDashboardClientDescription($id_guide)
+    {
+        // Récupérer les textes correspondant à l'id_guide
+        $txts = Txt::where('id_guide', $id_guide)->get();
+
+        // Passer les textes à la vue
+        return view('Client.dashboardClientDescription', compact('txts'));
+    }
 
     /**
      * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
@@ -2117,7 +2118,7 @@ class DashboardClient extends Controller
 
     public function deleteSiteWeb(Request $request)
     {
-        try{
+        try {
             // Récupérer l'ID de compte depuis la session
             $idCompte = session('connexion');
             $carte = Carte::where('idCompte', $idCompte)->first();
@@ -2152,4 +2153,52 @@ class DashboardClient extends Controller
         }
 
     }
+
+    public function downloadQrCodeEmp(Request $request)
+    {
+        // Récupérer les paramètres 'id' et 'empId' de la requête
+        $id = $request->query('id');
+        $empId = $request->query('empId');
+
+        // Vérifier si les paramètres existent
+        if (!$id || !$empId) {
+            return redirect()->back()->with('error', 'Paramètres manquants.');
+        }
+
+        // Vérifier si l'utilisateur est connecté et récupérer l'ID de compte depuis la session
+        $idCompte = session('connexion');
+        if (!$idCompte || $idCompte != $id) {
+            return redirect()->back()->with('error', 'Accès non autorisé ou session expirée.');
+        }
+
+        // Récupérer les données de la carte liées au compte
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        if (!$carte) {
+            return redirect()->back()->with('error', 'Carte introuvable pour cet utilisateur.');
+        }
+
+        // Récupérer les données de l'employé
+        $employe = Employer::where('idEmp', $empId)->first();
+        if (!$employe) {
+            return redirect()->back()->with('error', 'Employé introuvable.');
+        }
+
+        // Déterminer le chemin du fichier QR Code dans les dossiers locaux
+        $qrCodePath = public_path("entreprises/{$carte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg");
+
+        // Vérifier si le fichier existe
+        if (!file_exists($qrCodePath)) {
+            return redirect()->back()->with('error', 'QR Code introuvable sur le serveur.');
+        }
+
+        // Renommer le fichier pour le téléchargement (avec prénom et nom de l'employé)
+        $fileName = "QRCode_{$employe->prenom}_{$employe->nom}.svg";
+
+        // Téléchargement du fichier
+        return Response::download($qrCodePath, $fileName, [
+            'Content-Type' => 'image/svg+xml',
+        ]);
+    }
+
+
 }

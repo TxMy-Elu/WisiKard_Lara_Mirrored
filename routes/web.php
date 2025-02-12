@@ -124,4 +124,7 @@ Route::middleware([Authentification::class])->group(function () {
     Route::delete('/dashboardClientPDF/deleteSiteWeb', [DashboardClient::class, 'deleteSiteWeb'])->name('dashboardClientPDF.deleteSiteWeb');
 
     Route::post('/updateHoraires', [DashboardClient::class, 'updateHoraires'])->name('updateHoraires');
+
+    //Qr Code pour les employés
+    Route::get('/downloadQrCodeEmp', [DashboardClient::class, 'downloadQrCodeEmp'])->name('downloadQrCodeEmp');
 });

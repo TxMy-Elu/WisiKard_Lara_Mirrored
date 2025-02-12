@@ -171,23 +171,39 @@
                                     <p class="text-sm text-gray-500">{{ $employe->mail }}</p>
                                 </div>
                             </div>
-                            <div class="flex justify-center mb-4">
+                            <div class="flex flex-col items-center mb-4">
+                                <!-- QR Code -->
                                 <div class="w-24 h-24 bg-gray-200 flex justify-center items-center rounded-lg overflow-hidden">
                                     <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
                                          alt="QR Code" class="max-w-full max-h-full">
                                 </div>
-                                <div class="flex justify-end">
-                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}"
-                                       class="ml-2">
+
+                                <!-- Icônes sous le QR Code -->
+                                <div class="flex mt-2 space-x-4 justify-end">
+                                    <!-- Icône Rafraîchir -->
+                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              viewBox="0 0 24 24" fill="none" stroke="#000"
                                              stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-repeat mr-4">
+                                             class="feather feather-repeat">
                                             <polyline points="17 1 21 5 17 9"></polyline>
                                             <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
                                             <polyline points="7 23 3 19 7 15"></polyline>
                                             <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                                        </svg>
+                                    </a>
+
+                                    <!-- Icône Télécharger -->
+                                    <a href="{{ route('downloadQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="#000"
+                                             stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
                                         </svg>
                                     </a>
                                 </div>
@@ -220,23 +236,39 @@
                                 <p class="text-sm text-gray-500">{{ $employe->telephone }}</p>
                                 <p class="text-sm text-gray-500">{{ $employe->mail }}</p>
                             </div>
-                            <div class="flex justify-center mb-4">
+                            <div class="flex flex-col items-center mb-4">
+                                <!-- QR Code -->
                                 <div class="w-24 h-24 bg-gray-200 flex justify-center items-center rounded-lg overflow-hidden">
                                     <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
                                          alt="QR Code" class="max-w-full max-h-full">
                                 </div>
-                                <div class="flex justify-end">
-                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}"
-                                       class="ml-2">
+
+                                <!-- Icônes sous le QR Code -->
+                                <div class="mt-2 flex space-x-4 items-center">
+                                    <!-- Icône Rafraîchir -->
+                                    <a href="{{ route('refreshQrCodeEmp', ['id' => $employe->carte->idCompte, 'empId' => $employe->idEmp]) }}" class="flex">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              viewBox="0 0 24 24" fill="none" stroke="#000"
                                              stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-repeat mr-4">
+                                             class="feather feather-repeat">
                                             <polyline points="17 1 21 5 17 9"></polyline>
                                             <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
                                             <polyline points="7 23 3 19 7 15"></polyline>
                                             <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                                        </svg>
+                                    </a>
+
+                                    <!-- Icône Télécharger -->
+                                    <a href="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}" download class="flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="#000"
+                                             stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
                                         </svg>
                                     </a>
                                 </div>

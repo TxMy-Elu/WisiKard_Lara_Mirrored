@@ -44,7 +44,7 @@ class Employer extends Model
         // Construction sécurisée de l'URL
         $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg";
         $params = [
-            'text' => "127.0.0.1:9000/Kard/{$nomEntreprise}?CompteEmp={$id}x{$idEmp}"
+            'text' => "app.wisikard.fr/Kard/{$nomEntreprise}?CompteEmp={$id}x{$idEmp}"
         ];
         $url = $url . '&' . http_build_query($params);
         // Ajout d'un log pour voir l'URL générée
