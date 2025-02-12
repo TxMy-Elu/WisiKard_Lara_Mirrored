@@ -4637,3 +4637,15 @@ Did you mean one of these?
 #55 C:\\wamp64\\www\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\W...')
 #56 {main}
 "} 
+[2025-02-12 13:07:59] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-12 13:13:10] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-12 13:15:03] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-12 13:24:57] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-12 13:30:19] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png","lienSiteWeb":null} 
+[2025-02-12 13:30:24] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png","lienSiteWeb":null} 
+[2025-02-12 13:30:36] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png","lienSiteWeb":null} 
+[2025-02-12 13:30:45] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/21_Elio/pdf sous le nom cv.pdf  
+[2025-02-12 13:30:45] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/21_Elio/logos/logo.png","lienSiteWeb":null} 
+[2025-02-12 13:33:48] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-12 13:36:02] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-12 13:37:42] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
