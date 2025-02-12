@@ -7,7 +7,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
         .small-image {
-            width: 50%; /* Ajustez cette valeur pour modifier la taille de l'image */
+            width: 30%; /* Ajustez cette valeur pour modifier la taille de l'image */
             height: auto; /* Maintenez le ratio d'aspect */
         }
     </style>
@@ -18,11 +18,17 @@
     <div class="bg-white p-4 rounded-lg shadow-md space-y-4">
         @foreach($txts as $txt)
             <p class="text-gray-800">{{ $txt->txt }}</p>
-            @if($txt->num_txt == 2 && $img1)
+            @if($txt->num_txt == 1 && $img1)
                 <img src="{{ asset(str_replace('public/', '', $img1->chemin)) }}" alt="Image Description" class="mt-4 small-image">
-            @elseif($txt->num_txt == 3 && $img2)
+            @elseif($txt->num_txt == 2 && $img2)
                 <img src="{{ asset(str_replace('public/', '', $img2->chemin)) }}" alt="Image Description" class="mt-4 small-image">
-            @endif
+                @elseif($txt->num_txt == 3 && $img3)
+                <img src="{{ asset(str_replace('public/', '', $img3->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                @elseif($txt->num_txt == 4 && $img4)
+                <img src="{{ asset(str_replace('public/', '', $img4->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                @elseif($txt->num_txt == 5 && $img5)
+                <img src="{{ asset(str_replace('public/', '', $img5->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                @endif
         @endforeach
     </div>
 

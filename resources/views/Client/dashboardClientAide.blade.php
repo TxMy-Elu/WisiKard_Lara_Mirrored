@@ -109,23 +109,24 @@
            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
                <p class="text-xl font-semibold text-red-800">Employé</p>
 
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 1]) }}" class="text-gray-800 hover:text-red-500">Recherche</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 1]) }}" class="text-gray-800 hover:text-red-500">Modifier les Informations de l'Employé</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 1]) }}" class="text-gray-800 hover:text-red-500">Supprimer un Employé</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 1]) }}" class="text-gray-800 hover:text-red-500">Rafraîchir le QR Code de l'Employé</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 1]) }}" class="text-gray-800 hover:text-red-500">Ajouter un Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 18]) }}" class="text-gray-800 hover:text-red-500">Recherche</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 19]) }}" class="text-gray-800 hover:text-red-500">Modifier les Informations de l'Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 20]) }}" class="text-gray-800 hover:text-red-500">Supprimer un Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 21]) }}" class="text-gray-800 hover:text-red-500">Rafraîchir le QR Code de l'Employé</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 29]) }}" class="text-gray-800 hover:text-red-500">Télécharger le Qr Code de l'employer</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 22]) }}" class="text-gray-800 hover:text-red-500">Ajouter un Employé</a>
            </div>
 
            <!-- Contenu -->
            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
                <p class="text-xl font-semibold text-red-800">Contenu</p>
 
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un Logo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Logo</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un PDF']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un PDF</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer des Vidéos YouTube']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer des Vidéos YouTube</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer un Lien d\'Avis Google']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Lien d'Avis Google</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer une Galerie Photo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer une Galerie Photo</a>
-               <a href="{{ route('dashboardClientDescription', ['id_guide' => 5, 'categorie' => 'Ajouter/Supprimer une URL de Prise de Rendez-vous']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer une URL de Prise de Rendez-vous</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 23, 'categorie' => 'Ajouter/Supprimer un Logo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Logo</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 24, 'categorie' => 'Ajouter/Supprimer un PDF']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un PDF</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 25, 'categorie' => 'Ajouter/Supprimer des Vidéos YouTube']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer des Vidéos YouTube</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 26, 'categorie' => 'Ajouter/Supprimer un Lien d\'Avis Google']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer un Lien d'Avis Google</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 27, 'categorie' => 'Ajouter/Supprimer une Galerie Photo']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer une Galerie Photo</a>
+               <a href="{{ route('dashboardClientDescription', ['id_guide' => 28, 'categorie' => 'Ajouter/Supprimer une URL de Prise de Rendez-vous']) }}" class="text-gray-800 hover:text-red-500">Ajouter/Supprimer une URL de Prise de Rendez-vous</a>
 
            </div>
         </div>
