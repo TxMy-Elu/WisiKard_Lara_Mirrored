@@ -278,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `txt` (
                                      `num_txt` int NOT NULL,
                                      `categorie` varchar(50) NOT NULL,
     `id_guide` int NOT NULL,
-    `txt` varchar(250) NOT NULL,
+    `txt` varchar(500) NOT NULL,
     PRIMARY KEY (`id_txt`),
     KEY `id_guide` (`id_guide`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1;

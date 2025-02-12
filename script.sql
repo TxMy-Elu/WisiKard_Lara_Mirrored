@@ -908,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `txt` (
                                      `id_txt` int NOT NULL AUTO_INCREMENT,
                                      `num_txt` int NOT NULL,
                                      `id_guide` int NOT NULL,
-                                     `txt` varchar(250) NOT NULL,
+                                     `txt` varchar(500) NOT NULL,
     PRIMARY KEY (`id_txt`),
     KEY `id_guide` (`id_guide`)
     ) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb3;

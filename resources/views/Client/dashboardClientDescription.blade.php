@@ -18,7 +18,9 @@
     <div class="bg-white p-4 rounded-lg shadow-md space-y-4">
         @foreach($txts as $txt)
             <p class="text-gray-800">{{ $txt->txt }}</p>
-            @if($txt->num_txt == 2 && $img1)
+            @if($txt->num_txt == 1 && $img0)
+                <img src="{{ asset(str_replace('public/', '', $img0->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+            @elseif($txt->num_txt == 2 && $img1)
                 <img src="{{ asset(str_replace('public/', '', $img1->chemin)) }}" alt="Image Description" class="mt-4 small-image">
             @elseif($txt->num_txt == 3 && $img2)
                 <img src="{{ asset(str_replace('public/', '', $img2->chemin)) }}" alt="Image Description" class="mt-4 small-image">
