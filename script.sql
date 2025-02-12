@@ -258,7 +258,17 @@ INSERT INTO `img` (`id_img`, `num_img`, `id_guide`, `chemin`) VALUES
 (36, 2, 19, 'public/images/Employe/card_employe.png'),
 (37, 3, 19, 'public/images/Employe/modif_employe.png'),
 (38, 4, 19, 'public/images/Employe/modifier.png'),
-(39, 2, 20, 'public/images/Employe/suppri_employe.png');
+(39, 2, 20, 'public/images/Employe/suppri_employe.png'),
+(40, 2, 21, 'public/images/Employe/QrCodeEmploye.png'),
+(41, 2, 29, 'public/images/Employe/Dl_QrCodeEmploye.png'),
+(42, 2, 22, 'public/images/Employe/ajoutEmploye.png'),
+(43, 3, 22, 'public/images/Employe/info_inscription.png'),
+(44, 4, 22, 'public/images/Employe/info_inscription_ok.png'),
+(45, 3, 23, 'public/images/Contenu/Logo.png'),
+(46, 4, 23, 'public/images/Contenu/fichier_logo.png'),
+(47, 5, 23, 'public/images/Contenu/enre_logo.png'),
+(48, 7, 23, 'public/images/Contenu/suppri_logo.png');
+
 
 -- --------------------------------------------------------
 

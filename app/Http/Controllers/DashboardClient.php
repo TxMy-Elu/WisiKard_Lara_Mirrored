@@ -1802,8 +1802,10 @@ class DashboardClient extends Controller
         $img3 = Img::where('id_guide', $id_guide)->where('num_img', 3)->first();
         $img4 = Img::where('id_guide', $id_guide)->where('num_img', 4)->first();
         $img5 = Img::where('id_guide', $id_guide)->where('num_img', 5)->first();
+        $img6 = Img::where('id_guide', $id_guide)->where('num_img', 6)->first();
+        $img7 = Img::where('id_guide', $id_guide)->where('num_img', 7)->first();
 
-        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5'));
+        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
     }
     
     /**
