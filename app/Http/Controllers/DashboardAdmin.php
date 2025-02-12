@@ -87,16 +87,22 @@ class DashboardAdmin extends Controller
      */
     public function showModifyPasswordForm($id)
     {
-        // Recherche du compte correspondant à l'identifiant
-        $compte = Compte::find($id);
+        try {
+            // Recherche du compte correspondant à l'identifiant
+            $compte = Compte::find($id);
 
-        // Si le compte n'existe pas, lancer une erreur 404
-        if (!$compte) {
-            abort(404, 'Compte non trouvé');
+            // Si le compte n'existe pas, lancer une erreur 404
+            if (!$compte) {
+                abort(404, 'Compte non trouvé');
+            }
+
+            // Retourne la vue avec les données du compte
+            return view('Formulaire.formulaireModifMDP', compact('compte'));
+        } catch (\Exception $e) {
+            // Gestion des exceptions imprévues
+            Log::error("Erreur lors du chargement du formulaire : " . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur est survenue. Veuillez réessayer.');
         }
-
-        // Retourne la vue du formulaire, avec les données du compte
-        return view('Formulaire.formulaireModifMDP', compact('compte'));
     }
 
     /**
@@ -116,59 +122,40 @@ class DashboardAdmin extends Controller
      */
     public function updateMDP(Request $request, $id)
     {
-        // Récupération des informations de l'utilisateur connecté
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email; // Email de l'utilisateur connecté
+        try {
+            // Affiche les données entrantes
+            Log::info('Données entrantes : ', $request->all());
 
-        // Vérification si la méthode HTTP est POST pour soumettre le formulaire
-        if ($request->isMethod('post')) {
-            $messagesErreur = [];
-            $validationFormulaire = true;
+            // Votre validation
+            $validated = $request->validate([
+                'mdp1' => [
+                    'required',
+                    'min:12',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*]).{12,}$/'
+                ],
+                'mdp2' => ['required', 'same:mdp1']
+            ], [
+                'mdp1.regex' => 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial et faire au moins 12 caractères.',
+                'mdp2.same' => 'Les mots de passe doivent correspondre.'
+            ]);
 
-            // Vérification si les deux mots de passe saisis sont identiques
-            if ($request->input('mdp1') != $request->input('mdp2')) {
-                $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques.";
-                $validationFormulaire = false;
-                Logs::ecrireLog($emailUtilisateur, "Erreur mdp non identiques : Modif MDP");
-            }
+            // Procedure normale si valides
+            $compte = Compte::findOrFail($id);
+            $compte->password = bcrypt($validated['mdp1']);
+            $compte->save();
 
-            // Vérification de la complexité du mot de passe avec une expression régulière
-            if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{12,}$/", $request->input('mdp1')) === 0) {
-                $messagesErreur[] = "Le mot de passe doit contenir au minimum 12 caractères, comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
-                $validationFormulaire = false;
-                Logs::ecrireLog($emailUtilisateur, "Erreur pregmatch : Modif MDP");
-            }
-
-            // Si les validations sont réussies
-            if ($validationFormulaire) {
-                // Hachage du mot de passe
-                $motDePasseHashe = password_hash($request->input('mdp1'), PASSWORD_BCRYPT);
-
-                // Recherche de l'utilisateur à modifier via son identifiant
-                $compte = Compte::find($id);
-                if ($compte) {
-                    // Mise à jour de son mot de passe
-                    $compte->password = $motDePasseHashe;
-                    $compte->save();
-
-                    // Enregistrement dans les logs
-                    Logs::ecrireLog($compte->email, "Modification du mot de passe");
-
-                    // Redirection avec succès
-                    return redirect()->route('dashboardAdmin')->with('success', 'Mot de passe modifié !');
-                } else {
-                    Logs::ecrireLog($emailUtilisateur, "Erreur Compte non trouvé : Modif MDP");
-                    return redirect()->back()->with('error', 'Compte non trouvé');
-                }
-            } else {
-                // Retour en arrière avec les erreurs de validation
-                return redirect()->back()->with('error', implode('<br>', $messagesErreur));
-            }
+            return redirect()->route('dashboardAdmin')->with('success', 'Mot de passe modifié avec succès.');
+        } catch (\ValidationException $e) {
+            // Affiche les erreurs de validation dans les logs
+            Log::error('Validation échouée : ', $e->validator->errors()->all());
+            return redirect()->back()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            // Autres erreurs générales
+            Log::error('Erreur lors de la mise à jour du mot de passe : ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur est survenue. Veuillez réessayer.');
         }
-
-        // Chargement de la vue du formulaire pour modifier le mot de passe
-        return view('Formulaire.formulaireModifMDP');
     }
+
 
     /**
      * Affiche les statistiques annuelles et mensuelles des vues et données entreprises.

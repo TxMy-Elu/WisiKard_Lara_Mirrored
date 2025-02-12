@@ -15,7 +15,7 @@
 
             form.addEventListener('submit', function (event) {
                 if (mdp1.value !== mdp2.value) {
-                    event.preventDefault(); // Empêche la soumission du formulaire
+                    event.preventDefault(); // Prevent form submission
                     errorMessage.textContent = 'Les mots de passe ne correspondent pas.';
                     errorMessage.style.display = 'block';
                 } else {
@@ -25,57 +25,67 @@
         });
     </script>
 </head>
-<body class="align-items-center bg-gray-100 w-100">
-<div class="flex flex-col md:flex-row">
-    @include('menu.menuAdmin')
-    <div class="flex-1 md:ml-24 content"> <!-- Adjusted margin-left to match the new menu width -->
-        <div class="flex justify-between items-center mb-4">
-        </div>
-        <div class="min-h-screen p-4 flex justify-center items-center">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal min-h-screen flex items-center justify-center">
+<!-- Container principal -->
+<div class="container mx-auto px-4">
+    <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md overflow-hidden">
 
-            <!-- Messages de succès ou d'erreur -->
+        <!-- En-tête -->
+        <div class="px-6 py-4 bg-red-800 text-white text-center">
+            <h1 class="text-xl font-semibold">Modifier votre mot de passe</h1>
+            <p class="text-sm">Assurez-vous d'utiliser un mot de passe sécurisé.</p>
+        </div>
+
+        <!-- Messages de succès/erreur -->
+        <div class="p-4">
             @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Succès!</strong>
-                    <span class="block sm:inline">{{ session('success') }}</span>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    <strong>Succès!</strong> {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Erreur!</strong>
-                    <span class="block sm:inline">{{ session('error') }}</span>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <strong>Erreur!</strong> {{ session('error') }}
                 </div>
             @endif
-
-            <!-- Carte du formulaire -->
-            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <div class="flex justify-between items-center pb-4">
-                    <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Modifier mot de passe</h1>
-                </div>
-                <form action="{{ route('updateMDP', ['id' => $compte->idCompte]) }}" method="POST" class="bg-white justify-between p-4 rounded-lg shadow-lg">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label for="mdp1" class="block text-gray-700 text-sm font-bold mb-2">Nouveau mot de passe:</label>
-                        <input type="password" id="mdp1" name="mdp1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="mdp2" class="block text-gray-700 text-sm font-bold mb-2">Retapez le mot de passe:</label>
-                        <input type="password" id="mdp2" name="mdp2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    </div>
-
-                    <div id="error-message" class="text-red-500 text-sm mb-4" style="display: none;"></div>
-
-                    <div class="flex items-center justify-between">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
-                        <!-- Bouton Retour -->
-                        <a href="{{ route('dashboardAdmin') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Retour</a>
-                    </div>
-                </form>
-            </div>
         </div>
+
+        <!-- Formulaire -->
+        <form action="{{ route('updateMDP', ['id' => $compte->idCompte]) }}" method="POST" class="p-6">
+            @csrf
+            @method('PUT')
+
+            <!-- Champ Nouveau mot de passe -->
+            <div class="mb-4">
+                <label for="mdp1" class="block text-gray-700 text-sm font-semibold mb-2">Nouveau mot de passe :</label>
+                <input type="password" id="mdp1" name="mdp1" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-red-800">
+            </div>
+
+            <!-- Champ Confirmation mot de passe -->
+            <div class="mb-4">
+                <label for="mdp2" class="block text-gray-700 text-sm font-semibold mb-2">Confirmez le mot de passe :</label>
+                <input type="password" id="mdp2" name="mdp2" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-red-800">
+            </div>
+
+            <!-- Message d'erreur pour mots de passe différents -->
+            <div id="error-message" class="text-red-500 text-sm mb-4" style="display: none;">Les mots de passe ne correspondent pas.</div>
+
+            <!-- Boutons -->
+            <div class="flex items-center justify-between">
+                <!-- Bouton Soumettre -->
+                <button type="submit" class="bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded focus:outline-none transform hover:scale-105 duration-300">
+                    Modifier
+                </button>
+
+                <!-- Bouton Retour -->
+                <a href="{{ route('dashboardAdmin') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none transform hover:scale-105 duration-300">
+                    Retour
+                </a>
+            </div>
+        </form>
     </div>
 </div>
 </body>

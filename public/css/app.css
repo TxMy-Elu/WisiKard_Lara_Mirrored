@@ -912,11 +912,11 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
-  .w-80 {
-    width: calc(var(--spacing) * 80);
+  .w-24 {
+    width: calc(var(--spacing) * 24);
   }
-  .w-96 {
-    width: calc(var(--spacing) * 96);
+  .w-28 {
+    width: calc(var(--spacing) * 28);
   }
   .w-100 {
     width: calc(var(--spacing) * 100);
@@ -930,14 +930,8 @@
   .w-12 {
     width: calc(var(--spacing) * 12);
   }
-  .w-24 {
-    width: calc(var(--spacing) * 24);
-  }
   .w-25 {
     width: calc(var(--spacing) * 25);
-  }
-  .w-28 {
-    width: calc(var(--spacing) * 28);
   }
   .w-32 {
     width: calc(var(--spacing) * 32);
@@ -954,8 +948,14 @@
   .w-50 {
     width: calc(var(--spacing) * 50);
   }
+  .w-80 {
+    width: calc(var(--spacing) * 80);
+  }
   .w-86 {
     width: calc(var(--spacing) * 86);
+  }
+  .w-96 {
+    width: calc(var(--spacing) * 96);
   }
   .w-\[300px\] {
     width: 300px;
@@ -1334,6 +1334,9 @@
   .bg-red-500\/65 {
     background-color: color-mix(in oklab, var(--color-red-500) 65%, transparent);
   }
+  .bg-red-800 {
+    background-color: var(--color-red-800);
+  }
   .bg-red-900 {
     background-color: var(--color-red-900);
   }
@@ -1482,6 +1485,9 @@
   .align-middle {
     vertical-align: middle;
   }
+  .font-sans {
+    font-family: var(--font-sans);
+  }
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1518,6 +1524,10 @@
     --tw-leading: calc(var(--spacing) * 7);
     line-height: calc(var(--spacing) * 7);
   }
+  .leading-normal {
+    --tw-leading: var(--leading-normal);
+    line-height: var(--leading-normal);
+  }
   .leading-tight {
     --tw-leading: var(--leading-tight);
     line-height: var(--leading-tight);
@@ -1533,6 +1543,10 @@
   .font-semibold {
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
+  }
+  .tracking-normal {
+    --tw-tracking: var(--tracking-normal);
+    letter-spacing: var(--tracking-normal);
   }
   .tracking-wide {
     --tw-tracking: var(--tracking-wide);
@@ -2036,6 +2050,11 @@
   .focus\:ring-indigo-500 {
     &:focus {
       --tw-ring-color: var(--color-indigo-500);
+    }
+  }
+  .focus\:ring-red-800 {
+    &:focus {
+      --tw-ring-color: var(--color-red-800);
     }
   }
   .focus\:ring-offset-1 {
