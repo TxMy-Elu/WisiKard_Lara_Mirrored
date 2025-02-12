@@ -178,6 +178,10 @@
                 <div class="flex flex-row-reverse mt-auto pt-4">
                     <a href="{{ route('formulaireEntreprise') }}"
                        class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
+
+                    <a href="{{ url('/Kard/' . $carte->nomEntreprise .'?idCompte='. $carte->compte->idCompte) }}"
+                       target="_blank"
+                       class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Voir ma carte</a>
                 </div>
             </div>
             <!-- Font (div5) -->
@@ -670,8 +674,12 @@
                         <p class="text-slate-50 text-base">Advanced</p>
                     </div>
                 @endif
+                
                 <a href="{{ route('formulaireEntreprise') }}"
                    class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full text-center">Modifier</a>
+                <a href="{{ url('/Kard/' . $carte->nomEntreprise .'?idCompte='. $carte->compte->idCompte) }}"
+                   target="_blank"
+                   class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full text-center mt-2">Voir ma carte</a>
             </div>
 
             <!-- Font (div5) -->
