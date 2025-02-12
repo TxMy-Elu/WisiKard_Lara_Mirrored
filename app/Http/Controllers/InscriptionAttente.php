@@ -29,7 +29,7 @@ class InscriptionAttente extends Controller
             $carte = Carte::where('idCompte', $idCompte)->first();
             $compte = Compte::where('idCompte', $idCompte)->first();
 
-            $inscriptions = Inscription_attente::all(); // Corrigé ici
+            $inscriptions = Inscription_attente::all(); 
 
             if ($inscriptions->isEmpty()) {
                 Log::warning('Aucun inscrit en attente trouvé');
