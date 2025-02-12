@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Logs;
 use App\Models\Recuperation;
 use App\Models\Compte;
-use App\Models\Email;
 
 class RecuperationCompte extends Controller
 {
