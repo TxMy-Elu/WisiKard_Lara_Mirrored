@@ -275,7 +275,7 @@
     <!-- PDF -->
     @if($carte['pdf'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['pdf'] }}" download
+            <a href="{{ asset($carte['pdf']) }}" download
                class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"

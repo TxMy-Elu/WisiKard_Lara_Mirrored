@@ -235,44 +235,135 @@
             </div>
         @endif
     </div>
-    <div id="map" class="w-40 h-60 rounded-lg"></div>
+    <div id="map" class="w-40 h-60 rounded-lg z-10"></div>
 </div>
 
+<!-- Galerie Photos -->
+@php
+    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+    $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
+@endphp
+
+        <!-- Couverture initiale -->
+<!-- Couverture initiale -->
+<div class="flex justify-center mt-4 mx-4">
+    <div id="coverContainer"
+         class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2 cursor-pointer shadow-lg"
+         onclick="openGallery()">
+        <!-- SVG icône modernisée avec taille ajustée -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 text-[#9f0712]" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/>
+        </svg>
+        <p class="text-gray-800 text-lg hover:text-white">Cliquez pour voir la Galerie</p>
+    </div>
+</div>
+
+<!-- Galerie interactive -->
+<div id="galleryView"
+     class="hidden fixed inset-0 bg-zinc-900 bg-opacity-95 flex items-center justify-center z-50 transition-opacity duration-300">
+    <!-- Bouton de fermeture -->
+    <button class="absolute top-4 right-6 text-zinc-700 w-10 h-10 rounded-lg bg-white hover:bg-gray-100 border border-gray-300 flex items-center justify-center shadow-sm transition duration-200"
+            onclick="closeGallery()">
+        &times;
+    </button>
+
+    <!-- Conteneur pour l'image -->
+    <div class="relative w-full max-w-4xl flex items-center justify-center">
+        <img id="galleryImage" src="" alt="Image de la galerie"
+             class="max-w-full max-h-[80vh] object-contain rounded-md shadow-lg opacity-0 transition-opacity duration-500">
+
+        <!-- Bouton pour aller à l'image précédente -->
+        <button id="prevButton"
+                class="absolute left-4 top-1/2 text-white w-8 h-8 px-2 py-1 bg-zinc-800 hover:bg-zinc-700 border border-gray-600 rounded-full flex items-center justify-center shadow-sm transform -translate-y-1/2 transition duration-300"
+                onclick="prevImage()">&#10094;
+        </button>
+
+        <!-- Bouton pour aller à l'image suivante -->
+        <button id="nextButton"
+                class="absolute right-4 top-1/2 text-white w-8 h-8 px-2 py-1 bg-zinc-800 hover:bg-zinc-700 border border-gray-600 rounded-full flex items-center justify-center shadow-sm transform -translate-y-1/2 transition duration-300"
+                onclick="nextImage()">&#10095;
+        </button>
+    </div>
+</div>
+
+<!-- Section PDF + Vidéo -->
+<div class="flex justify-center mt-4 mx-4 gap-4">
+    <!-- Bouton PDF -->
+    @if($carte['pdf'])
+        <div class="w-1/2">
+            <a href="{{ asset($carte['pdf']) }}" download
+               class="w-full rounded-lg px-6 h-12 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25" fill="#9f0712">
+                    <path d="M64 464l48 0 0 48-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L229.5 0c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3L384 304l-48 0 0-144-80 0c-17.7 0-32-14.3-32-32l0-80L64 48c-8.8 0-16 7.2-16 16l0 384c0 8.8 7.2 16 16 16zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"/>
+                </svg>
+                <span>{{ $carte['nomBtnPdf'] ?? 'Télécharger le PDF' }}</span>
+            </a>
+        </div>
+    @endif
+
+    <!-- Bouton Vidéo -->
+    <div class="w-1/2">
+        <button onclick="openVideoGallery()"
+                class="w-full rounded-lg px-6 h-12 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25" fill="#9f0712">
+                <path d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/>
+            </svg>
+            <span>Voir les Vidéos</span>
+        </button>
+    </div>
+</div>
+
+<!-- Modale Galerie Vidéos -->
+<div id="videoGallery"
+     class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 relative flex flex-col">
+        <!-- Titre -->
+        <h3 class="text-center font-bold text-lg text-gray-800 mb-4">Galerie de Vidéos</h3>
+
+        <!-- Liste des vidéos -->
+        <div class="flex flex-wrap gap-4 justify-center items-center mb-4">
+            @foreach($youtubeUrls as $url)
+                @php
+                    // Extraire l'ID de la vidéo YouTube
+                    $videoId = preg_replace('/^.*?v=([\w\-]+).*$/', '$1', $url);
+                @endphp
+                <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                   class="w-1/3 sm:w-1/4 lg:w-1/5 relative rounded-lg overflow-hidden">
+                    <img src="https://img.youtube.com/vi/{{ $videoId }}/mqdefault.jpg"
+                         alt="Thumbnail"
+                         class="w-full rounded-lg hover:opacity-80 transition-opacity duration-200">
+                </a>
+            @endforeach
+        </div>
+
+        <!-- Bouton Fermer -->
+        <div class="flex justify-center">
+            <button onclick="closeVideoGallery()"
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                Fermer
+            </button>
+        </div>
+    </div>
+</div>
 
 <script>
-    var map = L.map('map').setView([48.8566, 2.3522], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    async function rechercherEntreprise() {
-        const nom = "{{ $carte['nomEntreprise'] }}";
-        const ville = "{{ $carte['ville'] }}";
-
-        console.log(nom, ville);
-
-        try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${nom},${ville}`);
-            const data = await response.json();
-
-            if (data.length > 0) {
-                const location = data[0];
-                const lat = location.lat;
-                const lon = location.lon;
-
-                map.setView([lat, lon], 15);
-                L.marker([lat, lon]).addTo(map);
-            } else {
-                console.log("Aucune entreprise ou adresse trouvée.");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la recherche d'entreprise ou d'adresse:", error);
-        }
+    function openVideoGallery() {
+        document.getElementById('videoGallery').classList.remove('hidden');
     }
 
-    // Appel de la fonction de recherche au chargement de la page
-    rechercherEntreprise();
+    function closeVideoGallery() {
+        document.getElementById('videoGallery').classList.add('hidden');
+    }
+</script>
+
+<script>
+    function openVideoGallery() {
+        document.getElementById('videoGallery').classList.remove('hidden');
+    }
+
+    function closeVideoGallery() {
+        document.getElementById('videoGallery').classList.add('hidden');
+    }
 </script>
 
 <script>
@@ -325,6 +416,90 @@
         }
     }
 
+    var map = L.map('map').setView([48.8566, 2.3522], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    async function rechercherEntreprise() {
+        const nom = "{{ $carte['nomEntreprise'] }}";
+        const ville = "{{ $carte['ville'] }}";
+
+        console.log(nom, ville);
+
+        try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${nom},${ville}`);
+            const data = await response.json();
+
+            if (data.length > 0) {
+                const location = data[0];
+                const lat = location.lat;
+                const lon = location.lon;
+
+                map.setView([lat, lon], 15);
+                L.marker([lat, lon]).addTo(map);
+            } else {
+                console.log("Aucune entreprise ou adresse trouvée.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la recherche d'entreprise ou d'adresse:", error);
+        }
+    }
+
+    // Appel de la fonction de recherche au chargement de la page
+    rechercherEntreprise();
+
+    // Liste des images
+    const galleryImages = [
+        @foreach($sliderImages as $image)
+            "{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}",
+        @endforeach
+    ];
+
+    const galleryView = document.getElementById('galleryView');
+    const galleryImage = document.getElementById('galleryImage');
+    let currentGalleryIndex = 0;
+
+    // Ouvrir la galerie
+    function openGallery() {
+        if (galleryImages.length > 0) {
+            currentGalleryIndex = 0; // Affiche la première image
+            galleryImage.src = galleryImages[currentGalleryIndex];
+            galleryView.classList.remove('hidden');
+            setTimeout(() => {
+                galleryImage.classList.remove('opacity-0');
+            }, 50); // Animation de fondu
+        }
+    }
+
+    // Fermer la galerie
+    function closeGallery() {
+        galleryImage.classList.add('opacity-0');
+        setTimeout(() => {
+            galleryView.classList.add('hidden');
+        }, 300); // Définit un délai avant de cacher complètement la galerie
+    }
+
+    // Afficher l'image précédente
+    function prevImage() {
+        currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+        galleryImage.classList.add('opacity-0');
+        setTimeout(() => {
+            galleryImage.src = galleryImages[currentGalleryIndex];
+            galleryImage.classList.remove('opacity-0');
+        }, 300); // Animation de fondu entre les images
+    }
+
+    // Afficher l'image suivante
+    function nextImage() {
+        currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
+        galleryImage.classList.add('opacity-0');
+        setTimeout(() => {
+            galleryImage.src = galleryImages[currentGalleryIndex];
+            galleryImage.classList.remove('opacity-0');
+        }, 300); // Animation de fondu entre les images
+    }
 </script>
 
 </body>
