@@ -922,19 +922,16 @@ class DashboardClient extends Controller
     }
 
     /**
-     * Supprime les vidéos YouTube d'un fichier JSON.
+     * Supprime une vidéo YouTube d'un fichier JSON en fonction de son index.
      *
-     * @param string $youtubeUrl L'URL YouTube à supprimer.
+     * @param int $index L'index de la vidéo à supprimer.
      * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
-     *
-     * Cette méthode permet de supprimer une vidéo YouTube spécifique enregistrée dans un fichier JSON.
-     * Chaque action est journalisée pour garantir la traçabilité.
      */
-    public function deleteYouTubeVideo($youtubeUrl)
+    public function deleteYouTubeVideo($index)
     {
         // Récupération des informations de l'utilisateur connecté
         $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu'; // Gestion en cas de données manquantes
+        $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu';
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         // Vérification si la carte existe
@@ -943,57 +940,58 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Construction du chemin vers le fichier JSON contenant les vidéos
+        // Construction du chemin vers le fichier JSON
         $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
 
-        // Vérifier si le fichier JSON contenant les vidéos existe
-        if (File::exists($videosPath)) {
-            try {
-                // Charger les données existantes
-                $videosData = json_decode(File::get($videosPath), true);
-
-                // Vérifier si l'URL YouTube est dans la liste
-                if (($key = array_search($youtubeUrl, $videosData)) !== false) {
-                    unset($videosData[$key]); // Supprimer l'URL spécifique
-                    $videosData = array_values($videosData); // Réindexer le tableau
-
-                    // Mettre à jour le fichier JSON
-                    File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT));
-
-                    Log::info('Vidéo YouTube supprimée avec succès', [
-                        'email' => $emailUtilisateur,
-                        'youtubeUrl' => $youtubeUrl,
-                    ]);
-                    Logs::ecrireLog($emailUtilisateur, "Suppression URL YouTube");
-
-                    return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
-                } else {
-                    // Log si l'URL YouTube n'est pas trouvée
-                    Log::warning('URL YouTube non trouvée dans le fichier JSON', [
-                        'email' => $emailUtilisateur,
-                        'youtubeUrl' => $youtubeUrl,
-                    ]);
-                    return redirect()->back()->with('error', 'URL YouTube non trouvée.');
-                }
-            } catch (\Exception $e) {
-                // Log en cas d'erreur lors de la suppression
-                Log::error("Erreur lors de la suppression de la vidéo YouTube", [
-                    'email' => $emailUtilisateur,
-                    'youtubeUrl' => $youtubeUrl,
-                    'exception' => $e->getMessage(),
-                ]);
-                return redirect()->back()->with('error', 'Une erreur est survenue lors de la suppression de la vidéo.');
-            }
-        } else {
-            // Log si le fichier JSON n'existe pas
+        // Vérification de l'existence du fichier JSON
+        if (!File::exists($videosPath)) {
             Log::warning('Fichier JSON des vidéos YouTube introuvable', [
                 'email' => $emailUtilisateur,
-                'youtubeUrl' => $youtubeUrl,
+                'index' => $index,
                 'videosPath' => $videosPath,
             ]);
             return redirect()->back()->with('error', 'Fichier JSON introuvable.');
+        }
+
+        try {
+            // Charger les données existantes
+            $videosData = json_decode(File::get($videosPath), true);
+
+            // Vérifier si l'index est valide
+            if (!isset($videosData[$index])) {
+                Log::warning('Index de vidéo YouTube non valide', [
+                    'email' => $emailUtilisateur,
+                    'index' => $index,
+                ]);
+                return redirect()->back()->with('error', 'Index de la vidéo invalide.');
+            }
+
+            // Supprimer l'entrée correspondante
+            unset($videosData[$index]);
+
+            // Réindexer les clés du tableau
+            $videosData = array_values($videosData);
+
+            // Réécrire dans le fichier JSON
+            File::put($videosPath, json_encode($videosData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+            Log::info('Vidéo YouTube supprimée avec succès', [
+                'email' => $emailUtilisateur,
+                'index' => $index,
+            ]);
+            Logs::ecrireLog($emailUtilisateur, "Suppression de la vidéo YouTube indexée à {$index}");
+
+            return redirect()->back()->with('success', 'Vidéo YouTube supprimée avec succès.');
+        } catch (\Exception $e) {
+            // Gestion des exceptions
+            Log::error("Erreur lors de la suppression de la vidéo YouTube", [
+                'email' => $emailUtilisateur,
+                'index' => $index,
+                'exception' => $e->getMessage(),
+            ]);
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la suppression de la vidéo.');
         }
     }
 
@@ -2159,6 +2157,7 @@ class DashboardClient extends Controller
         }
 
     }
+
 
     public function downloadQrCodeEmp(Request $request)
     {

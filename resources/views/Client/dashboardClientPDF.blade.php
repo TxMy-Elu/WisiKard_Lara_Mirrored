@@ -55,7 +55,7 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Enregistrer
+                                Actuel
                             </button>
                         </div>
                     </form>
@@ -105,7 +105,7 @@
                             <button type="button"
                                     onclick="openModalPdf()"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Enregistrer
+                                Actuel
                             </button>
                         </div>
 
@@ -127,7 +127,7 @@
                                 </button>
                                 <button type="button" onclick="saveAndSubmit()"
                                         class="px-4 py-2 bg-indigo-500 text-white text-sm rounded-lg">
-                                    Enregistrer
+                                    Actuel
                                 </button>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                             <div class="flex justify-end">
                                 <div type="submit"
                                      class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    Enregistrer
+                                    Actuel
                                 </div>
                             </div>
                         </div>
@@ -220,7 +220,7 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Enregistrer
+                                Actuel
                             </button>
                         </div>
                     </form>
@@ -242,7 +242,7 @@
                                         </div>
 
                                         <!-- Formulaire de suppression -->
-                                        <form action="{{ route('dashboardClientPDF.deleteVideo', ['index' => $index]) }}"
+                                        <form action="{{ route('dashboardClientPDF.deleteYouTubeVideo', ['index' => $index]) }}"
                                               method="POST" class="mt-4 w-full flex justify-end">
                                             @csrf
                                             @method('DELETE')
@@ -279,12 +279,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Enregistrer
+                            Actuel
                         </button>
                     </div>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google enregistré</h2>
-                <!-- Afficher l'URL de l'avis Google sous le bouton "Enregistrer" -->
+                <!-- Afficher l'URL de l'avis Google sous le bouton "Actuel" -->
                 @if($carte->lienAvis)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -330,12 +330,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Enregistrer
+                            Actuel
                         </button>
                     </div>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Site Web enregistré</h2>
-                <!-- Afficher l'URL du site Web sous le bouton "Enregistrer" -->
+                <!-- Afficher l'URL du site Web sous le bouton "Actuel" -->
                 @if($carte->lienSiteWeb)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -380,12 +380,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Enregistrer
+                            Actuel
                         </button>
                     </div>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien de RDV enregistré</h2>
-                <!-- Afficher l'URL de RDV sous le bouton "Enregistrer" -->
+                <!-- Afficher l'URL de RDV sous le bouton "Actuel" -->
                 @if($carte->LienCommande)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -452,7 +452,7 @@
                             <div class="flex justify-end">
                                 <button type="submit"
                                         class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    Enregistrer
+                                    Actuel
                                 </button>
                             </div>
                         </form>
