@@ -1799,9 +1799,11 @@ class DashboardClient extends Controller
         $txts = Txt::where('id_guide', $id_guide)->get();
         $img1 = Img::where('id_guide', $id_guide)->where('num_img', 1)->first();
         $img2 = Img::where('id_guide', $id_guide)->where('num_img', 2)->first();
+        $img3 = Img::where('id_guide', $id_guide)->where('num_img', 3)->first();
+        $img4 = Img::where('id_guide', $id_guide)->where('num_img', 4)->first();
+        return view('Client.dashboardClientDescription', compact('txts', 'titre', 'img1', 'img2', 'img3', 'img4'));
+    }
     
-        return view('Client.dashboardClientDescription', compact('txts', 'titre', 'img1', 'img2'));
-    }    
     
     /**
      * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
