@@ -7,9 +7,6 @@
     <title>Connexion</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-
-
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body class="bg-white md:bg-zinc-100">
 

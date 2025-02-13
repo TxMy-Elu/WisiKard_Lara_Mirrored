@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Modifier Entreprise</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <script>
         // Fonction pour vérifier avant la soumission
         function confirmEntrepriseModification(event) {
@@ -34,7 +33,8 @@
                 <h1 class="text-2xl font-semibold">Modifier Entreprise</h1>
             </div>
             @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                     role="alert">
                     <strong class="font-bold">Succès!</strong>
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
@@ -45,28 +45,36 @@
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
-            <form action="{{ route('updateEntreprise') }}" method="POST" class="bg-white p-4 rounded-lg shadow-lg" onsubmit="confirmEntrepriseModification(event)">
+            <form action="{{ route('updateEntreprise') }}" method="POST" class="bg-white p-4 rounded-lg shadow-lg"
+                  onsubmit="confirmEntrepriseModification(event)">
                 @csrf
                 @method('POST')
                 <div class="mb-4">
-                    <label for="nomEntreprise" class="block text-gray-700 text-sm font-bold mb-2">Nom Entreprise:</label>
+                    <label for="nomEntreprise" class="block text-gray-700 text-sm font-bold mb-2">Nom
+                        Entreprise:</label>
                     <input type="text" id="nomEntreprise" name="nomEntreprise" value="{{ $carte->nomEntreprise }}"
                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
                     <label for="mail" class="block text-gray-700 text-sm font-bold mb-2">Adresse mail</label>
-                    <input type="email" id="mail" name="mail" value="{{ $carte->compte->email }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="email" id="mail" name="mail" value="{{ $carte->compte->email }}"
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
                     <label for="tel" class="block text-gray-700 text-sm font-bold mb-2">Téléphone</label>
-                    <input type="text" id="tel" name="tel" value="{{ $carte->tel }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" id="tel" name="tel" value="{{ $carte->tel }}"
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
                     <label for="adresse" class="block text-gray-700 text-sm font-bold mb-2">Adresse</label>
-                    <input type="text" id="adresse" name="adresse" value="{{ $carte->ville }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" id="adresse" name="adresse" value="{{ $carte->ville }}"
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Modifier</button>
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Modifier
+                    </button>
                 </div>
             </form>
         </div>
