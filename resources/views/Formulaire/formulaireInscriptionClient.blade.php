@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inscription</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 </head>
 <body class="bg-white md:bg-zinc-900">
 <div class="flex justify-center items-center min-h-screen">
@@ -27,7 +26,8 @@
                 <form action="{{ route('boutonInscriptionClient') }}" method="post">
                     @csrf
                     <div class="mb-6">
-                        <label for="entreprise" class="block text-sm font-medium text-gray-700">Nom de l'entreprise</label>
+                        <label for="entreprise" class="block text-sm font-medium text-gray-700">Nom de
+                            l'entreprise</label>
                         <input type="text" name="entreprise" id="entreprise"
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                required>
@@ -40,7 +40,8 @@
                     </div>
                     <div class="mb-6">
                         <div class="">
-                            <label for="motDePasse1" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                            <label for="motDePasse1" class="block text-sm font-medium text-gray-700">Mot de
+                                passe</label>
                             <input type="password" name="motDePasse1" id="motDePasse1"
                                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                    required>
@@ -49,12 +50,14 @@
                         <span class="text-sm text-gray-500">Minimum 12 caractères</span>
                     </div>
                     <div class="mb-6">
-                        <label for="motDePasse2" class="block text-sm font-medium text-gray-700">Validation du mot de passe</label>
+                        <label for="motDePasse2" class="block text-sm font-medium text-gray-700">Validation du mot de
+                            passe</label>
                         <input type="password" name="motDePasse2" id="motDePasse2"
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                required>
                     </div>
-                    <input id="prodId" name="prodId" type="hidden" value="{{ isset($_GET['role']) ? htmlspecialchars($_GET['role']) : '' }}" />
+                    <input id="prodId" name="prodId" type="hidden"
+                           value="{{ isset($_GET['role']) ? htmlspecialchars($_GET['role']) : '' }}"/>
                     <div class="mb-6">
                         @include('messageErreur')
                         <div class="mb-4">

@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Modifier Mot de Passe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('form');
@@ -65,23 +64,28 @@
 
             <!-- Champ Confirmation mot de passe -->
             <div class="mb-4">
-                <label for="mdp2" class="block text-gray-700 text-sm font-semibold mb-2">Confirmez le mot de passe :</label>
+                <label for="mdp2" class="block text-gray-700 text-sm font-semibold mb-2">Confirmez le mot de passe
+                    :</label>
                 <input type="password" id="mdp2" name="mdp2" required
                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-red-800">
             </div>
 
             <!-- Message d'erreur pour mots de passe différents -->
-            <div id="error-message" class="text-red-500 text-sm mb-4" style="display: none;">Les mots de passe ne correspondent pas.</div>
+            <div id="error-message" class="text-red-500 text-sm mb-4" style="display: none;">Les mots de passe ne
+                correspondent pas.
+            </div>
 
             <!-- Boutons -->
             <div class="flex items-center justify-between">
                 <!-- Bouton Soumettre -->
-                <button type="submit" class="bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded focus:outline-none transform hover:scale-105 duration-300">
+                <button type="submit"
+                        class="bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded focus:outline-none transform hover:scale-105 duration-300">
                     Modifier
                 </button>
 
                 <!-- Bouton Retour -->
-                <a href="{{ route('dashboardAdmin') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none transform hover:scale-105 duration-300">
+                <a href="{{ route('dashboardAdmin') }}"
+                   class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none transform hover:scale-105 duration-300">
                     Retour
                 </a>
             </div>

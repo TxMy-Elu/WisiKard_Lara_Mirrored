@@ -12,28 +12,31 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-zinc-900 w-full" style="font-family: '{{ $carte['font'] }}';">
-<div class="flex gap-10 items-center mt-4 ml-4">
-    <div class="bg-white w-48 h-32 flex justify-center items-center overflow-hidden p-2 rounded-lg">
-        @php
-            $logoPath = '';
-            $formats = ['svg', 'png', 'jpg', 'jpeg'];
-            foreach ($formats as $format) {
-                $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
-                if (file_exists($path)) {
-                    $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
-                    break;
-                }
-            }
-        @endphp
 
-        @if(!empty($logoPath))
+
+@php
+    $logoPath = '';
+    $formats = ['svg', 'png', 'jpg', 'jpeg'];
+    foreach ($formats as $format) {
+        $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+        if (file_exists($path)) {
+            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            break;
+        }
+    }
+@endphp
+<div class="flex gap-10 items-center mt-4 ml-4 @if(empty($logoPath)) justify-center  @endif">
+
+    @if(!empty($logoPath))
+        <div class="bg-white w-48 h-32 flex justify-center items-center overflow-hidden p-2 rounded-lg">
             <div class="w-full h-full">
                 <img src="{{ $logoPath }}" alt="Logo de l'entreprise" class="w-full h-full object-contain">
             </div>
-        @endif
-    </div>
-    <div class="text-white space-y-2 ">
-        @if($carte['nomEntreprise'])
+        </div>
+    @endif
+
+    <div class="text-white space-y-2 @if(empty($logoPath)) flex flex-col items-center justify-center h-full @endif">
+        @if($carte['nomEntreprise'] && empty($logoPath))
             <div>
                 <h1 class="text-white text-2xl font-bold">{{ $carte['nomEntreprise'] }}</h1>
             </div>
@@ -327,42 +330,42 @@
                 <span>Voir les Vidéos</span>
             </button>
         </div>
-</div>
 
 
-<!-- Modale Galerie Vidéos -->
-<div id="videoGallery"
-     class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 relative flex flex-col">
-        <!-- Titre -->
-        <h3 class="text-center font-bold text-lg text-gray-800 mb-4">Galerie de Vidéos</h3>
+        <!-- Modale Galerie Vidéos -->
+        <div id="videoGallery"
+             class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 relative flex flex-col">
+                <!-- Titre -->
+                <h3 class="text-center font-bold text-lg text-gray-800 mb-4">Galerie de Vidéos</h3>
 
-        <!-- Liste des vidéos -->
-        <div class="flex flex-wrap gap-4 justify-center items-center mb-4">
-            @foreach($youtubeUrls as $url)
-                @php
-                    // Extraire l'ID de la vidéo YouTube
-                    $videoId = preg_replace('/^.*?v=([\w\-]+).*$/', '$1', $url);
-                @endphp
-                <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
-                   class="w-1/3 sm:w-1/4 lg:w-1/5 relative rounded-lg overflow-hidden">
-                    <img src="https://img.youtube.com/vi/{{ $videoId }}/mqdefault.jpg"
-                         alt="Thumbnail"
-                         class="w-full rounded-lg hover:opacity-80 transition-opacity duration-200">
-                </a>
-            @endforeach
+                <!-- Liste des vidéos -->
+                <div class="flex flex-wrap gap-4 justify-center items-center mb-4">
+                    @foreach($youtubeUrls as $url)
+                        @php
+                            // Extraire l'ID de la vidéo YouTube
+                            $videoId = preg_replace('/^.*?v=([\w\-]+).*$/', '$1', $url);
+                        @endphp
+                        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                           class="w-1/3 sm:w-1/4 lg:w-1/5 relative rounded-lg overflow-hidden">
+                            <img src="https://img.youtube.com/vi/{{ $videoId }}/mqdefault.jpg"
+                                 alt="Thumbnail"
+                                 class="w-full rounded-lg hover:opacity-80 transition-opacity duration-200">
+                        </a>
+                    @endforeach
+                </div>
+
+                <!-- Bouton Fermer -->
+                <div class="flex justify-center">
+                    <button onclick="closeVideoGallery()"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                        Fermer
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <!-- Bouton Fermer -->
-        <div class="flex justify-center">
-            <button onclick="closeVideoGallery()"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
-                Fermer
-            </button>
-        </div>
-    </div>
+    @endif
 </div>
-@endif
 
 @if($mergedSocial && count($mergedSocial) > 0)
     <!-- Link social -->
@@ -402,6 +405,11 @@
     </div>
 @endif
 
+<footer class=" text-center p-4 text-white text-sm mt-6">
+    © {{ date('Y') }} - Un service proposé par
+    <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
+    <a href="https://wisikard.fr" class="text-blue-400 hover:underline">Wisikard</a>
+</footer>
 
 <script>
     // **Script pour le Modal QR Code**
