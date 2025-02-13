@@ -2074,6 +2074,38 @@ class DashboardClient extends Controller
         return redirect()->back()->with('error', 'Carte non trouvée.');
     }
 
+    /**
+     * Met à jour le lien du site web associé à un compte utilisateur.
+     *
+     * Cette méthode permet d'ajouter ou de mettre à jour le champ `lienSiteWeb` d'une carte
+     * liée au compte utilisateur actuellement connecté. Le lien fourni est validé afin qu'il respecte
+     * le format d'une URL valide. En cas de succès, un message de réussite est retourné. En cas d'erreur,
+     * un message d'échec est affiché et l'erreur est journalisée.
+     *
+     * @param \Illuminate\Http\Request $request L'objet de la requête HTTP contenant les données du formulaire.
+     *
+     * @return \Illuminate\Http\RedirectResponse Retourne une redirection vers la page précédente avec un message de succès ou d'erreur.
+     *
+     * @throws \Illuminate\Validation\ValidationException Génère une exception en cas de validation échouée.
+     * @throws \Exception Capture toutes les exceptions inattendues et les journalise.
+     *
+     * Prérequis :
+     * - Une session active contenant un ID de compte (`connexion`).
+     * - Une carte (`Carte`) existant pour le compte connecté.
+     * - Une requête valide contenant le champ `site_web` avec une URL.
+     *
+     * Validation des données :
+     * - `site_web` : Ce champ est obligatoire et doit contenir une URL valide.
+     *
+     * Messages d'erreur possibles :
+     * - "Compte introuvable." : Si aucune carte n'est trouvée pour le compte connecté.
+     * - "Lien invalide." : Si la validation du champ `site_web` échoue.
+     * - "Une erreur est survenue lors du traitement du lien." : Si une exception survient pendant le processus.
+     *
+     * Journalisation :
+     * - En cas de succès, l'adresse e-mail de l'utilisateur est enregistrée avec le lien mis à jour.
+     * - En cas d'échec, l'erreur est enregistrée avec le détail du problème.
+     */
     public function uploadSiteWeb(Request $request)
     {
         try {
@@ -2087,10 +2119,9 @@ class DashboardClient extends Controller
                 return redirect()->back()->with('error', 'Compte introuvable.');
             }
 
-
             // Valider les données de la requête
             $request->validate([
-                'site_web' => 'required|url', // Autorisation uniquement des fichiers PDF
+                'site_web' => 'required|url', // URL obligatoire
             ]);
 
             $lienSiteWeb = $request->site_web;
@@ -2099,7 +2130,7 @@ class DashboardClient extends Controller
             $carte->lienSiteWeb = $lienSiteWeb;
             $carte->save();
 
-            //mail
+            // Récupérer l'e-mail de l'utilisateur
             $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu';
 
             // Journaliser l'opération réussie
@@ -2112,14 +2143,42 @@ class DashboardClient extends Controller
         } catch (\Exception $e) {
             // Gestion et journalisation des erreurs
             Log::error("Erreur lors de la mise à jour du lien du site web pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
-            Logs::ecrireLog($carte->compte->email, "Erreur lors de la mise à jour du lien du site web");
+
+            if (isset($carte->compte->email)) {
+                Logs::ecrireLog($carte->compte->email, "Erreur lors de la mise à jour du lien du site web");
+            }
 
             // Retourner un message d'erreur
             return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du lien.');
         }
-
     }
 
+    /**
+     * Supprime le lien du site web associé à un compte utilisateur.
+     *
+     * Cette méthode permet de supprimer un lien de site web (champ `lienSiteWeb`) associé
+     * à une carte liée au compte utilisateur actuellement connecté. En cas de succès,
+     * un message de réussite est retourné. En cas d'erreur, un message d'échec est retourné,
+     * et l'erreur est journalisée.
+     *
+     * @param \Illuminate\Http\Request $request L'objet de la requête HTTP.
+     *
+     * @return \Illuminate\Http\RedirectResponse Retourne une redirection vers la page précédente avec un message de succès ou d'erreur.
+     *
+     * @throws \Exception Capture toutes les exceptions et les journalise.
+     *
+     * Prérequis :
+     * - Une session active contenant un ID de compte `connexion`.
+     * - Une carte (`Carte`) existant pour le compte connecté.
+     *
+     * Messages d'erreur possibles :
+     * - "Compte introuvable." : Si aucune carte n'est trouvée pour le compte connecté.
+     * - "Une erreur est survenue lors du traitement du lien." : Si une exception survient pendant le processus.
+     *
+     * Journalisation :
+     * - En cas de succès, l'adresse e-mail de l'utilisateur est journalisée avec un message d'opération réussie.
+     * - En cas d'échec, l'erreur est enregistrée avec le détail du problème.
+     */
     public function deleteSiteWeb(Request $request)
     {
         try {
@@ -2137,7 +2196,7 @@ class DashboardClient extends Controller
             $carte->lienSiteWeb = null;
             $carte->save();
 
-            //mail
+            // Récupérer l'e-mail de l'utilisateur
             $emailUtilisateur = Compte::find($idCompte)->email ?? 'Utilisateur inconnu';
 
             // Journaliser l'opération réussie
@@ -2150,18 +2209,52 @@ class DashboardClient extends Controller
         } catch (\Exception $e) {
             // Gestion et journalisation des erreurs
             Log::error("Erreur lors de la suppression du lien du site web pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
-            Logs::ecrireLog($carte->compte->email, "Erreur lors de la suppression du lien du site web");
+
+            if (isset($carte->compte->email)) {
+                Logs::ecrireLog($carte->compte->email, "Erreur lors de la suppression du lien du site web");
+            }
 
             // Retourner un message d'erreur
             return redirect()->back()->with('error', 'Une erreur est survenue lors du traitement du lien.');
         }
-
     }
 
 
+    /**
+     * Télécharge le QR Code d'un employé pour un compte client spécifique.
+     *
+     * Cette méthode vérifie si les paramètres nécessaires (ID utilisateur et ID employé) sont fournis
+     * et si l'utilisateur connecté a les permissions requises pour accéder au fichier.
+     * En cas de succès, le fichier QR Code est téléchargé avec un nom personnalisé.
+     *
+     * @param \Illuminate\Http\Request $request L'objet de la requête HTTP contenant les paramètres de la requête.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\RedirectResponse
+     *         - Renvoie une réponse pour le téléchargement du fichier QR Code si tout est correct.
+     *         - Redirige en arrière avec un message d'erreur si des prérequis ne sont pas satisfaits.
+     *
+     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException Lève une exception si le fichier QR Code n'existe pas.
+     *
+     * Prérequis :
+     * - L'identifiant utilisateur (`id`) doit être présent dans les paramètres de la requête.
+     * - L'identifiant de l'employé (`empId`) doit être présent dans les paramètres de la requête.
+     * - Une session active contenant `connexion` est obligatoire.
+     * - Une carte associée à l'utilisateur connecté doit exister.
+     * - Le fichier QR Code correspondant à l'employé doit être présent sur le serveur.
+     *
+     * Messages d'erreur possibles :
+     * - "Paramètres manquants." : Si `id` ou `empId` sont absents.
+     * - "Accès non autorisé ou session expirée." : Si la session n'est pas valide ou ne correspond pas au compte.
+     * - "Carte introuvable pour cet utilisateur." : Si aucune carte n'est trouvée pour l'utilisateur.
+     * - "Employé introuvable." : Si l'employé correspondant à `empId` n'est pas trouvé.
+     * - "QR Code introuvable sur le serveur." : Si le fichier correspondant au QR Code de l'employé est introuvable.
+     *
+     * Exemple de chemin de fichier pour le QR Code :
+     * "entreprises/{idCompte}_{nomEntreprise}/QR_Codes/QR_Code_{idEmp}.svg"
+     */
     public function downloadQrCodeEmp(Request $request)
     {
-        // Récupérer les paramètres 'id' et 'empId' de la requête
+        // Récupérer les paramètres de la requête HTTP
         $id = $request->query('id');
         $empId = $request->query('empId');
 
@@ -2176,30 +2269,30 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Accès non autorisé ou session expirée.');
         }
 
-        // Récupérer les données de la carte liées au compte
+        // Récupérer la carte liée au compte utilisateur
         $carte = Carte::where('idCompte', $idCompte)->first();
         if (!$carte) {
             return redirect()->back()->with('error', 'Carte introuvable pour cet utilisateur.');
         }
 
-        // Récupérer les données de l'employé
+        // Récupération des informations de l'employé
         $employe = Employer::where('idEmp', $empId)->first();
         if (!$employe) {
             return redirect()->back()->with('error', 'Employé introuvable.');
         }
 
-        // Déterminer le chemin du fichier QR Code dans les dossiers locaux
+        // Construire le chemin du fichier QR Code sur le serveur
         $qrCodePath = public_path("entreprises/{$carte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg");
 
-        // Vérifier si le fichier existe
+        // Vérifier si le fichier QR Code existe
         if (!file_exists($qrCodePath)) {
             return redirect()->back()->with('error', 'QR Code introuvable sur le serveur.');
         }
 
-        // Renommer le fichier pour le téléchargement (avec prénom et nom de l'employé)
+        // Définir le nom du fichier pour le téléchargement
         $fileName = "QRCode_{$employe->prenom}_{$employe->nom}.svg";
 
-        // Téléchargement du fichier
+        // Retourner une réponse pour le téléchargement du fichier QR Code
         return Response::download($qrCodePath, $fileName, [
             'Content-Type' => 'image/svg+xml',
         ]);
