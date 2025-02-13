@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `lienQr` varchar(500) NOT NULL,
     `lienPdf` varchar(500) DEFAULT NULL,
     `lienAvis` varchar(500) DEFAULT NULL,
-    'lienSiteWeb' varchar(500) DEFAULT NULL,
+    `lienSiteWeb` varchar(500) DEFAULT NULL,
     `font` varchar(500) CHARACTER SET utf8  NOT NULL DEFAULT 'roboto',
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
@@ -466,7 +466,7 @@ DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
                                       `id_img` int NOT NULL AUTO_INCREMENT,
                                       `num_img` int NOT NULL,
-                                      `categorie` VARCHAR(50) NOT NULL,
+                                      `chemin` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id_img`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

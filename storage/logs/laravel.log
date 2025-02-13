@@ -8213,3 +8213,4 @@ Did you mean one of these?
 [2025-02-12 16:14:42] local.INFO: Informations de l'entreprise mises à jour avec succès. {"email":"cli@cli.fr","nomEntreprise":"Elio","tel":"0678207584","mail":"cli@cli.fr","adresse":"verdun"} 
 [2025-02-12 16:14:44] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-02-12 16:15:30] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 08:02:21] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
