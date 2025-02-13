@@ -8216,3 +8216,108 @@ Did you mean one of these?
 [2025-02-13 08:09:05] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-02-13 08:23:26] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
 [2025-02-13 08:23:33] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:06:50] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:06:52] local.INFO: Logo supprimé avec succès {"email":"cli@cli.fr","logoPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/1_Lidl/logos/logo.png"} 
+[2025-02-13 09:06:52] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:10:14] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:10:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:10:27] local.INFO: Logo téléchargé avec succès {"email":"cli@cli.fr","fileName":"logo.png"} 
+[2025-02-13 09:10:27] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:25:32] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:25:34] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:27:49] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:29:47] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:29:53] local.INFO: Lien personnalisé mis à jour avec succès {"email":"cli@cli.fr","id_link":"4","lien":"https://www.goat.com","activer":0} 
+[2025-02-13 09:29:56] local.INFO: Lien personnalisé mis à jour avec succès {"email":"cli@cli.fr","id_link":"5","lien":"https://www.goat.com","activer":0} 
+[2025-02-13 09:30:06] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:31:13] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:32:50] local.INFO: Mise à jour du lien social existant {"idSocial":"1","idCarte":"1","email":"cli@cli.fr"} 
+[2025-02-13 09:32:52] local.INFO: Mise à jour du lien social existant {"idSocial":"2","idCarte":"1","email":"cli@cli.fr"} 
+[2025-02-13 09:32:53] local.INFO: Mise à jour du lien social existant {"idSocial":"3","idCarte":"1","email":"cli@cli.fr"} 
+[2025-02-13 09:32:55] local.INFO: Mise à jour du lien social existant {"idSocial":"6","idCarte":"1","email":"cli@cli.fr"} 
+[2025-02-13 09:32:57] local.INFO: Mise à jour du lien social existant {"idSocial":"5","idCarte":"1","email":"cli@cli.fr"} 
+[2025-02-13 09:32:59] local.INFO: Mise à jour du lien social existant {"idSocial":"4","idCarte":"1","email":"cli@cli.fr"} 
+[2025-02-13 09:33:01] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:46:00] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:46:15] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:46:17] local.INFO: Carte trouvée : Lidl  
+[2025-02-13 09:46:17] local.INFO: Chemin des images slider : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider  
+[2025-02-13 09:46:17] local.INFO: Nom du fichier demandé pour suppression : 67a1f478ed6f5_batiment-capeb-rhone-lyon-capture-streetview-1701501918.png  
+[2025-02-13 09:46:17] local.INFO: Chemin complet du fichier à supprimer : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider/67a1f478ed6f5_batiment-capeb-rhone-lyon-capture-streetview-1701501918.png  
+[2025-02-13 09:46:17] local.INFO: Image de slider supprimée avec succès {"filename":"67a1f478ed6f5_batiment-capeb-rhone-lyon-capture-streetview-1701501918.png"} 
+[2025-02-13 09:46:17] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:46:20] local.INFO: Carte trouvée : Lidl  
+[2025-02-13 09:46:20] local.INFO: Chemin des images slider : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider  
+[2025-02-13 09:46:20] local.INFO: Nom du fichier demandé pour suppression : 67a1f47ea633b_tarfis20pourcentages20capeb.png  
+[2025-02-13 09:46:20] local.INFO: Chemin complet du fichier à supprimer : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider/67a1f47ea633b_tarfis20pourcentages20capeb.png  
+[2025-02-13 09:46:20] local.INFO: Image de slider supprimée avec succès {"filename":"67a1f47ea633b_tarfis20pourcentages20capeb.png"} 
+[2025-02-13 09:46:20] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:46:22] local.INFO: Carte trouvée : Lidl  
+[2025-02-13 09:46:22] local.INFO: Chemin des images slider : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider  
+[2025-02-13 09:46:22] local.INFO: Nom du fichier demandé pour suppression : 67a1f48443739_20230517_094356-rec.png  
+[2025-02-13 09:46:22] local.INFO: Chemin complet du fichier à supprimer : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider/67a1f48443739_20230517_094356-rec.png  
+[2025-02-13 09:46:22] local.INFO: Image de slider supprimée avec succès {"filename":"67a1f48443739_20230517_094356-rec.png"} 
+[2025-02-13 09:46:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:46:23] local.INFO: Carte trouvée : Lidl  
+[2025-02-13 09:46:23] local.INFO: Chemin des images slider : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider  
+[2025-02-13 09:46:23] local.INFO: Nom du fichier demandé pour suppression : 67a1f48e09d62_logo.png  
+[2025-02-13 09:46:23] local.INFO: Chemin complet du fichier à supprimer : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/1_Lidl/slider/67a1f48e09d62_logo.png  
+[2025-02-13 09:46:23] local.INFO: Image de slider supprimée avec succès {"filename":"67a1f48e09d62_logo.png"} 
+[2025-02-13 09:46:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:46:26] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:47:00] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:47:29] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:48:16] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":3,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:48:18] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
+[2025-02-13 09:48:19] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":2,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:48:20] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
+[2025-02-13 09:48:20] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":1,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:48:21] local.INFO: Vidéo YouTube supprimée avec succès {"email":"cli@cli.fr","index":"0"} 
+[2025-02-13 09:48:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:48:27] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:51:10] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:51:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":"https://github.com/TxMy-Elu/WisiKard_Lara/network"} 
+[2025-02-13 09:51:15] local.INFO: Lien du site web supprimé avec succès {"email":"cli@cli.fr"} 
+[2025-02-13 09:51:15] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:51:18] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:52:05] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:52:57] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:53:29] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:53:33] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:53:38] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:53:40] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:54:07] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:54:09] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:54:30] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:54:32] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 09:55:14] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:55:24] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/1_Lidl/pdf sous le nom dggg.pdf  
+[2025-02-13 09:55:24] local.ERROR: Erreur lors du téléchargement du fichier PDF pour idCompte : 1. Détails : SQLSTATE[42S22]: Column not found: 1054 Champ 'lienPdf' inconnu dans field list (SQL: update `carte` set `pdf` = entreprises/1_Lidl/pdf/dggg.pdf, `nomBtnPdf` = dggg, `lienPdf` = https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=http%3A%2F%2F127.0.0.1%3A9000%2Fentreprises%2F1_Lidl%2Fpdf%2Fdggg.pdf where `idCarte` = 1)  
+[2025-02-13 09:55:25] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:55:35] local.ERROR: Échec : Un fichier existe déjà dans le répertoire entreprises/1_Lidl/pdf.  
+[2025-02-13 09:55:35] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:55:44] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:55:53] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/1_Lidl/pdf sous le nom anal.pdf  
+[2025-02-13 09:55:53] local.ERROR: Erreur lors du téléchargement du fichier PDF pour idCompte : 1. Détails : SQLSTATE[42S22]: Column not found: 1054 Champ 'lienPdf' inconnu dans field list (SQL: update `carte` set `pdf` = entreprises/1_Lidl/pdf/anal.pdf, `nomBtnPdf` = anal, `lienPdf` = https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=http%3A%2F%2F127.0.0.1%3A9000%2Fentreprises%2F1_Lidl%2Fpdf%2Fanal.pdf where `idCarte` = 1)  
+[2025-02-13 09:55:53] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:55:56] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:24] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:25] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:25] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:25] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:26] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:26] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:26] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:26] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:26] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:56:37] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/1_Lidl/pdf sous le nom note.pdf  
+[2025-02-13 09:56:37] local.ERROR: Erreur lors du téléchargement du fichier PDF pour idCompte : 1. Détails : SQLSTATE[42S22]: Column not found: 1054 Champ 'lienPdf' inconnu dans field list (SQL: update `carte` set `pdf` = entreprises/1_Lidl/pdf/note.pdf, `nomBtnPdf` = note, `lienPdf` = https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=http%3A%2F%2F127.0.0.1%3A9000%2Fentreprises%2F1_Lidl%2Fpdf%2Fnote.pdf where `idCarte` = 1)  
+[2025-02-13 09:56:38] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:59:37] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 09:59:50] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/1_Lidl/pdf sous le nom zeee.pdf  
+[2025-02-13 09:59:50] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 10:00:01] local.INFO: Affichage du tableau de bord pour l'utilisateur : cli@cli.fr {"email":"cli@cli.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/1_Lidl/logos/logo.png","lienSiteWeb":null} 
+[2025-02-13 10:00:28] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 10:01:09] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 10:01:23] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
+[2025-02-13 10:02:00] local.INFO: Chargement du tableau de bord client {"email":"cli@cli.fr"} 
