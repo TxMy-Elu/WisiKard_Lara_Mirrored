@@ -1,20 +1,7 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 13 fév. 2025 à 08:32
--- Version du serveur : 9.1.0
--- Version de PHP : 8.3.14
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
@@ -31,7 +18,7 @@ DROP TABLE IF EXISTS `carte`;
 CREATE TABLE IF NOT EXISTS `carte` (
                                        `idCarte` int NOT NULL AUTO_INCREMENT,
                                        `nomEntreprise` varchar(255) NOT NULL,
-    `titre` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+    `titre` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
     `tel` varchar(25) DEFAULT NULL,
     `ville` varchar(255) DEFAULT NULL,
     `imgPres` varchar(100) DEFAULT NULL,
@@ -40,19 +27,19 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `nomBtnPdf` varchar(100) DEFAULT NULL,
     `couleur1` varchar(10) DEFAULT NULL,
     `couleur2` varchar(10) DEFAULT NULL,
-    `descriptif` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+    `descriptif` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
     `LienCommande` varchar(150) DEFAULT NULL,
     `lienQr` varchar(500) NOT NULL,
     `lienPdf` varchar(500) DEFAULT NULL,
     `lienAvis` varchar(500) DEFAULT NULL,
     `lienSiteWeb` varchar(500) DEFAULT NULL,
-    `font` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'roboto',
+    `font` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'roboto',
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
     PRIMARY KEY (`idCarte`),
     KEY `carte_compte_FK` (`idCompte`),
     KEY `carte_template_FK` (`idTemplate`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -69,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `compte` (
     `tentativesCo` int NOT NULL DEFAULT '0',
     `estDesactiver` tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (`idCompte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -86,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `custom_link` (
     `idCarte` int DEFAULT NULL,
     PRIMARY KEY (`id_link`),
     KEY `idCarte` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -105,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `employer` (
     `telephone` varchar(100) NOT NULL,
     PRIMARY KEY (`idEmp`),
     KEY `employer_carte_FK` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -118,8 +105,7 @@ CREATE TABLE IF NOT EXISTS `guide` (
                                        `id_guide` int NOT NULL AUTO_INCREMENT,
                                        `titre` varchar(100) NOT NULL,
     PRIMARY KEY (`id_guide`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `guide` (`id_guide`, `titre`) VALUES
                                               (1, 'Modifier les Informations de l\'Entreprise'),
@@ -151,6 +137,7 @@ INSERT INTO `guide` (`id_guide`, `titre`) VALUES
                                               (27, 'Ajouter/Supprimer une URL de Prise de Rendez-vous'),
                                               (28, 'Ajouter/Supprimer une Galerie Photo'),
                                               (29, 'Télécharger le QR Code de l\'employé');
+
 -- --------------------------------------------------------
 
 --
@@ -159,9 +146,9 @@ INSERT INTO `guide` (`id_guide`, `titre`) VALUES
 
 DROP TABLE IF EXISTS `horaires`;
 CREATE TABLE IF NOT EXISTS `horaires` (
-                                          `id` int NOT NULL AUTO_INCREMENT,
-                                          `idCarte` int NOT NULL,
-                                          `jour` varchar(255) NOT NULL,
+    `id` int NOT NULL AUTO_INCREMENT,
+    `idCarte` int NOT NULL,
+    `jour` varchar(255) NOT NULL,
     `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `ouverture_matin` time DEFAULT NULL,
@@ -170,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `horaires` (
     `fermeture_aprmidi` time DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `idCarte` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -180,60 +167,60 @@ CREATE TABLE IF NOT EXISTS `horaires` (
 
 DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
-                                     `id_img` int NOT NULL AUTO_INCREMENT,
-                                     `num_img` int NOT NULL,
-                                     `chemin` varchar(50) NOT NULL,
+    `id_img` int NOT NULL AUTO_INCREMENT,
+    `num_img` int NOT NULL,
+    `chemin` varchar(50) NOT NULL,
     `id_guide` int NOT NULL,
     PRIMARY KEY (`id_img`),
     KEY `img_guide_FK` (`id_guide`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `img` (`id_img`, `num_img`, `chemin`, `id_guide`) VALUES
-(4, 2, ''public/images/Accueil/modif_info.png'', 1),
-(5, 3, ''public/images/Accueil/formulaire_modif.png'', 1),
-(6, 2, ''public/images/Accueil/police.png'', 2),
-(7, 2, ''public/images/Accueil/titre_description.png'', 3),
-(8, 3, ''public/images/Accueil/modif_titre_description.png'', 3),
-(9, 2, ''public/images/Accueil/horaire_modif.png'', 4),
-(10, 2, ''public/images/Accueil/couleurQrcode.png'', 5),
-(11, 3, ''public/images/Accueil/couleurQrcode_modif.png'', 5),
-(12, 5, ''public/images/Accueil/enregistrer.png'', 5),
-(13, 3, ''public/images/Accueil/dlQrCodeEntre.png'', 6),
-(14, 3, ''public/images/Accueil/dlQrCodePdf.png'', 7),
-(15, 2, ''public/images/Accueil/changer_template.png'', 8),
-(16, 2, ''public/images/Statistique/annee.png'', 9),
-(17, 2, ''public/images/Statistique/semaine.png'', 10),
-(18, 2, ''public/images/Statistique/graphique_employe.png'', 11),
-(19, 1, ''public/images/Statistique/nb_vue_global.png'', 12),
-(20, 1, ''public/images/Statistique/nb_vue_semaine.png'', 13),
-(21, 3, ''public/images/Accueil/police_2.png'', 2),
-(22, 4, ''public/images/Accueil/enregistrer_2.png'', 2),
-(23, 4, ''public/images/Accueil/enregistrer_2.png'', 2),
-(24, 3, ''public/images/Reseaux/reseau_sociaux_1.png'', 14),
-(25, 4, ''public/images/Reseaux/reseau_sociaux_2.png'', 14),
-(26, 5, ''public/images/Reseaux/reseau_sociaux_3.png'', 14),
-(27, 2, ''public/images/Reseaux/url_reseau_sociaux.png'', 14),
-(28, 2, ''public/images/Reseaux/modif_reseau.png'', 15),
-(29, 3, ''public/images/Reseaux/modif_reseau_2.png'', 15),
-(30, 2, ''public/images/Reseaux/activer_reseaux.png'', 16),
-(31, 3, ''public/images/Reseaux/desactiver_reseaux.png'', 16),
-(32, 3, ''public/images/Reseaux/autre_reseau.png'', 17),
-(33, 2, ''public/images/Reseaux/bouton_autre.png'', 17),
-(34, 4, ''public/images/Reseaux/bouton_ajouter.png'', 17),
-(35, 1, ''public/images/Employe/rechercher.png'', 18),
-(36, 2, ''public/images/Employe/card_employe.png'', 19),
-(37, 3, ''public/images/Employe/modif_employe.png'', 19),
-(38, 4, ''public/images/Employe/modifier.png'', 19),
-(39, 2, ''public/images/Employe/suppri_employe.png'', 20),
-(40, 2, ''public/images/Employe/QrCodeEmploye.png'', 21),
-(41, 2, ''public/images/Employe/Dl_QrCodeEmploye.png'', 29),
-(42, 2, ''public/images/Employe/ajoutEmploye.png'', 22),
-(43, 3, ''public/images/Employe/info_inscription.png'', 22),
-(44, 4, ''public/images/Employe/info_inscription_ok.png'', 22),
-(45, 3, ''public/images/Contenu/Logo.png'', 23),
-(46, 4, ''public/images/Contenu/fichier_logo.png'', 23),
-(47, 5, ''public/images/Contenu/enre_logo.png'', 23),
-(48, 7, ''public/images/Contenu/suppri_logo.png'', 23);
+(4, 2, 'public/images/Accueil/modif_info.png', 1),
+(5, 3, 'public/images/Accueil/formulaire_modif.png', 1),
+(6, 2, 'public/images/Accueil/police.png', 2),
+(7, 2, 'public/images/Accueil/titre_description.png', 3),
+(8, 3, 'public/images/Accueil/modif_titre_description.png', 3),
+(9, 2, 'public/images/Accueil/horaire_modif.png', 4),
+(10, 2, 'public/images/Accueil/couleurQrcode.png', 5),
+(11, 3, 'public/images/Accueil/couleurQrcode_modif.png', 5),
+(12, 5, 'public/images/Accueil/enregistrer.png', 5),
+(13, 3, 'public/images/Accueil/dlQrCodeEntre.png', 6),
+(14, 3, 'public/images/Accueil/dlQrCodePdf.png', 7),
+(15, 2, 'public/images/Accueil/changer_template.png', 8),
+(16, 2, 'public/images/Statistique/annee.png', 9),
+(17, 2, 'public/images/Statistique/semaine.png', 10),
+(18, 2, 'public/images/Statistique/graphique_employe.png', 11),
+(19, 1, 'public/images/Statistique/nb_vue_global.png', 12),
+(20, 1, 'public/images/Statistique/nb_vue_semaine.png', 13),
+(21, 3, 'public/images/Accueil/police_2.png', 2),
+(22, 4, 'public/images/Accueil/enregistrer_2.png', 2),
+(23, 4, 'public/images/Accueil/enregistrer_2.png', 2),
+(24, 3, 'public/images/Reseaux/reseau_sociaux_1.png', 14),
+(25, 4, 'public/images/Reseaux/reseau_sociaux_2.png', 14),
+(26, 5, 'public/images/Reseaux/reseau_sociaux_3.png', 14),
+(27, 2, 'public/images/Reseaux/url_reseau_sociaux.png', 14),
+(28, 2, 'public/images/Reseaux/modif_reseau.png', 15),
+(29, 3, 'public/images/Reseaux/modif_reseau_2.png', 15),
+(30, 2, 'public/images/Reseaux/activer_reseaux.png', 16),
+(31, 3, 'public/images/Reseaux/desactiver_reseaux.png', 16),
+(32, 3, 'public/images/Reseaux/autre_reseau.png', 17),
+(33, 2, 'public/images/Reseaux/bouton_autre.png', 17),
+(34, 4, 'public/images/Reseaux/bouton_ajouter.png', 17),
+(35, 1, 'public/images/Employe/rechercher.png', 18),
+(36, 2, 'public/images/Employe/card_employe.png', 19),
+(37, 3, 'public/images/Employe/modif_employe.png', 19),
+(38, 4, 'public/images/Employe/modifier.png', 19),
+(39, 2, 'public/images/Employe/suppri_employe.png', 20),
+(40, 2, 'public/images/Employe/QrCodeEmploye.png', 21),
+(41, 2, 'public/images/Employe/Dl_QrCodeEmploye.png', 29),
+(42, 2, 'public/images/Employe/ajoutEmploye.png', 22),
+(43, 3, 'public/images/Employe/info_inscription.png', 22),
+(44, 4, 'public/images/Employe/info_inscription_ok.png', 22),
+(45, 3, 'public/images/Contenu/Logo.png', 23),
+(46, 4, 'public/images/Contenu/fichier_logo.png', 23),
+(47, 5, 'public/images/Contenu/enre_logo.png', 23),
+(48, 7, 'public/images/Contenu/suppri_logo.png', 23);
 
 -- --------------------------------------------------------
 
@@ -243,14 +230,14 @@ INSERT INTO `img` (`id_img`, `num_img`, `chemin`, `id_guide`) VALUES
 
 DROP TABLE IF EXISTS `inscript_attente`;
 CREATE TABLE IF NOT EXISTS `inscript_attente` (
-                                                  `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
-                                                  `nom_entre` varchar(150) NOT NULL,
+    `id_inscripAttente` int NOT NULL AUTO_INCREMENT,
+    `nom_entre` varchar(150) NOT NULL,
     `mail` varchar(150) NOT NULL,
     `mdp` varchar(150) NOT NULL,
     `role` varchar(150) NOT NULL,
     `date_inscription` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_inscripAttente`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -260,14 +247,14 @@ CREATE TABLE IF NOT EXISTS `inscript_attente` (
 
 DROP TABLE IF EXISTS `logs`;
 CREATE TABLE IF NOT EXISTS `logs` (
-                                      `idLog` int NOT NULL AUTO_INCREMENT,
-                                      `typeAction` varchar(500) NOT NULL,
+    `idLog` int NOT NULL AUTO_INCREMENT,
+    `typeAction` varchar(500) NOT NULL,
     `dateHeureLog` datetime NOT NULL,
     `adresseIPLog` varchar(500) NOT NULL,
     `idCompte` int NOT NULL,
     PRIMARY KEY (`idLog`),
     KEY `logs_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -277,11 +264,11 @@ CREATE TABLE IF NOT EXISTS `logs` (
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
-                                         `id` int NOT NULL AUTO_INCREMENT,
-                                         `message` varchar(500) NOT NULL,
+    `id` int NOT NULL AUTO_INCREMENT,
+    `message` varchar(500) NOT NULL,
     `afficher` tinyint(1) NOT NULL,
     PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -291,14 +278,14 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 DROP TABLE IF EXISTS `reactivation`;
 CREATE TABLE IF NOT EXISTS `reactivation` (
-                                              `idReactivation` int NOT NULL AUTO_INCREMENT,
-                                              `codeReactivation` varchar(32) NOT NULL,
+    `idReactivation` int NOT NULL AUTO_INCREMENT,
+    `codeReactivation` varchar(32) NOT NULL,
     `dateHeureExpirationReactivation` datetime NOT NULL,
     `idCompte` int NOT NULL,
     PRIMARY KEY (`idReactivation`),
     UNIQUE KEY `codeReactivation` (`codeReactivation`),
     KEY `reactivation_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -308,14 +295,14 @@ CREATE TABLE IF NOT EXISTS `reactivation` (
 
 DROP TABLE IF EXISTS `recuperation`;
 CREATE TABLE IF NOT EXISTS `recuperation` (
-                                              `idRecuperation` int NOT NULL AUTO_INCREMENT,
-                                              `codeRecuperation` varchar(32) NOT NULL,
+    `idRecuperation` int NOT NULL AUTO_INCREMENT,
+    `codeRecuperation` varchar(32) NOT NULL,
     `dateHeureExpirationRecuperation` datetime NOT NULL,
     `idCompte` int NOT NULL,
     PRIMARY KEY (`idRecuperation`),
     UNIQUE KEY `codeRecuperation` (`codeRecuperation`),
     KEY `recuperation_compte_FK` (`idCompte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -325,13 +312,13 @@ CREATE TABLE IF NOT EXISTS `recuperation` (
 
 DROP TABLE IF EXISTS `rediriger`;
 CREATE TABLE IF NOT EXISTS `rediriger` (
-                                           `idSocial` int NOT NULL,
-                                           `idCarte` int NOT NULL,
-                                           `lien` varchar(500) DEFAULT NULL,
+    `idSocial` int NOT NULL,
+    `idCarte` int NOT NULL,
+    `lien` varchar(500) DEFAULT NULL,
     `activer` tinyint(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (`idSocial`,`idCarte`),
     KEY `rediriger_carte_FK` (`idCarte`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -341,11 +328,11 @@ CREATE TABLE IF NOT EXISTS `rediriger` (
 
 DROP TABLE IF EXISTS `social`;
 CREATE TABLE IF NOT EXISTS `social` (
-                                        `idSocial` int NOT NULL AUTO_INCREMENT,
-                                        `nom` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-    `lienLogo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+    `idSocial` int NOT NULL AUTO_INCREMENT,
+    `nom` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `lienLogo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     PRIMARY KEY (`idSocial`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -355,10 +342,10 @@ CREATE TABLE IF NOT EXISTS `social` (
 
 DROP TABLE IF EXISTS `template`;
 CREATE TABLE IF NOT EXISTS `template` (
-                                          `idTemplate` int NOT NULL AUTO_INCREMENT,
-                                          `nom` varchar(50) NOT NULL,
+    `idTemplate` int NOT NULL AUTO_INCREMENT,
+    `nom` varchar(50) NOT NULL,
     PRIMARY KEY (`idTemplate`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -368,15 +355,13 @@ CREATE TABLE IF NOT EXISTS `template` (
 
 DROP TABLE IF EXISTS `txt`;
 CREATE TABLE IF NOT EXISTS `txt` (
-                                     `id_txt` int NOT NULL AUTO_INCREMENT,
-                                     `num_txt` int NOT NULL,
-                                     `categorie` varchar(50) NOT NULL,
+    `id_txt` int NOT NULL AUTO_INCREMENT,
+    `num_txt` int NOT NULL,
     `id_guide` int NOT NULL,
     `txt` varchar(500) NOT NULL,
     PRIMARY KEY (`id_txt`),
     KEY `id_guide` (`id_guide`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `txt` (`id_txt`, `num_txt`, `categorie`, `id_guide`, `txt`) VALUES
 (1, 1, '', 1, 'Cette fonction permet de mettre à jour les données essentielles de votre entreprise. Elle est accessible facilement depuis la page d\'accueil et offre un formulaire intuitif pour modifier toutes les informations importantes de votre établissement.'),
@@ -508,18 +493,69 @@ INSERT INTO `txt` (`id_txt`, `num_txt`, `categorie`, `id_guide`, `txt`) VALUES
 
 DROP TABLE IF EXISTS `vue`;
 CREATE TABLE IF NOT EXISTS `vue` (
-                                     `idVue` int NOT NULL AUTO_INCREMENT,
-                                     `date` date NOT NULL,
-                                     `idCarte` int NOT NULL,
-                                     `idEmp` int DEFAULT NULL,
-                                     PRIMARY KEY (`idVue`),
+    `idVue` int NOT NULL AUTO_INCREMENT,
+    `date` date NOT NULL,
+    `idCarte` int NOT NULL,
+    `idEmp` int DEFAULT NULL,
+    PRIMARY KEY (`idVue`),
     KEY `vue_carte_FK` (`idCarte`),
     KEY `vue_employer_FK` (`idEmp`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `carte`
+--
+ALTER TABLE `carte`
+    ADD CONSTRAINT `carte_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE,
+    ADD CONSTRAINT `carte_template_FK` FOREIGN KEY (`idTemplate`) REFERENCES `template` (`idTemplate`);
+
+--
+-- Contraintes pour la table `custom_link`
+--
+ALTER TABLE `custom_link`
+    ADD CONSTRAINT `fk_custom_link_carte` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `employer`
+--
+ALTER TABLE `employer`
+    ADD CONSTRAINT `employer_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `logs`
+--
+ALTER TABLE `logs`
+    ADD CONSTRAINT `logs_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `reactivation`
+--
+ALTER TABLE `reactivation`
+    ADD CONSTRAINT `reactivation_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `recuperation`
+--
+ALTER TABLE `recuperation`
+    ADD CONSTRAINT `recuperation_compte_FK` FOREIGN KEY (`idCompte`) REFERENCES `compte` (`idCompte`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `rediriger`
+--
+ALTER TABLE `rediriger`
+    ADD CONSTRAINT `rediriger_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
+    ADD CONSTRAINT `rediriger_social_FK` FOREIGN KEY (`idSocial`) REFERENCES `social` (`idSocial`);
+
+--
+-- Contraintes pour la table `vue`
+--
+ALTER TABLE `vue`
+    ADD CONSTRAINT `vue_carte_FK` FOREIGN KEY (`idCarte`) REFERENCES `carte` (`idCarte`) ON DELETE CASCADE,
+    ADD CONSTRAINT `vue_employer_FK` FOREIGN KEY (`idEmp`) REFERENCES `employer` (`idEmp`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `img`

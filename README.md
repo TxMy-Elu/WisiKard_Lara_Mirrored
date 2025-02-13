@@ -167,7 +167,7 @@ Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser en suivan
 
 2. **Cliquez sur "Mot de passe oublié ?"** : Cliquez sur le lien "Mot de passe oublié ?" sous le champ de saisie du mot de passe.
 
-![Texte alternatif](/public/images/inscription.png "Inscrire")
+![Texte alternatif](/public/images/Page_Aide/Accueil/inscription.png "Inscrire")
 
 3. **Entrez votre adresse e-mail** : Saisissez l'adresse e-mail associée à votre compte.
 

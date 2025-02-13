@@ -84,6 +84,8 @@
                 <a href="{{ route('dashboardClientDescription', ['id_guide' => 6]) }}" class="text-gray-800 hover:text-red-500">Télécharger le QR Code de l'Entreprise</a>
                 <a href="{{ route('dashboardClientDescription', ['id_guide' => 7]) }}" class="text-gray-800 hover:text-red-500">Télécharger le QR Code du PDF</a>
                 <a href="{{ route('dashboardClientDescription', ['id_guide' => 8]) }}" class="text-gray-800 hover:text-red-500">Changer le Thème de la Carte</a>
+                <a href="{{ route('dashboardClientDescription', ['id_guide' => 30]) }}" class="text-gray-800 hover:text-red-500">Mot de passe oublié ?</a>
+
             </div>
   <!-- Statistiques -->
         <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-2">
