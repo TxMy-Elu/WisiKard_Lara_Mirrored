@@ -122,7 +122,7 @@
         </button>
 
         <div id="horairesModal"
-             class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+             class="hidden fixed inset-0 bg-zinc-900 bg-opacity-50 flex justify-center items-center z-50">
             <div class="bg-white w-11/12 max-w-lg rounded-lg shadow-lg p-6">
                 <div class="flex justify-between items-center border-b border-zinc-700 pb-5">
                     <h3 class="text-2xl font-bold text-gray-800">Horaires de la semaine</h3>
@@ -173,13 +173,13 @@
 
 <div class="flex items-center justify-between mt-4 mx-4 gap-4">
     <div class="flex justify-center">
-        <button onclick=""
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
                 class="w-10 h-10 rounded-lg bg-white border border-gray-300 text-gray-800 flex items-center justify-center hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25" fill="#000000">
                 <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                 <path d="M512 80c8.8 0 16 7.2 16 16l0 320c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16L48 96c0-8.8 7.2-16 16-16l448 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM208 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16l192 0c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80l-64 0zM376 144c-13.3 0-24 10.7-24 24s10.7 24 24 24l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0z"/>
             </svg>
-        </button>
+        </a>
     </div>
 
     <div class="flex justify-center w-full">
