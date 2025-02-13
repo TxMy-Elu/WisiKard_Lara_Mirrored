@@ -65,7 +65,7 @@ class RecuperationCompte extends Controller
                 $message = "Bonjour,<br><br>Vous avez demandé à réinitialiser votre mot de passe. Pour ce faire, veuillez cliquer sur le lien suivant : <a href='" . $lien . "'>" . $lien . "</a>.<br><br>Cordialement,<br>L'équipe Auth-App";
                 if (Email::envoyerEmail($email, "Réinitialisation de mot de passe", $message)) {
                     Logs::ecrireLog($email, "Un email de réinitialisation de mot de passe a été envoyé à l'adresse email " . $email . ".");
-                    return view('confirmation', ["messageConfirmation" => "Un lien de réinitialisation a été envoyé à votre adresse email."]);
+                    return view('Formulaire.confirmation', ["messageConfirmation" => "Un lien de réinitialisation a été envoyé à votre adresse email."]);
                 } else {
                     $messagesErreur[] = "Échec de l'envoi de l'email de réinitialisation.";
                     return view('Formulaire.formulaireRecuperation', ["messagesErreur" => $messagesErreur]);
