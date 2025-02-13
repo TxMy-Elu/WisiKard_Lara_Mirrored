@@ -23,7 +23,7 @@ class Templates extends Controller
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse Retourne la vue correspondant au template spécifié avec les données nécessaires ou un message JSON en cas d'erreur.
      */
-    public function afficherTemplates(Request $request,$companyName)
+    public function afficherTemplates(Request $request, $companyName)
     {
         // Vérifier si "CompteEmp" est présent dans la requête
         $CompteEmp = $request->query('CompteEmp');
@@ -167,53 +167,27 @@ class Templates extends Controller
     {
         // Vérifier si "CompteEmp" est présent dans la requête
         $CompteEmp = $request->query('CompteEmp');
-        $idCarte = null;
+        $idCompte = null;
         $idEmp = null;
         $employe = null;
         $today = date('Y-m-d');
 
-        if ($CompteEmp) {
-            // Si CompteEmp est présent, le split au niveau de la virgule
-            [$idCompte, $idEmp] = explode('x', $CompteEmp);
-            // Convertir en entier pour s'assurer qu'on travaille avec des ID valides
-            $idCompte = (int)$idCompte;
-            $idEmp = (int)$idEmp;
 
-            // Récupérer les infos de la carte de visite
-            $carte = Carte::where('idCompte', $idCompte)->first();
+        // Sinon, récupérer l'idCompte
+        $idCompte = session('connexion');
 
-            //idCarte
-            $idCarte = $carte->idCarte ?? null;
+        // Récupérer d'abord l'idTemplate
+        $idTemplate = $request->query('idTemplate');
 
-            // Récupérer les infos de l'employé en fonction de l'idCarte et idEmp
-            $employe = Employer::where('idCarte', $carte->idCarte)->where('idEmp', $idEmp)->first();
+        // Prend toutes les informations nécessaires depuis la base de données
+        $carte = Carte::where('idCompte', $idCompte)->first();
+        $idCarte = $carte->idCarte ?? null;
 
-            //idTemplate
-            $idTemplate = $carte->idTemplate ?? null;
+        $vue = new Vue();
+        $vue->date = $today;
+        $vue->idCarte = $idCarte;
+        $vue->save();
 
-            $vue = new Vue();
-            $vue->date = $today;
-            $vue->idCarte = $idCarte;
-            $vue->idEmp = $idEmp;
-            $vue->save();
-
-        } else {
-            // Sinon, récupérer l'idCompte
-            $idCompte = $request->query('idCompte');
-
-
-            // Récupérer d'abord l'idTemplate
-            $idTemplate = Carte::where('idCompte', $idCompte)->value('idTemplate');
-
-            // Prend toutes les informations nécessaires depuis la base de données
-            $carte = Carte::where('idCompte', $idCompte)->first();
-            $idCarte = $carte->idCarte ?? null;
-
-            $vue = new Vue();
-            $vue->date = $today;
-            $vue->idCarte = $idCarte;
-            $vue->save();
-        }
 
         // Si $idCarte est toujours null, on ne peut rien afficher
         if (!$idCarte) {
@@ -277,7 +251,7 @@ class Templates extends Controller
         ];
 
         // Renvoyer la bonne vue selon le template
-        switch ($idTemplate ?? null) {
+        switch ($idTemplate) {
             case 1:
                 return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 2:
@@ -295,5 +269,6 @@ class Templates extends Controller
                     'data' => compact('idCarte', 'employe')
                 ], 404);
         }
+
     }
 }
