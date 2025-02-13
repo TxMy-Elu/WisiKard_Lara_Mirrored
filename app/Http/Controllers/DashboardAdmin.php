@@ -196,16 +196,88 @@ class DashboardAdmin extends Controller
             ],
         ];
 
+        // Statistiques du nombre de compte advanced et starter
+        $compteAdvanced = $this->compte->where('role', 'advanced')->count();
+        $compteStarter = $this->compte->where('role', 'starter')->count();
+
+        // Récupération dynamique des données des templates
+        $templates = $this->carte->selectRaw('idTemplate, COUNT(*) as count')
+            ->groupBy('idTemplate')
+            ->pluck('count', 'idTemplate')
+            ->toArray();
+
+// Traduire les ID spécifiques en labels
+        $labels = [
+            1 => '1: base',
+            2 => '2: custom',
+            3 => '3: pomme',
+            4 => '4: classy',
+        ];
+
+// Construire les labels et les données correspondantes
+        $finalLabels = [];
+        $data = [];
+
+        foreach ($labels as $id => $label) {
+            $finalLabels[] = $label;
+            $data[] = $templates[$id] ?? 0; // Si un ID n'existe pas, sa valeur sera 0
+        }
+
+// Générer la structure Chart.js
+        $nbTemplateData = [
+            'labels' => $finalLabels, // Labels dynamiques
+            'datasets' => [
+                [
+                    'label' => 'Nombre de cartes par template',
+                    'backgroundColor' => array_map(function ($index) {
+                        $colors = [
+                            'rgba(153, 27, 27, 0.2)',  // Rouge
+                            'rgba(27, 153, 27, 0.2)',  // Vert
+                            'rgba(27, 27, 153, 0.2)',  // Bleu
+                            'rgba(153, 153, 27, 0.2)', // Jaune
+                            'rgba(153, 27, 153, 0.2)'  // Violet
+                        ];
+                        return $colors[$index % count($colors)];
+                    }, array_keys($labels)), // Génération des couleurs dynamiquement
+                    'borderColor' => array_map(function ($index) {
+                        $borderColors = [
+                            'rgba(153, 27, 27, 1)',  // Rouge
+                            'rgba(27, 153, 27, 1)',  // Vert
+                            'rgba(27, 27, 153, 1)',  // Bleu
+                            'rgba(153, 153, 27, 1)', // Jaune
+                            'rgba(153, 27, 153, 1)'  // Violet
+                        ];
+                        return $borderColors[$index % count($borderColors)];
+                    }, array_keys($labels)), // Génération des bordures dynamiques
+                    'borderWidth' => 1,
+                    'data' => $data, // Données dynamiques pour chaque label
+                ],
+            ],
+        ];
+
         // Statistiques générales pour l'année
         $totalViews = $this->vue->whereYear('date', $year)->count(); // Total des vues pour l'année
         $totalEntreprise = $this->carte->count(); // Total des entreprises enregistrées
+
+        $nbCompteData = [
+            'labels' => ['Compte Advanced', 'Compte Starter'],
+            'datasets' => [
+                [
+                    'label' => 'Nombre de comptes',
+                    'backgroundColor' => ['rgba(153, 27, 27, 0.2)', 'rgba(27, 153, 27, 0.2)'],
+                    'borderColor' => ['rgba(153, 27, 27, 1)', 'rgba(27, 153, 27, 1)'],
+                    'borderWidth' => 1,
+                    'data' => [$compteAdvanced, $compteStarter],
+                ],
+            ],
+        ];
 
         // Liste des années pour le choix dans l'interface (10 dernières années)
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year; // L'année sélectionnée pour l'affichage
 
         // Retourner la vue des statistiques avec les données préparées
-        return view('Admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise'));
+        return view('Admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise', 'nbCompteData', 'nbTemplateData'));
     }
 
     /**

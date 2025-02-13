@@ -260,8 +260,6 @@ class Templates extends Controller
                 return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 4:
                 return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 5:
-                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             default:
                 // Si aucun template trouvé, retourner un message JSON ou une vue vide.
                 return response()->json([
@@ -269,6 +267,5 @@ class Templates extends Controller
                     'data' => compact('idCarte', 'employe')
                 ], 404);
         }
-
     }
 }
