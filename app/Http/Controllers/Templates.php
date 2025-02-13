@@ -211,6 +211,7 @@ class Templates extends Controller
         // Récupérer les horaires pour la carte spécifique
         $horaires = Horaires::where('idCarte', $idCarte)->get();
 
+
         // Définir les fonctions spécifiques
         $fonctions = [
             ['nom' => 'nopub'],
@@ -236,7 +237,7 @@ class Templates extends Controller
             case 1:
                 return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 2:
-                return view('Templates.custom', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
+                return view('Templates.custom', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 3:
                 return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
             case 4:
