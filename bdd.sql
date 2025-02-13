@@ -296,12 +296,8 @@ INSERT INTO `guide` (`id_guide`, `titre`) VALUES
 (27, 'Ajouter/Supprimer une URL de Prise de Rendez-vous'),
 (28, 'Ajouter/Supprimer une Galerie Photo'),
 (29, 'Télécharger le QR Code de l\'employé');
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
--- --------------------------------------------------------
+
 
 --
 -- Structure de la table `txt`

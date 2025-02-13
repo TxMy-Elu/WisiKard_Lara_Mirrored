@@ -55,7 +55,7 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Actuel
+                                actuel
                             </button>
                         </div>
                     </form>
@@ -105,7 +105,7 @@
                             <button type="button"
                                     onclick="openModalPdf()"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Actuel
+                                actuel
                             </button>
                         </div>
 
@@ -127,7 +127,7 @@
                                 </button>
                                 <button type="button" onclick="saveAndSubmit()"
                                         class="px-4 py-2 bg-indigo-500 text-white text-sm rounded-lg">
-                                    Actuel
+                                    actuel
                                 </button>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                         <div class="space-y-4">
                             <div>
                                 <label for="youtube_url" class="block text-sm font-medium text-gray-600 mb-2">
-                                    URL YouTube :
+                                    Lien YouTube :
                                 </label>
                                 <input type="url" id="youtube_url" name="youtube_url"
                                        class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
@@ -193,13 +193,13 @@
                             <div class="flex justify-end">
                                 <div type="submit"
                                      class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    Actuel
+                                    actuel
                                 </div>
                             </div>
                         </div>
-                        <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+                        <h2 class="text-xl font-bold mb-2">Vidéos YouTube actueles</h2>
                         <!-- Card pour les vidéos YouTube -->
-                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
+                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo actuele.</p>
                     </div>
                 </div>
             @else
@@ -211,7 +211,7 @@
                         @csrf
                         <div>
                             <label for="youtube_url" class="block text-sm font-medium text-gray-600 mb-2">
-                                URL YouTube :
+                                Lien YouTube :
                             </label>
                             <input type="url" id="youtube_url" name="youtube_url"
                                    class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
@@ -220,11 +220,11 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Actuel
+                                actuel
                             </button>
                         </div>
                     </form>
-                    <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrées</h2>
+                    <h2 class="text-xl font-bold mb-2">Vidéos YouTube actueles</h2>
                     <!-- Card pour les vidéos YouTube -->
                     @if(!empty($youtubeUrls))
                         <div class="my-4 grow">
@@ -256,7 +256,7 @@
                             </div>
                         </div>
                     @else
-                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistrée.</p>
+                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo actuele.</p>
                     @endif
                 </div>
             @endif
@@ -270,7 +270,7 @@
                     @csrf
                     <div>
                         <label for="avis_google" class="block text-sm font-medium text-gray-600 mb-2">
-                            URL de l'avis Google :
+                            Lien de l'avis Google :
                         </label>
                         <input type="url" id="avis_google" name="avis_google"
                                class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
@@ -279,12 +279,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Actuel
+                            actuel
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google enregistré</h2>
-                <!-- Afficher l'URL de l'avis Google sous le bouton "Actuel" -->
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google actuel</h2>
+                <!-- Afficher l'URL de l'avis Google sous le bouton "actuel" -->
                 @if($carte->lienAvis)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -295,7 +295,7 @@
                         </div>
                     </div>
                 @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien d'avis Google enregistré.</p>
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien d'avis Google actuel.</p>
                 @endif
 
                 @if($carte->lienAvis)
@@ -321,7 +321,7 @@
                     @csrf
                     <div>
                         <label for="site_web" class="block text-sm font-medium text-gray-600 mb-2">
-                            URL du site web :
+                            Lien du site web :
                         </label>
                         <input type="url" id="site_web" name="site_web"
                                class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
@@ -330,12 +330,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Actuel
+                            actuel
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Site Web enregistré</h2>
-                <!-- Afficher l'URL du site Web sous le bouton "Actuel" -->
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Site Web actuel</h2>
+                <!-- Afficher l'URL du site Web sous le bouton "actuel" -->
                 @if($carte->lienSiteWeb)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -346,7 +346,7 @@
                         </div>
                     </div>
                 @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de site Web enregistré.</p>
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de site Web actuel.</p>
                 @endif
 
                 @if($carte->lienSiteWeb)
@@ -365,13 +365,13 @@
 
             <!-- div4 -->
             <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">URL de prise de rendez-vous</h2>
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien de prise de rendez-vous</h2>
                 <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data"
                       class="space-y-4">
                     @csrf
                     <div>
                         <label for="rdv_url" class="block text-sm font-medium text-gray-600 mb-2">
-                            URL de prise de rendez-vous :
+                            Lien de prise de rendez-vous :
                         </label>
                         <input type="url" id="rdv_url" name="rdv_url"
                                class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
@@ -380,12 +380,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Actuel
+                            actuel
                         </button>
                     </div>
                 </form>
-                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien de RDV enregistré</h2>
-                <!-- Afficher l'URL de RDV sous le bouton "Actuel" -->
+                <h2 class="text-xl font-bold mb-2 text-gray-800">Lien de RDV actuel</h2>
+                <!-- Afficher l'URL de RDV sous le bouton "actuel" -->
                 @if($carte->LienCommande)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -396,7 +396,7 @@
                         </div>
                     </div>
                 @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de RDV enregistré.</p>
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de RDV actuel.</p>
                 @endif
 
                 @if($carte->LienCommande)
@@ -452,7 +452,7 @@
                             <div class="flex justify-end">
                                 <button type="submit"
                                         class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    Actuel
+                                    actuel
                                 </button>
                             </div>
                         </form>
