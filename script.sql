@@ -211,8 +211,12 @@ DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
                                      `id_img` int NOT NULL AUTO_INCREMENT,
                                      `num_img` int NOT NULL,
+                                     `id_guide` int NOT NULL,
                                      `chemin` VARCHAR(50) NOT NULL,
+
+
     PRIMARY KEY (`id_img`)
+    KEY `id_guide` (`id_guide`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Déchargement des données de la table `img`
