@@ -9,7 +9,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 </head>
 <body class="flex flex-col items-center w-full">
-@include('menuPrincipal')
 
 <main class="flex flex-col items-center w-full">
     <form method="POST" action="{{ route('validationChangementMotDePasse') }}" class="bg-white shadow-md rounded w-1/4 mx-auto mt-20 mb-20 p-5">
