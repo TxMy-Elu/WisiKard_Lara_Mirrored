@@ -448,7 +448,7 @@
                     <!-- Liste d'images -->
                     @php
                         // Nettoyage du nom de l'entreprise : remplacement des espaces et suppression des caractères spéciaux
-                        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+                        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
                     @endphp
 
                     <div class="flex flex-wrap gap-4 justify-center items-center">

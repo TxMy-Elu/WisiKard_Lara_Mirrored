@@ -406,7 +406,7 @@
 <div class="flex items-center justify-center space-x-6">
     @php
         // Nettoyage du nom de l'entreprise : remplacement des espaces et des caractères spéciaux
-        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
 
         // Construction du chemin du répertoire slider avec le nom nettoyé
         $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
