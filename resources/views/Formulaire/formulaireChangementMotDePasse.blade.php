@@ -8,7 +8,6 @@
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet"/></head>
     <body class="align-items-center w-100">
-        @include('menuPrincipal')
 
         <main class="align-items-center w-100">
             <form method="POST" action="{{ route('validationChangementMotDePasse') }}" class="card w-25 mx-auto mt-5 mb-5">
