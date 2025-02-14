@@ -423,7 +423,7 @@
                                 src="https://cdn.lordicon.com/rszslpey.json"
                                 trigger="loop"
                                 delay="1000"
-                                colors="primary:#000000,secondary:{{$carte->couleur2}}">
+                                colors="primary:#000000,secondary:#9f0712">
                         </lord-icon>
                     </button>
                 </div>
