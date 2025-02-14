@@ -28,31 +28,54 @@ class Compte extends Model
     }
     public static function inscription($email, $motDePasseHache, $role, $nomEntreprise)
     {
+        // Création d'un nouvel utilisateur (Compte)
         $nouvelUtilisateur = new Compte();
         $nouvelUtilisateur->email = $email;
         $nouvelUtilisateur->password = $motDePasseHache;
         $nouvelUtilisateur->role = $role;
         $nouvelUtilisateur->save();
 
+        // Suppression des accents et caractères spéciaux
+        $nomEntrepriseSimplifie = self::supprimerAccents($nomEntreprise);
+
+        // Remplacement des espaces par des underscores
+        $nomEntrepriseDir = str_replace(' ', '_', $nomEntrepriseSimplifie);
+
+        Log::info("nomEntrepriseDir (après simplification) : {$nomEntrepriseDir}");
+
+        // Création de l'entreprise (Carte)
         $entreprise = new Carte();
         $entreprise->idCompte = $nouvelUtilisateur->idCompte;
-        //remplacer les espaces par des underscores
-        $nomEntrepriseDir = str_replace(' ', '_', $nomEntreprise);
-        Log::info("nomEntrepriseDir : {$nomEntrepriseDir}");
-        $entreprise->nomEntreprise = $nomEntreprise;
+        $entreprise->nomEntreprise = $nomEntrepriseSimplifie; // Sauvegarde le nom simplifié
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
         $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntrepriseDir}/QR_Codes/QR_Code.svg";
         $entreprise->save();
 
+        // Génération du QR Code pour l'entreprise
         Compte::QrCode($nouvelUtilisateur->idCompte, $nomEntrepriseDir);
 
-        //creation de la vcard
+        // Création de la vCard
         Compte::creerVCard($entreprise->nomEntreprise, $entreprise->tel, $nouvelUtilisateur->email, $nouvelUtilisateur->idCompte);
 
-
+        // Retourne l'ID du compte nouvellement créé
         return $nouvelUtilisateur->idCompte;
+    }
+
+    /**
+     * Supprimer les accents d'une chaîne
+     *
+     * @param string $str
+     * @return string
+     */
+    private static function supprimerAccents(string $str): string
+    {
+        // Convertit les caractères accentués en leur équivalent non accentué avec iconv
+        $str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+        // Supprime tout caractère restant qui ne serait pas alphanumérique ou espace
+        $str = preg_replace('/[^A-Za-z0-9 ]/', '', $str);
+        return $str;
     }
 
     public static function creerVCard($nomEntreprise, $tel, $email, $idCompte)

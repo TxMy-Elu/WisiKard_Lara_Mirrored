@@ -20709,3 +20709,101 @@ Did you mean one of these?
 [2025-02-14 13:51:50] local.INFO: Couleurs mises à jour avec succès {"email":"aaze@aze.fr","oldColors":{"couleur1":"#974e4e","couleur2":"#0c36df"},"newColors":{"couleur1":"#974e4e","couleur2":"#586cbb"}} 
 [2025-02-14 13:51:51] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
 [2025-02-14 13:51:51] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 
+[2025-02-14 14:18:14] local.INFO: Dossier renommé avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded -> C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22___aVA_zze_  
+[2025-02-14 14:18:14] local.INFO: Mise à jour des chemins dans la base de données. {"imgLogo":null,"lienQr":"/entreprises/22___aVA_zze_/QR_Codes/QR_Code.svg"} 
+[2025-02-14 14:18:14] local.INFO: Informations de l'entreprise mises à jour avec succès. {"email":"aaze@aze.fr","nomEntreprise":"çaVA zze&","tel":null,"mail":"aaze@aze.fr","adresse":null} 
+[2025-02-14 14:18:18] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 
+[2025-02-14 14:27:19] local.ERROR: L'ancien dossier est introuvable. {"ancienPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/çaVA_zze&"} 
+[2025-02-14 14:27:35] local.ERROR: L'ancien dossier est introuvable. {"ancienPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/çaVA_zze&"} 
+[2025-02-14 14:28:19] local.INFO: Le compte de l'entreprise çaVA zze& a été supprimé avec succès.  
+[2025-02-14 14:28:19] local.INFO: La carte de l'entreprise çaVA zze& a été supprimée avec succès.  
+[2025-02-14 14:28:19] local.ERROR: Aucun compte trouvé pour l'adresse email : aaze@aze.fr  
+[2025-02-14 14:28:45] local.INFO: nomEntrepriseDir : çaVa  
+[2025-02-14 14:28:46] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/23_çaVa/QR_Codes/QR_Code.svg  
+[2025-02-14 14:29:02] local.INFO: Chargement du tableau de bord client {"email":"azer@azer.fr"} 
+[2025-02-14 14:29:14] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:29:24] local.INFO: Création du répertoire : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/23_çaVa/pdf  
+[2025-02-14 14:29:24] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/23_çaVa/pdf sous le nom çaVa  
+[2025-02-14 14:29:24] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:30:56] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:31:02] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/23_çaVa/pdf sous le nom çaVa  
+[2025-02-14 14:31:02] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:32:31] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:32:39] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/23_çaVa/pdf sous le nom çaVa  
+[2025-02-14 14:32:39] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:33:15] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:33:16] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:33:16] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:33:23] local.ERROR: Échec : Un fichier existe déjà dans le répertoire entreprises/23_çaVa/pdf.  
+[2025-02-14 14:33:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:33:30] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:34:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:34:19] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/23_çaVa/pdf sous le nom çaVa  
+[2025-02-14 14:34:19] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:34:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:34:26] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:34:33] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:20] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:21] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:22] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:40] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:36:49] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:38:13] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:40:10] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/23_çaVa/pdf sous le nom çaVa  
+[2025-02-14 14:40:11] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:42:24] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/23_çaVa/pdf sous le nom çaVa  
+[2025-02-14 14:42:24] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:43:09] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:43:37] local.INFO: Logo téléchargé avec succès {"email":"azer@azer.fr","fileName":"logo.jpg"} 
+[2025-02-14 14:43:37] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:45:33] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:47:10] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:50:08] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:50:40] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:50:48] local.INFO: Téléchargement réussi du fichier PDF : dz.pdf  
+[2025-02-14 14:50:48] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:51:15] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:58:01] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:58:14] local.INFO: Logo téléchargé avec succès {"email":"azer@azer.fr","fileName":"logo.png"} 
+[2025-02-14 14:58:14] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 14:59:31] local.INFO: Affichage du tableau de bord pour l'utilisateur : azer@azer.fr {"email":"azer@azer.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:02:07] local.INFO: Le compte de l'entreprise çaVa a été supprimé avec succès.  
+[2025-02-14 15:02:07] local.INFO: La carte de l'entreprise çaVa a été supprimée avec succès.  
+[2025-02-14 15:02:07] local.INFO: Le dossier de l'entreprise çaVa a été supprimé avec succès.  
+[2025-02-14 15:02:07] local.ERROR: Aucun compte trouvé pour l'adresse email : azer@azer.fr  
+[2025-02-14 15:02:23] local.INFO: nomEntrepriseDir (après suppression des caractères spéciaux) : aVa  
+[2025-02-14 15:02:24] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/24_aVa/QR_Codes/QR_Code.svg  
+[2025-02-14 15:03:08] local.INFO: Le compte de l'entreprise aVa a été supprimé avec succès.  
+[2025-02-14 15:03:08] local.INFO: La carte de l'entreprise aVa a été supprimée avec succès.  
+[2025-02-14 15:03:08] local.INFO: Le dossier de l'entreprise aVa a été supprimé avec succès.  
+[2025-02-14 15:03:08] local.ERROR: Aucun compte trouvé pour l'adresse email : az@az.fr  
+[2025-02-14 15:03:36] local.INFO: nomEntrepriseDir (après simplification) : YeaVa  
+[2025-02-14 15:03:36] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/25_YeaVa/QR_Codes/QR_Code.svg  
+[2025-02-14 15:04:07] local.INFO: nomEntrepriseDir (après simplification) : Yeava  
+[2025-02-14 15:04:08] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/26_Yeava/QR_Codes/QR_Code.svg  
+[2025-02-14 15:04:43] local.INFO: Le compte de l'entreprise YeaVa a été supprimé avec succès.  
+[2025-02-14 15:04:43] local.INFO: La carte de l'entreprise YeaVa a été supprimée avec succès.  
+[2025-02-14 15:04:43] local.INFO: Le dossier de l'entreprise YeaVa a été supprimé avec succès.  
+[2025-02-14 15:04:43] local.ERROR: Aucun compte trouvé pour l'adresse email : az@az.fr  
+[2025-02-14 15:04:46] local.INFO: Le compte de l'entreprise Yeava a été supprimé avec succès.  
+[2025-02-14 15:04:46] local.INFO: La carte de l'entreprise Yeava a été supprimée avec succès.  
+[2025-02-14 15:04:46] local.INFO: Le dossier de l'entreprise Yeava a été supprimé avec succès.  
+[2025-02-14 15:04:46] local.ERROR: Aucun compte trouvé pour l'adresse email : a@a.fr  
+[2025-02-14 15:05:09] local.INFO: nomEntrepriseDir (après simplification) : caVa  
+[2025-02-14 15:05:09] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/27_caVa/QR_Codes/QR_Code.svg  
+[2025-02-14 15:05:23] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:05:38] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:06:04] local.INFO: Création du répertoire : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/27_caVa/pdf  
+[2025-02-14 15:06:04] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/27_caVa/pdf sous le nom sss.pdf  
+[2025-02-14 15:06:04] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:06:12] local.INFO: Logo téléchargé avec succès {"email":"a@a.fr","fileName":"logo.jpg"} 
+[2025-02-14 15:06:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
