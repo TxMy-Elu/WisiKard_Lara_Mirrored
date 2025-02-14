@@ -450,7 +450,7 @@
                 <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
                     <!-- Bouton pour fermer la galerie -->
                     <button onclick="closeGallery()" class="absolute top-2 right-2 p-2  font-bold text-xl"
-                            style="color: {{$carte->couleur2}};">
+                            style="color: #000000;">
                         &times;
                     </button>
 
