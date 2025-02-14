@@ -258,12 +258,12 @@
     @endif
 </div>
 
-<!-- Galerie Photos -->@php
-    // Nettoyage du nom de l'entreprise : remplacement des espaces et suppression des caractères spéciaux
-    $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+<!-- Galerie Photos -->
+@php
+    $clearName = str_replace(' ', '_', $carte->nomEntreprise);
 
     // Construction du chemin du dossier slider avec le nom nettoyé
-    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
+    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$clearName.'/slider');
 
     // Récupération des images du dossier slider
     $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
@@ -516,14 +516,14 @@
     rechercherEntreprise();
 
     // Liste des images
-    const galleryImages = [
+    var galleryImages = [
         @foreach($sliderImages as $image)
-            "{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}",
+            "{{ asset('entreprises/'.$carte->idCompte.'_'.$clearName.'/slider/'.$image) }}",
         @endforeach
     ];
 
-    const galleryView = document.getElementById('galleryView');
-    const galleryImage = document.getElementById('galleryImage');
+    var galleryView = document.getElementById('galleryView');
+    var galleryImage = document.getElementById('galleryImage');
     let currentGalleryIndex = 0;
 
     // Ouvrir la galerie

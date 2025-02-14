@@ -405,16 +405,17 @@
 
 <div class="flex items-center justify-center space-x-6">
     @php
-        // Nettoyage du nom de l'entreprise : remplacement des espaces et des caractères spéciaux
-        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+        // Nettoyage du nom de l'entreprise
+        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
 
-        // Construction du chemin du répertoire slider avec le nom nettoyé
+        // Chemin vers le répertoire
         $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
 
-        // Récupération des fichiers du répertoire slider
+        // Liste des fichiers existants
         $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
     @endphp
-    @if($sliderImages)
+
+@if($sliderImages)
     <div class="flex-cols">
         <!-- Gelerie -->
         <div class="w-full mt-4">
@@ -458,10 +459,16 @@
                     <!-- Liste d'images -->
                     <div class="flex flex-wrap gap-4 justify-center items-center">
                         @foreach($sliderImages as $image)
-                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
+
+                            @php
+                                // Nettoyage du nom de l'entreprise
+                                $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+                            @endphp
+
+                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}"
                                  alt="Image slider"
                                  class="w-1/3 rounded-lg shadow-md cursor-pointer"
-                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}')">
+                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}')">
                         @endforeach
                     </div>
                 </div>

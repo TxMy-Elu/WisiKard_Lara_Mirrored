@@ -21143,3 +21143,29 @@ Did you mean one of these?
 [2025-02-14 15:34:43] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
 [2025-02-14 15:37:55] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
 [2025-02-14 15:39:44] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:50:42] local.INFO: nomEntrepriseDir (après simplification) : oui_oui  
+[2025-02-14 15:50:42] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/28_oui_oui/QR_Codes/QR_Code.svg  
+[2025-02-14 15:50:51] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:50:55] local.INFO: Affichage du tableau de bord pour l'utilisateur : o@o.fr {"email":"o@o.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:51:02] local.INFO: Logo téléchargé avec succès {"email":"o@o.fr","fileName":"logo.jpg"} 
+[2025-02-14 15:51:02] local.INFO: Affichage du tableau de bord pour l'utilisateur : o@o.fr {"email":"o@o.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/28_oui_oui/logos/logo.jpg","lienSiteWeb":null} 
+[2025-02-14 15:51:14] local.INFO: Création du dossier : entreprises/28_oui_oui/slider  
+[2025-02-14 15:51:14] local.INFO: Fichier téléchargé avec succès : 67af667245890_813kqvYoRfL.png dans entreprises/28_oui_oui/slider  
+[2025-02-14 15:51:14] local.INFO: Fichier téléchargé avec succès : 67af6672470f7_aze.jpg dans entreprises/28_oui_oui/slider  
+[2025-02-14 15:51:14] local.INFO: Fichier téléchargé avec succès : 67af66724911b_belugua.jpg dans entreprises/28_oui_oui/slider  
+[2025-02-14 15:51:14] local.INFO: Fichier téléchargé avec succès : 67af66724a33c_g.jpg dans entreprises/28_oui_oui/slider  
+[2025-02-14 15:51:14] local.INFO: Fichier téléchargé avec succès : 67af66724c019_images.png dans entreprises/28_oui_oui/slider  
+[2025-02-14 15:51:14] local.INFO: Affichage du tableau de bord pour l'utilisateur : o@o.fr {"email":"o@o.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/28_oui_oui/logos/logo.jpg","lienSiteWeb":null} 
+[2025-02-14 15:51:17] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:52:18] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:53:23] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:53:40] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:54:11] local.INFO: Template mis à jour avec succès {"email":"o@o.fr","idTemplate":"2"} 
+[2025-02-14 15:54:11] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:58:23] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:59:23] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 15:59:31] local.INFO: Template mis à jour avec succès {"email":"o@o.fr","idTemplate":"4"} 
+[2025-02-14 15:59:32] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 16:08:14] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 16:12:08] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 16:12:54] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
