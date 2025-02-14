@@ -1,2 +1,6 @@
 [2025-02-14 16:38:52] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
 [2025-02-14 16:38:52] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 16:40:57] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 
+[2025-02-14 16:41:12] local.INFO: Couleurs mises à jour avec succès {"email":"o@o.fr","oldColors":{"couleur1":"#000000","couleur2":"#FFFFFF"},"newColors":{"couleur1":"#000000","couleur2":"#844343"}} 
+[2025-02-14 16:41:13] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/28_oui_oui/QR_Codes/QR_Code.svg  
+[2025-02-14 16:41:13] local.INFO: Chargement du tableau de bord client {"email":"o@o.fr"} 

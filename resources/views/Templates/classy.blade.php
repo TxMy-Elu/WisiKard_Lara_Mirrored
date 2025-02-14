@@ -260,59 +260,95 @@
 
 <!-- Galerie Photos -->
 @php
-    $clearName = str_replace(' ', '_', $carte->nomEntreprise);
+    // Nettoyage du nom de l'entreprise
+    $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
 
-    // Construction du chemin du dossier slider avec le nom nettoyé
-    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$clearName.'/slider');
+    // Chemin vers le répertoire
+    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
 
-    // Récupération des images du dossier slider
+    // Liste des fichiers existants
     $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
 @endphp
 
-@if(!empty($sliderImages) && count($sliderImages) > 0)
-
-    <!-- Couverture initiale -->
-    <div class="flex justify-center mt-4 mx-4">
-        <div id="coverContainer"
-             class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2 cursor-pointer shadow-lg"
-             onclick="openGallery()">
-            <!-- SVG icône modernisée avec taille ajustée -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 text-[#000000]"
-                 fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/>
-            </svg>
-            <p class="text-gray-800 text-lg hover:text-white">Cliquez pour voir la Galerie</p>
+@if($sliderImages)
+    <div class="flex-cols">
+        <!-- Section affichant le bouton pour ouvrir la galerie -->
+        <div class="w-full mt-4 text-center">
+            <button onclick="openGallery()"
+                    class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
+                Voir la Galerie
+            </button>
         </div>
-    </div>
 
-    <!-- Galerie interactive -->
-    <div id="galleryView"
-         class="hidden fixed inset-0 bg-zinc-900 bg-opacity-95 flex items-center justify-center z-50 transition-opacity duration-300">
-        <!-- Bouton de fermeture -->
-        <button class="absolute top-4 right-6 text-zinc-700 w-10 h-10 rounded-lg bg-white hover:bg-gray-100 border border-gray-300 flex items-center justify-center shadow-sm transition duration-200"
-                onclick="closeGallery()">
-            &times;
-        </button>
+        <!-- Modale de la Galerie -->
+        <div id="photoGallery"
+             class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-75 flex justify-center items-center z-50">
+            <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
+                <!-- Bouton pour fermer la galerie -->
+                <button onclick="closeGallery()" class="absolute top-2 right-2 p-2 font-bold text-xl text-gray-900">
+                    &times;
+                </button>
 
-        <!-- Conteneur pour l'image -->
-        <div class="relative w-full max-w-4xl flex items-center justify-center">
-            <img id="galleryImage" src="" alt="Image de la galerie"
-                 class="max-w-full max-h-[80vh] object-contain rounded-md shadow-lg opacity-0 transition-opacity duration-500">
+                <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
 
-            <!-- Bouton pour aller à l'image précédente -->
-            <button id="prevButton"
-                    class="absolute left-4 top-1/2 text-white w-8 h-8 px-2 py-1 bg-zinc-800 hover:bg-zinc-700 border border-gray-600 rounded-full flex items-center justify-center shadow-sm transform -translate-y-1/2 transition duration-300"
-                    onclick="prevImage()">&#10094;
-            </button>
+                <!-- Liste des images dans la galerie -->
+                <div class="flex flex-wrap gap-4 justify-center items-center">
+                    @foreach($sliderImages as $image)
+                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}"
+                             alt="Image slider"
+                             class="w-1/3 rounded-lg shadow-md cursor-pointer"
+                             onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}')">
+                    @endforeach
+                </div>
+            </div>
+        </div>
 
-            <!-- Bouton pour aller à l'image suivante -->
-            <button id="nextButton"
-                    class="absolute right-4 top-1/2 text-white w-8 h-8 px-2 py-1 bg-zinc-800 hover:bg-zinc-700 border border-gray-600 rounded-full flex items-center justify-center shadow-sm transform -translate-y-1/2 transition duration-300"
-                    onclick="nextImage()">&#10095;
-            </button>
+        <!-- Vue agrandie d'une image -->
+        <div id="fullImage"
+             class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-90 flex justify-center items-center z-50">
+            <div class="relative">
+                <!-- Image en taille réelle -->
+                <img id="fullImageContent" src="" alt="Image en grand"
+                     class="max-w-full max-h-full rounded-lg shadow-lg">
+
+                <!-- Bouton pour fermer -->
+                <button onclick="closeFullImage()" class="absolute top-2 right-2 text-red-800 text-2xl font-bold">
+                    &times;
+                </button>
+            </div>
         </div>
     </div>
 @endif
+
+<script>// Fonction pour ouvrir la galerie
+    function openGallery() {
+        const photoGallery = document.getElementById('photoGallery');
+        photoGallery.classList.remove('hidden');
+    }
+
+    // Fonction pour fermer la galerie
+    function closeGallery() {
+        const photoGallery = document.getElementById('photoGallery');
+        photoGallery.classList.add('hidden');
+    }
+
+    // Fonction pour afficher une image en plein écran
+    function viewImage(imageSrc) {
+        const fullImage = document.getElementById('fullImage');
+        const fullImageContent = document.getElementById('fullImageContent');
+
+        fullImageContent.src = imageSrc;
+        fullImage.classList.remove('hidden');
+    }
+
+    // Fonction pour fermer l'image agrandie
+    function closeFullImage() {
+        const fullImage = document.getElementById('fullImage');
+
+        fullImage.classList.add('hidden');
+    }</script>
+
+
 
 <!-- Section PDF + Vidéo -->
 <div class="flex justify-center mt-4 mx-4 gap-4">
@@ -515,56 +551,6 @@
     // Appel de la fonction de recherche au chargement de la page
     rechercherEntreprise();
 
-    // Liste des images
-    var galleryImages = [
-        @foreach($sliderImages as $image)
-            "{{ asset('entreprises/'.$carte->idCompte.'_'.$clearName.'/slider/'.$image) }}",
-        @endforeach
-    ];
-
-    var galleryView = document.getElementById('galleryView');
-    var galleryImage = document.getElementById('galleryImage');
-    let currentGalleryIndex = 0;
-
-    // Ouvrir la galerie
-    function openGallery() {
-        if (galleryImages.length > 0) {
-            currentGalleryIndex = 0; // Affiche la première image
-            galleryImage.src = galleryImages[currentGalleryIndex];
-            galleryView.classList.remove('hidden');
-            setTimeout(() => {
-                galleryImage.classList.remove('opacity-0');
-            }, 50); // Animation de fondu
-        }
-    }
-
-    // Fermer la galerie
-    function closeGallery() {
-        galleryImage.classList.add('opacity-0');
-        setTimeout(() => {
-            galleryView.classList.add('hidden');
-        }, 300); // Définit un délai avant de cacher complètement la galerie
-    }
-
-    // Afficher l'image précédente
-    function prevImage() {
-        currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
-        galleryImage.classList.add('opacity-0');
-        setTimeout(() => {
-            galleryImage.src = galleryImages[currentGalleryIndex];
-            galleryImage.classList.remove('opacity-0');
-        }, 300); // Animation de fondu entre les images
-    }
-
-    // Afficher l'image suivante
-    function nextImage() {
-        currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
-        galleryImage.classList.add('opacity-0');
-        setTimeout(() => {
-            galleryImage.src = galleryImages[currentGalleryIndex];
-            galleryImage.classList.remove('opacity-0');
-        }, 300); // Animation de fondu entre les images
-    }
 
     function openVideoGallery() {
         document.getElementById('videoGallery').classList.remove('hidden');
