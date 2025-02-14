@@ -209,67 +209,92 @@ INSERT INTO `horaires` (`id`, `idCarte`, `jour`, `ouverture_matin`, `fermeture_m
 
 DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
-                                     `id_img` int NOT NULL AUTO_INCREMENT,
-                                     `num_img` int NOT NULL,
-                                     `id_guide` int NOT NULL,
-                                     `chemin` VARCHAR(50) NOT NULL,
+  `id_img` int NOT NULL AUTO_INCREMENT,
+  `num_img` int NOT NULL,
+  `id_guide` int NOT NULL,
+  `chemin` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id_img`),
+  KEY `id_guide` (`id_guide`)
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-    PRIMARY KEY (`id_img`)
-    KEY `id_guide` (`id_guide`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Déchargement des données de la table `img`
 --
 
-
 INSERT INTO `img` (`id_img`, `num_img`, `id_guide`, `chemin`) VALUES
-                                                                  (4, 2, 1, 'public/images/Accueil/modif_info.png'),
-                                                                  (5, 3, 1, 'public/images/Accueil/formulaire_modif.png'),
-                                                                  (6, 2, 2, 'public/images/Accueil/police.png'),
-                                                                  (7, 2, 3, 'public/images/Accueil/titre_description.png'),
-                                                                  (8, 3, 3, 'public/images/Accueil/modif_titre_description.png'),
-                                                                  (9, 2, 4, 'public/images/Accueil/horaire_modif.png'),
-                                                                  (10, 2, 5, 'public/images/Accueil/couleurQrcode.png'),
-                                                                  (11, 3, 5, 'public/images/Accueil/couleurQrcode_modif\n.png'),
-                                                                  (12, 5, 5, 'public/images/Accueil/enregistrer.png'),
-                                                                  (13, 3, 6, 'public/images/Accueil/dlQrCodeEntre.png'),
-                                                                  (14, 3, 7, 'public/images/Accueil/dlQrCodePdf\n.png'),
-                                                                  (15, 2, 8, 'public/images/Accueil/changer_template.png'),
-                                                                  (16, 2, 9, 'public/images/Statistique/annee.png'),
-                                                                  (17, 2, 10, 'public/images/Statistique/semaine.png'),
-                                                                  (18, 2, 11, 'public/images/Statistique/graphique_employe.png'),
-                                                                  (19, 1, 12, 'public/images/Statistique/nb_vue_global.png'),
-                                                                  (20, 1, 13, 'public/images/Statistique/nb_vue_semaine.png'),
-                                                                  (21, 3, 2, 'public/images/Accueil/police_2.png'),
-                                                                  (22, 4, 2, 'public/images/Accueil/enregistrer_2.png'),
-                                                                  (23, 4, 2, 'public/images/Accueil/enregistrer_2.png'),
-                                                                  (24, 3, 14, 'public/images/Reseaux/reseau_sociaux_1.png'),
-                                                                  (25, 4, 14, 'public/images/Reseaux/reseau_sociaux_2.png'),
-                                                                  (26, 5, 14, 'public/images/Reseaux/reseau_sociaux_3.png'),
-                                                                  (27, 2, 14, 'public/images/Reseaux/url_reseau_sociaux.png'),
-                                                                  (28, 2, 15, 'public/images/Reseaux/modif_reseau.png'),
-                                                                  (29, 3, 15, 'public/images/Reseaux/modif_reseau_2.png'),
-                                                                  (30, 2, 16, 'public/images/Reseaux/activer_reseaux.png'),
-                                                                  (31, 3, 16, 'public/images/Reseaux/desactiver_reseaux.png'),
-                                                                  (32, 3, 17, 'public/images/Reseaux/autre_reseau.png'),
-                                                                  (33, 2, 17, 'public/images/Reseaux/bouton_autre.png'),
-                                                                  (34, 4, 17, 'public/images/Reseaux/bouton_ajouter.png'),
-                                                                  (35, 1, 18, 'public/images/Employe/rechercher.png'),
-                                                                  (36, 2, 19, 'public/images/Employe/card_employe.png'),
-                                                                  (37, 3, 19, 'public/images/Employe/modif_employe.png'),
-                                                                  (38, 4, 19, 'public/images/Employe/modifier.png'),
-                                                                  (39, 2, 20, 'public/images/Employe/suppri_employe.png'),
-                                                                  (40, 2, 21, 'public/images/Employe/QrCodeEmploye.png'),
-                                                                  (41, 2, 29, 'public/images/Employe/Dl_QrCodeEmploye.png'),
-                                                                  (42, 2, 22, 'public/images/Employe/ajoutEmploye.png'),
-                                                                  (43, 3, 22, 'public/images/Employe/info_inscription.png'),
-                                                                  (44, 4, 22, 'public/images/Employe/info_inscription_ok.png'),
-                                                                  (45, 3, 23, 'public/images/Contenu/Logo.png'),
-                                                                  (46, 4, 23, 'public/images/Contenu/fichier_logo.png'),
-                                                                  (47, 5, 23, 'public/images/Contenu/enre_logo.png'),
-                                                                  (48, 7, 23, 'public/images/Contenu/suppri_logo.png');
-
+(4, 2, 1, 'public/images/Page_Aide/Accueil/modif_info.png'),
+(5, 3, 1, 'public/images/Page_Aide/Accueil/formulaire_modif.png'),
+(6, 2, 2, 'public/images/Page_Aide/Accueil/police.png'),
+(7, 2, 3, 'public/images/Page_Aide/Accueil/titre_description.png'),
+(8, 3, 3, 'public/images/Page_Aide/Accueil/modif_titre_description.png'),
+(9, 2, 4, 'public/images/Page_Aide/Accueil/horaire_modif.png'),
+(10, 2, 5, 'public/images/Page_Aide/Accueil/couleurQrcode.png'),
+(11, 3, 5, 'public/images/Page_Aide/Accueil/couleurQrcode_modif.png'),
+(12, 5, 5, 'public/images/Page_Aide/Accueil/enregistrer.png'),
+(13, 3, 6, 'public/images/Page_Aide/Accueil/dlQrCodeEntre.png'),
+(14, 3, 7, 'public/images/Page_Aide/Accueil/dlQrCodePdf.png'),
+(15, 2, 8, 'public/images/Page_Aide/Accueil/changer_template.png'),
+(16, 2, 9, 'public/images/Page_Aide/Statistique/annee.png'),
+(17, 2, 10, 'public/images/Page_Aide/Statistique/semaine.png'),
+(18, 2, 11, 'public/images/Page_Aide/Statistique/graphique_employe.png'),
+(19, 1, 12, 'public/images/Page_Aide/Statistique/nb_vue_global.png'),
+(20, 1, 13, 'public/images/Page_Aide/Statistique/nb_vue_semaine.png'),
+(21, 3, 2, 'public/images/Page_Aide/Accueil/police_2.png'),
+(22, 4, 2, 'public/images/Page_Aide/Accueil/enregistrer_2.png'),
+(23, 4, 2, 'public/images/Page_Aide/Accueil/enregistrer_2.png'),
+(24, 3, 14, 'public/images/Page_Aide/Reseaux/reseau_sociaux_1.png'),
+(25, 4, 14, 'public/images/Page_Aide/Reseaux/reseau_sociaux_2.png'),
+(26, 5, 14, 'public/images/Page_Aide/Reseaux/reseau_sociaux_3.png'),
+(27, 2, 14, 'public/images/Page_Aide/Reseaux/url_reseau_sociaux.png'),
+(28, 2, 15, 'public/images/Page_Aide/Reseaux/modif_reseau.png'),
+(29, 3, 15, 'public/images/Page_Aide/Reseaux/modif_reseau_2.png'),
+(30, 2, 16, 'public/images/Page_Aide/Reseaux/activer_reseaux.pn'),
+(31, 3, 16, 'public/images/Page_Aide/Reseaux/desactiver_reseaux.png'),
+(32, 3, 17, 'public/images/Page_Aide/Reseaux/autre_reseau.png'),
+(33, 2, 17, 'public/images/Page_Aide/Reseaux/bouton_autre.png'),
+(34, 4, 17, 'public/images/Page_Aide/Reseaux/bouton_ajouter.png'),
+(35, 1, 18, 'public/images/Page_Aide/Employe/rechercher.png'),
+(36, 2, 19, 'public/images/Page_Aide/Employe/card_employe.png'),
+(37, 3, 19, 'public/images/Page_Aide/Employe/modif_employe.png'),
+(38, 4, 19, 'public/images/Page_Aide/Employe/modifier.png'),
+(39, 2, 20, 'public/images/Page_Aide/Employe/suppr_employe.png'),
+(40, 2, 21, 'public/images/Page_Aide/Employe/QrCodeEmploye.png'),
+(41, 2, 29, 'public/images/Page_Aide/Employe/Dl_QrCodeEmploye.png'),
+(42, 2, 22, 'public/images/Page_Aide/Employe/ajoutEmploye.png'),
+(43, 3, 22, 'public/images/Page_Aide/Employe/info_inscription.png'),
+(44, 4, 22, 'public/images/Page_Aide/Employe/info_inscription_ok.png'),
+(45, 3, 23, 'public/images/Page_Aide/Contenu/Logo.png'),
+(46, 4, 23, 'public/images/Page_Aide/Contenu/fichier_logo.png'),
+(47, 5, 23, 'public/images/Page_Aide/Contenu/enre_logo.png'),
+(48, 7, 23, 'public/images/Page_Aide/Contenu/suppri_logo.png'),
+(49, 3, 24, 'public/images/Page_Aide/Contenu/PDF_1.png'),
+(50, 3, 24, 'public/images/Page_Aide/Contenu/PDF_1.png'),
+(51, 4, 24, 'public/images/Page_Aide/Contenu/PDF_2.png'),
+(52, 5, 24, 'public/images/Page_Aide/Contenu/PDF_4.png'),
+(53, 8, 24, 'public/images/Page_Aide/Contenu/suppri_pdf.png'),
+(54, 3, 25, 'public/images/Page_Aide/Contenu/youtube_1.png'),
+(55, 5, 25, 'public/images/Page_Aide/Contenu/youtube_2.png'),
+(56, 6, 25, 'public/images/Page_Aide/Contenu/youtube_3.png'),
+(57, 4, 25, 'public/images/Page_Aide/Contenu/youtube_url.png'),
+(58, 8, 25, 'public/images/Page_Aide/Contenu/suppri_youtube.png'),
+(59, 3, 26, 'public/images/Page_Aide/Contenu/lien_avis_1.png'),
+(60, 4, 26, 'public/images/Page_Aide/Contenu/lien_avis_2.png'),
+(61, 5, 26, 'public/images/Page_Aide/Contenu/lien_avis_3.png'),
+(62, 7, 26, 'public/images/Page_Aide/Contenu/suppri_avis.png'),
+(63, 3, 31, 'public/images/Page_Aide/Contenu/lien_site1.png'),
+(64, 4, 31, 'public/images/Page_Aide/Contenu/lien_site2.png'),
+(65, 5, 31, 'public/images/Page_Aide/Contenu/lien_site3.png'),
+(66, 7, 31, 'public/images/Page_Aide/Contenu/suppri_site.png'),
+(67, 3, 28, 'public/images/Page_Aide/Contenu/galerie_1.png'),
+(68, 4, 28, 'public/images/Page_Aide/Contenu/galerie_2.png'),
+(69, 5, 28, 'public/images/Page_Aide/Contenu/galerie_3.png'),
+(70, 7, 28, 'public/images/Page_Aide/Contenu/suppri_galerie.png'),
+(71, 4, 27, 'public/images/Page_Aide/Contenu/url_rdv1.png'),
+(72, 5, 27, 'public/images/Page_Aide/Contenu/url_rdv2.png'),
+(73, 6, 27, 'public/images/Page_Aide/Contenu/url_rdv3.png'),
+(74, 8, 27, 'public/images/Page_Aide/Contenu/suppri_url_rdv.png'),
+(75, 3, 30, 'public/images/Page_Aide/Accueil/connexion.png'),
+(76, 4, 30, 'public/images/Page_Aide/Accueil/mdp_oublie.png');
 -- --------------------------------------------------------
 
 --
@@ -910,21 +935,25 @@ INSERT INTO `template` (`idTemplate`, `nom`) VALUES
 
 DROP TABLE IF EXISTS `guide`;
 CREATE TABLE IF NOT EXISTS `guide` (
-                                       `id_guide` int NOT NULL AUTO_INCREMENT,
-                                       `titre` varchar(100) NOT NULL,
-    PRIMARY KEY (`id_guide`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_guide` int NOT NULL AUTO_INCREMENT,
+  `titre` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_guide`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `guide`
+--
 
 INSERT INTO `guide` (`id_guide`, `titre`) VALUES
-                                              (1, 'Modifier les Informations de l\'Entreprise'),
+(1, 'Modifier les Informations de l\'Entreprise'),
 (2, 'Changer la Police'),
 (3, 'Changer le Titre et la Description'),
 (4, 'Gestion des Horaires'),
 (5, 'Changer la Couleur du QR Code'),
 (6, 'Télécharger le QR Code de l\'Entreprise'),
-                                              (7, 'Télécharger le QR Code du PDF'),
-                                              (8, 'Changer le Thème de la Carte'),
-                                              (9, 'Choisir l\'Année'),
+(7, 'Télécharger le QR Code du PDF'),
+(8, 'Changer le Thème de la Carte'),
+(9, 'Choisir l\'Année'),
 (10, 'Choisir la Semaine'),
 (11, 'Nombre de Vues par Employé'),
 (12, 'Nombre Global de Vues'),
@@ -935,39 +964,42 @@ INSERT INTO `guide` (`id_guide`, `titre`) VALUES
 (17, 'Ajouter un Autre Réseau Social'),
 (18, 'Recherche'),
 (19, 'Modifier les Informations de l\'Employé'),
-                                              (20, 'Supprimer un Employé'),
-                                              (21, 'Rafraîchir le QR Code de l\'Employé'),
+(20, 'Supprimer un Employé'),
+(21, 'Rafraîchir le QR Code de l\'Employé'),
 (22, 'Ajouter un Employé'),
 (23, 'Ajouter/Supprimer un Logo'),
 (24, 'Ajouter/Supprimer un PDF'),
 (25, 'Ajouter/Supprimer des Vidéos YouTube'),
 (26, 'Ajouter/Supprimer un Lien d\'Avis Google'),
-                                              (27, 'Ajouter/Supprimer une URL de Prise de Rendez-vous'),
-                                              (28, 'Ajouter/Supprimer une Galerie Photo'),
-                                              (29, 'Télécharger le QR Code de l\'employé');
+(27, 'Ajouter/Supprimer une URL de Prise de Rendez-vous'),
+(28, 'Ajouter/Supprimer une Galerie Photo'),
+(29, 'Télécharger le QR Code de l\'Employé'),
+(30, 'Mot de passe oublié ?'),
+(31, 'Ajouter/Supprimer un lien vers un Site Web');
 COMMIT;
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `txt`;
 CREATE TABLE IF NOT EXISTS `txt` (
-                                     `id_txt` int NOT NULL AUTO_INCREMENT,
-                                     `num_txt` int NOT NULL,
-                                     `categorie` varchar(50) NOT NULL,
-    `id_guide` int NOT NULL,
-    `txt` varchar(500) NOT NULL,
-    PRIMARY KEY (`id_txt`),
-    KEY `id_guide` (`id_guide`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1;
---
+  `id_txt` int NOT NULL AUTO_INCREMENT,
+  `num_txt` int NOT NULL,
+  `id_guide` int NOT NULL,
+  `txt` varchar(500) NOT NULL,
+  PRIMARY KEY (`id_txt`),
+  KEY `id_guide` (`id_guide`)
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `txt`
+--
 
 INSERT INTO `txt` (`id_txt`, `num_txt`, `id_guide`, `txt`) VALUES
 (1, 1, 1, 'Cette fonction permet de mettre à jour les données essentielles de votre entreprise. Elle est accessible facilement depuis la page d\'accueil et offre un formulaire intuitif pour modifier toutes les informations importantes de votre établissement.'),
 (2, 2, 1, '1. Sur la page d\'accueil, cliquez sur le bouton \"Modifier\" en bas à droite.'),
 (3, 3, 1, '2. Vous arriverez sur un formulaire où vous pourrez modifier vos informations.'),
- (4, 4, 1, '3. Modifiez les informations que vous souhaitez.'),
- (5, 5, 1, '4. Appuyez sur le bouton \"Modifier\" quand vous aurez fini.'),
- (6, 1, 2, 'Cette fonctionnalité vous permet de personnaliser l\'apparence textuelle de votre carte numérique. Vous pouvez choisir parmi différentes polices de caractères pour donner un style unique à votre présentation.'),
+(4, 4, 1, '3. Modifiez les informations que vous souhaitez.'),
+(5, 5, 1, '4. Appuyez sur le bouton \"Modifier\" quand vous aurez fini.'),
+(6, 1, 2, 'Cette fonctionnalité vous permet de personnaliser l\'apparence textuelle de votre carte numérique. Vous pouvez choisir parmi différentes polices de caractères pour donner un style unique à votre présentation.'),
 (7, 2, 2, '1. Cliquez sur le bordereau blanc.'),
 (8, 3, 2, '2. Sélectionnez une police parmi celles affichées.'),
 (9, 4, 2, '3. Cliquez ensuite sur le bouton \"Modifier\", et le tour est joué !'),
@@ -991,7 +1023,7 @@ INSERT INTO `txt` (`id_txt`, `num_txt`, `id_guide`, `txt`) VALUES
 (27, 3, 7, '- Pour télécharger le QR Code de votre PDF préalablement enregistré en noir et blanc, cliquez sur le bouton ci-dessous.'),
 (28, 1, 8, 'Cette fonction vous permet de modifier l\'apparence générale de votre carte numérique en sélectionnant différents thèmes visuels, permettant ainsi de personnaliser davantage votre présentation.'),
 (29, 2, 8, 'Cliquez sur le petit bouton au-dessus du thème désiré.'),
-(30, 1, 9, 'Cette fonction permet de filtrer vos données statistiques par année. Via une liste déroulante simple, vous pouvez sélectionner l\'année dont vous souhaitez consulter les statistiques, ce qui permet d\'analyser l\'évolution de votre activité sur différen'),
+(30, 1, 9, 'Cette fonction permet de filtrer vos données statistiques par année. Via une liste déroulante simple, vous pouvez sélectionner l\'année dont vous souhaitez consulter les statistiques, ce qui permet d\'analyser l\'évolution de votre activité sur différentes périodes.'),
 (31, 2, 9, '1. Cliquez sur la liste déroulante.'),
 (32, 3, 9, '2. Choisissez l\'année que vous souhaitez.'),
 (33, 1, 10, 'Cette fonctionnalité offre une navigation intuitive entre les différentes semaines de l\'année sélectionnée. Grâce aux flèches directionnelles, vous pouvez facilement parcourir les données semaine par semaine pour une analyse plus précise.'),
@@ -1004,10 +1036,10 @@ INSERT INTO `txt` (`id_txt`, `num_txt`, `id_guide`, `txt`) VALUES
 (40, 3, 14, '2. Entrez votre URL menant vers votre page là où il est écrit \"Lien du réseau social\".'),
 (41, 4, 14, '3. Cochez ensuite la case \"Activer\" en dessous.'),
 (42, 5, 14, '4. Appuyez sur le bouton \"Mettre à jour\".'),
-(43, 1, 15, 'Cette fonctionnalité permet de modifier facilement les liens de vos réseaux sociaux existants. Il suffit de remplacer l\'ancien lien par le nouveau et de confirmer avec le bouton de mise à jour. C\'est particulièrement utile si vous changez de nom d\'ut'),
+(43, 1, 15, 'Cette fonctionnalité permet de modifier facilement les liens de vos réseaux sociaux existants. Il suffit de remplacer l\'ancien lien par le nouveau et de confirmer avec le bouton de mise à jour. C\'est particulièrement utile si vous changez de nom d\'utilisateur.'),
 (44, 2, 15, '1. Entrez votre nouvelle URL à la place de l\'ancienne.'),
 (45, 3, 15, '2. Appuyez sur le bouton \"Mettre à jour\" en dessous.'),
-(46, 1, 16, 'Cette fonction offre une gestion flexible de la visibilité de vos réseaux sociaux :\n'),
+(46, 1, 16, 'Cette fonction offre une gestion flexible de la visibilité de vos réseaux sociaux :'),
 (47, 1, 17, 'Cette option permet d\'ajouter des réseaux sociaux qui ne sont pas listés par défaut. C\'est particulièrement utile pour les réseaux sociaux moins courants ou spécifiques à votre secteur d\'activité.'),
 (48, 2, 17, '1. En bas de la page, appuyez sur le petit \"+\".'),
 (49, 3, 17, '2. Entrez le nom de votre réseau social et le lien.'),
@@ -1081,7 +1113,20 @@ INSERT INTO `txt` (`id_txt`, `num_txt`, `id_guide`, `txt`) VALUES
 (117, 2, 16, 'Pour l\'activation : la case cochée en bleu rend le réseau social visible sur votre profil'),
 (118, 3, 16, 'Pour la désactivation : la case décochée en gris masque temporairement le réseau social sans supprimer les informations'),
 (119, 1, 29, 'Ce QR Code mène à la Wisikard de l\'employé, affichant ses informations.'),
-(120, 2, 29, 'Pour télécharger le QR Code de l\'employé, appuyez sur l\'icône montrée ci-dessous.');
+(120, 2, 29, 'Pour télécharger le QR Code de l\'employé, appuyez sur l\'icône montrée ci-dessous.'),
+(122, 1, 31, 'Cette fonctionnalité permet de lier votre site web principal à votre carte, créant ainsi un pont entre vos différentes présences numériques.'),
+(123, 2, 31, 'Ajouter un Lien de votre site web'),
+(124, 3, 31, '1. Copiez l\'URL de votre site web.'),
+(125, 4, 31, '2. Allez ensuite sur la page \"Contenu\" et collez le lien.'),
+(126, 5, 31, '3. Cliquez ensuite sur le bouton \"Enregistrer\".'),
+(127, 6, 31, 'Supprimer un Lien de votre site web'),
+(128, 7, 31, 'Cliquez sur le bouton \"Supprimer\".'),
+(129, 8, 31, '⚠️ Vous ne pouvez ajouter qu\'un seul lien.'),
+(137, 1, 30, 'Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser en suivant ces étapes :'),
+(138, 2, 30, '1. Accédez à la page de connexion : Allez sur la page de connexion de l\'application.'),
+(139, 3, 30, '2. Cliquez sur \"Mot de passe oublié ?\" : Cliquez sur le lien \"Mot de passe oublié ?\" sous le champ de saisie du mot de passe.'),
+(140, 4, 30, '3. Entrez votre adresse e-mail : Saisissez l\'adresse e-mail associée à votre compte.'),
+(141, 5, 30, '4. Suivez les instructions : Vous recevrez un e-mail avec des instructions pour réinitialiser votre mot de passe. Suivez ces instructions pour créer un nouveau mot de passe.');
 
 --
 -- --------------------------------------------------------
