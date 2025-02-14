@@ -92,7 +92,7 @@ class Connexion extends Controller
                         $message = "Bonjour,<br><br>";
                         $message .= "Votre compte a été désactivé suite à 10 tentatives de connexion échouées.<br>";
                         $message .= "Pour réactiver votre compte, veuillez cliquer sur <a href='https://app.wisikard.fr/reactivation?code=" . $codeReactivation . "'>ce lien</a>.<br><br>";
-                        $message .= "Cordialement,<br>L'équipe de développement";
+                        $message .= "Cordialement,<br>L'équipe WisiKard";
 
                         // Envoi de l'email de réactivation
                         if (Email::envoyerEmail($utilisateur->email, "Réactivation de votre compte", $message)) {
