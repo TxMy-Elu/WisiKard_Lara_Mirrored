@@ -44,4 +44,8 @@
         </div>
 
         <div class="mt-8">
-            <a href="{{ route('dashboardClientAide') }}" class="text-red-600 hover:text-red-800 transitio
+            <a href="{{ route('dashboardClientAide') }}" class="text-red-600 hover:text-red-800 transition-colors duration-300 text-lg">← Retour à l'Aide</a>
+        </div>
+    </div>
+</body>
+</html>

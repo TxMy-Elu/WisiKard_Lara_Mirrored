@@ -1805,7 +1805,14 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
-
+    /**
+     * Affiche le tableau de bord d'aide pour le client.
+     *
+     * Cette méthode récupère les titres uniques depuis la table `guide` et les passe à la vue
+     * pour afficher les options d'aide disponibles pour le client.
+     *
+     * @return \Illuminate\View\View Retourne la vue avec les titres des guides.
+    */
     public function afficherDashboardClientAide()
     {
         // Récupérer les titres depuis la table guide sans doublons
@@ -1814,7 +1821,15 @@ class DashboardClient extends Controller
         // Passer les titres à la vue
         return view('Client.dashboardClientAide', compact('titres'));
     }
-
+    /**
+     * Affiche la description détaillée d'un guide pour le client.
+     *
+     * Cette méthode récupère le titre, les textes et les images associés à un guide spécifique
+     * et les passe à la vue pour afficher la description détaillée du guide.
+     *
+     * @param int $id_guide L'identifiant unique du guide.
+     * @return \Illuminate\View\View Retourne la vue avec les détails du guide.
+     */
     public function afficherDashboardClientDescription($id_guide)
     {
         $titre = Guide::where('id_guide', $id_guide)->value('titre');
@@ -1826,15 +1841,22 @@ class DashboardClient extends Controller
         $img5 = Img::where('id_guide', $id_guide)->where('num_img', 5)->first();
         $img6 = Img::where('id_guide', $id_guide)->where('num_img', 6)->first();
         $img7 = Img::where('id_guide', $id_guide)->where('num_img', 7)->first();
+        $img8 = Img::where('id_guide', $id_guide)->where('num_img', 8)->first();
 
-        return view('Client.dashboardClientDescription', compact('txts', 'titre', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
+        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7','img8'));
+
     }
 
     /**
-     * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
+     * Télécharge le QR Code PDF en couleur pour l'entreprise.
      *
-     * Cette méthode génère un QR Code classique (noir sur fond blanc) à partir du lien PDF
+     * Cette méthode génère un QR Code en couleur (rouge sur fond blanc) à partir du lien PDF
      * associé à la carte de l'entreprise et permet de le télécharger au format SVG.
+     *
+     * Fonctionnement détaillé :
+     * - Vérifie l'existence d'une carte associée à l'utilisateur connecté.
+     * - Génère une URL pour créer un QR Code en couleur à l'aide du service `quickchart.io`.
+     * - Génère le QR Code au format SVG et le retourne sous forme de fichier téléchargeable.
      *
      * @return \Illuminate\Http\Response Télécharge le QR Code en tant que fichier image (SVG).
      */
