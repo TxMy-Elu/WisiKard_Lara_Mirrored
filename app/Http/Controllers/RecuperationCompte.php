@@ -116,7 +116,7 @@ class RecuperationCompte extends Controller
                 // Supprimer le code de récupération
                 Recuperation::where("codeRecuperation", $_POST["boutonChangerMotDePasse"])->delete();
 
-                return view('confirmation', ["messageConfirmation" => "Mot de passe modifié avec succès !"]);
+                return view('Formulaire.confirmation', ["messageConfirmation" => "Mot de passe modifié avec succès !"]);
             }
         }
     }
