@@ -117,8 +117,8 @@ class Compte extends Model
         $color1 = ltrim($color1, '#');
         $color2 = ltrim($color2, '#');
 
-        //nom de l'entreprise
-        $nomEntreprise = $carte->nomEntreprise;
+        // Nom de l'entreprise - Remplacement des espaces par des underscores
+        $nomEntreprise = str_replace(' ', '_', $carte->nomEntreprise);
 
         // Construire l'URL pour générer le QR Code depuis QuickChart.io
         $baseUrl = "https://quickchart.io/qr";
@@ -151,7 +151,7 @@ class Compte extends Model
         }
 
         // Construire le chemin d'enregistrement du fichier SVG
-        $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
+        $directoryPath = public_path("entreprises/{$id}_{$nomEntreprise}/QR_Codes");
         $svgFilePath = "{$directoryPath}/QR_Code.svg";
 
         // Créer le répertoire s'il n'existe pas (en respectant la casse)
@@ -161,7 +161,7 @@ class Compte extends Model
 
         // Enregistrer le contenu dans le fichier SVG
         if (file_put_contents($svgFilePath, $content) !== false) {
-          Log::info("Fichier QR Code enregistré avec succès : {$svgFilePath}");
+            Log::info("Fichier QR Code enregistré avec succès : {$svgFilePath}");
         } else {
             Log::error("Impossible d'enregistrer le fichier QR Code : {$svgFilePath}");
         }
