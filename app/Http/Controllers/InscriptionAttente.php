@@ -26,8 +26,6 @@ class InscriptionAttente extends Controller
             $emailUtilisateur = Compte::find($idCompte)->email; // Récupérer l'email de l'utilisateur connecté
             Log::info('Chargement du tableau de bord client', ['email' => $emailUtilisateur]);
 
-            $carte = Carte::where('idCompte', $idCompte)->first();
-            $compte = Compte::where('idCompte', $idCompte)->first();
 
             $inscriptions = Inscription_attente::all(); 
 
@@ -76,11 +74,8 @@ class InscriptionAttente extends Controller
             // Insérer les informations dans la table `carte`
             $carte = new Carte();
             $carte->nomEntreprise = $inscription->nom_entre;
-            $carte->titre = 'Sans titre'; // Fournir une valeur par défaut
-            $carte->tel = 'Non fourni'; // Fournir une valeur par défaut
-            $carte->ville = 'Non spécifiée'; // Fournir une valeur par défaut
             $carte->idCompte = $nouvelUtilisateur->idCompte;
-            $carte->idTemplate = 1; // ID de template par défaut
+            $carte->idTemplate = 1;
             $carte->couleur1 = "#000000";
             $carte->couleur2 = "#FFFFFF";
             $carte->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$inscription->nom_entre}/QR_Codes/QR_Code.svg";
@@ -117,7 +112,7 @@ class InscriptionAttente extends Controller
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\View\View Retourne la vue formulaireInscriptionClient avec des messages d'erreur ou de succès.
      */
-    public function boutonInscriptionClient(Request $request)
+    public function InscriptionClient(Request $request)
     {
         if ($request->isMethod('post')) {
             $validationFormulaire = true;

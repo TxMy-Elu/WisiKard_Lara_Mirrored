@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `inscript_attente` (
     `role` varchar(150) NOT NULL,
     `date_inscription` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_inscripAttente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

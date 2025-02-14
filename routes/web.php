@@ -25,6 +25,10 @@ Route::post('/reinitialisation', [RecuperationCompte::class, 'boutonChangerMotDe
 Route::get('/reactivation', [Connexion::class, 'reactivationCompte'])->name('reactivation');
 Route::get('/deconnexion', [Connexion::class, 'deconnexion'])->name('deconnexion');
 
+//Inscription client
+Route::post('/InscriptionClient', [InscriptionAttente::class, 'InscriptionClient'])->name('InscriptionClient');
+Route::get('/InscriptionClient', [InscriptionAttente::class, 'InscriptionClient'])->name('InscriptionClient');
+
 // Routes Templates
 Route::get('/Kard/{companyName}', [Templates::class, 'afficherTemplates'])->name('Templates');
 Route::get('/iframe', [Templates::class, 'afficherIframe'])->name('Iframe');
@@ -89,9 +93,7 @@ Route::middleware([Authentification::class])->group(function () {
     //Avis
     Route::post('/dashboardClientPDF/uploadAvis', [DashboardClient::class, 'uploadAvis'])->name('dashboardClientPDF.uploadAvis');
     Route::delete('/dashboardClientPDF/deleteAvis', [DashboardClient::class, 'deleteAvis'])->name('dashboardClientPDF.deleteAvis');
-    //Inscription client
-    Route::post('/boutonInscriptionClient', [InscriptionAttente::class, 'boutonInscriptionClient'])->name('boutonInscriptionClient');
-    Route::get('/boutonInscriptionClient', [InscriptionAttente::class, 'boutonInscriptionClient'])->name('boutonInscriptionClient');
+
 
     // Personnalisation des Clients
     Route::post('/updateTemplate', [DashboardClient::class, 'updateTemplate'])->name('updateTemplate');
