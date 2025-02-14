@@ -32,6 +32,8 @@
                 <img src="{{ asset(str_replace('public/', '', $img6->chemin)) }}" alt="Image Description" class="mt-4 small-image">
                 @elseif($txt->num_txt == 7 && $img7)
                 <img src="{{ asset(str_replace('public/', '', $img7->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                @elseif($txt->num_txt == 8 && $img8)
+                <img src="{{ asset(str_replace('public/', '', $img8->chemin)) }}" alt="Image Description" class="mt-4 small-image">
                 @endif
         @endforeach
     </div>
