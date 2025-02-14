@@ -31,16 +31,17 @@ class Email extends Controller
             $mail->SMTPSecure = env('MAIL_ENCRYPTION', 'ssl'); // ssl ou tls
             $mail->Port       = env('MAIL_PORT', 465);
 
-            // Expéditeur et destinataire
-            $mail->setFrom(env('MAIL_FROM_ADDRESS', 'noreply@sendix.fr'), env('MAIL_FROM_NAME', 'Votre Nom'));
+
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom(env('MAIL_FROM_ADDRESS', 'support@wisikard.fr'), env('MAIL_FROM_NAME', 'WISIKARD'));
             $mail->addAddress($destinataire);
 
-            // Format email
             $mail->isHTML(true);
-            $mail->Subject = $sujet;
+            $mail->Subject = "=?UTF-8?B?" . base64_encode($sujet) . "?="; // Sujet encodé en UTF-8
             $mail->Body    = $corpsMessage;
 
-            // Envoi de l'email
             $mail->send();
             return true;
         } catch (Exception $e) {
