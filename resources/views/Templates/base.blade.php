@@ -402,7 +402,13 @@
 
 <div class="flex items-center justify-center space-x-6">
     @php
-        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+        // Nettoyage du nom de l'entreprise
+        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+
+        // Chemin vers le répertoire
+        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
+
+        // Liste des fichiers existants
         $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
     @endphp
     @if($sliderImages)
@@ -446,10 +452,6 @@
                     <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
 
                     <!-- Liste d'images -->
-                    @php
-                        // Nettoyage du nom de l'entreprise : remplacement des espaces et suppression des caractères spéciaux
-                        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
-                    @endphp
 
                     <div class="flex flex-wrap gap-4 justify-center items-center">
                         @foreach($sliderImages as $image)
