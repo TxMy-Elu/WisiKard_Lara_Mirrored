@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Client PDF</title>
+    <title>Dashboard Client - Contenu de la Kard</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
@@ -55,7 +53,7 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                actuel
+                                enregistrer
                             </button>
                         </div>
                     </form>
@@ -66,10 +64,17 @@
                             <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
                                  src="{{ $logoPath }}"
                                  alt="Logo">
+                            @php
+                                echo $logoPath;
+                            @endphp
+
                         @else
                             <p class="text-gray-500 italic border-2 p-10">Aucun logo disponible</p>
+                            @php
+                                echo $logoPath;
+                            @endphp
                         @endif
-                        <p class="text-sm text-gray-500 mt-2">Aperçu du logo actuel</p>
+                        <p class="text-sm text-gray-500 mt-2">Aperçu du logo</p>
                     </div>
                 </div>
                 <form action="{{ route('dashboardClientPDF.deleteLogo') }}" method="POST"
@@ -105,7 +110,7 @@
                             <button type="button"
                                     onclick="openModalPdf()"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                actuel
+                                enregistrer
                             </button>
                         </div>
 
@@ -127,7 +132,7 @@
                                 </button>
                                 <button type="button" onclick="saveAndSubmit()"
                                         class="px-4 py-2 bg-indigo-500 text-white text-sm rounded-lg">
-                                    actuel
+                                    enregistrer
                                 </button>
                             </div>
                         </div>
@@ -140,7 +145,7 @@
                         @else
                             <p class="text-gray-500 italic border-2 p-10">Aucun PDF disponible.</p>
                         @endif
-                        <p class="text-sm text-gray-500 mt-2">Aperçu du PDF actuel</p>
+                        <p class="text-sm text-gray-500 mt-2">Aperçu du PDF</p>
 
                         @if($carte->pdf)
                             <!-- delete du PDF -->
@@ -193,13 +198,13 @@
                             <div class="flex justify-end">
                                 <div type="submit"
                                      class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    actuel
+                                    enregistrer
                                 </div>
                             </div>
                         </div>
-                        <h2 class="text-xl font-bold mb-2">Vidéos YouTube actueles</h2>
+                        <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrés</h2>
                         <!-- Card pour les vidéos YouTube -->
-                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo actuele.</p>
+                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistré.</p>
                     </div>
                 </div>
             @else
@@ -220,11 +225,11 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                     class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                actuel
+                                enregistrer
                             </button>
                         </div>
                     </form>
-                    <h2 class="text-xl font-bold mb-2">Vidéos YouTube actueles</h2>
+                    <h2 class="text-xl font-bold mb-2">Vidéos YouTube enregistrés</h2>
                     <!-- Card pour les vidéos YouTube -->
                     @if(!empty($youtubeUrls))
                         <div class="my-4 grow">
@@ -256,7 +261,7 @@
                             </div>
                         </div>
                     @else
-                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo actuele.</p>
+                        <p class="text-gray-500 italic text-center border-2 p-32">Aucune vidéo enregistré.</p>
                     @endif
                 </div>
             @endif
@@ -279,12 +284,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            actuel
+                            enregistrer
                         </button>
                     </div>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Avis Google actuel</h2>
-                <!-- Afficher l'URL de l'avis Google sous le bouton "actuel" -->
+                <!-- Afficher l'URL de l'avis Google sous le bouton "enregistrer" -->
                 @if($carte->lienAvis)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -295,7 +300,7 @@
                         </div>
                     </div>
                 @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien d'avis Google actuel.</p>
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien d'avis Google enregistré.</p>
                 @endif
 
                 @if($carte->lienAvis)
@@ -330,12 +335,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            actuel
+                            enregistrer
                         </button>
                     </div>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien Site Web actuel</h2>
-                <!-- Afficher l'URL du site Web sous le bouton "actuel" -->
+                <!-- Afficher l'URL du site Web sous le bouton "enregistrer" -->
                 @if($carte->lienSiteWeb)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -346,7 +351,7 @@
                         </div>
                     </div>
                 @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de site Web actuel.</p>
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de site Web enregistré.</p>
                 @endif
 
                 @if($carte->lienSiteWeb)
@@ -380,12 +385,12 @@
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            actuel
+                            enregistrer
                         </button>
                     </div>
                 </form>
                 <h2 class="text-xl font-bold mb-2 text-gray-800">Lien de RDV actuel</h2>
-                <!-- Afficher l'URL de RDV sous le bouton "actuel" -->
+                <!-- Afficher l'URL de RDV sous le bouton "enregistrer" -->
                 @if($carte->LienCommande)
                     <div class="mt-4 w-auto h-auto">
                         <div class="bg-white p-4 rounded-lg shadow-md relative w-auto h-auto">
@@ -396,7 +401,7 @@
                         </div>
                     </div>
                 @else
-                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de RDV actuel.</p>
+                    <p class="text-gray-500 italic text-center border-2 p-32">Aucun lien de RDV enregistré.</p>
                 @endif
 
                 @if($carte->LienCommande)
@@ -452,7 +457,7 @@
                             <div class="flex justify-end">
                                 <button type="submit"
                                         class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    actuel
+                                    enregistrer
                                 </button>
                             </div>
                         </form>

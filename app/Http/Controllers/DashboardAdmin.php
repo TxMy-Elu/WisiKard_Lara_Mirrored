@@ -473,15 +473,18 @@ class DashboardAdmin extends Controller
             // Recherche de l'entreprise associée à ce compte
             $carte = $this->carte->where('idCompte', $compte->idCompte)->first();
             if ($carte) {
-                // Génération du QR Code avec les informations du compte et de l'entreprise
-                $compte->QrCode($compte->idCompte, $carte->nomEntreprise);
+                // Remplacement des espaces par des underscores dans le nom de l'entreprise
+                $nomEntrepriseFormatte = str_replace(' ', '_', $carte->nomEntreprise);
+
+                // Génération du QR Code avec les informations du compte et du nom d'entreprise formaté
+                $compte->QrCode($compte->idCompte, $nomEntrepriseFormatte);
 
                 // Mise à jour du lien vers le QR Code dans l'entreprise
-                $carte->lienQr = "/entreprises/{$compte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code.svg";
+                $carte->lienQr = "/entreprises/{$compte->idCompte}_{$nomEntrepriseFormatte}/QR_Codes/QR_Code.svg";
                 $carte->save();
 
                 // Enregistrement des informations dans les logs
-                Log::info('QR Code for ' . $carte->nomEntreprise . ' refreshed');
+                Log::info('QR Code for ' . $nomEntrepriseFormatte . ' refreshed');
                 Logs::ecrireLog($compte->email, 'Rafraîchissement du QR Code');
             }
         }

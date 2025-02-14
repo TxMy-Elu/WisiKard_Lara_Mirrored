@@ -146,10 +146,14 @@
                         // Détection des différents types de fichiers
                         $logoPath = '';
                         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+                        // Remplacement des espaces par des underscores dans le nom d'entreprise
+                        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+
                         foreach ($formats as $format) {
-                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                             if (file_exists($path)) {
-                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                                 break;
                             }
                         }
@@ -157,20 +161,16 @@
                             <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
-                            <div class="logo-container">
-                                @if($logoPath)
-                                    <img src="{{ $logoPath }}" alt="Logo" class="w-full h-auto rounded-lg">
+                            <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
+                                @if (!empty($logoPath))
+                                    <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
+                                         src="{{ $logoPath }}"
+                                         alt="Logo">
                                 @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400"
-                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                         stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                        <polyline points="21 15 16 10 5 21"></polyline>
-                                    </svg>
+                                    <p class="text-gray-500 italic border-2 p-10">Aucun logo disponible</p>
                                 @endif
+                                <p class="text-sm text-gray-500 mt-2">Aperçu du logo</p>
                             </div>
-
                         </div>
                     </div>
                 </div>
