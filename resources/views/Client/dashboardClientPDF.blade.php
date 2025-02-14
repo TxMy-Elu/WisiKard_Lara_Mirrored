@@ -64,8 +64,15 @@
                             <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
                                  src="{{ $logoPath }}"
                                  alt="Logo">
+                            @php
+                                echo $logoPath;
+                            @endphp
+
                         @else
                             <p class="text-gray-500 italic border-2 p-10">Aucun logo disponible</p>
+                            @php
+                                echo $logoPath;
+                            @endphp
                         @endif
                         <p class="text-sm text-gray-500 mt-2">Aperçu du logo</p>
                     </div>
