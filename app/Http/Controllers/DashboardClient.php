@@ -1689,18 +1689,23 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Compte introuvable.');
         }
 
+        // Normalisation du nom de l'entreprise
+        // Convertir les accents en ASCII
+        $entrepriseName = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $carte->nomEntreprise);
+        // Remplacer les caractères non alphanumériques, espaces ou caractères spéciaux par "_"
+        $entrepriseName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $entrepriseName);
+
         // Construire le chemin de destination pour le PDF
-        $entrepriseName = str_replace(' ', '_', $carte->nomEntreprise);
         $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/pdf";
 
         try {
             // Valider les données de la requête
             $request->validate([
-                'pdf' => 'required|mimes:pdf', // Autorisation uniquement des fichiers PDF
+                'pdf' => 'required|mimes:pdf', // Autoriser uniquement les PDF
                 'new_name' => 'required|string|max:255', // Nouveau nom du bouton
             ]);
 
-            // Vérifier l'existence du répertoire cible et des fichiers éventuels
+            // Vérifier l'existence du répertoire cible et des fichiers existants
             $fullPath = public_path($destinationPath);
             if (File::exists($fullPath)) {
                 $existingFiles = File::files($fullPath);
@@ -1710,7 +1715,7 @@ class DashboardClient extends Controller
                 }
             }
 
-            // Créer le répertoire cible s'il est inexistant
+            // Créer le répertoire cible s'il n'existe pas
             if (!File::exists($fullPath)) {
                 File::makeDirectory($fullPath, 0755, true);
                 Log::info("Création du répertoire : {$fullPath}");
@@ -1719,14 +1724,16 @@ class DashboardClient extends Controller
             // Récupérer et renommer le fichier
             $file = $request->file('pdf');
             $newName = $request->input('new_name');
-            $sanitizedFileName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $newName) . '.pdf';
+            // Convertir les accents du nom du fichier et normaliser
+            $sanitizedFileName = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $newName);
+            $sanitizedFileName = str_replace(' ', '_', $sanitizedFileName) . '.pdf';
 
             // Déplacer le fichier dans le répertoire cible
             $file->move($fullPath, $sanitizedFileName);
             Log::info("Le fichier PDF a été sauvegardé avec succès dans {$destinationPath} sous le nom {$sanitizedFileName}");
 
-            // Met à jour le chemin et les détails du PDF en base de données
-            $carte->pdf = "{$destinationPath}/{$sanitizedFileName}";
+            // Mettre à jour le chemin et les détails du PDF en base de données
+            $carte->pdf = "{$destinationPath}/{$sanitizedFileName}"; // Chemin du fichier
             $carte->nomBtnPdf = $newName;
 
             // Génération du lien QR Code pour le PDF
