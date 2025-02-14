@@ -146,31 +146,31 @@
                         // Détection des différents types de fichiers
                         $logoPath = '';
                         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+                        // Remplacement des espaces par des underscores dans le nom d'entreprise
+                        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+
                         foreach ($formats as $format) {
-                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                             if (file_exists($path)) {
-                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                                 break;
-                            } else {
-                                $logoPath = $path;
                             }
                         }
                     @endphp
                             <!-- Logo -->
                     <div class="justify-center mb-2">
                         <div class="w-28">
-                            <div class="logo-container">
-                                @if($logoPath)
-                                    <img src="{{ $logoPath }}" alt="Logo" class="w-full h-auto rounded-lg">
-                                    <div class="bg-white h-full max-h-24 mx-auto relative z-50 w-300 rounded-lg p-4">
-                                        @php
-                                            echo $logoPath;
-                                        @endphp
-                                    </div>
+                            <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
+                                @if (!empty($logoPath))
+                                    <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
+                                         src="{{ $logoPath }}"
+                                         alt="Logo">
                                 @else
+                                    <p class="text-gray-500 italic border-2 p-10">Aucun logo disponible</p>
                                 @endif
+                                <p class="text-sm text-gray-500 mt-2">Aperçu du logo</p>
                             </div>
-
                         </div>
                     </div>
                 </div>
