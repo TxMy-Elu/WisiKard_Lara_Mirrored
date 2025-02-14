@@ -20823,3 +20823,4 @@ Did you mean one of these?
 [2025-02-14 15:22:41] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
 [2025-02-14 15:22:56] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
 [2025-02-14 15:23:15] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
+[2025-02-14 15:24:49] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
