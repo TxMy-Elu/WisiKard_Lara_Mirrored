@@ -1198,6 +1198,9 @@ class DashboardClient extends Controller
                 File::delete($logoPath);
                 $logoDeleted = true;
 
+                $carte->imgLogo = null; // Réinitialisation du chemin du logo dans la base de données
+                $carte->save(); // Sauvegarde des modifications
+
                 // Journaux et logs personnalisés
                 Log::info("Logo supprimé avec succès", ['email' => $emailUtilisateur, 'logoPath' => $logoPath]);
                 Logs::ecrireLog($emailUtilisateur, "Suppression Logo");

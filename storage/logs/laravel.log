@@ -20807,3 +20807,14 @@ Did you mean one of these?
 [2025-02-14 15:06:04] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
 [2025-02-14 15:06:12] local.INFO: Logo téléchargé avec succès {"email":"a@a.fr","fileName":"logo.jpg"} 
 [2025-02-14 15:06:12] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
+[2025-02-14 15:16:50] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
+[2025-02-14 15:17:17] local.INFO: Logo supprimé avec succès {"email":"a@a.fr","logoPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/27_caVa/logos/logo.jpg"} 
+[2025-02-14 15:17:17] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:17:23] local.INFO: Logo téléchargé avec succès {"email":"a@a.fr","fileName":"logo.png"} 
+[2025-02-14 15:17:23] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.png","lienSiteWeb":null} 
+[2025-02-14 15:17:49] local.INFO: Logo supprimé avec succès {"email":"a@a.fr","logoPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/27_caVa/logos/logo.png"} 
+[2025-02-14 15:17:49] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:18:56] local.INFO: Logo téléchargé avec succès {"email":"a@a.fr","fileName":"logo.png"} 
+[2025-02-14 15:18:56] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.png","lienSiteWeb":null} 
+[2025-02-14 15:18:58] local.INFO: Logo supprimé avec succès {"email":"a@a.fr","logoPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/27_caVa/logos/logo.png"} 
+[2025-02-14 15:18:58] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
