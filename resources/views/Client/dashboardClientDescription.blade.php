@@ -9,37 +9,43 @@
         .small-image {
             width: 30%; /* Ajustez cette valeur pour modifier la taille de l'image */
             height: auto; /* Maintenez le ratio d'aspect */
+            transition: transform 0.3s ease-in-out;
+        }
+        .small-image:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="bg-gray-100 p-6">
-    <h1 class="text-2xl font-bold text-center mb-6">{{ $titre }}</h1>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-6">
+    <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-2xl text-center space-y-6 mx-4">
+        <h1 class="text-3xl font-bold text-red-800 mb-6">{{ $titre }}</h1>
 
-    <div class="bg-white p-4 rounded-lg shadow-md space-y-4">
-        @foreach($txts as $txt)
-            <p class="text-gray-800">{{ $txt->txt }}</p>
-            @if($txt->num_txt == 1 && $img1)
-                <img src="{{ asset(str_replace('public/', '', $img1->chemin)) }}" alt="Image Description" class="mt-4 small-image">
-            @elseif($txt->num_txt == 2 && $img2)
-                <img src="{{ asset(str_replace('public/', '', $img2->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+        <div class="space-y-6">
+            @foreach($txts as $txt)
+                <p class="text-gray-700 text-base leading-relaxed">{{ $txt->txt }}</p>
+                @if($txt->num_txt == 1 && $img1)
+                    <img src="{{ asset(str_replace('public/', '', $img1->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
+                @elseif($txt->num_txt == 2 && $img2)
+                    <img src="{{ asset(str_replace('public/', '', $img2->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 3 && $img3)
-                <img src="{{ asset(str_replace('public/', '', $img3->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                    <img src="{{ asset(str_replace('public/', '', $img3->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 4 && $img4)
-                <img src="{{ asset(str_replace('public/', '', $img4->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                    <img src="{{ asset(str_replace('public/', '', $img4->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 5 && $img5)
-                <img src="{{ asset(str_replace('public/', '', $img5->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                    <img src="{{ asset(str_replace('public/', '', $img5->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 6 && $img6)
-                <img src="{{ asset(str_replace('public/', '', $img6->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                    <img src="{{ asset(str_replace('public/', '', $img6->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 7 && $img7)
-                <img src="{{ asset(str_replace('public/', '', $img7->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                    <img src="{{ asset(str_replace('public/', '', $img7->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 8 && $img8)
-                <img src="{{ asset(str_replace('public/', '', $img8->chemin)) }}" alt="Image Description" class="mt-4 small-image">
+                    <img src="{{ asset(str_replace('public/', '', $img8->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @endif
-        @endforeach
-    </div>
+            @endforeach
+        </div>
 
-    <div class="text-center mt-6">
-        <a href="{{ route('dashboardClientAide') }}" class="text-blue-500 hover:text-blue-700">← Retour à l'Aide</a>
+        <div class="mt-8">
+            <a href="{{ route('dashboardClientAide') }}" class="text-red-600 hover:text-red-800 transition-colors duration-300 text-lg">← Retour à l'Aide</a>
+        </div>
     </div>
 </body>
 </html>
