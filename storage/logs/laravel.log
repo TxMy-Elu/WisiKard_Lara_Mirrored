@@ -20688,3 +20688,13 @@ Did you mean one of these?
 #53 C:\\wamp64\\www\\WisiKard_Lara\\server.php(21): require_once('C:\\\\wamp64\\\\www\\\\W...')
 #54 {main}
 "} 
+[2025-02-14 13:20:26] local.INFO: nomEntrepriseDir : edddd_deded  
+[2025-02-14 13:20:26] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
+[2025-02-14 13:20:29] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
+[2025-02-14 13:20:29] local.INFO: QR Code for edddd_deded refreshed  
+[2025-02-14 13:20:32] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
+[2025-02-14 13:20:32] local.INFO: QR Code for edddd_deded refreshed  
+[2025-02-14 13:31:45] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 
+[2025-02-14 13:33:10] local.INFO: Couleurs mises à jour avec succès {"email":"aaze@aze.fr","oldColors":{"couleur1":"#000000","couleur2":"#FFFFFF"},"newColors":{"couleur1":"#e70d0d","couleur2":"#0c36df"}} 
+[2025-02-14 13:33:11] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
+[2025-02-14 13:33:11] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 

@@ -593,8 +593,8 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Construction du chemin d'accès au QR Code
-        $entrepriseName = $carte->nomEntreprise;
+        // Remplacement des espaces par des underscores dans le nom de l'entreprise
+        $entrepriseName = str_replace(' ', '_', $carte->nomEntreprise);
         $folderName = "{$idCompte}_{$entrepriseName}";
         $qrCodesPath = public_path("entreprises/{$folderName}/QR_Codes/QR_Code.svg");
 
@@ -626,9 +626,12 @@ class DashboardClient extends Controller
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email ?? null; // Email de l'utilisateur ou null si non trouvé
 
-        //nom entreprise
+        // Récupération du nom de l'entreprise
         $carte = Carte::where('idCompte', $idCompte)->first();
         $entrepriseName = $carte->nomEntreprise;
+
+        // Remplacement des espaces dans le nom de l'entreprise par des underscores
+        $entrepriseName = str_replace(' ', '_', $entrepriseName);
 
         // Génération de l'URL du QR Code avec les paramètres requis
         $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Kard/{$entrepriseName}?idCompte=" . $idCompte;

@@ -118,7 +118,7 @@ class Compte extends Model
         $color2 = ltrim($color2, '#');
 
         // Nom de l'entreprise - Remplacement des espaces par des underscores
-        $nomEntreprise = str_replace(' ', '_', $carte->nomEntreprise);
+        $nomEntreprise = str_replace(' ', '_', $entreprise);
 
         // Construire l'URL pour générer le QR Code depuis QuickChart.io
         $baseUrl = "https://quickchart.io/qr";

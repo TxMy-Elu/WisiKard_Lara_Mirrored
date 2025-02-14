@@ -1335,6 +1335,12 @@
     --tw-border-style: solid;
     border-style: solid;
   }
+  .border-\[\#000000\] {
+    border-color: #000000;
+  }
+  .border-\[\#5a7d7c\] {
+    border-color: #5a7d7c;
+  }
   .border-\[\#63adf2\] {
     border-color: #63adf2;
   }
@@ -1343,6 +1349,9 @@
   }
   .border-\[\#304d6d\] {
     border-color: #304d6d;
+  }
+  .border-\[\#14213d\] {
+    border-color: #14213d;
   }
   .border-blue-500 {
     border-color: var(--color-blue-500);
@@ -1398,6 +1407,9 @@
   .border-b-gray-200 {
     border-bottom-color: var(--color-gray-200);
   }
+  .bg-\[\#5a7d7c\] {
+    background-color: #5a7d7c;
+  }
   .bg-\[\#9b8a7f\] {
     background-color: #9b8a7f;
   }
@@ -1413,8 +1425,17 @@
   .bg-\[\#545e75\] {
     background-color: #545e75;
   }
+  .bg-\[\#14213d\] {
+    background-color: #14213d;
+  }
   .bg-\[\#a7cced\] {
     background-color: #a7cced;
+  }
+  .bg-\[\#e5e5e5\] {
+    background-color: #e5e5e5;
+  }
+  .bg-\[\#ffffff\] {
+    background-color: #ffffff;
   }
   .bg-amber-100 {
     background-color: var(--color-amber-100);
@@ -1864,8 +1885,17 @@
   .text-\[\#545e75\] {
     color: #545e75;
   }
+  .text-\[\#14213d\] {
+    color: #14213d;
+  }
   .text-\[\#a7cced\] {
     color: #a7cced;
+  }
+  .text-\[\#e5e5e5\] {
+    color: #e5e5e5;
+  }
+  .text-\[\#ffffff\] {
+    color: #ffffff;
   }
   .text-blue-100 {
     color: var(--color-blue-100);
