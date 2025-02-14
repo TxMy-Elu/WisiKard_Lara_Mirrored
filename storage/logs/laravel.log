@@ -20698,3 +20698,14 @@ Did you mean one of these?
 [2025-02-14 13:33:10] local.INFO: Couleurs mises à jour avec succès {"email":"aaze@aze.fr","oldColors":{"couleur1":"#000000","couleur2":"#FFFFFF"},"newColors":{"couleur1":"#e70d0d","couleur2":"#0c36df"}} 
 [2025-02-14 13:33:11] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
 [2025-02-14 13:33:11] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 
+[2025-02-14 13:49:59] local.INFO: Affichage du tableau de bord pour l'utilisateur : aaze@aze.fr {"email":"aaze@aze.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 13:50:24] local.INFO: Création du répertoire : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/pdf  
+[2025-02-14 13:50:24] local.INFO: Le fichier PDF a été sauvegardé avec succès dans entreprises/22_edddd_deded/pdf sous le nom dzdz.pdf  
+[2025-02-14 13:50:24] local.INFO: Affichage du tableau de bord pour l'utilisateur : aaze@aze.fr {"email":"aaze@aze.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 13:51:44] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 
+[2025-02-14 13:51:47] local.INFO: Couleurs mises à jour avec succès {"email":"aaze@aze.fr","oldColors":{"couleur1":"#e70d0d","couleur2":"#0c36df"},"newColors":{"couleur1":"#974e4e","couleur2":"#0c36df"}} 
+[2025-02-14 13:51:47] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
+[2025-02-14 13:51:48] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 
+[2025-02-14 13:51:50] local.INFO: Couleurs mises à jour avec succès {"email":"aaze@aze.fr","oldColors":{"couleur1":"#974e4e","couleur2":"#0c36df"},"newColors":{"couleur1":"#974e4e","couleur2":"#586cbb"}} 
+[2025-02-14 13:51:51] local.INFO: Fichier QR Code enregistré avec succès : C:\wamp64\www\Stage\WisiKard_Lara\public\entreprises/22_edddd_deded/QR_Codes/QR_Code.svg  
+[2025-02-14 13:51:51] local.INFO: Chargement du tableau de bord client {"email":"aaze@aze.fr"} 

@@ -1774,9 +1774,17 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'QR code PDF introuvable.');
         }
 
-        // Générer l'URL pour obtenir un QR Code rouge sur fond blanc
+        // Générer l'URL pour obtenir un QR Code avec les couleurs personnalisées
         $qrCodeContent = $carte->lienPdf;
-        $qrCodeUrl = "https://quickchart.io/qr?size=300&dark=FF0000&light=FFFFFF&format=svg&text=" . urlencode($qrCodeContent);
+
+// Récupérez les couleurs personnalisées (couleur1 et couleur2) depuis votre modèle
+        $couleur1 = $carte->couleur1 ?? '000000'; // Couleur par défaut : noir
+        $couleur2 = $carte->couleur2 ?? 'FFFFFF'; // Couleur par défaut : blanc
+
+// Remplacez les couleurs dans l'URL pour personnaliser le QR Code
+        $qrCodeUrl = str_replace(['000000', 'FFFFFF'], [$couleur1, $couleur2], $qrCodeContent);
+
+// Téléchargez le contenu du QR Code avec les nouvelles couleurs
         $qrCode = file_get_contents($qrCodeUrl);
 
         // Retourner le QR Code en couleur en tant que réponse téléchargeable
@@ -1830,8 +1838,7 @@ class DashboardClient extends Controller
 
         // Générer l'URL pour obtenir un QR Code noir sur fond blanc
         $qrCodeContent = $carte->lienPdf;
-        $qrCodeUrl = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=" . urlencode($qrCodeContent);
-        $qrCode = file_get_contents($qrCodeUrl);
+        $qrCode = file_get_contents($qrCodeContent);
 
         // Retourner le QR Code en noir et blanc en tant que réponse téléchargeable
         return Response::make($qrCode)
