@@ -20,10 +20,14 @@
         // Détection des différents types de fichiers
         $logoPath = '';
         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+        // Remplacement des espaces par des underscores dans le nom d'entreprise
+        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+
         foreach ($formats as $format) {
-            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
             if (file_exists($path)) {
-                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                 break;
             }
         }
@@ -442,12 +446,17 @@
                     <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
 
                     <!-- Liste d'images -->
+                    @php
+                        // Nettoyage du nom de l'entreprise : remplacement des espaces et suppression des caractères spéciaux
+                        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+                    @endphp
+
                     <div class="flex flex-wrap gap-4 justify-center items-center">
                         @foreach($sliderImages as $image)
-                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}"
+                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.$image) }}"
                                  alt="Image slider"
                                  class="w-1/3 rounded-lg shadow-md cursor-pointer"
-                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'.$image) }}')">
+                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.$image) }}')">
                         @endforeach
                     </div>
                 </div>

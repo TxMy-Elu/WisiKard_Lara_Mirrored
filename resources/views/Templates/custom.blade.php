@@ -22,10 +22,14 @@
         // Détection des différents types de fichiers
         $logoPath = '';
         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+        // Remplacement des espaces par des underscores dans le nom d'entreprise
+        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+
         foreach ($formats as $format) {
-            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
             if (file_exists($path)) {
-                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                 break;
             }
         }
@@ -401,7 +405,13 @@
 
 <div class="flex items-center justify-center space-x-6">
     @php
-        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+        // Nettoyage du nom de l'entreprise : remplacement des espaces et des caractères spéciaux
+        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+
+        // Construction du chemin du répertoire slider avec le nom nettoyé
+        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
+
+        // Récupération des fichiers du répertoire slider
         $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
     @endphp
     @if($sliderImages)

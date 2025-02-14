@@ -15,12 +15,17 @@
 
 
 @php
+    // Détection des différents types de fichiers
     $logoPath = '';
-    $formats = ['svg', 'png', 'jpg', 'jpeg'];
+    $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+    // Remplacement des espaces par des underscores dans le nom d'entreprise
+    $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+
     foreach ($formats as $format) {
-        $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+        $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
         if (file_exists($path)) {
-            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
             break;
         }
     }
@@ -253,9 +258,14 @@
     @endif
 </div>
 
-<!-- Galerie Photos -->
-@php
-    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+<!-- Galerie Photos -->@php
+    // Nettoyage du nom de l'entreprise : remplacement des espaces et suppression des caractères spéciaux
+    $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+
+    // Construction du chemin du dossier slider avec le nom nettoyé
+    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
+
+    // Récupération des images du dossier slider
     $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
 @endphp
 

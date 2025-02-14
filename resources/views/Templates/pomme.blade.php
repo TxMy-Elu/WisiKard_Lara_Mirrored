@@ -14,12 +14,17 @@
 
     <!-- Logo -->
     @php
+        // Détection des différents types de fichiers
         $logoPath = '';
-        $formats = ['svg', 'png', 'jpg', 'jpeg'];
+        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+        // Remplacement des espaces par des underscores dans le nom d'entreprise
+        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
+
         foreach ($formats as $format) {
-            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
             if (file_exists($path)) {
-                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
                 break;
             }
         }
