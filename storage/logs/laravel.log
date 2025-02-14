@@ -20824,3 +20824,13 @@ Did you mean one of these?
 [2025-02-14 15:22:56] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
 [2025-02-14 15:23:15] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
 [2025-02-14 15:24:49] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:26:06] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:26:11] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"http://127.0.0.1:9000/entreprises/27_caVa/logos/logo.jpg","lienSiteWeb":null} 
+[2025-02-14 15:26:13] local.INFO: Logo supprimé avec succès {"email":"a@a.fr","logoPath":"C:\\wamp64\\www\\Stage\\WisiKard_Lara\\public\\entreprises/27_caVa/logos/logo.jpg"} 
+[2025-02-14 15:26:13] local.INFO: Affichage du tableau de bord pour l'utilisateur : a@a.fr {"email":"a@a.fr","imagesCount":0,"youtubeUrlsCount":0,"logoPath":"","lienSiteWeb":null} 
+[2025-02-14 15:26:15] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:26:32] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:27:02] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:27:03] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:27:04] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
+[2025-02-14 15:28:06] local.INFO: Chargement du tableau de bord client {"email":"a@a.fr"} 
