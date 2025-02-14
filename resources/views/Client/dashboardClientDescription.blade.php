@@ -23,7 +23,7 @@
         <div class="space-y-6">
             @foreach($txts as $txt)
                 <p class="text-gray-700 text-base leading-relaxed">{{ $txt->txt }}</p>
-                @if($txt->num_txt == 1 && $img1)
+                @if($txt->num_txt == 1 &&$img1)
                     <img src="{{ asset(str_replace('public/', '', $img1->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
                 @elseif($txt->num_txt == 2 && $img2)
                     <img src="{{ asset(str_replace('public/', '', $img2->chemin)) }}" alt="Image Description" class="mx-auto mt-4 small-image rounded-lg shadow-lg">
@@ -44,8 +44,4 @@
         </div>
 
         <div class="mt-8">
-            <a href="{{ route('dashboardClientAide') }}" class="text-red-600 hover:text-red-800 transition-colors duration-300 text-lg">← Retour à l'Aide</a>
-        </div>
-    </div>
-</body>
-</html>
+            <a href="{{ route('dashboardClientAide') }}" class="text-red-600 hover:text-red-800 transitio

@@ -1781,25 +1781,15 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
-    public function afficherDashboardClientAide(Request $request)
+
+    public function afficherDashboardClientAide()
     {
-        // Récupérer le terme de recherche
-        $search = $request->input('search');
-    
         // Récupérer les titres depuis la table guide sans doublons
-        $query = Guide::select('id_guide', 'titre')->distinct();
-    
-        // Si un terme de recherche est fourni, filtrer les résultats
-        if ($search) {
-            $query->where('titre', 'like', "%{$search}%");
-        }
-    
-        $titres = $query->get();
-    
+        $titres = Guide::select('id_guide', 'titre')->get();
+
         // Passer les titres à la vue
-        return view('Client.dashboardClientAide', compact('titres', 'search'));
+        return view('Client.dashboardClientAide', compact('titres'));
     }
-    
 
     public function afficherDashboardClientDescription($id_guide)
     {
@@ -1812,9 +1802,8 @@ class DashboardClient extends Controller
         $img5 = Img::where('id_guide', $id_guide)->where('num_img', 5)->first();
         $img6 = Img::where('id_guide', $id_guide)->where('num_img', 6)->first();
         $img7 = Img::where('id_guide', $id_guide)->where('num_img', 7)->first();
-        $img8 = Img::where('id_guide', $id_guide)->where('num_img', 8)->first();
 
-        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8'));
+        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
     }
     
     /**

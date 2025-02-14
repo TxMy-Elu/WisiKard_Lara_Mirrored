@@ -73,29 +73,7 @@
     <div class="flex-1 md:ml-24 p-6 mt-4">
         <!-- Barre de recherche -->
         <div class="mb-6 flex justify-center">
-            <form action="{{ route('dashboardClientAide') }}" method="GET" class="flex items-center space-x-4 w-full max-w-4xl">
-                <input type="text" name="search" placeholder="Rechercher..." value="{{ request('search') }}" class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                <button type="submit" class="bg-red-800 text-white px-4 py-2 rounded-lg hover:bg-red-800">Rechercher</button>
-            </form>
-        </div>
 
-        <!-- Affichage des résultats de la recherche -->
-        @if($search)
-            <div class="mb-6">
-                @if(isset($titres) && count($titres) > 0)
-                    <h2 class="text-2xl font-bold text-red-800 border-b-2 border-red-300 pb-2 mb-4">Résultats de la recherche</h2>
-                    <ul class="space-y-4">
-                        @foreach($titres as $titre)
-                            <li class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">
-                                <a href="{{ route('dashboardClientDescription', ['id_guide' => $titre->id_guide]) }}">{{ $titre->titre }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-gray-700 text-lg leading-relaxed">Aucun résultat trouvé.</p>
-                @endif
-            </div>
-        @endif
 
         <!-- Affichage des cartes -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
