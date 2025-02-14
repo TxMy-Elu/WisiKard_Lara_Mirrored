@@ -1690,7 +1690,7 @@ class DashboardClient extends Controller
         }
 
         // Construire le chemin de destination pour le PDF
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $carte->nomEntreprise);
+        $entrepriseName = str_replace(' ', '_', $carte->nomEntreprise);
         $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/pdf";
 
         try {
