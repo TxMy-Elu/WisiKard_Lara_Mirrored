@@ -744,7 +744,7 @@ class DashboardClient extends Controller
         }
 
         // Construction du chemin d'accès pour sauvegarder les logos
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise); // Formater le nom de l'entreprise
+        $entrepriseName = str_replace(' ', '_', $carte->nomEntreprise); // Formater le nom de l'entreprise
         $folderName = "{$idCompte}_{$entrepriseName}";
         $logoPath = public_path("entreprises/{$folderName}/logos");
 

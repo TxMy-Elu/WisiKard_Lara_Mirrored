@@ -23,7 +23,7 @@ class Templates extends Controller
      * @param Request $request L'objet de requête HTTP.
      * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse Retourne la vue correspondant au template spécifié avec les données nécessaires ou un message JSON en cas d'erreur.
      */
-    public function afficherTemplates(Request $request, $companyName)
+    public function afficherTemplates(Request $request)
     {
         // Vérifier si "CompteEmp" est présent dans la requête
         $CompteEmp = $request->query('CompteEmp');
