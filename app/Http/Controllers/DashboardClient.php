@@ -6,15 +6,15 @@ use App\Models\Carte;
 use App\Models\Compte;
 use App\Models\Custom_link;
 use App\Models\Employer;
+use App\Models\Guide;
 use App\Models\Horaires;
+use App\Models\Img;
 use App\Models\Logs;
 use App\Models\Message;
 use App\Models\Rediriger;
 use App\Models\Social;
-use App\Models\Vue;
-use App\Models\Guide;
-use App\Models\Img;
 use App\Models\Txt;
+use App\Models\Vue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -1774,17 +1774,20 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'QR code PDF introuvable.');
         }
 
-        // Générer l'URL pour obtenir un QR Code avec les couleurs personnalisées
-        $qrCodeContent = $carte->lienPdf;
+        // URL de base pour générer le QR Code
+        $baseQrUrl = "https://quickchart.io/qr?size=300&format=svg";
 
-// Récupérez les couleurs personnalisées (couleur1 et couleur2) depuis votre modèle
-        $couleur1 = $carte->couleur1 ?? '000000'; // Couleur par défaut : noir
-        $couleur2 = $carte->couleur2 ?? 'FFFFFF'; // Couleur par défaut : blanc
+        // Récupération des paramètres nécessaires
+        $couleur1 = $carte->couleur1 ?? '000000'; // Couleur personnalisée ou noire par défaut
+        $couleur2 = $carte->couleur2 ?? 'FFFFFF'; // Couleur personnalisée ou blanche par défaut
 
-// Remplacez les couleurs dans l'URL pour personnaliser le QR Code
-        $qrCodeUrl = str_replace(['000000', 'FFFFFF'], [$couleur1, $couleur2], $qrCodeContent);
+        // Gestion des espaces dans le nom de l'entreprise et le nom du PDF
+        $nomEntreprise = str_replace(' ', '_', $carte->nomEntreprise); // Remplace les espaces par "_"
 
-// Téléchargez le contenu du QR Code avec les nouvelles couleurs
+        // Construction de l'URL complète avec les nouvelles couleurs et le texte
+        $qrCodeUrl = "{$baseQrUrl}&dark={$couleur1}&light={$couleur2}&text=https://app.wisikard.fr/entreprises/{$idCompte}_{$nomEntreprise}/pdf/{$carte->nomBtnPdf}.pdf";
+
+        // Téléchargement du QR Code en SVG
         $qrCode = file_get_contents($qrCodeUrl);
 
         // Retourner le QR Code en couleur en tant que réponse téléchargeable
@@ -1814,9 +1817,9 @@ class DashboardClient extends Controller
         $img6 = Img::where('id_guide', $id_guide)->where('num_img', 6)->first();
         $img7 = Img::where('id_guide', $id_guide)->where('num_img', 7)->first();
 
-        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
+        return view('Client.dashboardClientDescription', compact('txts', 'titre', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
     }
-    
+
     /**
      * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
      *
