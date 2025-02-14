@@ -152,7 +152,7 @@
                                 $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
                                 break;
                             } else {
-                                $logoPath = 'pas de logo';
+                                $logoPath = $path;
                             }
                         }
                     @endphp
@@ -162,13 +162,12 @@
                             <div class="logo-container">
                                 @if($logoPath)
                                     <img src="{{ $logoPath }}" alt="Logo" class="w-full h-auto rounded-lg">
-                                    @php
-                                        echo $logoPath;
-                                    @endphp
+                                    <div class="bg-white h-full max-h-24 mx-auto relative z-50 w-300 rounded-lg p-4">
+                                        @php
+                                            echo $logoPath;
+                                        @endphp
+                                    </div>
                                 @else
-                                    @php
-                                        echo $logoPath;
-                                    @endphp
                                 @endif
                             </div>
 

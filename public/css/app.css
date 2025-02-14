@@ -1026,6 +1026,15 @@
   .w-96 {
     width: calc(var(--spacing) * 96);
   }
+  .w-98 {
+    width: calc(var(--spacing) * 98);
+  }
+  .w-150 {
+    width: calc(var(--spacing) * 150);
+  }
+  .w-300 {
+    width: calc(var(--spacing) * 300);
+  }
   .w-\[300px\] {
     width: 300px;
   }
