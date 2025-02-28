@@ -50,7 +50,7 @@ class Compte extends Model
         $entreprise->idTemplate = 1;
         $entreprise->couleur1 = "#000000";
         $entreprise->couleur2 = "#FFFFFF";
-        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}_{$nomEntrepriseDir}/QR_Codes/QR_Code.svg";
+        $entreprise->lienQr = "/entreprises/{$nouvelUtilisateur->idCompte}/QR_Codes/QR_Code.svg";
         $entreprise->save();
 
         // Génération du QR Code pour l'entreprise
@@ -96,7 +96,7 @@ class Compte extends Model
         $nomEntrepriseDir = str_replace(' ', '_', $nomEntreprise);
 
         // Définir le chemin complet pour enregistrer le fichier
-        $directoryPath = public_path("entreprises/{$idCompte}_{$nomEntrepriseDir}/VCF_Files");
+        $directoryPath = public_path("entreprises/{$idCompte}/VCF_Files");
         $filePath = "{$directoryPath}/contact.vcf";
 
         // Créer les répertoires manquants avec les permissions appropriées
@@ -174,7 +174,7 @@ class Compte extends Model
         }
 
         // Construire le chemin d'enregistrement du fichier SVG
-        $directoryPath = public_path("entreprises/{$id}_{$nomEntreprise}/QR_Codes");
+        $directoryPath = public_path("entreprises/{$id}/QR_Codes");
         $svgFilePath = "{$directoryPath}/QR_Code.svg";
 
         // Créer le répertoire s'il n'existe pas (en respectant la casse)
