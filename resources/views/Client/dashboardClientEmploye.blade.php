@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Client Employé</title>
+    <title>Wisikard - Employés</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
         .qr-code-container {
@@ -174,7 +174,7 @@
                             <div class="flex flex-col items-center mb-4">
                                 <!-- QR Code -->
                                 <div class="w-24 h-24 bg-gray-200 flex justify-center items-center rounded-lg overflow-hidden">
-                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
+                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
                                          alt="QR Code" class="max-w-full max-h-full">
                                 </div>
 
@@ -239,7 +239,7 @@
                             <div class="flex flex-col items-center mb-4">
                                 <!-- QR Code -->
                                 <div class="w-24 h-24 bg-gray-200 flex justify-center items-center rounded-lg overflow-hidden">
-                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
+                                    <img src="{{ asset("entreprises/{$employe->carte->idCompte}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}"
                                          alt="QR Code" class="max-w-full max-h-full">
                                 </div>
 
@@ -260,7 +260,7 @@
                                     </a>
 
                                     <!-- Icône Télécharger -->
-                                    <a href="{{ asset("entreprises/{$employe->carte->idCompte}_{$employe->carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}" download class="flex">
+                                    <a href="{{ asset("entreprises/{$employe->carte->idCompte}/QR_Codes/QR_Code_{$employe->idEmp}.svg") }}" download class="flex">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              viewBox="0 0 24 24" fill="none" stroke="#000"
                                              stroke-width="2"

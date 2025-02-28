@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Client - Contenu de la Kard</title>
+    <title>Wisikard - Contenu de la Kard</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -465,7 +465,7 @@
                         <!-- Affichage des images dans la galerie -->
                         <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
                             @php
-                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider');
+                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'/slider');
                                 $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
                             @endphp
 
@@ -475,10 +475,10 @@
                                     @foreach($sliderImages as $image)
                                         <div class="relative">
                                             <!-- Miniature -->
-                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}"
+                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'/slider/'. $image) }}"
                                                  alt="Image"
                                                  class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
-                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'_'.$carte->nomEntreprise.'/slider/'. $image) }}')">
+                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'/slider/'. $image) }}')">
 
                                             <!-- Formulaire de suppression -->
                                             <form action="{{ route('dashboardClientPDF.deleteSliderImage') }}"

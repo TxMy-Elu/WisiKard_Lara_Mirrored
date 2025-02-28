@@ -14,7 +14,9 @@
 <body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
 
 <!-- Presentation entreprise -->
-<div class=" w-full h-60 text-white p-4 bg-gradient-to-tl from-red-800 to-zinc-900 rounded-sm">
+<div class=" w-full h-60 text-white p-4 rounded-sm" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
+">
+
     <!-- Logo -->
     @php
         // Détection des différents types de fichiers
@@ -41,7 +43,7 @@
 
     <!-- Nom de l'entreprise -->
     @if($carte['nomEntreprise'] && empty($logoPath))
-        <div class="mt-1">
+        <div class="mt-2">
             <h1 class="text-white text-3xl text-center">{{ $carte['nomEntreprise'] }}</h1>
         </div>
     @endif
@@ -56,7 +58,7 @@
     <!-- description de l'entreprise -->
     @if($carte['descriptif'])
         <div>
-            <p class="text-white text-center text-sm">{{ $carte['descriptif'] }}</p>
+            <p class="text-white-    text-center text-sm">{{ $carte['descriptif'] }}</p>
         </div>
     @endif
 </div>
@@ -105,7 +107,7 @@
             <!-- Bouton de fermeture -->
             <div class="mt-6 flex justify-end">
                 <button onclick="closeQrModal()"
-                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        class="px-4 py-2  text-white rounded-lg " style="background-color: {{$carte->couleur2}};">
                     Fermer
                 </button>
             </div>
@@ -121,7 +123,7 @@
                     src="https://cdn.lordicon.com/warimioc.json"
                     trigger="loop"
                     delay="1000"
-                    colors="primary:#000000,secondary:#9f0712">
+                    colors="primary:#000000,secondary:{{$carte->couleur2}}">
             </lord-icon>
         </btn>
 
@@ -154,7 +156,8 @@
                                 ];
                             @endphp
 
-                            <strong class="text-red-600">{{ $jours[$jour] ?? 'Jour inconnu' }} :</strong>
+                            <strong style="color: {{$carte->couleur2}};"> {{$jours[$jour] ?? 'Jour inconnu' }}
+                                :</strong>
 
                             @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
                                 {{ date('H:i', strtotime($horaire->ouverture_matin)) }}
@@ -172,7 +175,7 @@
             <!-- Bouton de fermeture -->
             <div class="mt-6 flex justify-end">
                 <button onclick="closeModal()"
-                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        class="px-4 py-2  text-white rounded-lg " style="background-color: {{$carte->couleur2}};">
                     Fermer
                 </button>
             </div>
@@ -217,7 +220,7 @@
                         src="https://cdn.lordicon.com/surcxhka.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
                 Maps
@@ -251,7 +254,7 @@
                         src="https://cdn.lordicon.com/qtykvslf.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
                 Téléphone
@@ -268,7 +271,7 @@
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
                 Email
@@ -285,7 +288,7 @@
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2 w-6 h-6">
                 </lord-icon>
                 {{$carte['nomBtnPdf']}}
@@ -302,7 +305,7 @@
                         src="https://cdn.lordicon.com/jdgfsfzr.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
                 Prendre un rendez-vous
@@ -318,7 +321,7 @@
                     src="https://cdn.lordicon.com/kdduutaw.json"
                     trigger="loop"
                     delay="1000"
-                    colors="primary:#000000,secondary:#9f0712"
+                    colors="primary:#000000,secondary:{{$carte->couleur2}}"
                     class="mr-2">
             </lord-icon>
             Fiche de contact
@@ -334,7 +337,7 @@
                         src="https://cdn.lordicon.com/fozsorqm.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
                 Avis
@@ -353,7 +356,7 @@
                         src="https://cdn.lordicon.com/lcvlsnre.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
                 Liens personnalisés
@@ -371,7 +374,7 @@
                                     src="https://cdn.lordicon.com/exymduqj.json"
                                     trigger="hover"
                                     delay="1000"
-                                    colors="primary:#000000,secondary:#9f0712"
+                                    colors="primary:#000000,secondary:{{$carte->couleur2}}"
                                     class="w-6 h-6">
                             </lord-icon>
                             <!-- Texte du lien -->
@@ -397,8 +400,8 @@
             </div>
         </div>
     @endif
-
 </div>
+
 
 <div class="flex items-center justify-center space-x-6">
     @php
@@ -411,26 +414,27 @@
         // Liste des fichiers existants
         $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
     @endphp
-    @if($sliderImages)
-        <div class="flex-cols">
-            <!-- Gelerie -->
-            <div class="w-full mt-4">
-                <div class="flex flex-wrap items-center justify-center gap-4">
-                    <!-- Bouton pour afficher les photos -->
-                    <button onclick="openGallery()"
-                            class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
-                        <lord-icon
-                                src="https://cdn.lordicon.com/rszslpey.json"
-                                trigger="loop"
-                                delay="1000"
-                                colors="primary:#000000,secondary:#9f0712">
-                        </lord-icon>
-                    </button>
-                </div>
-            </div>
 
-            <!-- Galerie Modale -->
-            <!-- PHP : Liste des images extraites du dossier "slider" -->
+@if($sliderImages)
+    <div class="flex-cols">
+        <!-- Gelerie -->
+        <div class="w-full mt-4">
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <!-- Bouton pour afficher les photos -->
+                <button onclick="openGallery()"
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/rszslpey.json"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#000000,secondary:{{$carte->couleur2}}">
+                    </lord-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Galerie Modale -->
+        <!-- PHP : Liste des images extraites du dossier "slider" -->
 
             <!-- Section pour afficher un bouton qui ouvre la galerie -->
             <div class="w-full mt-4 text-center">
@@ -445,20 +449,26 @@
                  class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-75 flex justify-center items-center z-50">
                 <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
                     <!-- Bouton pour fermer la galerie -->
-                    <button onclick="closeGallery()" class="absolute top-2 right-2 p-2 text-red-500 font-bold text-xl">
+                    <button onclick="closeGallery()" class="absolute top-2 right-2 p-2  font-bold text-xl"
+                            style="color: #000000;">
                         &times;
                     </button>
 
                     <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
 
                     <!-- Liste d'images -->
-
                     <div class="flex flex-wrap gap-4 justify-center items-center">
                         @foreach($sliderImages as $image)
-                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.$image) }}"
+
+                            @php
+                                // Nettoyage du nom de l'entreprise
+                                $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
+                            @endphp
+
+                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}"
                                  alt="Image slider"
                                  class="w-1/3 rounded-lg shadow-md cursor-pointer"
-                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.$image) }}')">
+                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}')">
                         @endforeach
                     </div>
                 </div>
@@ -478,7 +488,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+    </div>
     @endif
 
     @if($youtubeUrls)
@@ -493,7 +503,7 @@
                                 src="https://cdn.lordicon.com/bomiazxt.json"
                                 trigger="loop"
                                 delay="1000"
-                                colors="primary:#000000,secondary:#9f0712">
+                                colors="primary:#000000,secondary:{{$carte->couleur2}}">
                         </lord-icon>
                     </button>
                 </div>
@@ -543,8 +553,8 @@
         </div>
 </div>
 
+<!-- Réseaux sociaux -->
 @if($mergedSocial && count($mergedSocial) > 0)
-    <!-- Réseaux sociaux -->
     <div class="flex flex-wrap items-center justify-center w-full mt-4 gap-4">
         @foreach($mergedSocial as $so)
             <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
@@ -552,7 +562,7 @@
                 <div class="flex items-center justify-center">
                     <div class="w-12 h-12 flex items-center justify-center">
                         <!-- Apporter la couleur blanche aux logos -->
-                        <div class="text-white fill-red-800 hover:fill-black">
+                        <div class="text-white  hover:fill-black" style="fill: {{$carte->couleur2}};">
                             {!! $so['logo'] !!}
                         </div>
                     </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Client Aide</title>
+    <title>Wisikard - Accueil Dashboard</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
         .qr-code-container {
@@ -69,7 +69,7 @@
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col md:flex-row min-h-screen">
-    @include('menu.menuClient') <!-- Inclure le menu client -->
+    @include('menu.menuClient')
     <div class="flex-1 md:ml-24 p-6 mt-4">
         <!-- Barre de recherche -->
         <div class="mb-6 flex justify-center">

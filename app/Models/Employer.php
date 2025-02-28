@@ -68,7 +68,7 @@ class Employer extends Model
             // Fermeture de la session cURL
             curl_close($ch);
             // Définir le chemin où sauvegarder le QR code
-            $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
+            $directoryPath = public_path("entreprises/{$id}/QR_Codes");
             $svgFilePath = "{$directoryPath}/QR_Code_{$idEmp}.svg";
             // Vérification et création du répertoire si nécessaire
             if (!file_exists($directoryPath)) {

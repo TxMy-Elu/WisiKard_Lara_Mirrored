@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Client</title>
+    <title>Wisikard - Accueil Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
@@ -147,13 +147,10 @@
                         $logoPath = '';
                         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
 
-                        // Remplacement des espaces par des underscores dans le nom d'entreprise
-                        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
-
                         foreach ($formats as $format) {
-                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
+                            $path = public_path('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
                             if (file_exists($path)) {
-                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
+                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
                                 break;
                             }
                         }
@@ -559,7 +556,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
                                 <!-- template gradient  -->
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
+                                <iframe src="https://app.wisikard.fr/iframe?idTemplate=1"
                                         onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=1'"
                                         class="w-96 h-[750px] rounded-lg"></iframe>
                             </div>
@@ -591,7 +588,7 @@
                                                onchange="submitTemplateForm()">
                                         <label for="template2"></label>
                                         <!-- template gradient -->
-                                        <iframe src="http://127.0.0.1:9000/iframe?idTemplate=2"
+                                        <iframe src="https://app.wisikard.fr/iframe?idTemplate=2"
                                                 onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=2'"
                                                 class="w-96 h-[750px] rounded-lg border border-gray-200"></iframe>
                                     </div>
@@ -600,7 +597,7 @@
                                                @if($idTemplate == 3) checked @endif class="mb-2"
                                                onchange="submitTemplateForm()">
                                         <label for="template3"></label>
-                                        <iframe src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                        <iframe src="https://app.wisikard.fr/iframe?idTemplate=3"
                                                 onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=3'"
                                                 class="w-96 h-[750px] rounded-lg"></iframe>
                                     </div>
@@ -610,7 +607,7 @@
                                                onchange="submitTemplateForm()">
                                         <label for="template4"></label>
                                         <!-- template gradient -->
-                                        <iframe src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                        <iframe src="https://app.wisikard.fr/iframe?idTemplate=4"
                                                 onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=4'"
                                                 class="w-96 h-[750px] rounded-lg"></iframe>
                                     </div>
@@ -643,9 +640,9 @@
                         $logoPath = '';
                         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
                         foreach ($formats as $format) {
-                            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                            $path = public_path('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
                             if (file_exists($path)) {
-                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
+                                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
                                 break;
                             }
                         }
@@ -966,7 +963,7 @@
                                        @if($idTemplate == 1) checked @endif class="mb-2"
                                        onchange="submitTemplateForm()">
                                 <label for="template1"></label>
-                                <iframe src="http://127.0.0.1:9000/iframe?idTemplate=1"
+                                <iframe src="https://app.wisikard.fr/iframe?idTemplate=1"
                                         onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=1'"
                                         class="w-full h-[300px] rounded-lg"></iframe>
                             </div>
@@ -992,7 +989,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template2"></label>
                                 <iframe
-                                        src="http://127.0.0.1:9000/iframe?idTemplate=3"
+                                        src="https://app.wisikard.fr/iframe?idTemplate=3"
                                         onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=3'"
                                         class="w-full h-[300px] rounded-lg border border-gray-200">
                                 </iframe>
@@ -1004,7 +1001,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template3"></label>
                                 <iframe
-                                        src="http://127.0.0.1:9000/iframe?idTemplate=4"
+                                        src="https://app.wisikard.fr/iframe?idTemplate=4"
                                         onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=4'"
                                         class="w-full h-[300px] rounded-lg">
                                 </iframe>
@@ -1016,7 +1013,7 @@
                                        onchange="submitTemplateForm()">
                                 <label for="template4"></label>
                                 <iframe
-                                        src="http://127.0.0.1:9000/iframe?idTemplate=5"
+                                        src="https://app.wisikard.fr/iframe?idTemplate=5"
                                         onerror="this.src='https://app.wisikard.fr/iframe?idTemplate=5'"
                                         class="w-full h-[300px] rounded-lg">
                                 </iframe>

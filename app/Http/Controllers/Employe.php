@@ -93,7 +93,7 @@ class Employe extends Controller
             curl_close($ch);
 
             // Chemin où enregistrer le fichier PNG
-            $directoryPath = public_path("entreprises/{$id}_{$entreprise}/QR_Codes");
+            $directoryPath = public_path("entreprises/{$id}/QR_Codes");
             $pngFilePath = "{$directoryPath}/QR_Code_{$idEmp}.svg";
 
             // Créer le répertoire s'il n'existe pas

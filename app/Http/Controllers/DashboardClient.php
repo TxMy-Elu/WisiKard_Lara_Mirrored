@@ -593,9 +593,7 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Remplacement des espaces par des underscores dans le nom de l'entreprise
-        $entrepriseName = str_replace(' ', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
         $qrCodesPath = public_path("entreprises/{$folderName}/QR_Codes/QR_Code.svg");
 
         // Vérification si le fichier QR Code existe
@@ -671,9 +669,7 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Construction du nom de dossier en assurant un format valide
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
 
         // Récupération des images associées
         $imagesPath = public_path("entreprises/{$folderName}/images");
@@ -744,8 +740,7 @@ class DashboardClient extends Controller
         }
 
         // Construction du chemin d'accès pour sauvegarder les logos
-        $entrepriseName = str_replace(' ', '_', $carte->nomEntreprise); // Formater le nom de l'entreprise
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
         $logoPath = public_path("entreprises/{$folderName}/logos");
 
         // Création des répertoires de manière récursive si nécessaires
@@ -874,20 +869,19 @@ class DashboardClient extends Controller
         }
 
         // Construction du chemin pour enregistrer les vidéos
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
         $videosPath = public_path("entreprises/{$folderName}/videos");
 
         // Vérification si une URL YouTube est fournie
         if ($request->has('youtube_url')) {
             $youtubeUrl = $request->input('youtube_url');
 
-            // Validation de l'URL YouTube avec une expression régulière
-            if (preg_match('/^https:\/\/(www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]+$/', $youtubeUrl)) {
-                // Création du dossier de vidéos s'il n'existe pas
-                if (!File::exists($videosPath)) {
-                    File::makeDirectory($videosPath, 0755, true);
-                }
+                // Validation de l'URL YouTube avec une expression régulière
+                if (preg_match('/^https:\/\/(www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]+$/', $youtubeUrl)) {
+                    // Création du dossier de vidéos s'il n'existe pas
+                    if (!File::exists($videosPath)) {
+                        File::makeDirectory($videosPath, 0755, true);
+                    }
 
                 // Chargement ou création du fichier JSON contenant les vidéos
                 $videosFile = $videosPath . '/videos.json';
@@ -944,8 +938,7 @@ class DashboardClient extends Controller
         }
 
         // Construction du chemin vers le fichier JSON
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
 
         // Vérification de l'existence du fichier JSON
@@ -1036,8 +1029,7 @@ class DashboardClient extends Controller
         Log::info('Carte trouvée : ' . $carte->nomEntreprise);
 
         // Construire le nom du répertoire tout en conservant les majuscules
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise);
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
         $sliderImagesPath = public_path("entreprises/{$folderName}/slider");
 
         Log::info('Chemin des images slider : ' . $sliderImagesPath);
@@ -1182,8 +1174,7 @@ class DashboardClient extends Controller
         }
 
         // Construction du nom du dossier de l'entreprise
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $carte->nomEntreprise); // Garde les caractères valides pour un nom de fichier
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
 
         // Formats possibles pour le fichier logo
         $logoFormats = ['jpg', 'jpeg', 'png', 'svg'];
@@ -1261,8 +1252,7 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Compte non trouvé.');
         }
         // Construire le chemin cible pour le stockage
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_-]/', '_', $carte->nomEntreprise); // Nettoyer le nom de l'entreprise
-        $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/slider";
+        $destinationPath = "entreprises/{$idCompte}/slider";
 
         try {
             // Valider les données de la requête
@@ -1423,7 +1413,7 @@ class DashboardClient extends Controller
             }
 
             // Génération du QR code pour l'employé
-            $result = $emp::QrCodeEmploye($id, $carte->nomEntreprise, $idEmp);
+            $result = $emp->QrCodeEmploye($id, $carte->nomEntreprise, $idEmp);
 
             // Vérification du résultat de la génération
             if (!$result) {
@@ -1692,14 +1682,8 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Compte introuvable.');
         }
 
-        // Normalisation du nom de l'entreprise
-        // Convertir les accents en ASCII
-        $entrepriseName = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $carte->nomEntreprise);
-        // Remplacer les caractères non alphanumériques, espaces ou caractères spéciaux par "_"
-        $entrepriseName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $entrepriseName);
-
         // Construire le chemin de destination pour le PDF
-        $destinationPath = "entreprises/{$idCompte}_{$entrepriseName}/pdf";
+        $destinationPath = "entreprises/{$idCompte}/pdf";
 
         try {
             // Valider les données de la requête
@@ -1795,7 +1779,7 @@ class DashboardClient extends Controller
         $nomEntreprise = str_replace(' ', '_', $carte->nomEntreprise); // Remplace les espaces par "_"
 
         // Construction de l'URL complète avec les nouvelles couleurs et le texte
-        $qrCodeUrl = "{$baseQrUrl}&dark={$couleur1}&light={$couleur2}&text=https://app.wisikard.fr/entreprises/{$idCompte}_{$nomEntreprise}/pdf/{$carte->nomBtnPdf}.pdf";
+        $qrCodeUrl = "{$baseQrUrl}&dark={$couleur1}&light={$couleur2}&text=https://app.wisikard.fr/entreprises/{$idCompte}/pdf/{$carte->nomBtnPdf}.pdf";
 
         // Téléchargement du QR Code en SVG
         $qrCode = file_get_contents($qrCodeUrl);
@@ -1805,14 +1789,7 @@ class DashboardClient extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
     }
-    /**
-     * Affiche le tableau de bord d'aide pour le client.
-     *
-     * Cette méthode récupère les titres uniques depuis la table `guide` et les passe à la vue
-     * pour afficher les options d'aide disponibles pour le client.
-     *
-     * @return \Illuminate\View\View Retourne la vue avec les titres des guides.
-    */
+
     public function afficherDashboardClientAide()
     {
         // Récupérer les titres depuis la table guide sans doublons
@@ -1821,15 +1798,7 @@ class DashboardClient extends Controller
         // Passer les titres à la vue
         return view('Client.dashboardClientAide', compact('titres'));
     }
-    /**
-     * Affiche la description détaillée d'un guide pour le client.
-     *
-     * Cette méthode récupère le titre, les textes et les images associés à un guide spécifique
-     * et les passe à la vue pour afficher la description détaillée du guide.
-     *
-     * @param int $id_guide L'identifiant unique du guide.
-     * @return \Illuminate\View\View Retourne la vue avec les détails du guide.
-     */
+
     public function afficherDashboardClientDescription($id_guide)
     {
         $titre = Guide::where('id_guide', $id_guide)->value('titre');
@@ -1841,22 +1810,15 @@ class DashboardClient extends Controller
         $img5 = Img::where('id_guide', $id_guide)->where('num_img', 5)->first();
         $img6 = Img::where('id_guide', $id_guide)->where('num_img', 6)->first();
         $img7 = Img::where('id_guide', $id_guide)->where('num_img', 7)->first();
-        $img8 = Img::where('id_guide', $id_guide)->where('num_img', 8)->first();
 
-        return view('Client.dashboardClientDescription', compact('txts', 'titre',  'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7','img8'));
-
+        return view('Client.dashboardClientDescription', compact('txts', 'titre', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
     }
 
     /**
-     * Télécharge le QR Code PDF en couleur pour l'entreprise.
+     * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
      *
-     * Cette méthode génère un QR Code en couleur (rouge sur fond blanc) à partir du lien PDF
+     * Cette méthode génère un QR Code classique (noir sur fond blanc) à partir du lien PDF
      * associé à la carte de l'entreprise et permet de le télécharger au format SVG.
-     *
-     * Fonctionnement détaillé :
-     * - Vérifie l'existence d'une carte associée à l'utilisateur connecté.
-     * - Génère une URL pour créer un QR Code en couleur à l'aide du service `quickchart.io`.
-     * - Génère le QR Code au format SVG et le retourne sous forme de fichier téléchargeable.
      *
      * @return \Illuminate\Http\Response Télécharge le QR Code en tant que fichier image (SVG).
      */
@@ -2327,7 +2289,7 @@ class DashboardClient extends Controller
         }
 
         // Construire le chemin du fichier QR Code sur le serveur
-        $qrCodePath = public_path("entreprises/{$carte->idCompte}_{$carte->nomEntreprise}/QR_Codes/QR_Code_{$employe->idEmp}.svg");
+        $qrCodePath = public_path("entreprises/{$carte->idCompte}/QR_Codes/QR_Code_{$employe->idEmp}.svg");
 
         // Vérifier si le fichier QR Code existe
         if (!file_exists($qrCodePath)) {

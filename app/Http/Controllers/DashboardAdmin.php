@@ -480,7 +480,7 @@ class DashboardAdmin extends Controller
                 $compte->QrCode($compte->idCompte, $nomEntrepriseFormatte);
 
                 // Mise à jour du lien vers le QR Code dans l'entreprise
-                $carte->lienQr = "/entreprises/{$compte->idCompte}_{$nomEntrepriseFormatte}/QR_Codes/QR_Code.svg";
+                $carte->lienQr = "/entreprises/{$compte->idCompte}/QR_Codes/QR_Code.svg";
                 $carte->save();
 
                 // Enregistrement des informations dans les logs
