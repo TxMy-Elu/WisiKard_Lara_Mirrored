@@ -118,6 +118,13 @@ class InscriptionAttente extends Controller
             $validationFormulaire = true;
             $messagesErreur = array();
 
+            // Validation du rôle
+            $role = $request->input('role');
+            if (!in_array($role, ['starter', 'advanced'])) {
+                $messagesErreur[] = "Le rôle spécifié n'est pas valide";
+                $validationFormulaire = false;
+            }
+
             $mail = $request->input('mail');
             if (Inscription_attente::where('mail', $mail)->exists()) { // Corrigé ici
                 $messagesErreur[] = "Cette adresse email a déjà été utilisée";
@@ -135,10 +142,12 @@ class InscriptionAttente extends Controller
             }
 
             if ($validationFormulaire === false) {
-                return view('Formulaire.formulaireInscriptionClient', ["messagesErreur" => $messagesErreur]);
+                return view('Formulaire.formulaireInscriptionClient', [
+                    "messagesErreur" => $messagesErreur,
+                    "role" => $role
+                ]);
             } else {
                 $motDePasseHashe = password_hash($request->input('motDePasse1'), PASSWORD_BCRYPT);
-                $role = $request->input('prodId');
                 date_default_timezone_get();
                 $date = date('Y/m/d');
 
@@ -157,8 +166,13 @@ class InscriptionAttente extends Controller
             }
         }
 
-        // Si le formulaire n'est pas soumis, afficher le formulaire avec les rôles
-        return view('Formulaire.formulaireInscriptionClient');
+        // Si le formulaire n'est pas soumis, récupérer le rôle depuis l'URL
+        $role = $request->query('role', 'starter'); // 'starter' est la valeur par défaut
+        if (!in_array($role, ['starter', 'advanced'])) {
+            $role = 'starter';
+        }
+
+        return view('Formulaire.formulaireInscriptionClient', ['role' => $role]);
     }
 
     /**

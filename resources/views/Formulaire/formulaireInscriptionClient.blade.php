@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inscription</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Demande d'inscription à l'application Wisikard</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
 </head>
 <body class="bg-white md:bg-zinc-900">
@@ -23,7 +24,7 @@
             @endif
 
             <div class="mt-10">
-                <form action="{{ route('boutonInscriptionClient') }}" method="post">
+                <form action="{{ route('InscriptionClient') }}" method="post">
                     @csrf
                     <div class="mb-6">
                         <label for="entreprise" class="block text-sm font-medium text-gray-700">Nom de
@@ -56,7 +57,7 @@
                                class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                required>
                     </div>
-                    <input id="prodId" name="prodId" type="hidden"
+                    <input id="role" name="role" class="prodId" type="hidden"
                            value="{{ isset($_GET['role']) ? htmlspecialchars($_GET['role']) : '' }}"/>
                     <div class="mb-6">
                         @include('messageErreur')
