@@ -23,13 +23,10 @@
         $logoPath = '';
         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
 
-        // Remplacement des espaces par des underscores dans le nom d'entreprise
-        $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
-
         foreach ($formats as $format) {
-            $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
+            $path = public_path('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
             if (file_exists($path)) {
-                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
+                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
                 break;
             }
         }
@@ -214,7 +211,7 @@
     <!-- Map -->
     @if($carte['ville'])
         <div class="w-full h-full flex justify-center items-center">
-            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
+            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center ">
                 <lord-icon
                         src="https://cdn.lordicon.com/surcxhka.json"
@@ -231,7 +228,7 @@
     <!-- site web -->
     @if($carte['lienSiteWeb'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['lienSiteWeb'] }}"
+            <a href="{{ $carte['lienSiteWeb'] }}" target="_blank"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/pbbsmkso.json"
@@ -299,7 +296,7 @@
     <!-- Rdv -->
     @if($carte['LienCommande'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['LienRdv'] }}"
+            <a href="{{ $carte['LienRdv'] }}" target="_blank"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/jdgfsfzr.json"
@@ -313,9 +310,9 @@
         </div>
     @endif
 
-    <!-- fiche de contacte -->
+    <!-- fiche de contact -->
     <div class="w-full h-full flex justify-center items-center mt-2">
-        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
            class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
             <lord-icon
                     src="https://cdn.lordicon.com/kdduutaw.json"
@@ -331,7 +328,7 @@
     <!-- Liens Avis -->
     @if($carte['lienAvis'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['lienAvis'] }}"
+            <a href="{{ $carte['lienAvis'] }}" target="_blank"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
                 <lord-icon
                         src="https://cdn.lordicon.com/fozsorqm.json"
@@ -340,7 +337,7 @@
                         colors="primary:#000000,secondary:{{$carte->couleur2}}"
                         class="mr-2">
                 </lord-icon>
-                Avis
+                Avis Google
             </a>
         </div>
     @endif
@@ -405,11 +402,8 @@
 
 <div class="flex items-center justify-center space-x-6">
     @php
-        // Nettoyage du nom de l'entreprise
-        $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
-
         // Chemin vers le répertoire
-        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
+        $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'/slider');
 
         // Liste des fichiers existants
         $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
@@ -460,15 +454,10 @@
                     <div class="flex flex-wrap gap-4 justify-center items-center">
                         @foreach($sliderImages as $image)
 
-                            @php
-                                // Nettoyage du nom de l'entreprise
-                                $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
-                            @endphp
-
-                            <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}"
+                            <img src="{{ asset('entreprises/'.$carte->idCompte.'/slider/'.urlencode($image)) }}"
                                  alt="Image slider"
                                  class="w-1/3 rounded-lg shadow-md cursor-pointer"
-                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}')">
+                                 onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'/slider/'.urlencode($image)) }}')">
                         @endforeach
                     </div>
                 </div>

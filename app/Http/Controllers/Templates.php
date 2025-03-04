@@ -121,8 +121,7 @@ class Templates extends Controller
         // Récupérer les horaires pour la carte spécifique
         $horaires = Horaires::where('idCarte', $idCarte)->get();
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
 
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
         $youtubeUrls = [];
@@ -235,8 +234,7 @@ class Templates extends Controller
         // Récupérer les horaires pour la carte spécifique
         $horaires = Horaires::where('idCarte', $idCarte)->get();
 
-        $entrepriseName = Str::slug($carte->nomEntreprise, '_');
-        $folderName = "{$idCompte}_{$entrepriseName}";
+        $folderName = "{$idCompte}";
 
         $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
         $youtubeUrls = [];
