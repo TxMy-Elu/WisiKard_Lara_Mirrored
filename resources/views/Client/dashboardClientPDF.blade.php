@@ -30,10 +30,11 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-4 grid-rows-8 gap-5">
+        <!-- Modifiez la classe grid principale -->
+        <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-8 gap-5">
 
             <!-- Formulaire logo div1 -->
-            <div class="bg-white rounded-lg shadow-md col-span-2 row-span-2 p-6 h-96 flex flex-col">
+            <div class="bg-white rounded-lg shadow-md col-span-1 md:col-span-2 row-span-auto md:row-span-2 p-6 flex flex-col">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Logo</h2>
                 <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
                     <!-- Formulaire d'upload -->
@@ -88,7 +89,7 @@
             </div>
 
             <!-- Formulaire PDF div2 -->
-            <div class="bg-white rounded-lg shadow-md col-span-2 row-span-2 p-6 h-96 flex flex-col">
+            <div class="bg-white rounded-lg shadow-md col-span-1 md:col-span-2 row-span-auto md:row-span-2 p-6 flex flex-col">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">PDF</h2>
                 <div class="flex flex-wrap md:flex-nowrap justify-between items-center grow">
                     <!-- Formulaire principal -->
@@ -167,7 +168,7 @@
 
             <!-- Formulaire YouTube div3 -->
             @if($compte->role == 'starter')
-                <div class="relative col-span-2 row-span-3">
+                <div class="relative col-span-1 md:col-span-2 row-span-auto md:row-span-3">
                     <!-- Message abonnement, centré au-dessus du blur -->
                     <div class="relative z-50 flex flex-col items-center justify-center">
                         <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
@@ -208,7 +209,7 @@
                     </div>
                 </div>
             @else
-                <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col col-span-2 row-span-3">
+                <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col col-span-1 md:col-span-2 row-span-auto md:row-span-3">
                     <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Vidéos YouTube</h2>
                     <form action="{{ route('dashboardClientPDF.uploadYouTubeVideo') }}" method="POST"
                           enctype="multipart/form-data"
@@ -268,7 +269,7 @@
 
             <!-- div 6 -->
             <!-- input lien avis google -->
-            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-auto md:row-span-3 p-6">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien Avis Google</h2>
                 <form action="{{ route('dashboardClientPDF.uploadAvis') }}" method="POST" enctype="multipart/form-data"
                       class="space-y-4">
@@ -318,7 +319,7 @@
 
             <!-- div7 -->
             <!-- lien site web -->
-            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-auto md:row-span-3 p-6">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien Site Web</h2>
                 <form action="{{ route('dashboardClientPDF.uploadSiteWeb') }}" method="POST"
                       enctype="multipart/form-data"
@@ -369,7 +370,7 @@
 
 
             <!-- div4 -->
-            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-3 p-6">
+            <div class="bg-white rounded-lg shadow-md col-span-1 row-span-auto md:row-span-3 p-6">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien de prise de rendez-vous</h2>
                 <form action="{{ route('dashboardClientPDF.urlsrdv') }}" method="POST" enctype="multipart/form-data"
                       class="space-y-4">
@@ -419,7 +420,7 @@
 
 
             <!-- Section qui va occuper 2 lignes -->
-            <div class="relative col-span-3 row-span-3 h-full">
+            <div class="relative col-span-1 md:col-span-3 row-span-auto md:row-span-3 h-full">
                 @if($compte->role == 'starter')
                     <!-- Message abonnement, centré au-dessus du blur -->
                     <div class="relative z-50 flex flex-col items-center justify-center">
