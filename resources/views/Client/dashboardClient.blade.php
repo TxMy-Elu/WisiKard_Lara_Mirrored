@@ -366,6 +366,7 @@
                         </a>
                     </div>
                 </div>
+                @if($carte->lienPdf)
                 <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
                     <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4">
                         <p class="font-bold text-xl text-gray-800">Télécharger QR PDF</p>
@@ -404,6 +405,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
             </div>
             <!-- Horaires d'ouverture (div6) -->
             <div class="relative col-span-4 row-span-1 ">

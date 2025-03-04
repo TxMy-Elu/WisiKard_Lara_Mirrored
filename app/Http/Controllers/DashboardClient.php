@@ -1122,6 +1122,7 @@ class DashboardClient extends Controller
             // Réinitialisation des données associées au fichier PDF dans la base de données
             $carte->pdf = null;         // Suppression du chemin dans la base de données
             $carte->nomBtnPdf = null;   // Suppression du nom du bouton PDF
+            $carte->lienPdf = null;     // Suppression du lien PDF
             $carte->save();             // Sauvegarde des modifications
 
             // Retour avec un message de succès
@@ -1767,19 +1768,23 @@ class DashboardClient extends Controller
         if (!$carte || !$carte->lienPdf) {
             return redirect()->back()->with('error', 'QR code PDF introuvable.');
         }
-
-        // URL de base pour générer le QR Code
-        $baseQrUrl = "https://quickchart.io/qr?size=300&format=svg";
-
+        
         // Récupération des paramètres nécessaires
         $couleur1 = $carte->couleur1 ?? '000000'; // Couleur personnalisée ou noire par défaut
         $couleur2 = $carte->couleur2 ?? 'FFFFFF'; // Couleur personnalisée ou blanche par défaut
 
-        // Gestion des espaces dans le nom de l'entreprise et le nom du PDF
-        $nomEntreprise = str_replace(' ', '_', $carte->nomEntreprise); // Remplace les espaces par "_"
+        // URL de base pour générer le QR Code
+        $baseQrUrl = "https://quickchart.io/qr?".http_build_query([
+            'size' => 300,
+            'dark' => $couleur1,
+            'light' => $couleur2,
+            'format' => 'svg',
+            'text' => ''
+        ]);
+
 
         // Construction de l'URL complète avec les nouvelles couleurs et le texte
-        $qrCodeUrl = "{$baseQrUrl}&dark={$couleur1}&light={$couleur2}&text=https://app.wisikard.fr/entreprises/{$idCompte}/pdf/{$carte->nomBtnPdf}.pdf";
+        $qrCodeUrl = "{$baseQrUrl}https://app.wisikard.fr/entreprises/{$idCompte}/pdf/{$carte->nomBtnPdf}.pdf";
 
         // Téléchargement du QR Code en SVG
         $qrCode = file_get_contents($qrCodeUrl);
