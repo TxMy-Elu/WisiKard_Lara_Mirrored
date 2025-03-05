@@ -14,7 +14,8 @@
             <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Logo WisiKard" class="w-32 md:w-48 lg:w-96">
         </div>
         <div class="justify-center mt-10">
-            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Wisikard</h1>
+            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription au service Wisikard</h1>
+            <p>Merci pour votre achat. Pour poursuivre votre enregistrement, merci de remplir le formulaire ci-dessous.</p>
 
             <!-- Afficher le message de succès -->
             @if(session('success'))

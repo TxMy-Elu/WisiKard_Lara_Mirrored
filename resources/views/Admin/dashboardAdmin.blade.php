@@ -175,6 +175,12 @@
                             </div>
                         @endif
 
+                        <div class="pt-4">
+                            <a href="{{ url('/Kard/' . $entreprise->nomEntreprise .'?idCompte='. $entreprise->idCompte) }}"
+                            target="_blank"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Voir la carte</a>
+                        </div>
+                        
                         <!-- Boutons d'action -->
                         <div class="flex flex-row-reverse mt-auto pt-4">
                             <!-- Bouton pour supprimer l'entreprise -->
