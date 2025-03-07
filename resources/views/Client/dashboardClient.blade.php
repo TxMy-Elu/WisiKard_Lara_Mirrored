@@ -409,25 +409,7 @@
             </div>
             <!-- Horaires d'ouverture (div6) -->
             <div class="relative col-span-4 row-span-1 ">
-                @if($compte->role == 'starter')
-                    <!-- Message abonnement, centré au-dessus du blur -->
-                    <div class="relative z-50 flex flex-col items-center justify-center">
-                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
-                           target="_blank"
-                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
-                            <p class="text-white text-base">Mettre à niveau</p>
-                            <!-- svg cursor mouse -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 viewBox="0 0 24 24"
-                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
-                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
-                                <path d="M13 13l6 6"></path>
-                            </svg>
-                        </a>
-                    </div>
-                @endif
-                <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
+                <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
                     <form action="{{ route('updateHoraires') }}" method="POST" class="p-6">
                         @csrf
                         <div class="flex flex-col space-y-6">

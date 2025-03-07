@@ -10,11 +10,81 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+        .presentation-animate {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo-animate {
+            animation: fadeInScale 1s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .text-animate {
+            animation: fadeInSlide 1s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .text-animate:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .text-animate:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .hover-effect {
+            transition: all 0.3s ease;
+        }
+
+        .hover-effect:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
-
+    @php
+        // Couleurs par défaut pour le compte starter et les couleurs de base afin d'éviter les problèmes de couleur sur fond blanc
+        if ($carte->couleur1 === '#000000' && $carte->couleur2 === '#FFFFFF') {
+            $carte->couleur2 = '#FF0000';
+        }
+    @endphp
 <!-- Presentation entreprise -->
-<div class=" w-full h-60 text-white p-4 rounded-sm" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
+<div class=" w-full h-60 text-white p-4 rounded-sm presentation-animate" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
 ">
 
     <!-- Logo -->
@@ -33,28 +103,28 @@
     @endphp
 
     @if(!empty($logoPath))
-        <div class="w-full h-full max-h-24 mx-auto">
+        <div class="w-full h-full max-h-24 mx-auto logo-animate">
             <img src="{{ $logoPath }}" alt="Logo de l'entreprise" class="w-full h-full object-contain">
         </div>
     @endif
 
     <!-- Nom de l'entreprise -->
     @if($carte['nomEntreprise'] && empty($logoPath))
-        <div class="mt-2">
+        <div class="mt-2 text-animate">
             <h1 class="text-white text-3xl text-center">{{ $carte['nomEntreprise'] }}</h1>
         </div>
     @endif
 
     <!-- Titre de l'entreprise -->
     @if($carte['titre'])
-        <div>
+        <div class="text-animate">
             <h2 class="text-white text-center text-lg">{{ $carte['titre'] }}</h2>
         </div>
     @endif
 
     <!-- description de l'entreprise -->
     @if($carte['descriptif'])
-        <div>
+        <div class="text-animate">
             <p class="text-white-    text-center text-sm">{{ $carte['descriptif'] }}</p>
         </div>
     @endif
@@ -63,7 +133,7 @@
 <!-- employes -->
 @if($employe != null)
     <div class="flex justify-center items-center mt-4">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden w-80">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden w-80 hover-effect">
             <div class="p-4">
                 <h3 class="text-xl font-bold text-center mb-2 text-gray-800 ">{{ $employe->nom }} {{ $employe->prenom }} </h3>
                 <p class="text-gray-600 text-center mb-4">{{ $employe->fonction }}</p>
@@ -85,7 +155,7 @@
 
     <!-- Bouton QR Code -->
     <a onclick="openQrModal()"
-       class="cursor-pointer w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800">
+       class="cursor-pointer w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 hover-effect">
         QR Code
     </a>
 
@@ -112,10 +182,11 @@
     </div>
 
     <!-- horaires -->
+    @if($horaires && count($horaires) > 0)
     <!-- Bouton pour ouvrir le modal -->
     <div class="flex justify-center">
         <btn onclick="openModal()"
-             class="w-12 h-12 flex items-center justify-center rounded-xl p-2 font-bold text-white text-center border border-gray-200 cursor-pointer">
+             class="w-12 h-12 flex items-center justify-center rounded-xl p-2 font-bold text-white text-center border border-gray-200 cursor-pointer hover-effect">
             <lord-icon
                     src="https://cdn.lordicon.com/warimioc.json"
                     trigger="loop"
@@ -178,12 +249,12 @@
             </div>
         </div>
     </div>
-
+    @endif
     <!-- partage -->
     <!-- Bouton de partage -->
     <button
             onclick="shareOrCopyLink()"
-            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 cursor-pointer">
+            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 cursor-pointer hover-effect">
         Partager
     </button>
     {{--
@@ -212,7 +283,7 @@
     @if($carte['ville'])
         <div class="w-full h-full flex justify-center items-center">
             <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center ">
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/surcxhka.json"
                         trigger="loop"
@@ -229,7 +300,7 @@
     @if($carte['lienSiteWeb'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="{{ $carte['lienSiteWeb'] }}" target="_blank"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/pbbsmkso.json"
                         trigger="loop"
@@ -246,7 +317,7 @@
     @if($carte['tel'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="tel:{{ $carte['tel'] }}"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/qtykvslf.json"
                         trigger="loop"
@@ -263,7 +334,7 @@
     @if($compte['email'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="mailto:{{ $compte['email'] }}"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="loop"
@@ -280,7 +351,7 @@
     @if($carte['pdf'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="{{ asset($carte['pdf']) }}" download
-               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
@@ -296,8 +367,8 @@
     <!-- Rdv -->
     @if($carte['LienCommande'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['LienRdv'] }}" target="_blank"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+            <a href="{{ $carte['LienCommande'] }}" target="_blank"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/jdgfsfzr.json"
                         trigger="loop"
@@ -313,7 +384,7 @@
     <!-- fiche de contact -->
     <div class="w-full h-full flex justify-center items-center mt-2">
         <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
-           class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+           class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
             <lord-icon
                     src="https://cdn.lordicon.com/kdduutaw.json"
                     trigger="loop"
@@ -329,7 +400,7 @@
     @if($carte['lienAvis'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="{{ $carte['lienAvis'] }}" target="_blank"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center">
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/fozsorqm.json"
                         trigger="loop"
@@ -348,7 +419,7 @@
             <!-- Bouton principal -->
             <button id="toggleLinksButton"
                     onclick="toggleLinksDropdown()"
-                    class="w-full h-12 mx-2 px-2 bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center cursor-pointer">
+                    class="w-full h-12 mx-2 px-2 bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center cursor-pointer hover-effect">
                 <lord-icon
                         src="https://cdn.lordicon.com/lcvlsnre.json"
                         trigger="loop"
@@ -365,7 +436,7 @@
                 <ul class="divide-y divide-gray-300">
                     <!-- Boucle Laravel pour générer les liens -->
                     @foreach ($custom as $link)
-                        <li class="flex items-center h-12 px-2 ">
+                        <li class="flex items-center h-12 px-2 hover-effect">
                             <!-- Icône gauche -->
                             <lord-icon
                                     src="https://cdn.lordicon.com/exymduqj.json"
@@ -416,7 +487,7 @@
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <!-- Bouton pour afficher les photos -->
                 <button onclick="openGallery()"
-                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
+                        class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer hover-effect">
                     <lord-icon
                             src="https://cdn.lordicon.com/rszslpey.json"
                             trigger="loop"
@@ -433,7 +504,7 @@
             <!-- Section pour afficher un bouton qui ouvre la galerie -->
             <div class="w-full mt-4 text-center">
                 <button onclick="openGallery()"
-                        class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
+                        class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer hover-effect">
                     Voir la Galerie
                 </button>
             </div>
@@ -456,7 +527,7 @@
 
                             <img src="{{ asset('entreprises/'.$carte->idCompte.'/slider/'.urlencode($image)) }}"
                                  alt="Image slider"
-                                 class="w-1/3 rounded-lg shadow-md cursor-pointer"
+                                 class="w-1/3 rounded-lg shadow-md cursor-pointer hover-effect"
                                  onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'/slider/'.urlencode($image)) }}')">
                         @endforeach
                     </div>
@@ -487,7 +558,7 @@
                 <div class="flex flex-wrap items-center justify-center gap-4">
                     <!-- Bouton principal pour ouvrir la galerie de vidéos -->
                     <button onclick="openVideoGallery()"
-                            class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer">
+                            class="w-24 flex items-center justify-center rounded-xl p-4 font-bold text-white text-center border border-gray-200 cursor-pointer hover-effect">
                         <lord-icon
                                 src="https://cdn.lordicon.com/bomiazxt.json"
                                 trigger="loop"
@@ -501,7 +572,7 @@
             <!-- Section pour afficher un bouton individuel -->
             <div class="w-full mt-4 text-center">
                 <button onclick="openVideoGallery()"
-                        class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer">
+                        class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer hover-effect">
                     Voir les Vidéos
                 </button>
             </div>
@@ -527,7 +598,7 @@
                             @endphp
                                     <!-- Miniature de vidéo cliquable -->
                             <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
-                               class="w-1/3 sm:w-1/4 lg:w-1/5 aspect-video relative rounded-lg overflow-hidden block">
+                               class="w-1/3 sm:w-1/4 lg:w-1/5 aspect-video relative rounded-lg overflow-hidden block hover-effect">
                                 <img src="https://img.youtube.com/vi/{{ $videoId }}/mqdefault.jpg"
                                      alt="Thumbnail"
                                      class="w-full h-full object-cover">
@@ -547,7 +618,7 @@
     <div class="flex flex-wrap items-center justify-center w-full mt-4 gap-4">
         @foreach($mergedSocial as $so)
             <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
-               class="p-3">
+               class="p-3 hover-effect">
                 <div class="flex items-center justify-center">
                     <div class="w-12 h-12 flex items-center justify-center">
                         <!-- Apporter la couleur blanche aux logos -->

@@ -1524,49 +1524,6 @@ class DashboardClient extends Controller
         $ancienNomEntreprise = $carte->nomEntreprise;
         $nouveauNomEntreprise = $request->nomEntreprise;
 
-        if ($ancienNomEntreprise !== $nouveauNomEntreprise) {
-            $ancienFolderName = "{$idCompte}_" . preg_replace('/[^A-Za-z0-9_-]/', '_', $ancienNomEntreprise);
-            $nouveauFolderName = "{$idCompte}_" . preg_replace('/[^A-Za-z0-9_-]/', '_', $nouveauNomEntreprise);
-
-            $ancienPath = public_path("entreprises/{$ancienFolderName}");
-            $nouveauPath = public_path("entreprises/{$nouveauFolderName}");
-
-            // Renommer le dossier si nécessaire
-            if (File::exists($ancienPath)) {
-                if (strcasecmp($ancienFolderName, $nouveauFolderName) === 0) {
-                    File::move($ancienPath, $nouveauPath);
-                    Log::info("Dossier renommé avec changement de casse : {$ancienPath} -> {$nouveauPath}");
-                } elseif (File::exists($nouveauPath)) {
-                    Log::error('Un dossier avec le nouveau nom de l\'entreprise existe déjà.', [
-                        'ancienPath' => $ancienPath,
-                        'nouveauPath' => $nouveauPath,
-                    ]);
-                    return redirect()->back()->with('error', 'Le dossier avec le nouveau nom existe déjà.');
-                } else {
-                    File::move($ancienPath, $nouveauPath);
-                    Log::info("Dossier renommé avec succès : {$ancienPath} -> {$nouveauPath}");
-                }
-            } else {
-                Log::error("L'ancien dossier est introuvable.", ['ancienPath' => $ancienPath]);
-                return redirect()->back()->with('error', 'Ancien dossier introuvable.');
-            }
-
-            // Mise à jour des chemins des fichiers
-            if ($carte->imgLogo) {
-                $carte->imgLogo = str_replace($ancienFolderName, $nouveauFolderName, $carte->imgLogo);
-            }
-
-            $pdf = $carte->pdf;
-            $namePdf = basename($pdf);
-
-            $carte->pdf = "/entreprises/{$nouveauFolderName}/pdf/{$namePdf}";
-            $carte->lienQr = "/entreprises/{$nouveauFolderName}/QR_Codes/QR_Code.svg";
-
-            Log::info('Mise à jour des chemins dans la base de données.', [
-                'imgLogo' => $carte->imgLogo,
-                'lienQr' => $carte->lienQr,
-            ]);
-        }
 
         // Mise à jour des informations restantes
         $carte->tel = $request->tel;
