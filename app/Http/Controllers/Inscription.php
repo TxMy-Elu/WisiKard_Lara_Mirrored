@@ -43,8 +43,8 @@ class Inscription extends Controller
                 $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques";
                 $validationFormulaire = false;
             }
-            if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{12,}$/", $_POST["motDePasse1"]) === 0) {
-                $messagesErreur[] = "Le mot de passe doit contenir au minimum 12 caractères comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
+            if (preg_match("/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#%^&*()\$_+÷%§€\-=\[\]{}|;':\",.\/<>?~`]).{10,}$/", $_POST["motDePasse1"]) === 0) {
+                $messagesErreur[] = "Le mot de passe doit contenir au minimum 10 caractères comportant au moins une minuscule, une majuscule, un chiffre et un caractère spécial.";
                 $validationFormulaire = false;
             }
 

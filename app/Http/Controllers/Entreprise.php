@@ -31,7 +31,7 @@ class Entreprise extends Controller
         Log::info('La carte de l\'entreprise ' . $carte->nomEntreprise . ' a été supprimée avec succès.');
 
         // Suppression du dossier de l'entreprise
-        $path = public_path('entreprises/' . $compte->idCompte . '_' . $carte->nomEntreprise);
+        $path = public_path('entreprises/' . $compte->idCompte );
         if (File::exists($path)) {
             File::deleteDirectory($path);
             Log::info('Le dossier de l\'entreprise ' . $carte->nomEntreprise . ' a été supprimé avec succès.');

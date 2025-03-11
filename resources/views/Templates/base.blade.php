@@ -632,6 +632,22 @@
     </div>
 @endif
 
+@if($compte->role == 'starter')
+<div class="mt-4" style="min-width: 300px; text-align: center;">
+    <p>Publicité</p>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1357800738121772"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-format="fluid"
+        data-ad-layout-key="-gw-3+1f-3d+2z"
+        data-ad-client="ca-pub-1357800738121772"
+        data-ad-slot="5331833634"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+@endif
 <script>
     // **Script pour le Modal QR Code**
     function openQrModal() {

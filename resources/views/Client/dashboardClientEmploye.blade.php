@@ -206,6 +206,16 @@
                                             <line x1="12" y1="15" x2="12" y2="3"></line>
                                         </svg>
                                     </a>
+                                    <a href="{{ url('/Kard/' . $employe->carte->nomEntreprise . '?CompteEmp=' . $employe->carte->idCompte . 'x' . $employe->idEmp) }}" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="#000"
+                                             stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-eye">
+                                            <path d="M12 2c-4.97 0-9 4.03-9 9s4.03 9 9 9s9-4.03 9-9s-4.03-9-9-9zm0 16c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>
