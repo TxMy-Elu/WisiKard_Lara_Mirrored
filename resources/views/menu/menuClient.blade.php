@@ -7,7 +7,7 @@
             <a class="text-xl font-bold mb-4" href="#"></a>
             <div class="w-full lg:flex lg:flex-col lg:items-center lg:w-auto flex-grow">
                 <ul class="flex flex-col items-center lg:ml-0 flex-grow">
-                    <li class="nav-item mb-8">
+                    <li class="nav-item">
                         <button class="mb-14 px-3 py-2 border rounded text-gray-700 border-gray-700 hidden"
                                 type="button" id="closeNavbarButton" onclick="toggleNavbar()">
                             <svg class="w-6 h-6" fill="none" stroke="#ffff" viewBox="0 0 24 24"
@@ -21,7 +21,7 @@
                     </li>
                     <div class="mt-14">
                         <!-- Tooltip Exemple -->
-                        <li class="nav-item mb-8 relative group">
+                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClient') }}">
                                 <img src="{{ asset('public/icons/home.svg') }}" alt="entreprise" width="35" height="35">
                             </a>
@@ -30,7 +30,7 @@
                                 Accueil
                             </div>
                         </li>
-                        <li class="nav-item mb-8 relative group">
+                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
                                 <img src="{{ asset('public/icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
                             </a>
@@ -39,7 +39,7 @@
                                 Statistiques
                             </div>
                         </li>
-                        <li class="nav-item mb-8 relative group">
+                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientSocial') }}">
                                 <img src="{{ asset('public/icons/share-2.svg') }}" alt="social" width="35" height="35">
                             </a>
@@ -48,7 +48,7 @@
                                 Réseaux Sociaux
                             </div>
                         </li>
-                        <li class="nav-item mb-8 relative group">
+                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye') }}">
                                 <img src="{{ asset('public/icons/user.svg') }}" alt="user" width="35" height="35">
                             </a>
@@ -57,7 +57,7 @@
                                 Employés
                             </div>
                         </li>
-                        <li class="nav-item mb-8 relative group">
+                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientPDF') }}">
                                 <img src="{{ asset('public/icons/image.svg') }}" alt="image" width="35" height="35">
                             </a>
@@ -66,7 +66,7 @@
                                 Contenu
                             </div>
                         </li>
-                        <li class="nav-item mb-8 relative group">
+                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientAide') }}">
                                 <img src="{{ asset('public/icons/help-circle.svg') }}" alt="aide" width="35" height="35">
                             </a>
@@ -78,7 +78,7 @@
                     </div>
                 </ul>
                 <ul class="flex flex-col items-center lg:ml-0 mt-auto">
-                    <li class="nav-item mb-8 relative group">
+                    <li class="nav-item relative group">
                         <a class="nav-link p-2 hover:text-red-500" href="{{ route('deconnexion') }}">
                             <img src="{{ asset('public/icons/log-out.svg') }}" alt="deconnexion" width="35" height="35">
                         </a>

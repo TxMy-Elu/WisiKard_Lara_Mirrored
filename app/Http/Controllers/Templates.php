@@ -14,9 +14,117 @@ use App\Models\Vue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class Templates extends Controller
 {
+    private function shouldCountView(Request $request, $idCarte, $idEmp = null)
+    {
+        $ip = $request->ip();
+        $cookieKey = "viewed_card_{$idCarte}" . ($idEmp ? "_{$idEmp}" : "");
+        
+        // Vérifier si un cookie existe déjà
+        if (Cookie::has($cookieKey)) {
+            return false;
+        }
+
+        // Vérifier dans la base de données si cette IP a déjà vu cette carte aujourd'hui
+        $recentView = DB::table('vue')
+            ->where('idCarte', $idCarte)
+            ->where('idEmp', $idEmp)
+            ->where('ip_address', $ip)
+            ->where('date', '>=', now()->subHours(24))
+            ->exists();
+
+        if (!$recentView) {
+            // Créer un cookie qui expire dans 24 heures
+            Cookie::queue($cookieKey, 'viewed', 60 * 24);
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getBaseData($idCarte, $idCompte)
+    {
+        $data = [
+            'carte' => null,
+            'compte' => null,
+            'lien' => [],
+            'custom' => [],
+            'vue' => [],
+            'template' => null,
+            'mergedSocial' => [],
+            'horaires' => [],
+            'youtubeUrls' => []
+        ];
+
+        // Récupération des données de base
+        $data['compte'] = Compte::find($idCompte);
+        $data['lien'] = Rediriger::where('idCarte', $idCarte)->get();
+        $data['custom'] = Custom_link::where('idCarte', $idCarte)->where('activer', 1)->get();
+        $data['vue'] = Vue::where('idCarte', $idCarte)->get();
+        $data['horaires'] = Horaires::where('idCarte', $idCarte)->get();
+
+        // Récupération des réseaux sociaux
+        $logoSocial = Social::all()->map(function ($item) {
+            return [
+                'id' => $item->idSocial,
+                'logo' => $item->lienLogo,
+                'nom' => $item->nom,
+            ];
+        });
+
+        $social = Rediriger::where('idCarte', $idCarte)
+            ->where('activer', 1)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->idSocial,
+                    'lien' => $item->lien,
+                    'activer' => $item->activer,
+                ];
+            });
+
+        $data['mergedSocial'] = $social->map(function ($item) use ($logoSocial) {
+            $socialItem = $logoSocial->firstWhere('id', $item['id']);
+            return [
+                'lien' => $item['lien'],
+                'logo' => $socialItem ? $socialItem['logo'] : null,
+                'nom' => $socialItem ? $socialItem['nom'] : null,
+            ];
+        });
+
+        // Récupération des vidéos
+        $videosPath = public_path("entreprises/{$idCompte}/videos/videos.json");
+        $data['youtubeUrls'] = File::exists($videosPath) 
+            ? json_decode(File::get($videosPath), true) 
+            : [];
+
+        return $data;
+    }
+
+    private function renderTemplate($idTemplate, $data)
+    {
+        $templates = [
+            1 => 'Templates.wisibase',
+            2 => 'Templates.custom',
+            3 => 'Templates.pomme',
+            4 => 'Templates.classy',
+            5 => 'Templates.oxygen'
+        ];
+
+        if (!isset($templates[$idTemplate])) {
+            return response()->json([
+                'message' => 'Aucun template trouvé',
+                'data' => ['idCarte' => $data['carte']->idCarte ?? null, 'employe' => $data['employe'] ?? null]
+            ], 404);
+        }
+
+        return view($templates[$idTemplate], $data);
+    }
+
     /**
      * Affiche les templates de cartes de visite en fonction des paramètres de la requête.
      *
@@ -51,11 +159,15 @@ class Templates extends Controller
             //idTemplate
             $idTemplate = $carte->idTemplate ?? null;
 
-            $vue = new Vue();
-            $vue->date = $today;
-            $vue->idCarte = $idCarte;
-            $vue->idEmp = $idEmp;
-            $vue->save();
+            // Ajouter la vue uniquement si nécessaire
+            if ($this->shouldCountView($request, $idCarte, $idEmp)) {
+                $vue = new Vue();
+                $vue->date = $today;
+                $vue->idCarte = $idCarte;
+                $vue->idEmp = $idEmp;
+                $vue->ip_address = $request->ip();
+                $vue->save();
+            }
 
         } else {
             // Sinon, récupérer l'idCompte
@@ -69,10 +181,14 @@ class Templates extends Controller
             $carte = Carte::where('idCompte', $idCompte)->first();
             $idCarte = $carte->idCarte ?? null;
 
-            $vue = new Vue();
-            $vue->date = $today;
-            $vue->idCarte = $idCarte;
-            $vue->save();
+            // Ajouter la vue uniquement si nécessaire
+            if ($this->shouldCountView($request, $idCarte)) {
+                $vue = new Vue();
+                $vue->date = $today;
+                $vue->idCarte = $idCarte;
+                $vue->ip_address = $request->ip();
+                $vue->save();
+            }
         }
 
         // Si $idCarte est toujours null, on ne peut rien afficher
@@ -80,80 +196,12 @@ class Templates extends Controller
             return response()->json(['message' => 'idCarte non trouvé.'], 404);
         }
 
-        // Récupération des données du compte, template, etc.
-        $compte = isset($idCompte) ? Compte::find($idCompte) : null;
-        $lien = Rediriger::where('idCarte', $idCarte)->get(); // Tous les liens associés à une carte
-        $custom = Custom_link::where('idCarte', $idCarte)->where('activer', 1)->get(); // Liens personnalisés activés (custom_link)
-        $vue = Vue::where('idCarte', $idCarte)->get(); // Toutes les vues d'une carte
-        $template = isset($idTemplate) ? Template::find($idTemplate) : null;
+        $data = $this->getBaseData($idCarte, $idCompte);
+        $data['carte'] = $carte;
+        $data['employe'] = $employe;
+        $data['template'] = Template::find($idTemplate);
 
-        // Récupérer les réseaux sociaux
-        $logoSocial = Social::all()->map(function ($item) {
-            return [
-                'id' => $item->idSocial,
-                'logo' => $item->lienLogo,
-                'nom' => $item->nom,
-            ];
-        });
-
-        // Récupérer les liens activés pour une carte spécifique
-        $social = Rediriger::where('idCarte', $idCarte)
-            ->where('activer', 1)
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'id' => $item->idSocial,
-                    'lien' => $item->lien,
-                    'activer' => $item->activer,
-                ];
-            });
-
-        // Fusionner les collections de réseaux sociaux actifs avec leurs logos
-        $mergedSocial = $social->map(function ($item) use ($logoSocial) {
-            $socialItem = $logoSocial->firstWhere('id', $item['id']);
-            return [
-                'lien' => $item['lien'],
-                'logo' => $socialItem ? $socialItem['logo'] : null,
-                'nom' => $socialItem ? $socialItem['nom'] : null,
-            ];
-        });
-
-        // Récupérer les horaires pour la carte spécifique
-        $horaires = Horaires::where('idCarte', $idCarte)->get();
-
-        $folderName = "{$idCompte}";
-
-        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
-        $youtubeUrls = [];
-        if (File::exists($videosPath)) {
-            $youtubeUrls = json_decode(File::get($videosPath), true);
-        }
-
-        // Définir les fonctions spécifiques
-        $fonctions = [
-            ['nom' => 'nopub'],
-            ['nom' => 'embedyoutube', 'option' => $idCarte ? Carte::find($idCarte)->lienCommande : null]
-        ];
-
-        // Renvoyer la bonne vue selon le template
-        switch ($idTemplate ?? null) {
-            case 1:
-                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 2:
-                return view('Templates.custom', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 3:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 4:
-                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 5:
-                return view('Templates.oxygen', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            default:
-                // Si aucun template trouvé, retourner un message JSON ou une vue vide.
-                return response()->json([
-                    'message' => 'Aucun template trouvé',
-                    'data' => compact('idCarte', 'employe')
-                ], 404);
-        }
+        return $this->renderTemplate($idTemplate, $data);
     }
 
     /**
@@ -182,12 +230,6 @@ class Templates extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
         $idCarte = $carte->idCarte ?? null;
 
-        $vue = new Vue();
-        $vue->date = $today;
-        $vue->idCarte = $idCarte;
-        $vue->save();
-
-
         // Si $idCarte est toujours null, on ne peut rien afficher
         if (!$idCarte) {
             return response()->json(['message' => 'idCarte non trouvé.'], 404);
@@ -242,28 +284,11 @@ class Templates extends Controller
             $youtubeUrls = json_decode(File::get($videosPath), true);
         }
 
-        // Définir les fonctions spécifiques
-        $fonctions = [
-            ['nom' => 'nopub'],
-            ['nom' => 'embedyoutube', 'option' => $idCarte ? Carte::find($idCarte)->lienCommande : null]
-        ];
+        $data = $this->getBaseData($idCarte, $idCompte);
+        $data['carte'] = $carte;
+        $data['employe'] = $employe;
+        $data['template'] = $template;
 
-        // Renvoyer la bonne vue selon le template
-        switch ($idTemplate) {
-            case 1:
-                return view('Templates.base', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 2:
-                return view('Templates.custom', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 3:
-                return view('Templates.pomme', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            case 4:
-                return view('Templates.classy', compact('carte', 'compte', 'social', 'vue', 'template', 'logoSocial', 'custom', 'employe', 'fonctions', 'lien', 'mergedSocial', 'horaires', 'youtubeUrls'));
-            default:
-                // Si aucun template trouvé, retourner un message JSON ou une vue vide.
-                return response()->json([
-                    'message' => 'Aucun template trouvé',
-                    'data' => compact('idCarte', 'employe')
-                ], 404);
-        }
+        return $this->renderTemplate($idTemplate, $data);
     }
 }

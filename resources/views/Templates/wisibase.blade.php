@@ -7,6 +7,8 @@
 
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1357800738121772"
+        crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -174,7 +176,7 @@
             <!-- Bouton de fermeture -->
             <div class="mt-6 flex justify-end">
                 <button onclick="closeQrModal()"
-                        class="px-4 py-2  text-white rounded-lg " style="background-color: {{$carte->couleur2}};">
+                        class="px-4 py-2  text-white rounded-lg " style="background-color: {{$carte->couleur1}};">
                     Fermer
                 </button>
             </div>
@@ -191,7 +193,7 @@
                     src="https://cdn.lordicon.com/warimioc.json"
                     trigger="loop"
                     delay="1000"
-                    colors="primary:#000000,secondary:{{$carte->couleur2}}">
+                    colors="primary:#000000,secondary:{{$carte->couleur1}}">
             </lord-icon>
         </btn>
 
@@ -224,7 +226,7 @@
                                 ];
                             @endphp
 
-                            <strong style="color: {{$carte->couleur2}};"> {{$jours[$jour] ?? 'Jour inconnu' }}
+                            <strong style="color: {{$carte->couleur1}};"> {{$jours[$jour] ?? 'Jour inconnu' }}
                                 :</strong>
 
                             @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
@@ -243,7 +245,7 @@
             <!-- Bouton de fermeture -->
             <div class="mt-6 flex justify-end">
                 <button onclick="closeModal()"
-                        class="px-4 py-2  text-white rounded-lg " style="background-color: {{$carte->couleur2}};">
+                        class="px-4 py-2  text-white rounded-lg " style="background-color: {{$carte->couleur1}};">
                     Fermer
                 </button>
             </div>
@@ -288,7 +290,7 @@
                         src="https://cdn.lordicon.com/surcxhka.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Maps
@@ -305,7 +307,7 @@
                         src="https://cdn.lordicon.com/pbbsmkso.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:#9f0712"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Site web
@@ -322,7 +324,7 @@
                         src="https://cdn.lordicon.com/qtykvslf.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Téléphone
@@ -339,7 +341,7 @@
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Email
@@ -356,7 +358,7 @@
                         src="https://cdn.lordicon.com/wzwygmng.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2 w-6 h-6">
                 </lord-icon>
                 {{$carte['nomBtnPdf']}}
@@ -373,7 +375,7 @@
                         src="https://cdn.lordicon.com/jdgfsfzr.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Prendre un rendez-vous
@@ -389,7 +391,7 @@
                     src="https://cdn.lordicon.com/kdduutaw.json"
                     trigger="loop"
                     delay="1000"
-                    colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                    colors="primary:#000000,secondary:{{$carte->couleur1}}"
                     class="mr-2">
             </lord-icon>
             Fiche de contact
@@ -405,7 +407,7 @@
                         src="https://cdn.lordicon.com/fozsorqm.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Avis Google
@@ -424,7 +426,7 @@
                         src="https://cdn.lordicon.com/lcvlsnre.json"
                         trigger="loop"
                         delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
                 Liens personnalisés
@@ -442,7 +444,7 @@
                                     src="https://cdn.lordicon.com/exymduqj.json"
                                     trigger="hover"
                                     delay="1000"
-                                    colors="primary:#000000,secondary:{{$carte->couleur2}}"
+                                    colors="primary:#000000,secondary:{{$carte->couleur1}}"
                                     class="w-6 h-6">
                             </lord-icon>
                             <!-- Texte du lien -->
@@ -492,7 +494,7 @@
                             src="https://cdn.lordicon.com/rszslpey.json"
                             trigger="loop"
                             delay="1000"
-                            colors="primary:#000000,secondary:{{$carte->couleur2}}">
+                            colors="primary:#000000,secondary:{{$carte->couleur1}}">
                     </lord-icon>
                 </button>
             </div>
@@ -563,7 +565,7 @@
                                 src="https://cdn.lordicon.com/bomiazxt.json"
                                 trigger="loop"
                                 delay="1000"
-                                colors="primary:#000000,secondary:{{$carte->couleur2}}">
+                                colors="primary:#000000,secondary:{{$carte->couleur1}}">
                         </lord-icon>
                     </button>
                 </div>
@@ -622,7 +624,7 @@
                 <div class="flex items-center justify-center">
                     <div class="w-12 h-12 flex items-center justify-center">
                         <!-- Apporter la couleur blanche aux logos -->
-                        <div class="text-white  hover:fill-black" style="fill: {{$carte->couleur2}};">
+                        <div class="text-white  hover:fill-black" style="fill: {{$carte->couleur1}};">
                             {!! $so['logo'] !!}
                         </div>
                     </div>
@@ -631,8 +633,7 @@
         @endforeach
     </div>
 @endif
-
-@if($compte->role == 'starter')
+<!-- Publicité pour les comptes Starter -->
 <div class="mt-4" style="min-width: 300px; text-align: center;">
     <p>Publicité</p>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1357800738121772"
@@ -647,7 +648,6 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </div>
-@endif
 <script>
     // **Script pour le Modal QR Code**
     function openQrModal() {
