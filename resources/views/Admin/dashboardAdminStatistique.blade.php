@@ -139,6 +139,66 @@
                 </script>
             </div>
         </div>
+        <div class="w-full my-6 border-t border-gray-300"></div>
+
+        <!-- Vues par compte -->
+        <div class="w-full p-6 bg-white rounded-xl border border-gray-300 shadow-xl">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Vues par compte</h2>
+            <div class="w-full" style="height: 400px;">
+                <canvas id="vuesparCompteStat"></canvas>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const vuesData = @json($vuesParCompte);
+                const ctx = document.getElementById('vuesparCompteStat').getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: vuesData.map(item => item.nomEntreprise),
+                        datasets: [{
+                            label: 'Nombre de vues',
+                            data: vuesData.map(item => item.total_vues),
+                            backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                            borderColor: 'rgba(220, 38, 38, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Nombre de vues'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Entreprises'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    afterLabel: function(context) {
+                                        const email = vuesData[context.dataIndex].email;
+                                        return 'Email: ' + email;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
     </div>
 </div>
 </body>

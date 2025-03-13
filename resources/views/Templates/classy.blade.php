@@ -10,6 +10,42 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .wk-button {
+            @apply w-full py-4 px-6 mb-3 rounded-xl font-medium text-center 
+                   transition-all duration-300 ease-in-out
+                   bg-white text-gray-800 hover:scale-105 
+                   flex items-center justify-between
+                   shadow-sm hover:shadow-xl;
+        }
+
+        .link-hover-effect {
+            @apply transform transition-transform duration-300 hover:scale-102 
+                   hover:shadow-lg active:scale-98;
+        }
+
+        .gradient-background {
+            background: linear-gradient(135deg, #1a1a1a 0%, #363636 100%);
+        }
+    </style>
 </head>
 <body class="bg-zinc-900 w-full" style="font-family: '{{ $carte['font'] }}';">
 
@@ -19,48 +55,32 @@
     $logoPath = '';
     $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
 
-    // Remplacement des espaces par des underscores dans le nom d'entreprise
-    $nomEntrepriseClean = str_replace(' ', '_', $carte->nomEntreprise);
-
     foreach ($formats as $format) {
-        $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
+        $path = public_path('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
         if (file_exists($path)) {
-            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $nomEntrepriseClean . '/logos/logo.' . $format);
+            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
             break;
         }
     }
 @endphp
-<div class="flex gap-10 items-center mt-4 ml-4 @if(empty($logoPath)) justify-center  @endif">
 
+<div class="profile-header mb-8 text-center">
     @if(!empty($logoPath))
-        <div class="bg-white w-48 h-32 flex justify-center items-center overflow-hidden p-2 rounded-lg">
-            <div class="w-full h-full">
-                <img src="{{ $logoPath }}" alt="Logo de l'entreprise" class="w-full h-full object-contain">
+        <div class="relative w-32 h-32 mx-auto mb-4 bg-white rounded-full p-2 shadow-xl">
+            <div class="w-full h-full overflow-hidden rounded-full flex items-center justify-center">
+                <img src="{{ $logoPath }}" 
+                     alt="Logo" 
+                     class="w-full h-full object-contain p-2">
             </div>
         </div>
+    @else
+        <h1 class="text-2xl font-bold text-white mb-2">{{ $carte['nomEntreprise'] }}</h1>
     @endif
-
-    <div class="text-white space-y-2 @if(empty($logoPath)) flex flex-col items-center justify-center h-full @endif">
-        @if($carte['nomEntreprise'] && empty($logoPath))
-            <div>
-                <h1 class="text-white text-2xl font-bold">{{ $carte['nomEntreprise'] }}</h1>
-            </div>
-        @endif
-
-        @if($carte['titre'])
-            <div>
-                <h2 class="text-slate-200 text-lg">{{ $carte['titre'] }}</h2>
-            </div>
-        @endif
-    </div>
+    
+    @if($carte['descriptif'])
+        <p class="text-gray-300 text-sm">{{ $carte['descriptif'] }}</p>
+    @endif
 </div>
-
-@if($carte['descriptif'])
-    <div class="bg-white p-2 mt-4 mx-4 rounded-lg shadow-sm">
-        <p class="text-zinc-500 text-center text-sm">{{ $carte['descriptif'] }}</p>
-    </div>
-@endif
-
 <div class="bg-white p-4 mt-4 mx-4 space-y-4 rounded-lg shadow-lg">
     @if($compte['email'])
         <div class="flex items-center justify-center">
@@ -178,7 +198,7 @@
 
 <div class="flex items-center justify-between mt-4 mx-4 gap-4">
     <div class="flex justify-center">
-        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
                 class="w-10 h-10 rounded-lg bg-white border border-gray-300 text-gray-800 flex items-center justify-center hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25" fill="#000000">
                 <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
@@ -210,7 +230,7 @@
             <!-- Avis google -->
             @if($carte['lienAvis'])
                 <div class="flex justify-center">
-                    <a href="{{ $carte['lienAvis'] }}"
+                    <a href="{{ $carte['lienAvis'] }}" target="_blank"
                        class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25"
                              fill="#000000">
@@ -223,7 +243,7 @@
             <!-- site -->
             @if($carte['lienSiteWeb'])
                 <div class="flex justify-center">
-                    <a href="{{ $carte['lienSiteWeb'] }}"
+                    <a href="{{ $carte['lienSiteWeb'] }}" target="_blank"
                        class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25"
                              fill="#000000">
@@ -238,7 +258,7 @@
             <!-- rdv -->
             @if($carte['LienCommande'])
                 <div class="flex justify-center">
-                    <a href="{{ $carte['LienCommande'] }}"
+                    <a href="{{ $carte['LienCommande'] }}" target="_blank"
                        class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="25" height="25"
                              fill="#000000">
@@ -260,11 +280,9 @@
 
 <!-- Galerie Photos -->
 @php
-    // Nettoyage du nom de l'entreprise
-    $nomEntrepriseClean = preg_replace('/[^A-Za-z0-9]/', '_', $carte->nomEntreprise);
 
     // Chemin vers le répertoire
-    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider');
+    $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'/slider');
 
     // Liste des fichiers existants
     $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
@@ -294,21 +312,20 @@
                 <!-- Liste des images dans la galerie -->
                 <div class="flex flex-wrap gap-4 justify-center items-center">
                     @foreach($sliderImages as $image)
-                        <img src="{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}"
-                             alt="Image slider"
+                        <img src="{{ asset('entreprises/'.$carte->idCompte.'/slider/'.urlencode($image)) }}"
+                             alt="Image thumbnail"
                              class="w-1/3 rounded-lg shadow-md cursor-pointer"
-                             onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'_'.$nomEntrepriseClean.'/slider/'.urlencode($image)) }}')">
+                             onclick="viewImage('{{ asset('entreprises/'.$carte->idCompte.'/slider/'.urlencode($image)) }}')">
                     @endforeach
                 </div>
             </div>
         </div>
 
-        <!-- Vue agrandie d'une image -->
+        <!-- Vue agrandie d'image -->
         <div id="fullImage"
              class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-90 flex justify-center items-center z-50">
             <div class="relative">
-                <!-- Image en taille réelle -->
-                <img id="fullImageContent" src="" alt="Image en grand"
+                <img id="fullImageContent" src="" alt="Image fullsize"
                      class="max-w-full max-h-full rounded-lg shadow-lg">
 
                 <!-- Bouton pour fermer -->
@@ -436,7 +453,7 @@
         <!-- Liens -->
         <div class="bg-white m-1 border border-gray-300 rounded-lg">
             @foreach ($custom as $link)
-                <a href="{{ $link['lien'] ?? '#' }}"
+                <a href="{{ $link['lien'] ?? '#' }}" target="_blank"
                    class="flex items-center p-2 space-x-2 hover:bg-gray-100 transition-colors duration-200 ease-in-out">
                     <!-- Icône -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="25" height="25"
@@ -559,6 +576,16 @@
     function closeVideoGallery() {
         document.getElementById('videoGallery').classList.add('hidden');
     }
+
+    document.querySelectorAll('.wk-button').forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'translateY(-2px)';
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'translateY(0)';
+        });
+    });
 </script>
 
 </body>

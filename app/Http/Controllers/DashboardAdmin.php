@@ -10,6 +10,7 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class DashboardAdmin extends Controller
 {
@@ -276,8 +277,28 @@ class DashboardAdmin extends Controller
         $years = range(date('Y'), date('Y') - 10);
         $selectedYear = $year; // L'année sélectionnée pour l'affichage
 
+        // Récupérer le nombre de vues par compte
+        $vuesParCompte = DB::table('vue')
+            ->join('carte', 'vue.idCarte', '=', 'carte.idCarte')
+            ->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
+            ->select('compte.email', 'carte.nomEntreprise', DB::raw('COUNT(*) as total_vues'))
+            ->groupBy('compte.email', 'carte.nomEntreprise')
+            ->having('total_vues', '>', 1)
+            ->orderBy('total_vues', 'DESC')
+            ->get();
+
         // Retourner la vue des statistiques avec les données préparées
-        return view('Admin.dashboardAdminStatistique', compact('yearlyData', 'years', 'selectedYear', 'month', 'totalViews', 'totalEntreprise', 'nbCompteData', 'nbTemplateData'));
+        return view('Admin.dashboardAdminStatistique', compact(
+            'yearlyData', 
+            'years', 
+            'selectedYear', 
+            'month', 
+            'totalViews', 
+            'totalEntreprise', 
+            'nbCompteData', 
+            'nbTemplateData',
+            'vuesParCompte'
+        ));
     }
 
     /**
