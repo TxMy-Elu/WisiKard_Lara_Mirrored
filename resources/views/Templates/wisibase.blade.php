@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
 
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#FF00000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WisiKard">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1357800738121772"
@@ -75,6 +82,10 @@
         .hover-effect:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #installPrompt {
+            display: none;
         }
     </style>
 </head>
@@ -259,23 +270,6 @@
             class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 cursor-pointer hover-effect">
         Partager
     </button>
-    {{--
-    <button
-            onclick="copyLink()"
-            class="w-36 rounded-xl p-2 font-bold text-white text-center border border-gray-200 bg-zinc-800 hover:bg-zinc-700 transition">
-        Partager
-    </button>
-
-    <!-- Notification avec barre de progression -->
-    <div id="copyNotification"
-         class="hidden fixed bottom-5 right-5 bg-zinc-800 text-white text-lg px-3 py-2 rounded-lg shadow-lg w-48">
-        Lien copié !
-        <!-- Barre de progression -->
-        <div class="w-full bg-zinc-950 h-1 mt-2">
-            <div id="progressBar" class="bg-white h-full w-full"></div>
-        </div>
-    </div>
-    --}}
 
 </div>
 
@@ -414,6 +408,17 @@
             </a>
         </div>
     @endif
+    
+    <div id="installPrompt" class="w-full h-full flex justify-center items-center mt-2">
+        <button id="installButton" class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
+        <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
+            trigger="loop"
+            delay="1000"
+            state="loop-slide"
+            colors="primary:#000000,secondary:{{$carte->couleur1}}">
+        </lord-icon>
+        Installer sur votre écran d'accueil</button>
+    </div>
 
     @if($custom && count($custom) > 0)
         <!-- Container principal -->
@@ -648,6 +653,62 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </div>
+
+
+<footer class=" text-center p-4 text-gray-500 text-sm mt-6">
+    © {{ date('Y') }} - Un service proposé par
+    <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
+    <a href="https://wisikard.fr" class="text-blue-400 hover:underline">Wisikard</a>
+</footer>
+
+
+    <!-- PWA -->
+    
+    <script>
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Vérifier si l'utilisateur a déjà refusé l'installation
+            if (!localStorage.getItem('installPromptDismissed')) {
+                document.getElementById('installPrompt').style.display = 'block';
+            }
+        });
+
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Application installée');
+                }
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
+            }
+        });
+
+        // Vérifier si l'app est déjà installée
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installPrompt').style.display = 'none';
+            localStorage.setItem('installPromptDismissed', 'true');
+        });
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Enregistrement du ServiceWorker complété');
+                    })
+                    .catch(err => {
+                        console.log('Enregistrement du ServiceWorker échoué: ', err);
+                    });
+            });
+        }
+    </script>
 <script>
     // **Script pour le Modal QR Code**
     function openQrModal() {
@@ -674,32 +735,6 @@
     }
 
     // **Script pour la copie du lien**
-    {{--
-    function copyLink() {
-        const linkToCopy = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
-
-        navigator.clipboard.writeText(linkToCopy).then(() => {
-            const notification = document.getElementById('copyNotification');
-            const progressBar = document.getElementById('progressBar');
-
-            notification.classList.remove('hidden');
-
-            progressBar.style.width = '100%';
-
-            setTimeout(() => {
-                progressBar.style.transition = 'width 3s linear';
-                progressBar.style.width = '0%';
-            }, 10);
-
-            setTimeout(() => {
-                notification.classList.add('hidden');
-                progressBar.style.transition = 'none';
-                progressBar.style.width = '100%';
-            }, 3100);
-        }).catch(err => {
-            console.error("Erreur lors de la copie du lien :", err);
-        });
-    }--}}
 
     function shareOrCopyLink() {
         const linkToShare = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
@@ -774,12 +809,5 @@
         }
     });
 </script>
-
-<footer class=" text-center p-4 text-gray-500 text-sm mt-6">
-    © {{ date('Y') }} - Un service proposé par
-    <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
-    <a href="https://wisikard.fr" class="text-blue-400 hover:underline">Wisikard</a>
-</footer>
-
 </body>
 </html>
