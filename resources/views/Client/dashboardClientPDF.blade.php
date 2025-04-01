@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,10 +65,6 @@
                             <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
                                  src="{{ $logoPath }}"
                                  alt="Logo">
-                            @php
-                                echo $logoPath;
-                            @endphp
-
                         @else
                             <p class="text-gray-500 italic border-2 p-10">Aucun logo disponible</p>
                             @php

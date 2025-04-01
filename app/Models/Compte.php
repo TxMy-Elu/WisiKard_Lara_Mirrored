@@ -59,6 +59,12 @@ class Compte extends Model
         // Création de la vCard
         Compte::creerVCard($entreprise->nomEntreprise, $entreprise->tel, $nouvelUtilisateur->email, $nouvelUtilisateur->idCompte);
 
+        // Générer le manifest après la création de la carte
+        self::genererManifest(
+            $nomEntrepriseSimplifie,
+            $nouvelUtilisateur->idCompte
+        );
+
         // Retourne l'ID du compte nouvellement créé
         return $nouvelUtilisateur->idCompte;
     }
@@ -188,5 +194,68 @@ class Compte extends Model
         } else {
             Log::error("Impossible d'enregistrer le fichier QR Code : {$svgFilePath}");
         }
+    }
+
+    public static function genererManifest($nomEntreprise, $idCompte)
+    {
+        $manifest = [
+            'name' => $nomEntreprise . ' - WisiKard',
+            'short_name' => $nomEntreprise . ' - WK',
+            'description' => 'La carte de visite numérique Wisikard de ' . $nomEntreprise,
+            'start_url' => '/Kard/' . str_replace(' ', '_', $nomEntreprise) . '?idCompte=' . $idCompte,
+            'id' => '/',
+            'display' => 'standalone',
+            'display_override' => ['window-controls-overlay'],
+            'background_color' => "#ffffff",
+            'theme_color' => "#ff0000",
+            'orientation' => 'any',
+            'categories' => ['business', 'productivity'],
+            'launch_handler' => [
+                'client_mode' => ['navigate-existing', 'auto']
+            ],
+            'scope' => '/',
+            'icons' => [
+                [
+                    'src' => '../../icons/favicon-16x16.png',
+                    'sizes' => '16x16',
+                    'type' => 'image/png'
+                ],
+                [
+                    'src' => '../../icons/favicon-32x32.png',
+                    'sizes' => '32x32',
+                    'type' => 'image/png'
+                ],
+                [
+                    'src' => '../../apple-touch-icon.png',
+                    'sizes' => '180x180',
+                    'type' => 'image/png'
+                ],
+                [
+                    'src' => '../../icons/android-chrome-192x192.png',
+                    'sizes' => '192x192',
+                    'type' => 'image/png'
+                ],
+                [
+                    'src' => '../../icons/android-chrome-384x384.png',
+                    'sizes' => '384x384',
+                    'type' => 'image/png'
+                ]
+            ],
+            'prefer_related_applications' => false
+        ];
+
+        // Création du répertoire si nécessaire
+        $directoryPath = public_path("entreprises/{$idCompte}");
+        if (!file_exists($directoryPath)) {
+            mkdir($directoryPath, 0755, true);
+        }
+
+        // Enregistrement du manifest
+        file_put_contents(
+            "{$directoryPath}/manifest.json",
+            json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+        );
+
+        return true;
     }
 }
