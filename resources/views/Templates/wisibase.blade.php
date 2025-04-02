@@ -275,41 +275,23 @@
 
 <!-- Informations -->
 <div class="w-full mt-4">
-    <!-- Map -->
-    @if($carte['ville'])
-        <div class="w-full h-full flex justify-center items-center">
-            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
-                <lord-icon
-                        src="https://cdn.lordicon.com/surcxhka.json"
-                        trigger="loop"
-                        delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
-                        class="mr-2">
-                </lord-icon>
-                Maps
-            </a>
-        </div>
-    @endif
 
-    <!-- site web -->
-    @if($carte['lienSiteWeb'])
-        <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ $carte['lienSiteWeb'] }}" target="_blank"
-               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
-                <lord-icon
-                        src="https://cdn.lordicon.com/pbbsmkso.json"
-                        trigger="loop"
-                        delay="1000"
-                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
-                        class="mr-2">
-                </lord-icon>
-                Site web
-            </a>
-        </div>
-    @endif
-
-    <!-- telephones -->
+    <!-- fiche de contact -->
+    <div class="w-full h-full flex justify-center items-center mt-2">
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
+           class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
+            <lord-icon
+                    src="https://cdn.lordicon.com/kdduutaw.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#000000,secondary:{{$carte->couleur1}}"
+                    class="mr-2">
+            </lord-icon>
+            Fiche de contact
+        </a>
+    </div>
+    
+    <!-- telephone -->
     @if($carte['tel'])
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="tel:{{ $carte['tel'] }}"
@@ -343,19 +325,19 @@
         </div>
     @endif
 
-    <!-- PDF -->
-    @if($carte['pdf'])
+    <!-- site web -->
+    @if($carte['lienSiteWeb'])
         <div class="w-full h-full flex justify-center items-center mt-2">
-            <a href="{{ asset($carte['pdf']) }}" download
-               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
+            <a href="{{ $carte['lienSiteWeb'] }}" target="_blank"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
                 <lord-icon
-                        src="https://cdn.lordicon.com/wzwygmng.json"
+                        src="https://cdn.lordicon.com/pbbsmkso.json"
                         trigger="loop"
                         delay="1000"
                         colors="primary:#000000,secondary:{{$carte->couleur1}}"
-                        class="mr-2 w-6 h-6">
+                        class="mr-2">
                 </lord-icon>
-                {{$carte['nomBtnPdf']}}
+                Site web
             </a>
         </div>
     @endif
@@ -376,22 +358,7 @@
             </a>
         </div>
     @endif
-
-    <!-- fiche de contact -->
-    <div class="w-full h-full flex justify-center items-center mt-2">
-        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
-           class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
-            <lord-icon
-                    src="https://cdn.lordicon.com/kdduutaw.json"
-                    trigger="loop"
-                    delay="1000"
-                    colors="primary:#000000,secondary:{{$carte->couleur1}}"
-                    class="mr-2">
-            </lord-icon>
-            Fiche de contact
-        </a>
-    </div>
-
+    
     <!-- Liens Avis -->
     @if($carte['lienAvis'])
         <div class="w-full h-full flex justify-center items-center mt-2">
@@ -408,7 +375,41 @@
             </a>
         </div>
     @endif
-    
+
+    <!-- Map -->
+    @if($carte['ville'])
+        <div class="w-full h-full flex justify-center items-center">
+            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank"
+               class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
+                <lord-icon
+                        src="https://cdn.lordicon.com/surcxhka.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
+                        class="mr-2">
+                </lord-icon>
+                Maps
+            </a>
+        </div>
+    @endif
+
+    <!-- PDF -->
+    @if($carte['pdf'])
+        <div class="w-full h-full flex justify-center items-center mt-2">
+            <a href="{{ asset($carte['pdf']) }}" download
+               class="w-full h-12 mx-2 px-4 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
+                <lord-icon
+                        src="https://cdn.lordicon.com/wzwygmng.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#000000,secondary:{{$carte->couleur1}}"
+                        class="mr-2 w-6 h-6">
+                </lord-icon>
+                {{$carte['nomBtnPdf']}}
+            </a>
+        </div>
+    @endif
+
     <div id="installPrompt" class="w-full h-full flex justify-center items-center mt-2">
         <button id="installButton" class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
         <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"

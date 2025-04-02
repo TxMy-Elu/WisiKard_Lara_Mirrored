@@ -5,7 +5,7 @@ use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Employer;
 use App\Models\Carte;
-use Illuminate\Support\Facades\DB; // pour role
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -119,9 +119,9 @@ class Employe extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'tel' => 'required|string|max:20',
-            'fonction' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'tel' => 'nullable|string|max:20',
+            'fonction' => 'nullable|string|max:255',
         ]);
 
         try {

@@ -41,21 +41,5 @@
             "type": "image/png"
         }
     ],
-    "screenshots": [
-        {
-            "src": "/images/WisiKardLogoBlack.png",
-            "sizes": "1920x1080",
-            "type": "image/png",
-            "form_factor": "wide",
-            "label": "WisiKard Desktop"
-        },
-        {
-            "src": "/images/WisiKardLogoBlack.png",
-            "sizes": "750x1334",
-            "type": "image/png",
-            "form_factor": "narrow",
-            "label": "WisiKard Mobile"
-        }
-    ],
     "prefer_related_applications": false
 }

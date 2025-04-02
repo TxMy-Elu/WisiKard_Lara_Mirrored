@@ -55,8 +55,9 @@
                     @endif
 
                     <div class="mt-4">
-                        <div class="mb-4 text-right">
+                        <div class="mb-4 flex justify-between items-center">
                             <a href="{{ route('motDePasseOublie') }}" class="text-red-900">Mot de passe oublié ?</a>
+                            <a href="https://wisikard.fr/categorie-produit/offres/" class="text-red-900 hover:text-red-700">Acheter ma Wisikard</a>
                         </div>
 
                         <div class="mb-4">

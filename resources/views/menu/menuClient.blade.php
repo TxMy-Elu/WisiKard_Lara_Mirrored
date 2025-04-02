@@ -31,30 +31,12 @@
                             </div>
                         </li>
                         <li class="nav-item relative group">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
-                                <img src="{{ asset('public/icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
-                            </a>
-                            <!-- Tooltip -->
-                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
-                                Statistiques
-                            </div>
-                        </li>
-                        <li class="nav-item relative group">
                             <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientSocial') }}">
                                 <img src="{{ asset('public/icons/share-2.svg') }}" alt="social" width="35" height="35">
                             </a>
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
-                                Réseaux Sociaux
-                            </div>
-                        </li>
-                        <li class="nav-item relative group">
-                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye') }}">
-                                <img src="{{ asset('public/icons/user.svg') }}" alt="user" width="35" height="35">
-                            </a>
-                            <!-- Tooltip -->
-                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
-                                Employés
+                                Réseaux
                             </div>
                         </li>
                         <li class="nav-item relative group">
@@ -64,6 +46,24 @@
                             <!-- Tooltip -->
                             <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
                                 Contenu
+                            </div>
+                        </li>
+                        <li class="nav-item relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientStatistique') }}">
+                                <img src="{{ asset('public/icons/bar-chart.svg') }}" alt="chart" width="35" height="35">
+                            </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Statistiques
+                            </div>
+                        </li>
+                        <li class="nav-item relative group">
+                            <a class="nav-link p-2 hover:text-red-500" href="{{ route('dashboardClientEmploye') }}">
+                                <img src="{{ asset('public/icons/user.svg') }}" alt="user" width="35" height="35">
+                            </a>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-300 z-50">
+                                Employés
                             </div>
                         </li>
                         <li class="nav-item relative group">

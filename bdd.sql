@@ -99,10 +99,10 @@ CREATE TABLE IF NOT EXISTS `employer` (
                                           `idEmp` int NOT NULL AUTO_INCREMENT,
                                           `nom` varchar(100) NOT NULL,
     `prenom` varchar(100) NOT NULL,
-    `fonction` varchar(100) NOT NULL,
+    `fonction` varchar(100) DEFAULT NULL,
     `idCarte` int DEFAULT NULL,
-    `mail` varchar(100) NOT NULL,
-    `telephone` varchar(100) NOT NULL,
+    `mail` varchar(100) DEFAULT NULL,
+    `telephone` varchar(100) DEFAULT NULL,
     PRIMARY KEY (`idEmp`),
     KEY `employer_carte_FK` (`idCarte`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

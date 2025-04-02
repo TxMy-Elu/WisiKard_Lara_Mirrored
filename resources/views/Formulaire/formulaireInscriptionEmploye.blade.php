@@ -14,15 +14,14 @@
             <img src="{{ asset('images/WisiKardLogoBlack.png') }}" alt="Logo WisiKard" class="w-32 md:w-48 lg:w-96">
         </div>
         <div class="justify-center mt-10">
-            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Inscription Wisikard</h1>
+            <h1 class="text-center text-lg md:text-xl lg:text-2xl font-bold">Ajout d'un employé à votre Kard</h1>
             <div class="mt-10">
                 <form action="{{ route('inscriptionEmploye.post') }}" method="post">
                     @csrf
                     <div class="mb-6">
                         <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
                         <input type="email" name="email" id="email"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                     <div class="mb-6">
                         <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
@@ -39,12 +38,11 @@
                     <div class="mb-6">
                         <label for="tel" class="block text-sm font-medium text-gray-700">N° telephone</label>
                         <input type="text" name="tel" id="tel"
-                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                               required>
+                               class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
-                    <div class="mb-4">
-                        <label for="fonction" class="block text-gray-700 text-sm mb-2">Fonction:</label>
-                        <input type="text" id="fonction" name="fonction" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <div class="mb-6">
+                        <label for="fonction" class="block text-sm font-medium text-gray-700">Fonction</label>
+                        <input type="text" id="fonction" name="fonction" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                     <div class="mb-6">
                         @include('messageErreur')

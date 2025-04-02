@@ -1537,10 +1537,15 @@ class DashboardClient extends Controller
 
         // Génération de la nouvelle VCard
         Compte::creerVCard($request->nomEntreprise, $request->tel, $request->mail, $idCompte);
+        
+        // Génération du nouveau manifest.json
+        Compte::genererManifest($nouveauNomEntreprise, $idCompte);
+
+        // Journalisation
         Logs::ecrireLog($emailUtilisateur, "Création de la VCard");
         Logs::ecrireLog($emailUtilisateur, "Modification des informations de l'entreprise");
+        Logs::ecrireLog($emailUtilisateur, "Mise à jour du manifest.json");
 
-        // Journalisation et retour avec succès
         Log::info('Informations de l\'entreprise mises à jour avec succès.', [
             'email' => $emailUtilisateur,
             'nomEntreprise' => $request->nomEntreprise,
