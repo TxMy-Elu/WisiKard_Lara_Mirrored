@@ -117,16 +117,18 @@ class Connexion extends Controller
         // Traitement en cas de validation du formulaire
         if ($validationFormulaire === true) {
             $cle = "T3mUjGjhC6WuxyNGR2rkUt2uQgrlFUHx";
+            $duree = isset($_POST['remember_me']) ? (30 * 24 * 3600) : 3600;
+            
             $payload = [
                 "iss" => "https://app.wisikard.fr",
                 "sub" => $utilisateur->idCompte,
                 "iat" => time(),
-                "exp" => time() + 3600
+                "exp" => time() + $duree
             ];
             $jwt = JWT::encode($payload, $cle, 'HS256');
 
             // Définition du cookie avec le JWT
-            setcookie("auth", $jwt, time() + 3600, "/", "", false, true);
+            setcookie("auth", $jwt, time() + $duree, "/", "", false, true);
             Logs::ecrireLog($utilisateur->email, "Connexion réussie");
 
             // Redirection selon le rôle de l'utilisateur

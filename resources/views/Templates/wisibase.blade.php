@@ -97,7 +97,7 @@
         }
     @endphp
 <!-- Presentation entreprise -->
-<div class=" w-full h-60 text-white p-4 rounded-sm presentation-animate" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
+<div class=" w-full min-h-60 text-white p-4 rounded-sm presentation-animate" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
 ">
 
     <!-- Logo -->
@@ -138,7 +138,7 @@
     <!-- description de l'entreprise -->
     @if($carte['descriptif'])
         <div class="text-animate">
-            <p class="text-white-    text-center text-sm">{{ $carte['descriptif'] }}</p>
+            <p class="text-white text-center text-sm whitespace-pre-line">{!! nl2br(e($carte['descriptif'])) !!}</p>
         </div>
     @endif
 </div>

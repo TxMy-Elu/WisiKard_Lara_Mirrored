@@ -55,6 +55,10 @@
                     @endif
 
                     <div class="mt-4">
+                        <div class="mb-4 flex items-center">
+                            <input type="checkbox" name="remember_me" id="remember_me" class="mr-2">
+                            <label for="remember_me" class="text-sm text-gray-700">Se souvenir de moi</label>
+                        </div>
                         <div class="mb-4 flex justify-between items-center">
                             <a href="{{ route('motDePasseOublie') }}" class="text-red-900">Mot de passe oublié ?</a>
                             <a href="https://wisikard.fr/categorie-produit/offres/" class="text-red-900 hover:text-red-700">Acheter ma Wisikard</a>

@@ -149,6 +149,10 @@ class Templates extends Controller
 
             // Récupérer les infos de la carte de visite
             $carte = Carte::where('idCompte', $idCompte)->first();
+            
+            if (!$carte) {
+                abort(404);
+            }
 
             //idCarte
             $idCarte = $carte->idCarte ?? null;
@@ -173,12 +177,16 @@ class Templates extends Controller
             // Sinon, récupérer l'idCompte
             $idCompte = $request->query('idCompte');
 
-
             // Récupérer d'abord l'idTemplate
             $idTemplate = Carte::where('idCompte', $idCompte)->value('idTemplate');
 
             // Prend toutes les informations nécessaires depuis la base de données
             $carte = Carte::where('idCompte', $idCompte)->first();
+            
+            if (!$carte) {
+                abort(404);
+            }
+
             $idCarte = $carte->idCarte ?? null;
 
             // Ajouter la vue uniquement si nécessaire

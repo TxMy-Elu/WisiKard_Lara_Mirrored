@@ -1315,7 +1315,7 @@ class DashboardClient extends Controller
      *
      * @param Request $request L'objet de requête contenant les données nécessaires :
      *                         - `titre` : Le titre à mettre à jour (obligatoire, max : 255 caractères).
-     *                         - `descriptif` : La description à mettre à jour (obligatoire, max : 255 caractères).
+     *                         - `descriptif` : La description à mettre à jour (obligatoire).
      * @return \Illuminate\Http\RedirectResponse Redirige l'utilisateur vers la page précédente avec un
      *                                            message de succès ou d'erreur en fonction du résultat.
      *
@@ -1328,7 +1328,7 @@ class DashboardClient extends Controller
         // Validation des données de la requête
         $request->validate([
             'titre' => 'nullable|string|max:255',
-            'descriptif' => 'nullable|string|max:255',
+            'descriptif' => 'nullable|string',
         ]);
 
         // Récupérer l'ID de compte de l'utilisateur depuis la session
