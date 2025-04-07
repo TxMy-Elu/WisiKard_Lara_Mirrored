@@ -73,11 +73,18 @@
 
                         <div>
                             <label for="mail" class="block text-gray-700 font-semibold mb-2">
-                                Adresse email
+                                Adresse email (Connexion & Kard)
                             </label>
                             <input type="email" id="mail" name="mail" 
                                    value="{{ $carte->compte->email }}"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+
+                        <div class="col-span-2 mt-4">
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" name="afficher_email" id="afficher_email" value="1" {{ $carte->afficher_email ? 'checked' : '' }} class="form-checkbox h-5 w-5 text-blue-500 rounded focus:ring-2 focus:ring-blue-500">
+                                <span class="text-gray-700 font-semibold">Afficher l'email sur la Kard</span>
+                            </label>
                         </div>
 
                         <div>

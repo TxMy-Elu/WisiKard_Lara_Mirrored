@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `carte` (
     `font` varchar(500) CHARACTER SET utf8  NOT NULL DEFAULT 'roboto',
     `idCompte` int NOT NULL,
     `idTemplate` int NOT NULL,
+    `afficher_email` BOOLEAN DEFAULT true;
     PRIMARY KEY (`idCarte`),
     KEY `carte_compte_FK` (`idCompte`),
     KEY `carte_template_FK` (`idTemplate`)

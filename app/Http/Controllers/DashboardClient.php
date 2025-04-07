@@ -876,12 +876,12 @@ class DashboardClient extends Controller
         if ($request->has('youtube_url')) {
             $youtubeUrl = $request->input('youtube_url');
 
-                // Validation de l'URL YouTube avec une expression régulière
-                if (preg_match('/^https:\/\/(www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]+$/', $youtubeUrl)) {
-                    // Création du dossier de vidéos s'il n'existe pas
-                    if (!File::exists($videosPath)) {
-                        File::makeDirectory($videosPath, 0755, true);
-                    }
+            // Validation de l'URL YouTube avec une expression régulière
+            if (preg_match('/^https:\/\/(www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]+$/', $youtubeUrl)) {
+                // Création du dossier de vidéos s'il n'existe pas
+                if (!File::exists($videosPath)) {
+                    File::makeDirectory($videosPath, 0755, true);
+                }
 
                 // Chargement ou création du fichier JSON contenant les vidéos
                 $videosFile = $videosPath . '/videos.json';
@@ -1154,7 +1154,7 @@ class DashboardClient extends Controller
      * Logs utilisés :
      * - Logs d'avertissement si une carte ou un logo est introuvable.
      * - Logs d'information pour toute suppression réussie incluant l'email et le chemin.
-     * - Écriture de logs personnalisés (`Logs::ecrireLog()`) pour enregistrer les actions.
+     * - Écriture de logs personnalisés (`Logs::ecrireLog`) pour enregistrer les actions.
      */
     public function deleteLogo()
     {
@@ -1499,6 +1499,7 @@ class DashboardClient extends Controller
             'tel' => 'nullable|string|max:20', // Le champ 'tel' peut être null
             'mail' => 'required|email|max:255',
             'adresse' => 'nullable|string|max:255', // Le champ 'ville/adresse' peut être null
+            'afficher_email' => 'boolean',
         ]);
 
 
@@ -1529,6 +1530,7 @@ class DashboardClient extends Controller
         $carte->tel = $request->tel;
         $carte->ville = $request->adresse;
         $carte->nomEntreprise = $request->nomEntreprise;
+        $carte->afficher_email = $request->has('afficher_email'); 
         $carte->save();
 
         // Mise à jour de l'email du compte

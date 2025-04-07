@@ -97,9 +97,7 @@
         }
     @endphp
 <!-- Presentation entreprise -->
-<div class=" w-full min-h-60 text-white p-4 rounded-sm presentation-animate" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}});
-">
-
+<div class=" w-full h-60 text-white p-4 rounded-sm presentation-animate" style="background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}}); min-height: fit-content;">
     <!-- Logo -->
     @php
         // Détection des différents types de fichiers
@@ -309,7 +307,7 @@
     @endif
 
     <!-- Email -->
-    @if($compte['email'])
+    @if($compte['email'] && $carte->afficher_email)
         <div class="w-full h-full flex justify-center items-center mt-2">
             <a href="mailto:{{ $compte['email'] }}"
                class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wisikard - Accueil Dashboard</title>
+    <title>Wisikard - Aide</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
         .qr-code-container {
@@ -132,6 +132,14 @@
                 <a href="{{ route('dashboardClientDescription', ['id_guide' => 31]) }}" class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">Ajouter/Supprimer un lien vers un Site Web</a>
                 <a href="{{ route('dashboardClientDescription', ['id_guide' => 27]) }}" class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">Ajouter/Supprimer une URL de Prise de Rendez-vous</a>
                 <a href="{{ route('dashboardClientDescription', ['id_guide' => 28]) }}" class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">Ajouter/Supprimer une Galerie Photo</a>
+            </div>
+            
+            <!-- Kard -->
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center space-y-4">
+                <p class="text-2xl font-bold text-red-800 border-b-2 border-red-300 pb-2 mb-8">Kard</p>
+                <a href="{{ route('dashboardClientDescription', ['id_guide' => 33]) }}" class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">Utiliser la fonction "Fiche de contact"</a>
+                <a href="{{ route('dashboardClientDescription', ['id_guide' => 34]) }}" class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">Partager son QR Code efficacement</a>
+                <a href="{{ route('dashboardClientDescription', ['id_guide' => 32]) }}" class="text-gray-700 hover:text-red-500 text-lg leading-relaxed">Installer l'application sur l'écran d'accueil depuis un Iphone</a>
             </div>
         </div>
     </div>

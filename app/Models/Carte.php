@@ -23,6 +23,7 @@ class Carte extends Model
         'ville',
         'idCompte',
         'idTemplate',
+        'afficher_email',
     ];
     public function compte(): BelongsTo
     {

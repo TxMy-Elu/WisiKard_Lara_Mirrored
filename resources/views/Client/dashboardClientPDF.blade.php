@@ -6,6 +6,17 @@
     <title>Wisikard - Contenu de la Kard</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+
+        a,
+        button,
+        input[type="radio"],
+        input[type="color"],
+        input[type="submit"],
+        select {
+            cursor: pointer !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
 

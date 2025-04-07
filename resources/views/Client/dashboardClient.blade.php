@@ -24,6 +24,15 @@
             max-height: 100%;
         }
 
+        a,
+        button,
+        input[type="radio"],
+        input[type="color"],
+        input[type="submit"],
+        select {
+            cursor: pointer !important;
+        }
+
         @media (max-width: 768px) {
             .desktop-only {
                 display: none;
