@@ -61,15 +61,17 @@
 
 <div class="flex flex-col md:flex-row">
     @include('menu.menuAdmin') <!-- Inclure le menu admin -->
-    <div class="flex-1 md:ml-24 content"> <!-- Contenu principal avec marge à gauche pour le menu -->
-        @if($messageContent != "Aucun message disponible" || empty($messageContent))
-            <!-- Afficher un message d'information si disponible -->
-            <div class="bg-zinc-400/45 border border-zinc-400 text-zin-700 px-4 py-3 rounded relative"
-                 role="alert">
-                <strong class="font-bold">Information :</strong>
-                <span class="block sm:inline">{{ $messageContent }}</span>
-            </div>
+    <div class="flex-1 md:ml-24 content">
+        @if($messages->isNotEmpty())
+            @foreach($messages as $message)
+                <div class="bg-zinc-400/45 border border-zinc-400 text-zinc-700 px-4 py-3 rounded relative mb-2" 
+                     role="alert">
+                    <strong class="font-bold">Information :</strong>
+                    <span class="block sm:inline">{{ $message->message }}</span>
+                </div>
+            @endforeach
         @endif
+
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <strong class="font-bold">Succès!</strong>

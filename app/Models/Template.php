@@ -14,7 +14,7 @@ class Template extends Model
     protected $primaryKey = 'idTemplate';
 
     // Specify the attributes that are mass assignable
-    protected $fillable = ['nom'];
+    protected $fillable = ['idTemplate', 'nom'];
 
     // Disable timestamps if your table doesn't have 'created_at' and 'updated_at' columns
     public $timestamps = false;

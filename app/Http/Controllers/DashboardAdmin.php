@@ -54,7 +54,7 @@ class DashboardAdmin extends Controller
         // Récupération du paramètre de recherche (si fourni)
         $search = $request->input('search');
 
-        // Récupération des entreprises avec recherche sur le nom ou l'email et jointure avec la table des comptes
+        // Récupération des entreprises avec recherche
         $entreprises = $this->carte->join('compte', 'carte.idCompte', '=', 'compte.idCompte')
             ->when($search, function ($query, $search) {
                 return $query->where('carte.nomEntreprise', 'like', "%{$search}%")
@@ -63,17 +63,18 @@ class DashboardAdmin extends Controller
             ->select('carte.*', 'compte.email as compte_email', 'compte.role as compte_role')
             ->get();
 
-        // Formatage des numéros de téléphone de chaque entreprise
+        // Formatage des numéros de téléphone
         foreach ($entreprises as $entreprise) {
             $entreprise->formattedTel = $this->formatPhoneNumber($entreprise->tel);
         }
 
-        // Récupération du dernier message à afficher
-        $message = $this->message->where('afficher', true)->orderBy('id', 'desc')->first();
-        $messageContent = $message ? $message->message : 'Aucun message disponible';
+        // Récupération de tous les messages actifs
+        $messages = $this->message->where('afficher', true)
+                            ->orderBy('id', 'desc')
+                            ->get();
 
-        // Retourne la vue du tableau de bord avec les entreprises, la recherche et le contenu du dernier message
-        return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messageContent'));
+        // Retourne la vue avec les données
+        return view('Admin.dashboardAdmin', compact('entreprises', 'search', 'messages'));
     }
 
     /**

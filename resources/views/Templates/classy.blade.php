@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
+    <meta name="theme-color" content="#FF0000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WisiKard">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="manifest" href="{{ '/entreprises/'. $carte->compte->idCompte.'/manifest.json' }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
     <style>
         .fade-in {
             animation: fadeIn 0.3s ease-in;
@@ -78,11 +85,11 @@
     @endif
     
     @if($carte['descriptif'])
-        <p class="text-gray-300 text-sm">{{ $carte['descriptif'] }}</p>
+        <p class="text-gray-300">{{ $carte['descriptif'] }}</p>
     @endif
 </div>
 <div class="bg-white p-4 mt-4 mx-4 space-y-4 rounded-lg shadow-lg">
-    @if($compte['email'])
+    @if($compte['email'] && $carte->afficher_email)
         <div class="flex items-center justify-center">
             <a href="mailto:{{ $compte['email'] }}"
                class="w-full h-12 px-4 bg-gray-100 hover:bg-gray-200 text-zinc-800 font-medium rounded-lg border border-gray-300 flex items-center justify-center shadow-sm transition duration-200">
@@ -111,6 +118,8 @@
         </div>
     @endif
 </div>
+
+@if($horaires && count($horaires) > 0)
 <div class="flex items-center justify-between mt-4 mx-4 gap-4">
     <div class="flex justify-center w-full">
         <a onclick="openQrModal()"
@@ -195,6 +204,7 @@
     </div>
 
 </div>
+@endif
 
 <div class="flex items-center justify-between mt-4 mx-4 gap-4">
     <div class="flex justify-center">
@@ -227,19 +237,6 @@
         @endif
     @else
         <div class="flex-cols justify-center space-y-4">
-            <!-- Avis google -->
-            @if($carte['lienAvis'])
-                <div class="flex justify-center">
-                    <a href="{{ $carte['lienAvis'] }}" target="_blank"
-                       class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25"
-                             fill="#000000">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/>
-                        </svg>
-                        Avis Google
-                    </a>
-                </div>
-            @endif
             <!-- site -->
             @if($carte['lienSiteWeb'])
                 <div class="flex justify-center">
@@ -253,8 +250,6 @@
                     </a>
                 </div>
             @endif
-
-
             <!-- rdv -->
             @if($carte['LienCommande'])
                 <div class="flex justify-center">
@@ -265,6 +260,19 @@
                             <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256zm176 40c-13.3 0-24 10.7-24 24l0 48-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l48 0 0 48c0 13.3 10.7 24 24 24s24-10.7 24-24l0-48 48 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-48c0-13.3-10.7-24-24-24z"/>
                         </svg>
                         Rendez-vous
+                    </a>
+                </div>
+            @endif
+            <!-- Avis google -->
+            @if($carte['lienAvis'])
+                <div class="flex justify-center">
+                    <a href="{{ $carte['lienAvis'] }}" target="_blank"
+                       class="w-full rounded-lg px-6 h-10 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-start gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25"
+                             fill="#000000">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/>
+                        </svg>
+                        Avis Google
                     </a>
                 </div>
             @endif
@@ -588,5 +596,60 @@
     });
 </script>
 
+    <!-- Install Prompt pour PWA -->
+    <div id="installPrompt" class="hidden fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg">
+        <button id="installButton" class="w-full flex items-center justify-center gap-2 py-2 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">
+            <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
+                trigger="loop"
+                delay="1000"
+                state="loop-slide"
+                colors="primary:#ffffff">
+            </lord-icon>
+            Installer sur votre écran d'accueil
+        </button>
+    </div>
+
+    <!-- PWA Script -->
+    <script>
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (!localStorage.getItem('installPromptDismissed')) {
+                document.getElementById('installPrompt').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Application installée');
+                }
+                deferredPrompt = null;
+                document.getElementById('installPrompt').classList.add('hidden');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installPrompt').classList.add('hidden');
+            localStorage.setItem('installPromptDismissed', 'true');
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker enregistré avec succès');
+                    })
+                    .catch(err => {
+                        console.log('Erreur d\'enregistrement du ServiceWorker:', err);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

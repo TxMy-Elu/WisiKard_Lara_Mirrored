@@ -47,9 +47,10 @@ class DashboardClient extends Controller
                 Log::warning('Aucun compte trouvé', ['email' => $emailUtilisateur]);
             }
 
-            // Récupération du message global à afficher
-            $message = Message::where('afficher', true)->orderBy('id', 'desc')->first();
-            $messageContent = $message ? $message->message : 'Aucun message disponible';
+            // Récupération des messages globaux à afficher
+            $messages = Message::where('afficher', true)
+                ->orderBy('id', 'desc')
+                ->get();
 
 
             if ($carte) {
@@ -63,7 +64,7 @@ class DashboardClient extends Controller
 
             // Rend la vue avec les informations nécessaires
             return view('Client.dashboardClient', [
-                'messageContent' => $messageContent,
+                'messages' => $messages,
                 'carte' => $carte,
                 'compte' => $compte,
                 'couleur1' => $carte->couleur1 ?? null,
@@ -1589,33 +1590,23 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Mise à jour du template en fonction de l'identifiant sélectionné
-        switch ($request->idTemplate) {
-            case 1:
-                $carte->idTemplate = 1;
-                break;
-            case 2:
-                $carte->idTemplate = 2;
-                break;
-            case 3:
-                $carte->idTemplate = 3;
-                break;
-            case 4:
-                $carte->idTemplate = 4;
-                break;
-            default:
-                return redirect()->back()->with('error', 'Template invalide sélectionné.');
+        // Vérifier si l'identifiant du template est valide (entre 1 et 5)
+        if ($request->idTemplate >= 1 && $request->idTemplate <= 5) {
+            // Mise à jour directe du template
+            $carte->idTemplate = $request->idTemplate;
+            // Sauvegarder les modifications
+            $carte->save();
+
+            // Journaliser l'opération réussie
+            Log::info('Template mis à jour avec succès', ['email' => $emailUtilisateur, 'idTemplate' => $request->idTemplate]);
+            Logs::ecrireLog($emailUtilisateur, "Modification Template");
+
+            // Retourner un message de succès
+            return redirect()->back()->with('success', 'Template mis à jour avec succès.');
         }
 
-        // Sauvegarder les modifications
-        $carte->save();
-
-        // Journaliser l'opération réussie
-        Log::info('Template mis à jour avec succès', ['email' => $emailUtilisateur, 'idTemplate' => $request->idTemplate]);
-        Logs::ecrireLog($emailUtilisateur, "Modification Template");
-
-        // Retourner un message de succès
-        return redirect()->back()->with('success', 'Template mis à jour avec succès.');
+        // Retourner un message d'erreur si le template est invalide
+        return redirect()->back()->with('error', 'Template invalide sélectionné.');
     }
 
     /**

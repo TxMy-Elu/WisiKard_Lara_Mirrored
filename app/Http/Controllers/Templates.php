@@ -107,22 +107,16 @@ class Templates extends Controller
 
     private function renderTemplate($idTemplate, $data)
     {
-        $templates = [
-            1 => 'Templates.wisibase',
-            2 => 'Templates.custom',
-            3 => 'Templates.pomme',
-            4 => 'Templates.classy',
-            5 => 'Templates.oxygen'
-        ];
-
-        if (!isset($templates[$idTemplate])) {
+        // Récupérer le template depuis la base de données
+        $template = Template::find($idTemplate);
+        if (!$template) {
             return response()->json([
                 'message' => 'Aucun template trouvé',
                 'data' => ['idCarte' => $data['carte']->idCarte ?? null, 'employe' => $data['employe'] ?? null]
             ], 404);
         }
 
-        return view($templates[$idTemplate], $data);
+        return view('Templates.' . $template->nom, $data);
     }
 
     /**

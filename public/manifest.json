@@ -1,9 +1,9 @@
 {
-    "name": "WisiKard",
+    "name": "WisiKard - Tableau de bord",
     "short_name": "WisiKard",
     "description": "Application de cartes de visite numériques",
-    "start_url": "/",
-    "id": "/",
+    "start_url": "app.wisikard.fr/",
+    "id": "app.wisikard.fr/",
     "display": "standalone",
     "display_override": ["window-controls-overlay"],
     "background_color": "#ffffff",

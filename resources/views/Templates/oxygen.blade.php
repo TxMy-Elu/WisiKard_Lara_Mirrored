@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }} - Wisikard</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,300i,400,400i,600,600i,700,700i&display=swap"
-          rel="stylesheet">
+    <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         *:not(.material-icons, .fa-brands) {
@@ -181,6 +180,49 @@
                 padding: 2px 6px;
             }
         }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hover-effect {
+            transition: all 0.3s ease;
+        }
+
+        .hover-effect:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #installPrompt {
+            display: none;
+        }
     </style>
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image-x-icon">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
@@ -196,34 +238,9 @@
     <meta name="theme-color" content="#ffffff">
 
     <link rel="manifest" href="{{ asset('storage/manifest/' . $carte['idCarte'] . '-manifest.json') }}">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-080RS8FYWX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-        gtag('config', 'G-080RS8FYWX');
-    </script>
 </head>
 
-<body class="bg-[#9b8a7f]">
-@php
-    $nopub = false;
-    $embedyoutube = null;
-    foreach ($fonctions as $f) {
-        if ($f['nom'] == 'nopub') {
-            $nopub = true;
-        }
-        if ($f['nom'] == 'embedyoutube') {
-            $embedyoutube = $f;
-        }
-    }
-@endphp
+<body class="bg-[#9b8a7f]" style="font-family: '{{ $carte['font'] }}';">
 
 @php
     // Détection des différents types de fichiers
@@ -238,7 +255,7 @@
     }
 @endphp
 
-<div class="card-container flex flex-col items-center w-full">
+<div class="card-container flex flex-col items-center w-full fade-in">
     <div class='flex justify-center items-center w-24 mt-2'>
         <img class='w-4/5 max-w-xl'
              src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}"
@@ -277,22 +294,22 @@
             </lord-icon>
             QRCode
         </button>
-    <!-- Modal pour le QR Code -->
-    <div id='qrCodeModal' class="modal">
-        <div class="modalBody">
-            <div class="modalTitle">
-                <div class="modalTitleTxt">
-                    QR Code de {{ $carte['nomEntreprise'] }}
+        <!-- Modal pour le QR Code -->
+        <div id='qrCodeModal' class="modal">
+            <div class="modalBody">
+                <div class="modalTitle">
+                    <div class="modalTitleTxt">
+                        QR Code de {{ $carte['nomEntreprise'] }}
+                    </div>
+                    <div class="modalCloseBtn" onclick="hideQrCode()">
+                        ✖
+                    </div>
                 </div>
-                <div class="modalCloseBtn" onclick="hideQrCode()">
-                    ✖
+                <div class="modalContent">
+                    <img src="{{ $carte['qrCode'] }}" alt="QR Code" class="modalQR">
                 </div>
-            </div>
-            <div class="modalContent">
-                <img src="{{ $carte['qrCode'] }}" alt="QR Code" class="modalQR">
             </div>
         </div>
-    </div>
 
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -338,7 +355,7 @@
             Mail
         </a>
 
-         <!--PDF-->
+        <!--PDF-->
         @if($carte['pdf'])
             <a href="{{ $carte['pdf'] }}" target="_blank" rel="noopener noreferrer"
                class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
@@ -458,67 +475,149 @@
     @endif
 </div>
 
-        <!-- Modal pour les horaires -->
-        <div id='horairesModal' class="modal">
-            <div class="modalBody">
-                <div class="modalTitle">
-                    <div class="modalTitleTxt">
-                        Horaires de {{ $carte['nomEntreprise'] }}
-                    </div>
-                    <div class="modalCloseBtn" onclick="hideHoraires()">
-                        ✖
-                    </div>
-                </div>
-                <div class="modalContent">
-                    <div class='horaires-container mx-2 my-2 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-2'>
-                        @php
-                            $days = $horaires->chunk(2);
-                            $lastColumn = $days->pop();
-                        @endphp
-                        @foreach($days as $chunk)
-                            <div class="horaires-column">
-                                @foreach($chunk as $horaire)
-                                    <div class="horaires-item flex items-center justify-center p-2">
-                                        <div class="day text-white p-1 fill-white">
-                                            {{ $horaire->jour }}
-                                        </div>
-                                        <div class="hours text-center mt-1">
-                                            @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
-                                                <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
-                                                <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
-                                            @else
-                                                <p>Fermé</p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endforeach
-                        <div class="horaires-column">
-                            @foreach($lastColumn as $horaire)
-                                <div class="horaires-item flex items-center justify-center p-2">
-                                    <div class="day text-white p-1 fill-white">
-                                        {{ $horaire->jour }}
-                                    </div>
-                                    <div class="hours text-center mt-1">
-                                        @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
-                                            <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
-                                            <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
-                                        @else
-                                            <p>Fermé</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+<!-- PWA Install Button -->
+<div id="installPrompt" class="hidden fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg">
+    <button id="installButton" class="w-full flex items-center justify-center gap-2 py-2 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">
+        <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
+                   trigger="loop"
+                   delay="1000"
+                   state="loop-slide"
+                   colors="primary:#ffffff">
+        </lord-icon>
+        Installer sur votre écran d'accueil
+    </button>
+</div>
+
+<!-- Galerie Photos -->
+@php
+    $sliderDirectory = public_path('entreprises/'.$carte->compte->idCompte.'/slider');
+    $sliderImages = file_exists($sliderDirectory) ? array_values(array_diff(scandir($sliderDirectory), array('.', '..'))) : [];
+@endphp
+
+@if($sliderImages)
+    <div class="flex-cols">
+        <div class="w-full mt-4 text-center">
+            <button onclick="openGallery()" class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer hover-effect">
+                Voir la Galerie
+            </button>
+        </div>
+
+        <div id="photoGallery" class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-75 flex justify-center items-center z-50">
+            <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
+                <button onclick="closeGallery()" class="absolute top-2 right-2 p-2 font-bold text-xl text-gray-900">&times;</button>
+                <h2 class="text-center font-bold text-lg mb-4">Galerie de Photos</h2>
+                <div class="flex flex-wrap gap-4 justify-center items-center">
+                    @foreach($sliderImages as $image)
+                        <img src="{{ asset('entreprises/'.$carte->compte->idCompte.'/slider/'.urlencode($image)) }}"
+                             alt="Image thumbnail"
+                             class="w-1/3 rounded-lg shadow-md cursor-pointer hover-effect"
+                             onclick="viewImage('{{ asset('entreprises/'.$carte->compte->idCompte.'/slider/'.urlencode($image)) }}')">
+                    @endforeach
                 </div>
             </div>
+        </div>
+
+        <div id="fullImage" class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-90 flex justify-center items-center z-50">
+            <div class="relative">
+                <img id="fullImageContent" src="" alt="Image fullsize" class="max-w-full max-h-full rounded-lg shadow-lg">
+                <button onclick="closeFullImage()" class="absolute top-2 right-2 text-red-800 text-2xl font-bold">&times;</button>
+            </div>
+        </div>
+    </div>
+@endif
+
+<!-- Vidéos YouTube -->
+@if($youtubeUrls)
+    <div class="flex-cols">
+        <div class="w-full mt-4 text-center">
+            <button onclick="openVideoGallery()" class="w-32 rounded-xl p-2 font-bold text-white text-center bg-zinc-800 border border-gray-200 cursor-pointer hover-effect">
+                Voir les Vidéos
+            </button>
+        </div>
+
+        <div id="videoGallery" class="hidden fixed top-0 left-0 w-full h-full bg-zinc-800 bg-opacity-75 flex justify-center items-center z-50">
+            <div class="relative bg-white p-6 rounded-lg w-11/12 md:w-2/3 lg:w-1/2">
+                <button onclick="closeVideoGallery()" class="absolute top-2 right-2 p-2 text-red-500 font-bold text-xl">&times;</button>
+                <h2 class="text-center font-bold text-lg mb-4">Galerie de Vidéos</h2>
+                <div class="flex flex-wrap gap-4 justify-center items-center">
+                    @foreach($youtubeUrls as $url)
+                        @php
+                            $videoId = preg_replace('/^.*?v=([\w\-]+).*$/', '$1', $url);
+                        @endphp
+                        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                           class="w-1/3 sm:w-1/4 lg:w-1/5 aspect-video relative rounded-lg overflow-hidden block hover-effect">
+                            <img src="https://img.youtube.com/vi/{{ $videoId }}/mqdefault.jpg"
+                                 alt="Thumbnail"
+                                 class="w-full h-full object-cover">
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+<!-- Modal pour les horaires -->
+<div id='horairesModal' class="modal">
+    <div class="modalBody">
+        <div class="modalTitle">
+            <div class="modalTitleTxt">
+                Horaires de {{ $carte['nomEntreprise'] }}
+            </div>
+            <div class="modalCloseBtn" onclick="hideHoraires()">
+                ✖
+            </div>
+        </div>
+        <div class="modalContent">
+            <div class='horaires-container mx-2 my-2 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-2'>
+                @php
+                    $days = $horaires->chunk(2);
+                    $lastColumn = $days->pop();
+                @endphp
+                @foreach($days as $chunk)
+                    <div class="horaires-column">
+                        @foreach($chunk as $horaire)
+                            <div class="horaires-item flex items-center justify-center p-2">
+                                <div class="day text-white p-1 fill-white">
+                                    {{ $horaire->jour }}
+                                </div>
+                                <div class="hours text-center mt-1">
+                                    @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                        <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                        <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                    @else
+                                        <p>Fermé</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+                <div class="horaires-column">
+                    @foreach($lastColumn as $horaire)
+                        <div class="horaires-item flex items-center justify-center p-2">
+                            <div class="day text-white p-1 fill-white">
+                                {{ $horaire->jour }}
+                            </div>
+                            <div class="hours text-center mt-1">
+                                @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                    <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                    <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                @else
+                                    <p>Fermé</p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer class="text-center p-2">
     Un service proposé par <a href="https://sendix.fr" class="text-blue-500">SENDIX</a> - <a href="https://wisikard.fr"
-                                                                             class="text-blue-500">Wisikard</a>
+                                                                                           class="text-blue-500">Wisikard</a>
 </footer>
 
 <script>
@@ -581,6 +680,74 @@
             nextSlide();
         }
     });
+
+    // Galerie Photos
+    function openGallery() {
+        document.getElementById('photoGallery').classList.remove('hidden');
+    }
+
+    function closeGallery() {
+        document.getElementById('photoGallery').classList.add('hidden');
+    }
+
+    function viewImage(imageSrc) {
+        const fullImage = document.getElementById('fullImage');
+        const fullImageContent = document.getElementById('fullImageContent');
+        fullImageContent.src = imageSrc;
+        fullImage.classList.remove('hidden');
+    }
+
+    function closeFullImage() {
+        document.getElementById('fullImage').classList.add('hidden');
+    }
+
+    // Galerie Vidéos
+    function openVideoGallery() {
+        document.getElementById('videoGallery').classList.remove('hidden');
+    }
+
+    function closeVideoGallery() {
+        document.getElementById('videoGallery').classList.add('hidden');
+    }
+
+    // PWA Installation
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (!localStorage.getItem('installPromptDismissed')) {
+            document.getElementById('installPrompt').style.display = 'block';
+        }
+    });
+
+    document.getElementById('installButton').addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('Application installée');
+            }
+            deferredPrompt = null;
+            document.getElementById('installPrompt').style.display = 'none';
+        }
+    });
+
+    window.addEventListener('appinstalled', () => {
+        document.getElementById('installPrompt').style.display = 'none';
+        localStorage.setItem('installPromptDismissed', 'true');
+    });
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker enregistré avec succès');
+                })
+                .catch(err => {
+                    console.log('Erreur d\'enregistrement du ServiceWorker:', err);
+                });
+        });
+    }
 </script>
 
 </body>
