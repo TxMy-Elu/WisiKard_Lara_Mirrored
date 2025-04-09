@@ -25,7 +25,11 @@ class Authentification
                 if ($compte) {
                     $isAdmin = $compte->role === 'admin';
                     session(['isAdmin' => $isAdmin]);
+                    session(['compte' => $compte]);
                     return $next($request);
+                } else {
+                    setcookie("auth", "", time() - 3600, "/");
+                    return redirect()->to('connexion')->send();
                 }
             } catch (ExpiredException $e) {
                 try {
@@ -62,7 +66,7 @@ class Authentification
                 setcookie("auth", "", time() - 3600);
                 return redirect()->to('connexion')->send();
             } catch (Exception $ex) {
-                setcookie("auth", "", time() - 3600);
+                setcookie("auth", "", time() - 3600, "/");
                 return redirect()->to('connexion')->send();
             }
         }
