@@ -39,7 +39,7 @@ class Compte extends Model
         $nomEntrepriseSimplifie = self::supprimerAccents($nomEntreprise);
 
         // Remplacement des espaces par des underscores
-        $nomEntrepriseDir = str_replace(' ', '_', $nomEntrepriseSimplifie);
+        $nomEntrepriseDir = str_replace(' ', '-', $nomEntrepriseSimplifie);
 
         Log::info("nomEntrepriseDir (après simplification) : {$nomEntrepriseDir}");
 
@@ -91,15 +91,17 @@ class Compte extends Model
         $tel = htmlspecialchars($tel, ENT_QUOTES, 'UTF-8');
         $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
-        $vCard = "BEGIN:VCARD\r\n";                 // Début de la vCard
-        $vCard .= "VERSION:4.0\r\n";                // Version 4.0 compatible
-        $vCard .= "FN:{$nomEntreprise}\r\n";        // Nom complet
-        $vCard .= "TEL;TYPE=CELL,VOICE:{$tel}\r\n"; // Numéro de téléphone
-        $vCard .= "EMAIL;TYPE=HOME,INTERNET:{$email}\r\n"; // Adresse email
-        $vCard .= "END:VCARD\r\n";                  // Fin de la vCard
-
-        // Remplacer les espaces par des underscores pour le nom du répertoire
-        $nomEntrepriseDir = str_replace(' ', '_', $nomEntreprise);
+        $vCard = "BEGIN:VCARD\r\n";
+        $vCard .= "VERSION:4.0\r\n\r\n";
+        $vCard .= "N:{$nomEntreprise};;;;\r\n\r\n";
+        $vCard .= "FN:{$nomEntreprise}\r\n\r\n";
+        if ($tel) {
+            $vCard .= "TEL;TYPE=CELL,VOICE:{$tel}\r\n\r\n";
+        }
+        if ($email) {
+            $vCard .= "EMAIL;TYPE=HOME,INTERNET:{$email}\r\n\r\n";
+        }
+        $vCard .= "END:VCARD\r\n";
 
         // Définir le chemin complet pour enregistrer le fichier
         $directoryPath = public_path("entreprises/{$idCompte}/VCF_Files");
@@ -202,8 +204,8 @@ class Compte extends Model
             'name' => $nomEntreprise . ' - WisiKard',
             'short_name' => $nomEntreprise . ' - WK',
             'description' => 'La carte de visite numérique Wisikard de ' . $nomEntreprise,
-            'start_url' => '/Kard/' . str_replace(' ', '_', $nomEntreprise) . '?idCompte=' . $idCompte,
-            'id' => '/',
+            'start_url' => '/Kard/' . str_replace(' ', '-', $nomEntreprise) . '?idCompte=' . $idCompte,
+            'id' => '/Kard/' . str_replace(' ', '-', $nomEntreprise),
             'display' => 'standalone',
             'display_override' => ['window-controls-overlay'],
             'background_color' => "#ffffff",

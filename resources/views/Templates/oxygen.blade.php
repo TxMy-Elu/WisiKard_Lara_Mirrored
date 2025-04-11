@@ -2,20 +2,26 @@
 <html lang="fr">
 
 <head>
+    <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#FF0000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WisiKard">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
+          rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="manifest" href="{{ '/entreprises/'. $carte->compte->idCompte.'/manifest.json' }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
     <style>
-        *:not(.material-icons, .fa-brands) {
-            font-family: 'Open Sans' !important;
-            color: whitesmoke;
-        }
-
         body {
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background-size: 300% 300% !important;
+            animation: gradient 10s ease infinite;
             height: 100vh;
             margin: 0;
             max-width: 100%;
@@ -23,31 +29,127 @@
 
         @keyframes gradient {
             0% {
-                background-position: 0% 50%;
+                background-position: 0% 0%;
             }
-            50% {
+            33% {
                 background-position: 100% 50%;
             }
+            66% {
+                background-position: 50% 100%;
+            }
             100% {
-                background-position: 0% 50%;
+                background-position: 0% 0%;
             }
         }
 
+
+        .container {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .container h1 {
+            margin: 5px 0 0 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .container h2 {
+            margin: 0;
+            font-size: large;
+            font-weight: 300;
+        }
+
+        .container p {
+            margin: 6px 0;
+            font-size: medium;
+        }
+
+        .logo {
+            margin-top: 25px;    
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .socials {
+            margin:10px 5px 20px;
+            backdrop-filter: blur(10px);
+            background-color : rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        .socials a {
+            padding: 8px;
+        }
+
+        .socials svg{
+            max-height: 30px;
+            width: 100%;
+        }
+
+        .contacts {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            margin: 30px 45px 0 45px;
+        }
+
+
+        lord-icon{
+            height: 50px;
+            width: 50px;
+        }
+
+        .contacts a {
+            backdrop-filter: blur(10px);
+            background-color : rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            height: 55px;
+            width: 55px;
+            margin: 5px 2px 30px 2px;
+            font-size:small;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #prompt lord-icon {
+            transform: rotate(180deg);
+        }
+
+        #embedyoutube {
+            max-width:80%;
+            margin:20px 0;
+        }
+
+        .container .affiche {
+            max-width: 90%;
+            max-height: 30%;
+        }
+
+        .modalBody {
+            z-index: 1055;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+
         .modal {
+            text-align: center;
+            justify-content: center;
             position: fixed;
             width: 100%;
-            top: 20%;
+            top: 0%;
             z-index: 1055;
             display: none;
             outline: 0;
             transition: 500ms;
-        }
-
-        .modalBody {
-            background-color: white;
-            z-index: 1055;
-            display: flex;
-            flex-direction: column;
         }
 
         .modalTitle {
@@ -59,229 +161,111 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            padding: 10px;
+            padding: 20px;
             padding-bottom: 0px;
             padding-right: 0px;
         }
 
         .modalTitleTxt {
-            color: black;
+            color:black;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex:auto;
         }
 
         .modalCloseBtn {
-            color: black;
+            color:black;
             cursor: default;
             position: absolute;
             right: 8%;
-            font-size: 20px;
+            font-size: 25px;
         }
 
         .modalContent {
             margin-bottom: 0%;
         }
 
-        .modalQR {
-            max-width: 100%;
-            max-height: 100%;
-        }
-
-        .horaires-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin: 10px 0;
-        }
-
-        .horaires-column {
-            flex: 1;
-            min-width: 22%;
-            margin: 5px;
-        }
-
-        .horaires-item {
-            font-size: 0.7rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-        }
-
-        .horaires-item .day {
-            margin-right: 10px;
-            width: 60px;
-            text-align: right;
-        }
-
-        .horaires-item .hours {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .card-container {
-            max-width: 90%;
-            margin: 0 auto;
-            padding: 10px;
-        }
-
-        .card-container h1 {
-            font-size: 1.2rem;
-        }
-
-        .card-container p {
-            font-size: 0.8rem;
-        }
-
-        .card-container a {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-        }
-
-        .card-container button {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-        }
-
-        @media (max-width: 600px) {
-            .horaires-column {
-                min-width: 45%;
-            }
-
-            .horaires-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .horaires-item .day {
-                margin-right: 0;
-                width: auto;
-                text-align: left;
-                margin-bottom: 5px;
-            }
-
-            .horaires-item .hours {
-                align-items: flex-start;
-            }
-
-            .card-container h1 {
-                font-size: 1rem;
-            }
-
-            .card-container p {
-                font-size: 0.7rem;
-            }
-
-            .card-container a {
-                font-size: 0.6rem;
-                padding: 2px 6px;
-            }
-
-            .card-container button {
-                font-size: 0.6rem;
-                padding: 2px 6px;
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .slide-in {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .hover-effect {
-            transition: all 0.3s ease;
-        }
-
-        .hover-effect:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
         #installPrompt {
             display: none;
         }
+
+        .contactEmploye a{
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            background-color : rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 8px;
+            margin: 8px;
+        }
+
+        .contactEmploye {
+            flex-wrap: wrap;
+        }
+
+        .title-description-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem;
+        }
+
+        .title-description-container p {
+            font-size: 1.10rem;
+        }
+
+        .horaires-container {
+            font-size: 1.2rem;
+        }
     </style>
-    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image-x-icon">
-    <script src="https://cdn.lordicon.com/lordicon.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/icons/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/icons/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/icons/favicon-16x16.png') }}">
-    <link rel="mask-icon" href="{{ asset('assets/icons/safari-pinned-tab.svg') }}" color="#ff0000">
-    <link rel="shortcut icon" href="{{ asset('assets/icons/favicon.ico') }}">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="{{ asset('assets/icons/browserconfig.xml') }}">
-    <meta name="theme-color" content="#ffffff">
-
-    <link rel="manifest" href="{{ asset('storage/manifest/' . $carte['idCarte'] . '-manifest.json') }}">
 </head>
 
-<body class="bg-[#9b8a7f]" style="font-family: '{{ $carte['font'] }}';">
+<body style="font-family: '{{ $carte['font'] }}';background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}}); min-height: fit-content;">
 
-@php
-    // Détection des différents types de fichiers
-    $logoPath = '';
-    $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
-    foreach ($formats as $format) {
-        $path = public_path('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
-        if (file_exists($path)) {
-            $logoPath = asset('entreprises/' . $carte->compte->idCompte . '_' . $carte->nomEntreprise . '/logos/logo.' . $format);
-            break;
+    @php
+        // Détection des différents types de fichiers
+        $logoPath = '';
+        $formats = ['svg', 'png', 'jpg', 'jpeg']; // Ajouter d'autres formats si nécessaire
+
+        foreach ($formats as $format) {
+            $path = public_path('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
+            if (file_exists($path)) {
+                $logoPath = asset('entreprises/' . $carte->compte->idCompte . '/logos/logo.' . $format);
+                break;
+            }
         }
-    }
-@endphp
+    @endphp
 
 <div class="card-container flex flex-col items-center w-full fade-in">
-    <div class='flex justify-center items-center w-24 mt-2'>
+    <div class='flex justify-center items-center mt-2 p-8'>
+        @if(!empty($logoPath))
         <img class='w-4/5 max-w-xl'
-             src="{{ $logoPath ? $logoPath : asset('images/default-logo.png') }}"
+             src="{{ $logoPath}}"
              alt='Logo'>
+        @endif
     </div>
 
-    <div class='flex justify-center items-center mt-1'>
-        <h1 class='font-bold'>{{ $carte['titre'] }}</h1>
-    </div>
-    @if($employe != null)
-        <div class='flex justify-center items-center flex-wrap mt-2'>
-            <a href='mailto:{{ $employe['mail'] }}'
-               class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
-                {{ $employe['mail'] }}
-            </a>
-            <a href='tel:{{ $employe['telephone'] }}'
-               class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
-                {{ $employe['telephone'] }}
-            </a>
+    <div class="title-description-container">
+        <div class='flex justify-center items-center mt-1'>
+            <h1 class='font-bold'>{{ $carte['titre'] }}</h1>
         </div>
-    @endif
+        @if($employe != null)
+            <div class='flex justify-center items-center flex-wrap mt-2'>
+                <a href='mailto:{{ $employe['mail'] }}'
+                   class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+                    {{ $employe['mail'] }}
+                </a>
+                <a href='tel:{{ $employe['telephone'] }}'
+                   class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
+                    {{ $employe['telephone'] }}
+                </a>
+            </div>
+        @endif
 
-    <div class='flex justify-center items-center mt-1'>
-        <p class='text-center'>{{ $carte->descriptif }}</p>
+        <div class='flex justify-center items-center mt-1'>
+            <p class='text-center'>{{ $carte->descriptif }}</p>
+        </div>
     </div>
-
 
     <div class='flex justify-center items-center flex-wrap mt-3 mx-5'>
         <!-- Bouton pour afficher le QR Code -->
@@ -296,7 +280,7 @@
         </button>
         <!-- Modal pour le QR Code -->
         <div id='qrCodeModal' class="modal">
-            <div class="modalBody">
+            <div class="modalBody  bg-opacity-80 backdrop-blur-lg">
                 <div class="modalTitle">
                     <div class="modalTitleTxt">
                         QR Code de {{ $carte['nomEntreprise'] }}
@@ -306,12 +290,12 @@
                     </div>
                 </div>
                 <div class="modalContent">
-                    <img src="{{ $carte['qrCode'] }}" alt="QR Code" class="modalQR">
+                    <img src="{{ $carte['lienQr'] }}" alt="QR Code" class="modalQR">
                 </div>
             </div>
         </div>
 
-        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}"
+        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/surcxhka.json"
@@ -322,7 +306,7 @@
             Maps
         </a>
 
-        <a href="{{ $carte['lienSite'] }}"
+        <a href="{{ $carte['lienSite'] }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/pbbsmkso.json"
@@ -349,7 +333,7 @@
             <lord-icon
                     src="https://cdn.lordicon.com/aycieyht.json"
                     trigger="loop"
-                    delay="1000"
+                    delay="1000" state="in-assembly"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>
             Mail
@@ -357,7 +341,7 @@
 
         <!--PDF-->
         @if($carte['pdf'])
-            <a href="{{ $carte['pdf'] }}" target="_blank" rel="noopener noreferrer"
+            <a href="{{ asset($carte['pdf']) }}" target="_blank" rel="noopener noreferrer"
                class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
                 <lord-icon
                         src="https://cdn.lordicon.com/wzwygmng.json"
@@ -370,18 +354,20 @@
         @endif
 
         <!--RDV-->
-        <a href="{{$carte['lienCommande']}}"
+        @if($carte['LienCommande'])
+        <a href="{{ $carte['LienCommande'] }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/odavpkmb.json"
                     trigger="loop"
                     delay="1000"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
-            </lord-icon>{{ $carte['nomButtonCommande'] }}
+            </lord-icon>Prendre un rendez-vous
         </a>
+        @endif
 
         <!--Vcard-->
-        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'_'.$carte->nomEntreprise.'/VCF_Files/contact.vcf' }}"
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
            download="Contact-Wisikard.vcf"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/rehjpyyh.json"
@@ -390,11 +376,11 @@
                        state="hover-portrait"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>
-            Vcard
+            Fiche contact
         </a>
 
         <!--Installer-->
-        <a id="prompt"
+        <a id="installButton"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
                        trigger="loop"
@@ -406,7 +392,7 @@
         </a>
 
         <!--Partager-->
-        <button class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+        <button onclick="shareOrCopyLink()" class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/udwhdpod.json"
                        trigger="loop"
                        delay="1000"
@@ -419,9 +405,10 @@
         <!-- Bouton pour afficher les horaires dans un modal -->
         <button onclick="showHoraires()"
                 class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
-            <lord-icon src="https://cdn.lordicon.com/lupuorrc.json"
-                       trigger="loop"
-                       delay="1000"
+                <lord-icon
+                    src="https://cdn.lordicon.com/warimioc.json"
+                    trigger="loop"
+                    state="loop-oscillate"
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>
             Horaires
@@ -434,7 +421,6 @@
                class="p-3">
                 <div class="flex items-center justify-center">
                     <div class="w-12 h-12 flex items-center justify-center">
-                        <!-- Apporter la couleur blanche aux logos -->
                         <div class="text-white fill-white">
                             {!! $so['logo'] !!}
                         </div>
@@ -473,19 +459,6 @@
             </button>
         </div>
     @endif
-</div>
-
-<!-- PWA Install Button -->
-<div id="installPrompt" class="hidden fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg">
-    <button id="installButton" class="w-full flex items-center justify-center gap-2 py-2 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">
-        <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
-                   trigger="loop"
-                   delay="1000"
-                   state="loop-slide"
-                   colors="primary:#ffffff">
-        </lord-icon>
-        Installer sur votre écran d'accueil
-    </button>
 </div>
 
 <!-- Galerie Photos -->
@@ -559,7 +532,7 @@
 
 <!-- Modal pour les horaires -->
 <div id='horairesModal' class="modal">
-    <div class="modalBody">
+    <div class="modalBody bg-opacity-80 backdrop-blur-lg">
         <div class="modalTitle">
             <div class="modalTitleTxt">
                 Horaires de {{ $carte['nomEntreprise'] }}
@@ -569,7 +542,7 @@
             </div>
         </div>
         <div class="modalContent">
-            <div class='horaires-container mx-2 my-2 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-2'>
+            <div class='horaires-container mx-2 my-2 rounded-lg p-2'>
                 @php
                     $days = $horaires->chunk(2);
                     $lastColumn = $days->pop();
@@ -637,6 +610,32 @@
         document.getElementById('horairesModal').style.display = 'none';
     }
 
+    
+    // **Script pour la copie du lien**
+
+    function shareOrCopyLink() {
+        const linkToShare = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+
+        if (navigator.share) {
+            // Partage natif si disponible
+            navigator.share({
+                title: document.title,
+                text: "Découvrez cette entreprise sur Wisikard !",
+                url: linkToShare
+            }).then(() => {
+                console.log("Lien partagé avec succès !");
+            }).catch(err => {
+                console.error("Erreur lors du partage :", err);
+            });
+        } else {
+            // Fallback : copie dans le presse-papier
+            navigator.clipboard.writeText(linkToShare).then(() => {
+                alert("Lien copié dans le presse-papier !");
+            }).catch(err => {
+                console.error("Erreur lors de la copie :", err);
+            });
+        }
+    }
 
     const carouselTrack = document.querySelector('.carousel-track');
     const slides = Array.from(carouselTrack.children);
@@ -709,47 +708,55 @@
     function closeVideoGallery() {
         document.getElementById('videoGallery').classList.add('hidden');
     }
-
-    // PWA Installation
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (!localStorage.getItem('installPromptDismissed')) {
-            document.getElementById('installPrompt').style.display = 'block';
-        }
-    });
-
-    document.getElementById('installButton').addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('Application installée');
-            }
-            deferredPrompt = null;
-            document.getElementById('installPrompt').style.display = 'none';
-        }
-    });
-
-    window.addEventListener('appinstalled', () => {
-        document.getElementById('installPrompt').style.display = 'none';
-        localStorage.setItem('installPromptDismissed', 'true');
-    });
-
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('ServiceWorker enregistré avec succès');
-                })
-                .catch(err => {
-                    console.log('Erreur d\'enregistrement du ServiceWorker:', err);
-                });
-        });
-    }
 </script>
 
+    <!-- PWA -->
+    
+    <script>
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Vérifier si l'utilisateur a déjà refusé l'installation
+            if (!localStorage.getItem('installPromptDismissed')) {
+                document.getElementById('installPrompt').style.display = 'block';
+            }
+        });
+
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Application installée');
+                }
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
+            }
+        });
+
+        // Vérifier si l'app est déjà installée
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installPrompt').style.display = 'none';
+            localStorage.setItem('installPromptDismissed', 'true');
+        });
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Enregistrement du ServiceWorker complété');
+                    })
+                    .catch(err => {
+                        console.log('Enregistrement du ServiceWorker échoué: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
 
 </html>

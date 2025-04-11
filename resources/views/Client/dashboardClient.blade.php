@@ -100,7 +100,7 @@
                 <!-- Carte (div1) -->
                 <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
                     <div class="flex justify-between">
-                        <!-- Title and other information -->
+                        <!-- Nom d'entreprise -->
                         <div class="flex flex-col">
                             <div class="mb-4">
                                 <p class="text-xl font-semibold text-gray-800">{{ $carte->nomEntreprise }}</p>
@@ -108,11 +108,11 @@
                             <div class="mb-4">
                                 <p class="text-lg text-gray-600">{{ $carte->compte->email }}</p>
                             </div>
-                            <!-- Phone number -->
+                            <!-- Numéro de téléphone -->
                             <div class="mb-4">
                                 <p class="text-sm text-gray-600">{{ $carte->formattedTel }}</p>
                             </div>
-                            <!-- Address -->
+                            <!-- Adresse -->
                             <div>
                                 <p class="text-sm text-gray-600">{{ $carte->ville }}</p>
                             </div>
@@ -121,11 +121,10 @@
                                     <div class="bg-blue-500/65 border-solid border border-blue-500 rounded-full w-28 h-7 flex items-center justify-center space-x-2 mb-2">
                                         <p class="text-slate-50 text-base">Starter</p>
                                     </div>
-                                    <!-- svg upagrede -->
                                     <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/" target="_blank"
                                        class="bg-red-500/65 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-full w-48 h-7 flex items-center justify-center space-x-4">
                                         <p class="text-slate-50 text-base">Mettre à niveau</p>
-                                        <!-- svg cursor mouse -->
+                                        <!-- svg upgrade -->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                              fill="none" stroke="#ffff" stroke-width="2" stroke-linecap="round"
                                              stroke-linejoin="round" class="feather feather-mouse-pointer">
@@ -158,7 +157,7 @@
                                 <!-- Logo -->
                         <div class="justify-center mb-2">
                             <div class="w-28">
-                                <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
+                                <div class="w-full md:w-1 flex flex-col items-center justify-center">
                                     @if (!empty($logoPath))
                                         <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
                                              src="{{ $logoPath }}"

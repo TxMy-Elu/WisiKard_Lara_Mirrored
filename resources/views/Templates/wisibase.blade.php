@@ -314,7 +314,7 @@
                 <lord-icon
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="loop"
-                        delay="1000"
+                        delay="1000" state="in-assembly"
                         colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
@@ -403,7 +403,7 @@
                         colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2 w-6 h-6">
                 </lord-icon>
-                {{$carte['nomBtnPdf']}}
+                {{$carte['nomBtnPdf'] ?? 'Voir PDF'}}
             </a>
         </div>
     @endif
