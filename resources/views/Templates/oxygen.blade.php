@@ -43,25 +43,25 @@
         }
 
 
-        .container {
+        .card-container {
             display: flex;
             text-align: center;
             justify-content: center;
         }
 
-        .container h1 {
+        .card-container h1 {
             margin: 5px 0 0 0;
             font-size: 2rem;
             font-weight: bold;
         }
 
-        .container h2 {
+        .card-container h2 {
             margin: 0;
             font-size: large;
             font-weight: 300;
         }
 
-        .container p {
+        .card-container p {
             margin: 6px 0;
             font-size: medium;
         }
@@ -217,6 +217,56 @@
         .horaires-container {
             font-size: 1.2rem;
         }
+
+        .employee-card {
+            padding: 1.5rem;
+            margin: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .employee-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .employee-function {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .employee-contact {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .employee-contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .employee-contact-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .employee-contact-btn lord-icon {
+            width: 24px;
+            height: 24px;
+        }
     </style>
 </head>
 
@@ -250,15 +300,27 @@
             <h1 class='font-bold'>{{ $carte['titre'] }}</h1>
         </div>
         @if($employe != null)
-            <div class='flex justify-center items-center flex-wrap mt-2'>
-                <a href='mailto:{{ $employe['mail'] }}'
-                   class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
-                    {{ $employe['mail'] }}
-                </a>
-                <a href='tel:{{ $employe['telephone'] }}'
-                   class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-md text-center'>
-                    {{ $employe['telephone'] }}
-                </a>
+            <div class="employee-card">
+                <div class="employee-name">{{ $employe->nom }} {{ $employe->prenom }}</div>
+                <div class="employee-function">{{ $employe->fonction }}</div>
+                <div class="employee-contact">
+                    <a href="mailto:{{ $employe['mail'] }}" class="employee-contact-btn">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/aycieyht.json"
+                            trigger="hover"
+                            colors="primary:#ffffff,secondary:{{ $carte['couleur1'] }}">
+                        </lord-icon>
+                        {{ $employe['mail'] }}
+                    </a>
+                    <a href="tel:{{ $employe['telephone'] }}" class="employee-contact-btn">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/qtykvslf.json"
+                            trigger="hover"
+                            colors="primary:#ffffff,secondary:{{ $carte['couleur1'] }}">
+                        </lord-icon>
+                        {{ $employe['telephone'] }}
+                    </a>
+                </div>
             </div>
         @endif
 
@@ -380,7 +442,7 @@
         </a>
 
         <!--Installer-->
-        <a id="installButton"
+        <button id="installButton"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
                        trigger="loop"
@@ -389,7 +451,7 @@
                        colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
             </lord-icon>
             Installer
-        </a>
+        </button>
 
         <!--Partager-->
         <button onclick="shareOrCopyLink()" class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
