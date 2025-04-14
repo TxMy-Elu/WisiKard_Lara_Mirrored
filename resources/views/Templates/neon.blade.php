@@ -1,1 +1,0 @@
-Cette template sera prochainement disponible

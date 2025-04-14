@@ -9,18 +9,18 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <style>
         .qr-code-container {
-            width: 100px; /* Taille fixe pour le conteneur du QR code */
+            width: 100px;
             height: 100px;
-            background-color: #f1f1f1; /* Couleur de fond pour le conteneur */
+            background-color: #f1f1f1;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Couper le contenu qui dépasse */
-            border-radius: 8px; /* Coins arrondis */
+            overflow: hidden;
+            border-radius: 8px;
         }
 
         .qr-code-container img {
-            max-width: 100%; /* Assure que l'image s'adapte au conteneur */
+            max-width: 100%;
             max-height: 100%;
         }
 
@@ -39,7 +39,7 @@
 
         @media (max-width: 768px) {
             .qr-code-container {
-                width: 80px; /* Taille fixe pour le conteneur du QR code sur mobile */
+                width: 80px; 
                 height: 80px;
             }
 
@@ -174,10 +174,8 @@
                     <div class="flex flex-row-reverse mt-auto pt-4">
                         <a href="{{ route('formulaireEntreprise') }}"
                            class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
-
-                        <a href="{{ url('/Kard/' . $carte->nomEntreprise .'?idCompte='. $carte->compte->idCompte) }}"
-                           target="_blank"
-                           class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Voir ma carte</a>
+                        <a href="{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise) .'?idKard='. $carte->compte->idCompte) }}" target="_blank"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Voir ma carte</a>
                     </div>
                 </div>
                 <!-- Font & Titre (div2) -->
@@ -191,6 +189,7 @@
                                 <label for="font" class="text-lg font-bold text-gray-800">Police</label>
                                 @php
                                     $fonts = [
+                                            'défaut',
                                             'roboto',
                                             'montserrat',
                                             'oswald',

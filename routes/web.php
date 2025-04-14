@@ -108,8 +108,12 @@ Route::middleware([Authentification::class])->group(function () {
     Route::get('/downloadQrCodesColor', [DashboardClient::class, 'downloadQrCodesColor'])->name('downloadQrCodesColor');
 
     // QrCode pour pdf
-    Route::get('/download-qrcode-pdf-color', [DashboardClient::class, 'downloadQrCodesPDFColor'])->name('download.qrcode.pdf.color');
-    Route::get('/download-qrcode-pdf', [DashboardClient::class, 'downloadQrCodesPDF'])->name('download.qrcode.pdf');
+    Route::get('/download-qrcode-pdf-color', [DashboardClient::class, 'downloadQrCodePDF'])
+        ->name('download.qrcode.pdf.color')
+        ->defaults('colored', true);
+    Route::get('/download-qrcode-pdf', [DashboardClient::class, 'downloadQrCodePDF'])
+        ->name('download.qrcode.pdf')
+        ->defaults('colored', false);
 
     // Gestion Entreprises
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');

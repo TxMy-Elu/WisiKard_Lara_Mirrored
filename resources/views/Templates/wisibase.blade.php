@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,7 +89,7 @@
         }
     </style>
 </head>
-<body class="h-100%" style="font-family: '{{ $carte['font'] }}';">
+<body class="h-100%" style="font-family: {{ $carte['font'] === 'défaut' ? 'Roboto' : $carte['font'] }};">
     @php
         // Couleurs par défaut pour le compte starter et les couleurs de base afin d'éviter les problèmes de couleur sur fond blanc
         if ($carte->couleur1 === '#000000' && $carte->couleur2 === '#FFFFFF') {

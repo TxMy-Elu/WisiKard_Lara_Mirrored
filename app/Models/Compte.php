@@ -149,7 +149,7 @@ class Compte extends Model
         $color2 = ltrim($color2, '#');
 
         // Nom de l'entreprise - Remplacement des espaces par des underscores
-        $nomEntreprise = str_replace(' ', '_', $entreprise);
+        $nomEntreprise = str_replace(' ', '-', $entreprise);
 
         // Construire l'URL pour générer le QR Code depuis QuickChart.io
         $baseUrl = "https://quickchart.io/qr";
@@ -204,7 +204,7 @@ class Compte extends Model
             'name' => $nomEntreprise . ' - WisiKard',
             'short_name' => $nomEntreprise . ' - WK',
             'description' => 'La carte de visite numérique Wisikard de ' . $nomEntreprise,
-            'start_url' => '/Kard/' . str_replace(' ', '-', $nomEntreprise) . '?idCompte=' . $idCompte,
+            'start_url' => '/Kard/' . str_replace(' ', '-', $nomEntreprise) . '?idKard=' . $idCompte,
             'id' => '/Kard/' . str_replace(' ', '-', $nomEntreprise),
             'display' => 'standalone',
             'display_override' => ['window-controls-overlay'],

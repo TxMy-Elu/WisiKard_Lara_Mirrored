@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
     <meta charset="UTF-8">
@@ -11,6 +11,8 @@
     <meta name="apple-mobile-web-app-title" content="WisiKard">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
+          rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="manifest" href="{{ '/entreprises/'. $carte->compte->idCompte.'/manifest.json' }}">
@@ -18,7 +20,6 @@
     
     <style>
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #FFFFFF;
             color: #1D1D1F;
         }
@@ -136,12 +137,34 @@
             background: #F5F5F7;
             border-radius: 12px;
         }
+
+        .utility-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .utility-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #86868B;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .utility-button:hover {
+            background: #F5F5F7;
+            color: #1D1D1F;
+        }
     </style>
 </head>
 
-<body>
+<body class="h-100%" style="font-family: {{ $carte['font'] === 'défaut' ? 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' : $carte['font'] }};">
     <div class="main-container">
-        <h1 style="color:#ff0000;text-align:center">Modèle en cours de finalisation</h1>
         <!-- Logo Section -->
         <div class="logo-container flex justify-center">
             @php
@@ -166,22 +189,45 @@
             <p class="subtitle">{{ $carte->descriptif }}</p>
         </header>
 
+        <!-- Utility Actions -->
+        <div class="utility-actions">
+            <button onclick="showQrCode()" class="utility-button">
+                <lord-icon src="https://cdn.lordicon.com/avcjklpr.json" trigger="hover" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
+                <span>QR Code</span>
+            </button>
+
+            <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}" download="Contact-Wisikard.vcf" class="utility-button">
+                <lord-icon src="https://cdn.lordicon.com/kdduutaw.json" trigger="hover" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
+                <span>Contact</span>
+            </a>
+
+            <button onclick="share()" class="utility-button">
+                <lord-icon src="https://cdn.lordicon.com/udwhdpod.json" trigger="hover" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
+                <span>Partager</span>
+            </button>
+        </div>
+
         <!-- Primary Actions -->
         <div class="flex flex-wrap justify-center gap-4 my-8">
+            @if($carte['tel'])
             <a href="tel:{{ $carte['tel'] }}" class="action-button">
                 <lord-icon src="https://cdn.lordicon.com/qtykvslf.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
                 Appeler
             </a>
+            @endif
             
+            
+            @if($compte['email'] && $carte->afficher_email)
             <a href="mailto:{{ $compte->email }}" class="action-button">
                 <lord-icon src="https://cdn.lordicon.com/aycieyht.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
                 Contacter
             </a>
+            @endif
 
             @if($carte['LienCommande'])
                 <a href="{{ $carte['LienCommande'] }}" class="action-button" target="_blank" rel="noopener">
                     <lord-icon src="https://cdn.lordicon.com/odavpkmb.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
-                    Réserver
+                    Rendez-vous
                 </a>
             @endif
 
@@ -192,25 +238,26 @@
             </a>
             @endif
 
+            @if($carte['ville'])
             <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank" rel="noopener noreferrer" class="action-button">
                 <lord-icon src="https://cdn.lordicon.com/surcxhka.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
                 Plan d'accès
             </a>
+            @endif
 
-            <button onclick="showQrCode()" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/avcjklpr.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
-                QR Code
-            </button>
-
-            <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}" download="Contact-Wisikard.vcf" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/rehjpyyh.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
-                Fiche contact
+            @if($carte['lienSiteWeb'])
+            <a href="{{ $carte['lienSiteWeb'] }}" target="_blank" rel="noopener noreferrer" class="action-button">
+                <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                Site Web
             </a>
+            @endif
 
-            <button onclick="share()" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/udwhdpod.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
-                Partager
-            </button>
+            @if($carte['lienAvis'])
+            <a href="{{ $carte['lienAvis'] }}" target="_blank" rel="noopener noreferrer" class="action-button">
+                <lord-icon src="https://cdn.lordicon.com/fozsorqm.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                Avis Google
+            </a>
+            @endif
 
             @if($carte['pdf'])
             <a href="{{ asset($carte['pdf']) }}" target="_blank" rel="noopener noreferrer" class="action-button">
@@ -219,6 +266,21 @@
             </a>
             @endif
         </div>
+
+        <!-- Social Links -->
+        @if(count($mergedSocial) > 0)
+            <section class="section">
+                <div class="social-links">
+                    @foreach($mergedSocial as $so)
+                        <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer">
+                            <div class="w-6 h-6 fill-current text-gray-800">
+                                {!! $so['logo'] !!}
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+        @endif
 
         <!-- Additional Info Sections -->
         @if($horaires->count() > 0)
@@ -259,16 +321,31 @@
             </section>
         @endif
 
-        <!-- Social Links -->
-        @if(count($mergedSocial) > 0)
+        <!-- YouTube Videos Section -->
+        @if(!empty($youtubeUrls))
             <section class="section">
-                <div class="social-links">
-                    @foreach($mergedSocial as $so)
-                        <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer">
-                            <div class="w-6 h-6 fill-current text-gray-800">
-                                {!! $so['logo'] !!}
-                            </div>
-                        </a>
+                <h2 class="text-2xl font-semibold mb-4">Vidéos</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @foreach($youtubeUrls as $url)
+                        @php
+                            $videoId = preg_replace('/^.*?v=([\w\-]+).*$/', '$1', $url);
+                        @endphp
+                        <div class="aspect-video relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" 
+                               class="block w-full h-full">
+                                <img src="https://img.youtube.com/vi/{{ $videoId }}/maxresdefault.jpg"
+                                     alt="Miniature YouTube"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                                    <lord-icon
+                                        src="https://cdn.lordicon.com/wjyqkiew.json"
+                                        trigger="hover"
+                                        colors="primary:#FFFFFF"
+                                        style="width:64px;height:64px">
+                                    </lord-icon>
+                                </div>
+                            </a>
+                        </div>
                     @endforeach
                 </div>
             </section>

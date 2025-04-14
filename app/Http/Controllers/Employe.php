@@ -50,7 +50,8 @@ class Employe extends Controller
             $employer->idCarte = $idCarte;
             $employer->save();
 
-            $this->QrCode($idCompte, $carte->nomEntreprise, $employer->idEmp);
+            // Utiliser la fonction unifiée
+            $employer->QrCodeEmploye($idCompte, $carte->nomEntreprise, $employer->idEmp);
 
             // Log the inscription
             $mailCompte = Compte::where('idCompte', $idCompte)->first();
@@ -58,53 +59,6 @@ class Employe extends Controller
             Log::info('Employé inscrit avec succès.');
 
             return redirect()->route('dashboardClientEmploye')->with('success', 'Employé inscrit avec succès !');
-        }
-    }
-
-    public function QrCode($id, $entreprise, $idEmp)
-    {
-        //concatenation de id et IdEmploye
-        $code = $id ."x".$idEmp;
-
-        // Récupérer les infos de la carte
-        $carte = Carte::where('idCompte', $id)->first();
-
-        //nom de l'entreprise
-        $nomEntreprise = $carte->nomEntreprise;
-
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Kard/{$nomEntreprise}?CompteEmp=" . $code;
-
-        $ch = curl_init();
-
-        // Configurer les options cURL
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification
-
-        // Exécuter la requête cURL et obtenir le contenu
-        $content = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            echo 'Erreur cURL : ' . curl_error($ch);
-            Log::info('Erreur cURL : ' . curl_error($ch));
-        } else {
-            // Fermer la session cURL
-            curl_close($ch);
-
-            // Chemin où enregistrer le fichier PNG
-            $directoryPath = public_path("entreprises/{$id}/QR_Codes");
-            $pngFilePath = "{$directoryPath}/QR_Code_{$idEmp}.svg";
-
-            // Créer le répertoire s'il n'existe pas
-            if (!file_exists($directoryPath)) {
-                mkdir($directoryPath, 0777, true);
-                Log::info('Le répertoire ' . $directoryPath . ' a été créé avec succès.');
-            }
-
-            Logs::ecrireLog($entreprise, "Génération QR Code Employe");
-            // Enregistrer le contenu dans un fichier PNG
-            file_put_contents($pngFilePath, $content);
         }
     }
 

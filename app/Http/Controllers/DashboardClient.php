@@ -594,8 +594,7 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $folderName = "{$idCompte}";
-        $qrCodesPath = public_path("entreprises/{$folderName}/QR_Codes/QR_Code.svg");
+        $qrCodesPath = public_path("entreprises/{$idCompte}/QR_Codes/QR_Code.svg");
 
         // Vérification si le fichier QR Code existe
         if (!File::exists($qrCodesPath)) {
@@ -630,10 +629,10 @@ class DashboardClient extends Controller
         $entrepriseName = $carte->nomEntreprise;
 
         // Remplacement des espaces dans le nom de l'entreprise par des underscores
-        $entrepriseName = str_replace(' ', '_', $entrepriseName);
+        $entrepriseName = str_replace(' ', '-', $entrepriseName);
 
         // Génération de l'URL du QR Code avec les paramètres requis
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=app.wisikard.fr/Kard/{$entrepriseName}?idCompte=" . $idCompte;
+        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=https://app.wisikard.fr/Kard/{$entrepriseName}?idKard=" . $idCompte;
 
         // Journalisation si les informations d'utilisateur sont valides
         if (!empty($idCompte) && !empty($emailUtilisateur)) {
@@ -670,10 +669,8 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        $folderName = "{$idCompte}";
-
         // Récupération des images associées
-        $imagesPath = public_path("entreprises/{$folderName}/images");
+        $imagesPath = public_path("entreprises/{$idCompte}/images");
         $images = [];
         if (File::exists($imagesPath)) {
             $images = File::files($imagesPath);
@@ -683,7 +680,7 @@ class DashboardClient extends Controller
         }
 
         // Récupération des URLs des vidéos YouTube depuis un fichier JSON spécifique
-        $videosPath = public_path("entreprises/{$folderName}/videos/videos.json");
+        $videosPath = public_path("entreprises/{$idCompte}/videos/videos.json");
         $youtubeUrls = [];
         if (File::exists($videosPath)) {
             $youtubeUrls = json_decode(File::get($videosPath), true);
@@ -697,9 +694,9 @@ class DashboardClient extends Controller
         $logoPath = '';
         $formats = ['svg', 'png', 'jpg', 'jpeg']; // Liste des formats pris en charge
         foreach ($formats as $format) {
-            $path = public_path("entreprises/{$folderName}/logos/logo.{$format}");
+            $path = public_path("entreprises/{$idCompte}/logos/logo.{$format}");
             if (File::exists($path)) {
-                $logoPath = asset("entreprises/{$folderName}/logos/logo.{$format}");
+                $logoPath = asset("entreprises/{$idCompte}/logos/logo.{$format}");
                 break;
             }
         }
@@ -714,7 +711,7 @@ class DashboardClient extends Controller
         ]);
 
         // Retour de la vue avec les données nécessaires
-        return view('Client.dashboardClientPDF', compact('carte', 'images', 'folderName', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
+        return view('Client.dashboardClientPDF', compact('carte', 'images', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
     }
 
     /**
@@ -1311,7 +1308,7 @@ class DashboardClient extends Controller
      * - Récupère l'email de l'utilisateur connecté via l'ID récupéré dans la session.
      * - Vérifie si la carte liée à l'utilisateur existe.
      * - Met à jour les champs `titre` et `descriptif` de la carte.
-     * - Sauvegarde les modifications dans la base de données.
+     * - Sauvegarde les nouvelles informations de la carte et du compte.
      * - Journalise les opérations dans les fichiers de logs ainsi qu'en base de données.
      *
      * @param Request $request L'objet de requête contenant les données nécessaires :
@@ -1701,53 +1698,55 @@ class DashboardClient extends Controller
     }
 
     /**
-     * Télécharge le QR Code PDF en couleur pour l'entreprise.
+     * Télécharge le QR Code PDF avec les couleurs spécifiées.
      *
-     * Cette méthode génère un QR Code en couleur (rouge sur fond blanc) à partir du lien PDF
-     * associé à la carte de l'entreprise et permet de le télécharger au format SVG.
-     *
-     * Fonctionnement détaillé :
-     * - Vérifie l'existence d'une carte associée à l'utilisateur connecté.
-     * - Génère une URL pour créer un QR Code en couleur à l'aide du service `quickchart.io`.
-     * - Génère le QR Code au format SVG et le retourne sous forme de fichier téléchargeable.
-     *
-     * @return \Illuminate\Http\Response Télécharge le QR Code en tant que fichier image (SVG).
+     * @param bool $colored Si true, utilise les couleurs personnalisées, sinon noir et blanc
+     * @return \Illuminate\Http\Response
      */
-    public function downloadQrCodesPDFColor()
+    public function downloadQrCodePDF($colored = false)
     {
-        // Récupérer l'ID du compte utilisateur depuis la session
+        // Récupération des informations
         $idCompte = session('connexion');
         $carte = Carte::where('idCompte', $idCompte)->first();
+        $nomBtnPdf = str_replace(' ', '_', $carte->nomBtnPdf);
 
-        // Vérification de l'existence de la carte et du lien PDF
         if (!$carte || !$carte->lienPdf) {
             return redirect()->back()->with('error', 'QR code PDF introuvable.');
         }
-        
-        // Récupération des paramètres nécessaires
-        $couleur1 = $carte->couleur1 ?? '000000'; // Couleur personnalisée ou noire par défaut
-        $couleur2 = $carte->couleur2 ?? 'FFFFFF'; // Couleur personnalisée ou blanche par défaut
 
-        // URL de base pour générer le QR Code
-        $baseQrUrl = "https://quickchart.io/qr?".http_build_query([
+        // Configuration des couleurs
+        if ($colored) {
+            $dark = $carte->couleur1 ?? '000000';
+            $light = $carte->couleur2 ?? 'FFFFFF';
+            $filename = 'qrcode_color_'.$nomBtnPdf.'.svg';
+        } else {
+            $dark = '000000';
+            $light = 'FFFFFF';
+            
+            $filename = 'qrcode_bw_'.$nomBtnPdf.'.svg';
+        }
+        
+        // Construction de l'URL
+        $qrCodeUrl = "https://quickchart.io/qr?" . http_build_query([
             'size' => 300,
-            'dark' => $couleur1,
-            'light' => $couleur2,
+            'dark' => $dark,
+            'light' => $light,
             'format' => 'svg',
-            'text' => ''
+            'text' => "https://app.wisikard.fr/entreprises/{$idCompte}/pdf/{$nomBtnPdf}.pdf"
         ]);
 
-
-        // Construction de l'URL complète avec les nouvelles couleurs et le texte
-        $qrCodeUrl = "{$baseQrUrl}https://app.wisikard.fr/entreprises/{$idCompte}/pdf/{$carte->nomBtnPdf}.pdf";
-
-        // Téléchargement du QR Code en SVG
-        $qrCode = file_get_contents($qrCodeUrl);
-
-        // Retourner le QR Code en couleur en tant que réponse téléchargeable
-        return Response::make($qrCode)
-            ->header('Content-Type', 'image/svg+xml')
-            ->header('Content-Disposition', 'attachment; filename="qrcode_color.svg"');
+        try {
+            $qrCode = file_get_contents($qrCodeUrl);
+            return Response::make($qrCode)
+                ->header('Content-Type', 'image/svg+xml')
+                ->header('Content-Disposition', "attachment; filename=\"{$filename}\"");
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de la génération du QR code PDF', [
+                'error' => $e->getMessage(),
+                'colored' => $colored
+            ]);
+            return redirect()->back()->with('error', 'Erreur lors de la génération du QR code.');
+        }
     }
 
     public function afficherDashboardClientAide()
@@ -1772,35 +1771,6 @@ class DashboardClient extends Controller
         $img7 = Img::where('id_guide', $id_guide)->where('num_img', 7)->first();
 
         return view('Client.dashboardClientDescription', compact('txts', 'titre', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7'));
-    }
-
-    /**
-     * Télécharge le QR Code PDF en noir et blanc pour l'entreprise.
-     *
-     * Cette méthode génère un QR Code classique (noir sur fond blanc) à partir du lien PDF
-     * associé à la carte de l'entreprise et permet de le télécharger au format SVG.
-     *
-     * @return \Illuminate\Http\Response Télécharge le QR Code en tant que fichier image (SVG).
-     */
-    public function downloadQrCodesPDF()
-    {
-        // Récupérer l'ID du compte utilisateur depuis la session
-        $idCompte = session('connexion');
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        // Vérification de l'existence de la carte et du lien PDF
-        if (!$carte || !$carte->lienPdf) {
-            return redirect()->back()->with('error', 'QR code PDF introuvable.');
-        }
-
-        // Générer l'URL pour obtenir un QR Code noir sur fond blanc
-        $qrCodeContent = $carte->lienPdf;
-        $qrCode = file_get_contents($qrCodeContent);
-
-        // Retourner le QR Code en noir et blanc en tant que réponse téléchargeable
-        return Response::make($qrCode)
-            ->header('Content-Type', 'image/svg+xml')
-            ->header('Content-Disposition', 'attachment; filename="qrcode_bw.svg"');
     }
 
     /**

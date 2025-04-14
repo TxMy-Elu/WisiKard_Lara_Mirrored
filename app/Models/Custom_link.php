@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Custom_link extends Model
 {
-    protected $table = 'custom_link'; // Vérifiez cette définition !
-    protected $primaryKey = 'id_link'; // Assurez-vous que cette colonne est correcte dans la table
+    protected $table = 'custom_link';
+    protected $primaryKey = 'id_link';
     public $timestamps = false;
 
     protected $fillable = [

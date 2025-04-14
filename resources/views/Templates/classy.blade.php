@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="WisiKard">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -54,7 +55,7 @@
         }
     </style>
 </head>
-<body class="bg-zinc-900 w-full" style="font-family: '{{ $carte['font'] }}';">
+<body class="bg-zinc-900 w-full" style="font-family: {{ $carte['font'] === 'défaut' ? 'Cantata One' : $carte['font'] }};">
 
 
 @php
@@ -84,10 +85,38 @@
         <h1 class="text-2xl font-bold text-white mb-2">{{ $carte['nomEntreprise'] }}</h1>
     @endif
     
+    @if($carte['titre'])
+        <h1 class='text-gray-300 font-bold'>{{ $carte['titre'] }}</h1>
+    @endif
+
     @if($carte['descriptif'])
         <p class="text-gray-300">{{ $carte['descriptif'] }}</p>
     @endif
 </div>
+
+@if($employe != null)
+    <div class="mx-4">
+        <div class="bg-zinc-800 rounded-xl p-4 shadow-lg border border-zinc-700">
+            <div class="text-center">
+                <h2 class="text-xl font-semibold text-white mb-1">{{ $employe->nom }} {{ $employe->prenom }}</h2>
+                <p class="text-gray-400 text-sm mb-4">{{ $employe->fonction }}</p>
+            </div>
+            
+            <div class="space-y-3 flex">
+                <a href="mailto:{{ $employe['mail'] }}" 
+                   class="w-full py-3 px-4 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-center gap-3 transition-colors duration-300">
+                   <span class="text-gray-200 text-sm">{{ $employe['mail'] }}</span>
+                </a>
+                
+                <a href="tel:{{ $employe['telephone'] }}" 
+                   class="w-full py-3 px-4 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-center gap-3 transition-colors duration-300">
+                    <span class="text-gray-200 text-sm">{{ $employe['telephone'] }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+@endif
+
 <div class="bg-white p-4 mt-4 mx-4 space-y-4 rounded-lg shadow-lg">
     @if($compte['email'] && $carte->afficher_email)
         <div class="flex items-center justify-center">
@@ -597,7 +626,7 @@
 </script>
 
     <!-- Install Prompt pour PWA -->
-    <div id="installPrompt" class="hidden fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg">
+    <div id="installPrompt" class="hidden fixed bottom-0 left-0 right-0">
         <button id="installButton" class="w-full flex items-center justify-center gap-2 py-2 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">
             <lord-icon src="https://cdn.lordicon.com/dxnllioo.json"
                 trigger="loop"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <title>{{ $carte['nomEntreprise'] ? $carte['nomEntreprise'] . ' - ' : '' }}Wisikard</title>
@@ -11,8 +11,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="WisiKard">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
+    
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -270,7 +272,7 @@
     </style>
 </head>
 
-<body style="font-family: '{{ $carte['font'] }}';background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}}); min-height: fit-content;">
+<body class="h-100%" style="font-family: {{ $carte['font'] === 'défaut' ? 'Oxygen' : $carte['font'] }};background: linear-gradient(to top left, {{ $carte->couleur1 }}, {{ $carte->couleur2}}); min-height: fit-content;">
 
     @php
         // Détection des différents types de fichiers
@@ -368,7 +370,7 @@
             Maps
         </a>
 
-        <a href="{{ $carte['lienSite'] }}" target="_blank" rel="noopener noreferrer"
+        <a href="{{ $carte['lienSiteWeb'] }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
                     src="https://cdn.lordicon.com/pbbsmkso.json"

@@ -38,15 +38,13 @@ class Employer extends Model
         // Récupération de la carte associée au compte
         $carte = Carte::where('idCompte', $id)->first();
 
-        // nom de l'entreprise
-        $nomEntreprise = $carte->nomEntreprise;
-
-        // Construction sécurisée de l'URL
+        // Construction de l'URL du QR code
         $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg";
         $params = [
-            'text' => "app.wisikard.fr/Kard/{$nomEntreprise}?CompteEmp={$id}x{$idEmp}"
+            'text' => "https://app.wisikard.fr/Kard/{$entreprise}?Emp={$id}x{$idEmp}"
         ];
         $url = $url . '&' . http_build_query($params);
+
         // Ajout d'un log pour voir l'URL générée
         Log::info("Tentative de génération de QR Code via URL : $url");
         // Initialisation de cURL

@@ -127,8 +127,14 @@ class Templates extends Controller
      */
     public function afficherTemplates(Request $request)
     {
+        // Redirection des anciens liens utilisant idCompte vers idKard
+        if ($request->has('idCompte')) {
+            $oldId = $request->query('idCompte');
+            return redirect()->to("/Kard/{$request->companyName}?idKard=" . $oldId);
+        }
+
         // Vérifier si "CompteEmp" est présent dans la requête
-        $CompteEmp = $request->query('CompteEmp');
+        $CompteEmp = $request->query('Emp');
         $idCarte = null;
         $idEmp = null;
         $employe = null;
@@ -168,8 +174,8 @@ class Templates extends Controller
             }
 
         } else {
-            // Sinon, récupérer l'idCompte
-            $idCompte = $request->query('idCompte');
+            // Sinon, récupérer l'idKard au lieu de idCompte
+            $idCompte = $request->query('idKard');
 
             // Récupérer d'abord l'idTemplate
             $idTemplate = Carte::where('idCompte', $idCompte)->value('idTemplate');
