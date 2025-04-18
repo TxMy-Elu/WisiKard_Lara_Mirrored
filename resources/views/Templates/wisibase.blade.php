@@ -277,6 +277,7 @@
     <!-- fiche de contact -->
     <div class="w-full h-full flex justify-center items-center mt-2">
         <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
+        download="{{ $carte['nomEntreprise'] }}.vcf"
            class="w-full h-12 mx-2 px-2 text-center bg-white font-bold rounded-lg border border-gray-200 text-gray-800 flex items-center hover-effect">
             <lord-icon
                     src="https://cdn.lordicon.com/kdduutaw.json"
@@ -386,7 +387,7 @@
                         colors="primary:#000000,secondary:{{$carte->couleur1}}"
                         class="mr-2">
                 </lord-icon>
-                Maps
+                Plan d'accès
             </a>
         </div>
     @endif
@@ -445,8 +446,8 @@
                         <li class="flex items-center h-12 px-2 hover-effect">
                             <!-- Icône gauche -->
                             <lord-icon
-                                    src="https://cdn.lordicon.com/exymduqj.json"
-                                    trigger="hover"
+                                    src="https://cdn.lordicon.com/bjxtqill.json"
+                                    trigger="loop"
                                     delay="1000"
                                     colors="primary:#000000,secondary:{{$carte->couleur1}}"
                                     class="w-6 h-6">
@@ -736,7 +737,7 @@
     // **Script pour la copie du lien**
 
     function shareOrCopyLink() {
-        const linkToShare = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+            const linkToShare = "{{ url()->current() }}";
 
         if (navigator.share) {
             // Partage natif si disponible

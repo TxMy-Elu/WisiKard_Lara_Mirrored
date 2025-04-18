@@ -334,7 +334,7 @@ class DashboardAdmin extends Controller
     {
         // Validation des données envoyées
         $validator = Validator::make($request->all(), [
-            'message' => 'required|string|max:255', // Le champ "message" est obligatoire, texte et max 255 caractères
+            'message' => 'required|string|max:500', // Le champ "message" est obligatoire, texte et max 500 caractères
         ]);
 
         // Gestion des échecs de validation
@@ -403,7 +403,7 @@ class DashboardAdmin extends Controller
     {
         // Validation des données envoyées dans la requête
         $validator = Validator::make($request->all(), [
-            'message' => 'required|string|max:255', // Le message est obligatoire, de type chaîne, et limité à 255 caractères
+            'message' => 'required|string|max:500', // Le message est obligatoire, de type chaîne, et limité à 500 caractères
         ]);
 
         // Gestion des erreurs de validation

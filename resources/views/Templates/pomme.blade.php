@@ -186,23 +186,23 @@
         <!-- Header Section -->
         <header class="text-center">
             <h1 class="title">{{ $carte['titre'] }}</h1>
-            <p class="subtitle">{{ $carte->descriptif }}</p>
+            <p class="subtitle">{!! nl2br(e($carte['descriptif'])) !!}</p>
         </header>
 
         <!-- Utility Actions -->
         <div class="utility-actions">
             <button onclick="showQrCode()" class="utility-button">
-                <lord-icon src="https://cdn.lordicon.com/avcjklpr.json" trigger="hover" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/avcjklpr.json" trigger="loop" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
                 <span>QR Code</span>
             </button>
 
-            <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}" download="Contact-Wisikard.vcf" class="utility-button">
-                <lord-icon src="https://cdn.lordicon.com/kdduutaw.json" trigger="hover" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
+            <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}" download="{{ $carte['nomEntreprise'] }}.vcf" class="utility-button">
+                <lord-icon src="https://cdn.lordicon.com/kdduutaw.json" trigger="loop" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
                 <span>Contact</span>
             </a>
 
-            <button onclick="share()" class="utility-button">
-                <lord-icon src="https://cdn.lordicon.com/udwhdpod.json" trigger="hover" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
+            <button onclick="shareOrCopyLink()" class="utility-button">
+                <lord-icon src="https://cdn.lordicon.com/udwhdpod.json" trigger="loop" colors="primary:#86868B,secondary:#0077ED" style="width:48px;height:48px"></lord-icon>
                 <span>Partager</span>
             </button>
         </div>
@@ -211,7 +211,7 @@
         <div class="flex flex-wrap justify-center gap-4 my-8">
             @if($carte['tel'])
             <a href="tel:{{ $carte['tel'] }}" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/qtykvslf.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/qtykvslf.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 Appeler
             </a>
             @endif
@@ -219,53 +219,72 @@
             
             @if($compte['email'] && $carte->afficher_email)
             <a href="mailto:{{ $compte->email }}" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/aycieyht.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/aycieyht.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 Contacter
             </a>
             @endif
 
             @if($carte['LienCommande'])
                 <a href="{{ $carte['LienCommande'] }}" class="action-button" target="_blank" rel="noopener">
-                    <lord-icon src="https://cdn.lordicon.com/odavpkmb.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/jdgfsfzr.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                     Rendez-vous
                 </a>
             @endif
 
             @if($carte['lienSite'])
             <a href="{{ $carte['lienSite'] }}" target="_blank" rel="noopener noreferrer" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 Site Web
             </a>
             @endif
 
             @if($carte['ville'])
             <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank" rel="noopener noreferrer" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/surcxhka.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/surcxhka.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 Plan d'accès
             </a>
             @endif
 
             @if($carte['lienSiteWeb'])
             <a href="{{ $carte['lienSiteWeb'] }}" target="_blank" rel="noopener noreferrer" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 Site Web
             </a>
             @endif
 
             @if($carte['lienAvis'])
             <a href="{{ $carte['lienAvis'] }}" target="_blank" rel="noopener noreferrer" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/fozsorqm.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/fozsorqm.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 Avis Google
             </a>
             @endif
 
             @if($carte['pdf'])
             <a href="{{ asset($carte['pdf']) }}" target="_blank" rel="noopener noreferrer" class="action-button">
-                <lord-icon src="https://cdn.lordicon.com/wzwygmng.json" trigger="hover" colors="primary:#FFFFFF" style="width:24px;height:24px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/wzwygmng.json" trigger="loop" colors="primary:#FFFFFF,secondary:#494949" style="width:24px;height:24px"></lord-icon>
                 {{ $carte['nomBtnPdf'] ?? 'Voir PDF' }}
             </a>
             @endif
         </div>
+
+        <!-- Liens personnalisés -->
+        @if($custom && count($custom) > 0)
+        <section class="section">
+            <div class="flex flex-wrap justify-center gap-4">
+                @foreach ($custom as $link)
+                    <a href="{{ $link['lien'] }}" target="_blank" rel="noopener noreferrer" class="action-button">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/bjxtqill.json"
+                            trigger="loop"
+                            colors="primary:#FFFFFF,secondary:#494949,secondary:#494949"
+                            style="width:24px;height:24px">
+                        </lord-icon>
+                        {{ $link['nom'] }}
+                    </a>
+                @endforeach
+            </div>
+        </section>
+        @endif
 
         <!-- Social Links -->
         @if(count($mergedSocial) > 0)
@@ -338,10 +357,10 @@
                                      class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
                                     <lord-icon
-                                        src="https://cdn.lordicon.com/wjyqkiew.json"
-                                        trigger="hover"
-                                        colors="primary:#FFFFFF"
-                                        style="width:64px;height:64px">
+                                        src="https://cdn.lordicon.com/snxksidl.json"
+                                        trigger="loop"
+                                        colors="primary:#86868B,secondary:#0077ED"
+                                        style="width:42px;height:42px">
                                     </lord-icon>
                                 </div>
                             </a>
@@ -350,6 +369,25 @@
                 </div>
             </section>
         @endif
+
+        <!-- Install Prompt pour PWA -->
+        <div id="installPrompt" class="hidden fixed bottom-4 left-1/4 transform bg-white rounded-lg shadow-xl p-4 w-8/12 max-w-sm">
+            <div class="flex items-center justify-between">
+                <button id="installButton" class="flex items-center space-x-2 text-gray-800 hover:text-gray-600">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/dxnllioo.json"
+                        trigger="loop"
+                        delay="1000"
+                        colors="primary:#86868B,secondary:#0077ED"
+                        style="width:32px;height:32px">
+                    </lord-icon>
+                    <span class="font-medium">Installer l'application</span>
+                </button>
+                <button onclick="dismissInstallPrompt()" class="text-gray-500 hover:text-gray-700">
+                    &times;
+                </button>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class="text-center text-gray-500 text-sm mt-12">
@@ -393,32 +431,67 @@
             document.getElementById('qrCodeModal').classList.add('hidden');
         }
 
-        async function share() {
-            const shareData = {
-                title: '{{ $carte['nomEntreprise'] }}',
-                text: '{{ $carte['titre'] }}',
-                url: window.location.href
-            };
+
+        // **Script pour la copie du lien**
+
+        function shareOrCopyLink() {
+                const linkToShare = "{{ url()->current() }}";
 
             if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (err) {
-                    console.log('Error sharing:', err);
-                }
+                // Partage natif si disponible
+                navigator.share({
+                    title: document.title,
+                    text: "Découvrez cette entreprise sur Wisikard !",
+                    url: linkToShare
+                }).then(() => {
+                    console.log("Lien partagé avec succès !");
+                }).catch(err => {
+                    console.error("Erreur lors du partage :", err);
+                });
             } else {
-                // Fallback: copy to clipboard
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    alert('Lien copié dans le presse-papier !');
+                // Fallback : copie dans le presse-papier
+                navigator.clipboard.writeText(linkToShare).then(() => {
+                    alert("Lien copié dans le presse-papier !");
+                }).catch(err => {
+                    console.error("Erreur lors de la copie :", err);
                 });
             }
         }
 
         // PWA Installation
         let deferredPrompt;
+        
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
+            
+            if (!localStorage.getItem('installPromptDismissed')) {
+                setTimeout(() => {
+                    document.getElementById('installPrompt').classList.remove('hidden');
+                }, 2000);
+            }
+        });
+
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Application installée');
+                    document.getElementById('installPrompt').classList.add('hidden');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        function dismissInstallPrompt() {
+            document.getElementById('installPrompt').classList.add('hidden');
+            localStorage.setItem('installPromptDismissed', 'true');
+        }
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installPrompt').classList.add('hidden');
+            localStorage.setItem('installPromptDismissed', 'true');
         });
 
         if ('serviceWorker' in navigator) {

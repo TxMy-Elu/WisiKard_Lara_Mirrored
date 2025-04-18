@@ -90,7 +90,7 @@
     @endif
 
     @if($carte['descriptif'])
-        <p class="text-gray-300">{{ $carte['descriptif'] }}</p>
+        <p class="text-gray-300">{!! nl2br(e($carte['descriptif'])) !!}</p>
     @endif
 </div>
 
@@ -237,7 +237,7 @@
 
 <div class="flex items-center justify-between mt-4 mx-4 gap-4">
     <div class="flex justify-center">
-        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
+        <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}" download="{{ $carte['nomEntreprise'] }}.vcf"
                 class="w-10 h-10 rounded-lg bg-white border border-gray-300 text-gray-800 flex items-center justify-center hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25" height="25" fill="#000000">
                 <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
@@ -257,9 +257,9 @@
     </div>
 </div>
 
-<div class="mt-4  {{ !$carte['lienAvis'] && !$carte['lienSiteWeb'] && !$carte['LienCommande'] ? 'mx-4' : 'flex items-center justify-between mx-4 gap-4' }}">
+<div class="mt-4  {{ !$carte['lienAvis'] && !$carte['lienSiteWeb'] && !$carte['LienCommande'] && !$carte['pdf'] ? 'mx-4' : 'flex items-center justify-between mx-4 gap-4' }}">
     <!-- Vérification : si aucun lien n'est disponible, on ajuste la carte -->
-    @if(!$carte['lienAvis'] && !$carte['lienSiteWeb'] && !$carte['LienCommande'])
+    @if(!$carte['lienAvis'] && !$carte['lienSiteWeb'] && !$carte['LienCommande'] && !$carte['pdf'])
         @if(!empty($carte['ville']))
             <!-- Afficher la carte uniquement si la ville est définie -->
             <div id="map" class="w-full h-96 rounded-lg z-10"></div>
@@ -305,6 +305,19 @@
                     </a>
                 </div>
             @endif
+            
+            <!-- Bouton PDF -->
+            @if($carte['pdf'])
+                <div class="flex justify-center">
+                    <a href="{{ asset($carte['pdf']) }}" download
+                    class="w-full rounded-lg px-6 h-12 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25" fill="#000000">
+                            <path d="M64 464l48 0 0 48-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L229.5 0c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3L384 304l-48 0 0-144-80 0c-17.7 0-32-14.3-32-32l0-80L64 48c-8.8 0-16 7.2-16 16l0 384c0 8.8 7.2 16 16 16zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"/>
+                        </svg>
+                        <span>{{ $carte['nomBtnPdf'] ?? 'Télécharger le PDF' }}</span>
+                    </a>
+                </div>
+            @endif
         </div>
 
         @if(!empty($carte['ville']))
@@ -314,6 +327,44 @@
 
     @endif
 </div>
+
+@if($custom && count($custom) > 0)
+    <!-- Section des cartes avec hauteur uniforme -->
+    <div class="mx-4 mt-4 bg-gray-100 rounded-lg shadow-md p-1">
+        <!-- Titre de la section -->
+        <p class="text-xl font-semibold text-gray-800 m-2">Liens personnalisés</p>
+        <!-- Liens -->
+        <div class="bg-white m-1 border border-gray-300 rounded-lg">
+            @foreach ($custom as $link)
+                <a href="{{ $link['lien'] ?? '#' }}" target="_blank"
+                   class="flex items-center p-2 space-x-2 hover:bg-gray-100 transition-colors duration-200 ease-in-out">
+                    <!-- Icône -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="25" height="25"
+                         fill="currentColor" class="text-gray-700">
+                        <path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/>
+                    </svg>
+                    <!-- Texte -->
+                    <p class="text-gray-700">{{ $link['nom'] ?? 'Lien personnalisé' }}</p>
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
+@if($mergedSocial && count($mergedSocial) > 0)
+    <!-- Link social -->
+    <div class="flex flex-wrap justify-center gap-4 mt-4 mx-4 bg-white rounded-lg p-2">
+        @foreach($mergedSocial as $so)
+            <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
+               class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center border border-gray-300 transition-all duration-300 ease-in-out hover:bg-gray-800 hover:border-gray-800 hover:shadow-lg group">
+                <!-- Icône à l'intérieur d'un cercle -->
+                <div class=" group-hover:text-white fill-current flex items-center justify-center">
+                    {!! $so['logo'] !!}
+                </div>
+            </a>
+        @endforeach
+    </div>
+@endif
 
 <!-- Galerie Photos -->
 @php
@@ -402,23 +453,7 @@
         fullImage.classList.add('hidden');
     }</script>
 
-
-
-<!-- Section PDF + Vidéo -->
 <div class="flex justify-center mt-4 mx-4 gap-4">
-    <!-- Bouton PDF -->
-    @if($carte['pdf'])
-        <div class="w-1/2">
-            <a href="{{ asset($carte['pdf']) }}" download
-               class="w-full rounded-lg px-6 h-12 font-semibold text-gray-800 text-center border border-gray-300 bg-white hover:text-white hover:bg-gray-800 hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25" fill="#000000">
-                    <path d="M64 464l48 0 0 48-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L229.5 0c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3L384 304l-48 0 0-144-80 0c-17.7 0-32-14.3-32-32l0-80L64 48c-8.8 0-16 7.2-16 16l0 384c0 8.8 7.2 16 16 16zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"/>
-                </svg>
-                <span>{{ $carte['nomBtnPdf'] ?? 'Télécharger le PDF' }}</span>
-            </a>
-        </div>
-    @endif
-
     @if($youtubeUrls)
         <!-- Bouton Vidéo -->
         <div class="w-1/2">
@@ -467,44 +502,6 @@
     @endif
 </div>
 
-@if($mergedSocial && count($mergedSocial) > 0)
-    <!-- Link social -->
-    <div class="flex flex-wrap justify-center gap-4 mt-4 mx-4 bg-white rounded-lg p-2">
-        @foreach($mergedSocial as $so)
-            <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
-               class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center border border-gray-300 transition-all duration-300 ease-in-out hover:bg-gray-800 hover:border-gray-800 hover:shadow-lg group">
-                <!-- Icône à l'intérieur d'un cercle -->
-                <div class=" group-hover:text-white fill-current flex items-center justify-center">
-                    {!! $so['logo'] !!}
-                </div>
-            </a>
-        @endforeach
-    </div>
-@endif
-
-@if($custom && count($custom) > 0)
-    <!-- Section des cartes avec hauteur uniforme -->
-    <div class="mx-4 mt-4 bg-gray-100 rounded-lg shadow-md p-1">
-        <!-- Titre de la section -->
-        <p class="text-xl font-semibold text-gray-800 m-2">Liens personnalisés</p>
-        <!-- Liens -->
-        <div class="bg-white m-1 border border-gray-300 rounded-lg">
-            @foreach ($custom as $link)
-                <a href="{{ $link['lien'] ?? '#' }}" target="_blank"
-                   class="flex items-center p-2 space-x-2 hover:bg-gray-100 transition-colors duration-200 ease-in-out">
-                    <!-- Icône -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="25" height="25"
-                         fill="currentColor" class="text-gray-700">
-                        <path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/>
-                    </svg>
-                    <!-- Texte -->
-                    <p class="text-gray-700">{{ $link['nom'] ?? 'Lien personnalisé' }}</p>
-                </a>
-            @endforeach
-        </div>
-    </div>
-@endif
-
 <footer class=" text-center p-4 text-white text-sm mt-6">
     © {{ date('Y') }} - Un service proposé par
     <a href="https://sendix.fr" class="text-blue-400 hover:underline">SENDIX</a> -
@@ -538,7 +535,7 @@
 
     // **Script pour la copie du lien**
     function shareOrCopyLink() {
-        const linkToShare = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+            const linkToShare = "{{ url()->current() }}";
 
         if (navigator.share) {
             // Partage natif si disponible

@@ -119,6 +119,15 @@ class Templates extends Controller
         return view('Templates.' . $template->nom, $data);
     }
 
+    private function normalizeCompanyName($name)
+    {
+        // Remplace les différents séparateurs par des espaces
+        $name = str_replace(['-', '_', '%20'], ' ', $name);
+        
+        // Supprime les espaces multiples
+        return trim(preg_replace('/\s+/', ' ', $name));
+    }
+
     /**
      * Affiche les templates de cartes de visite en fonction des paramètres de la requête.
      *
@@ -127,81 +136,75 @@ class Templates extends Controller
      */
     public function afficherTemplates(Request $request)
     {
-        // Redirection des anciens liens utilisant idCompte vers idKard
+        // Redirection des anciens liens utilisant idCompte vers le nom normalisé
         if ($request->has('idCompte')) {
             $oldId = $request->query('idCompte');
-            return redirect()->to("/Kard/{$request->companyName}?idKard=" . $oldId);
+            $nomEntreprise = Carte::where('idCompte', $oldId)->value('nomEntreprise');
+            if ($nomEntreprise) {
+                $normalizedName = str_replace(' ', '-', $nomEntreprise);
+                return redirect()->to("/Kard/{$normalizedName}");
+            }
         }
 
-        // Vérifier si "CompteEmp" est présent dans la requête
-        $CompteEmp = $request->query('Emp');
-        $idCarte = null;
-        $idEmp = null;
-        $employe = null;
+        $companyName = $request->route('companyName');
+        $normalizedName = $this->normalizeCompanyName($companyName);
+        
+        // Recherche avec le nom normalisé
+        $carte = Carte::where('nomEntreprise', 'like', $normalizedName)->first();
+        
+        if (!$carte) {
+            abort(404);
+        }
+
+        // Si le format de l'URL n'est pas celui souhaité (avec des tirets), rediriger
+        $preferredUrl = str_replace(' ', '-', $carte->nomEntreprise);
+        if ($companyName !== $preferredUrl) {
+            return redirect()->to("/Kard/{$preferredUrl}");
+        }
+
+        $idCarte = $carte->idCarte;
+        $idCompte = $carte->idCompte;
+        $idTemplate = $carte->idTemplate;
         $today = date('Y-m-d');
 
-        if ($CompteEmp) {
-            // Si CompteEmp est présent, le split au niveau de la virgule
-            [$idCompte, $idEmp] = explode('x', $CompteEmp);
-            // Convertir en entier pour s'assurer qu'on travaille avec des ID valides
-            $idCompte = (int)$idCompte;
-            $idEmp = (int)$idEmp;
-
-            // Récupérer les infos de la carte de visite
-            $carte = Carte::where('idCompte', $idCompte)->first();
+        // Vérifier si "CompteEmp" est présent dans la requête
+        if ($request->has('Emp')) {
+            $CompteEmp = $request->query('Emp');
+            [$empIdCompte, $idEmp] = explode('x', $CompteEmp);
             
-            if (!$carte) {
+            // Vérifier que l'employé appartient bien à cette entreprise
+            if ($empIdCompte != $idCompte) {
                 abort(404);
             }
 
-            //idCarte
-            $idCarte = $carte->idCarte ?? null;
-
-            // Récupérer les infos de l'employé en fonction de l'idCarte et idEmp
-            $employe = Employer::where('idCarte', $carte->idCarte)->where('idEmp', $idEmp)->first();
-
-            //idTemplate
-            $idTemplate = $carte->idTemplate ?? null;
+            $employe = Employer::where('idCarte', $idCarte)
+                             ->where('idEmp', $idEmp)
+                             ->first();
+            
+            if (!$employe) {
+                abort(404);
+            }
 
             // Ajouter la vue uniquement si nécessaire
             if ($this->shouldCountView($request, $idCarte, $idEmp)) {
-                $vue = new Vue();
-                $vue->date = $today;
-                $vue->idCarte = $idCarte;
-                $vue->idEmp = $idEmp;
-                $vue->ip_address = $request->ip();
-                $vue->save();
+                Vue::create([
+                    'date' => $today,
+                    'idCarte' => $idCarte,
+                    'idEmp' => $idEmp,
+                    'ip_address' => $request->ip()
+                ]);
             }
-
         } else {
-            // Sinon, récupérer l'idKard au lieu de idCompte
-            $idCompte = $request->query('idKard');
-
-            // Récupérer d'abord l'idTemplate
-            $idTemplate = Carte::where('idCompte', $idCompte)->value('idTemplate');
-
-            // Prend toutes les informations nécessaires depuis la base de données
-            $carte = Carte::where('idCompte', $idCompte)->first();
+            $employe = null;
             
-            if (!$carte) {
-                abort(404);
-            }
-
-            $idCarte = $carte->idCarte ?? null;
-
             // Ajouter la vue uniquement si nécessaire
             if ($this->shouldCountView($request, $idCarte)) {
-                $vue = new Vue();
-                $vue->date = $today;
-                $vue->idCarte = $idCarte;
-                $vue->ip_address = $request->ip();
-                $vue->save();
+                Vue::create([
+                    'date' => $today,
+                    'idCarte' => $idCarte,
+                    'ip_address' => $request->ip()
+                ]);
             }
-        }
-
-        // Si $idCarte est toujours null, on ne peut rien afficher
-        if (!$idCarte) {
-            return response()->json(['message' => 'idCarte non trouvé.'], 404);
         }
 
         $data = $this->getBaseData($idCarte, $idCompte);

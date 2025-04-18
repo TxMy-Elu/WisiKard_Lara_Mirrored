@@ -69,6 +69,9 @@
                             <input type="text" id="nomEntreprise" name="nomEntreprise" 
                                    value="{{ $carte->nomEntreprise }}"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <p class="mt-2 text-sm text-gray-600">
+                                Votre lien public est : <a href="{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise)) }}" class="text-blue-500 hover:underline" target="_blank">{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise)) }}</a>
+                            </p>
                         </div>
 
                         <div>
@@ -108,7 +111,7 @@
 
                     <div class="mt-8 flex justify-end">
                         <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-200 flex items-center">
+                                class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
                            Enregistrer les modifications
                         </button>
                     </div>

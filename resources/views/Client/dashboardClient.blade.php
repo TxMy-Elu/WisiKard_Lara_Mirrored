@@ -96,10 +96,10 @@
         @endif
 
         @if(session('compte') && isset($carte) && $carte)
-            <div class="grid lg:grid-cols-12 md:grid-cols-5 gap-5 p-4">
+            <div class="flex flex-col md:flex-row gap-5 p-4">
                 <!-- Carte (div1) -->
-                <div class="col-span-2 row-span-1 bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between">
-                    <div class="flex justify-between">
+                <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between w-full md:w-1/3">
+                    <div class="flex flex-col">
                         <!-- Nom d'entreprise -->
                         <div class="flex flex-col">
                             <div class="mb-4">
@@ -156,8 +156,8 @@
                         @endphp
                                 <!-- Logo -->
                         <div class="justify-center mb-2">
-                            <div class="w-28">
-                                <div class="w-full md:w-1 flex flex-col items-center justify-center">
+                            <div class="w-28 mx-auto md:mx-0">
+                                <div class="w-full flex flex-col items-center justify-center">
                                     @if (!empty($logoPath))
                                         <img class="w-32 h-32 object-contain border border-gray-200 rounded-md shadow-lg"
                                              src="{{ $logoPath }}"
@@ -171,17 +171,17 @@
                         </div>
                     </div>
                     <!-- Buttons -->
-                    <div class="flex flex-row-reverse mt-auto pt-4">
+                    <div class="flex flex-col sm:flex-row-reverse mt-auto pt-4 gap-2">
                         <a href="{{ route('formulaireEntreprise') }}"
-                           class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Modifier</a>
-                        <a href="{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise) .'?idKard='. $carte->compte->idCompte) }}" target="_blank"
-                            class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Voir ma carte</a>
+                           class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full text-center">Modifier</a>
+                        <a href="{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise)) }}" target="_blank"
+                           class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full text-center">Voir ma carte</a>
                     </div>
                 </div>
                 <!-- Font & Titre (div2) -->
-                <div class="relative col-span-2 row-span-1 ">
+                <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col w-full md:w-1/3">
                     <!-- La zone floutée -->
-                    <div class="bg-white rounded-lg shadow-lg p-4 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif mb-2">
+                    <div class="@if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif mb-2">
                         <form action="{{ 'updateFont' }}" method="POST">
                             @csrf
                             @method('PATCH')
@@ -215,7 +215,7 @@
                             </div>
                             <div class="flex justify-end">
                                 <button type="submit"
-                                        class="bg-indigo-500 text-white px-4 py-2 rounded-full w-48 mt-4 items-center">
+                                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full w-48 mt-4">
                                     Enregistrer
                                 </button>
                             </div>
@@ -224,7 +224,7 @@
 
 
                     <!-- Section contenant le titre, descriptif et le bouton -->
-                    <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col relative">
+                    <div class="flex flex-col">
                         <div class="flex justify-between items-center mb-4">
                             <div class="flex flex-col">
                                 @if($carte->titre)
@@ -242,7 +242,7 @@
                         </div>
                         <div class="flex justify-end mt-4">
                             <!-- Bouton pour ouvrir le modal -->
-                            <button class="bg-indigo-500 text-white p-2 rounded-full text-sm"
+                            <button class="bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded-full text-sm"
                                     onclick="document.getElementById('modalForm').classList.remove('hidden')">
                                 Ajouter / Modifier Titre et Description
                             </button>
@@ -285,7 +285,7 @@
                                             onclick="document.getElementById('modalForm').classList.add('hidden')">
                                         Annuler
                                     </button>
-                                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded">
+                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
                                         Enregistrer
                                     </button>
                                 </div>
@@ -295,42 +295,45 @@
                 </div>
 
                 <!-- QR Code (div3) -->
-                <div class="col-span-1 row-span-2 bg-white rounded-lg shadow-lg p-4 flex flex-col">
+                <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col w-full md:w-1/3">
                     <!-- QR Code Image -->
                     <label for="font" class="text-lg font-bold text-gray-800">Votre WisiCode</label>
                     <div class="mb-4 flex flex-col items-center">
                         <img src="{{ $carte->lienQr }}"
-                             alt="QR Code" class="w-full max-w-xs rounded-2xl">
+                             alt="QR Code" class="w-40 h-40 md:w-full md:max-w-xs rounded-2xl object-contain">
                     </div>
                     <div class="mb-4 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
                         <!-- Form for Color Selection -->
                         <form action="{{ route('dashboardClientColor') }}" method="POST"
                               class="flex flex-col items-center w-full">
                             @csrf
-                            <div class="flex flex-wrap justify-center">
+                            <div class="flex flex-wrap justify-center w-full">
                                 <div class="flex flex-col w-full md:w-1/2 mb-4">
                                     <label for="color1"
                                            class="w-full text-center mb-0.5 font-bold text-gray-800">Pixel</label>
-                                    <input type="color" name="couleur1" id="color1" class="w-40 mx-auto bg-white"
+                                    <input type="color" name="couleur1" id="color1" class="w-32 md:w-40 mx-auto bg-white"
                                            value="{{ $couleur1 }}">
                                 </div>
                                 <div class="flex flex-col w-full md:w-1/2 mb-4">
                                     <label for="color2"
                                            class="w-full text-center mb-0.5 font-bold text-gray-800">Fond</label>
-                                    <input type="color" name="couleur2" id="color2" class="w-40 mx-auto bg-white"
+                                    <input type="color" name="couleur2" id="color2" class="w-32 md:w-40 mx-auto bg-white"
                                            value="{{ $couleur2 }}">
                                 </div>
                             </div>
-                            <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-full w-full">
+                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full w-full">
                                 Enregistrer
                             </button>
                         </form>
+                        <p class="mt-2 text-sm text-gray-600">
+                            Votre lien public est : <a href="{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise)) }}" class="text-blue-500 hover:underline" target="_blank">{{ url('/Kard/' . str_replace(' ', '-', $carte->nomEntreprise)) }}</a>
+                        </p>
                     </div>
-                    <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4  border-t-2 border-gray-200 ">
+                    <div class="flex justify-center items-center text-center bg-white mx-auto my-2 w-full p-2 mt-4 border-t-2 border-gray-200">
                         <p class="font-bold text-xl text-gray-800">Télécharger QR Codes</p>
                     </div>
                     <!-- Download Buttons -->
-                    <div class=" border-b-2 border-b-gray-200">
+                    <div class="border-b-2 border-b-gray-200">
                         <div class="flex justify-center space-x-4 mt-4 mb-4">
                             <a href="{{ route('downloadQrCodesColor') }}"
                                class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
@@ -348,7 +351,7 @@
                                 </svg>
                             </a>
                             <a href="{{ route('downloadQrCodes') }}"
-                               class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100 ">
+                               class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
                                 Noir / Blanc
                                 <!-- Espace entre le texte et le SVG -->
                                 <span class="ml-2"></span>
@@ -405,124 +408,9 @@
                     </div>
                     @endif
                 </div>
-                <!-- Horaires d'ouverture (div4) -->
-                <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
-                        <form action="{{ route('updateHoraires') }}" method="POST" class="p-6">
-                            @csrf
-                            <div class="flex flex-col space-y-6">
-                                <h2 class="text-lg font-bold text-gray-800">Horaires d'ouverture</h2>
-
-                                <!-- Grille pour les autres jours -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Première colonne : Lundi à Mercredi -->
-                                    <div class="flex flex-col space-y-6">
-                                        @foreach(['lundi', 'mardi', 'mercredi' ,'jeudi'] as $jour)
-                                            <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
-                                                <label for="{{ $jour }}_ouverture_matin"
-                                                       class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
-                                                    {{ ucfirst($jour) }}
-                                                </label>
-                                                <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4">
-                                                    <div class="flex items-center space-x-2">
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_ouverture_matin"
-                                                                id="{{ $jour }}_ouverture_matin"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700 "
-                                                                value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
-                                                        />
-                                                        <p class="text-sm text-gray-500">à</p>
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_fermeture_matin"
-                                                                id="{{ $jour }}_fermeture_matin"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
-                                                        />
-                                                    </div>
-                                                    <p class="font-semibold text-gray-600">/</p>
-                                                    <div class="flex items-center space-x-2">
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_ouverture_aprmidi"
-                                                                id="{{ $jour }}_ouverture_aprmidi"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
-                                                        />
-                                                        <p class="text-sm text-gray-500">à</p>
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_fermeture_aprmidi"
-                                                                id="{{ $jour }}_fermeture_aprmidi"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- Deuxième colonne : Jeudi à Samedi -->
-                                    <div class="flex flex-col space-y-6">
-                                        @foreach(['vendredi', 'samedi','dimanche'] as $jour)
-                                            <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
-                                                <label for="{{ $jour }}_ouverture_matin"
-                                                       class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
-                                                    {{ ucfirst($jour) }}
-                                                </label>
-                                                <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4 ">
-                                                    <div class="flex items-center space-x-2">
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_ouverture_matin"
-                                                                id="{{ $jour }}_ouverture_matin"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
-                                                        />
-                                                        <p class="text-sm text-gray-500">à</p>
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_fermeture_matin"
-                                                                id="{{ $jour }}_fermeture_matin"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
-                                                        />
-                                                    </div>
-                                                    <p class="font-semibold text-gray-600">/</p>
-                                                    <div class="flex items-center space-x-2">
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_ouverture_aprmidi"
-                                                                id="{{ $jour }}_ouverture_aprmidi"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
-                                                        />
-                                                        <p class="text-sm text-gray-500">à</p>
-                                                        <input
-                                                                type="time"
-                                                                name="{{ $jour }}_fermeture_aprmidi"
-                                                                id="{{ $jour }}_fermeture_aprmidi"
-                                                                class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
-                                                                value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="flex justify-end">
-                                    <button
-                                            type="submit"
-                                            class="mt-6 w-48 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1">
-                                        Enregistrer
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                </div>
-                <!-- Template Selection (div5) -->
+            </div>
+            <!-- Template Selection (div5) -->
+            <div class="flex flex-col gap-5 p-4">
                 <div class="col-span-5 row-span-1 mb-4 bg-white rounded-lg shadow-lg p-6">
                     <form id="templateForm" action="{{ route('updateTemplate') }}" method="POST">
                         @csrf

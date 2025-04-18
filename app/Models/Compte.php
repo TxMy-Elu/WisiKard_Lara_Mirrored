@@ -153,7 +153,7 @@ class Compte extends Model
 
         // Construire l'URL pour générer le QR Code depuis QuickChart.io
         $baseUrl = "https://quickchart.io/qr";
-        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Kard/{$nomEntreprise}?idCompte={$id}";
+        $url = "{$baseUrl}?size=300&dark={$color1}&light={$color2}&format=svg&text=https://app.wisikard.fr/Kard/{$nomEntreprise}";
 
         // Utiliser cURL pour effectuer une requête à l'API
         $ch = curl_init();
@@ -204,7 +204,7 @@ class Compte extends Model
             'name' => $nomEntreprise . ' - WisiKard',
             'short_name' => $nomEntreprise . ' - WK',
             'description' => 'La carte de visite numérique Wisikard de ' . $nomEntreprise,
-            'start_url' => '/Kard/' . str_replace(' ', '-', $nomEntreprise) . '?idKard=' . $idCompte,
+            'start_url' => '/Kard/' . str_replace(' ', '-', $nomEntreprise),
             'id' => '/Kard/' . str_replace(' ', '-', $nomEntreprise),
             'display' => 'standalone',
             'display_override' => ['window-controls-overlay'],

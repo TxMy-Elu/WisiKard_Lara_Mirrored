@@ -298,9 +298,11 @@
     </div>
 
     <div class="title-description-container">
+        @if($carte['titre'])
         <div class='flex justify-center items-center mt-1'>
             <h1 class='font-bold'>{{ $carte['titre'] }}</h1>
         </div>
+        @endif
         @if($employe != null)
             <div class="employee-card">
                 <div class="employee-name">{{ $employe->nom }} {{ $employe->prenom }}</div>
@@ -326,14 +328,16 @@
             </div>
         @endif
 
+        @if($carte['descriptif'])
         <div class='flex justify-center items-center mt-1'>
-            <p class='text-center'>{{ $carte->descriptif }}</p>
+            <p class='text-center'>{!! nl2br(e($carte['descriptif'])) !!}</p>
         </div>
+        @endif
     </div>
 
     <div class='flex justify-center items-center flex-wrap mt-3 mx-5'>
         <!-- Bouton pour afficher le QR Code -->
-        <button onclick="showQrCode()"
+                <button onclick="showQrCode()"
                 class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/avcjklpr.json"
                        trigger="loop"
@@ -342,7 +346,7 @@
             </lord-icon>
             QRCode
         </button>
-        <!-- Modal pour le QR Code -->
+                <!-- Modal pour le QR Code -->
         <div id='qrCodeModal' class="modal">
             <div class="modalBody  bg-opacity-80 backdrop-blur-lg">
                 <div class="modalTitle">
@@ -359,6 +363,7 @@
             </div>
         </div>
 
+        @if($carte['ville'])
         <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($carte['nomEntreprise'] . ' ' . $carte['ville']) }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -369,7 +374,10 @@
             </lord-icon>
             Maps
         </a>
+        @endif
 
+        <!-- Site Web -->
+        @if($carte['lienSiteWeb'])
         <a href="{{ $carte['lienSiteWeb'] }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -380,7 +388,10 @@
             </lord-icon>
             Site
         </a>
+        @endif
 
+        <!-- Téléphone -->
+        @if($carte['tel'])
         <a href="tel:{{ $carte['tel'] }}"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -391,7 +402,10 @@
             </lord-icon>
             Téléphone
         </a>
+        @endif
 
+        <!-- Email -->
+        @if($compte->email && $carte->afficher_email)
         <a href="mailto:{{ $compte->email }}"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
@@ -402,6 +416,7 @@
             </lord-icon>
             Mail
         </a>
+        @endif
 
         <!--PDF-->
         @if($carte['pdf'])
@@ -422,7 +437,7 @@
         <a href="{{ $carte['LienCommande'] }}" target="_blank" rel="noopener noreferrer"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon
-                    src="https://cdn.lordicon.com/odavpkmb.json"
+                    src="https://cdn.lordicon.com/jdgfsfzr.json"
                     trigger="loop"
                     delay="1000"
                     colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
@@ -432,7 +447,7 @@
 
         <!--Vcard-->
         <a href="{{ '/entreprises/'. $carte->compte->idCompte.'/VCF_Files/contact.vcf' }}"
-           download="Contact-Wisikard.vcf"
+           download="{{ $carte['nomEntreprise'] }}.vcf"
            class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
             <lord-icon src="https://cdn.lordicon.com/rehjpyyh.json"
                        trigger="loop"
@@ -479,6 +494,25 @@
         </button>
     </div>
 
+    <!-- Liens personnalisés -->
+    @if($custom && count($custom) > 0)
+    <div class='flex justify-center items-center flex-wrap mt-3 mx-5'>
+        @foreach ($custom as $link)
+            <a href="{{ $link['lien'] }}" target="_blank" rel="noopener noreferrer"
+               class='m-1 p-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-md rounded-xl flex items-center justify-center'>
+                <lord-icon
+                    src="https://cdn.lordicon.com/bjxtqill.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#F5F5F5,secondary:{{ $carte['couleur1'] }}">
+                </lord-icon>
+                {{ $link['nom'] }}
+            </a>
+        @endforeach
+    </div>
+    @endif
+
+    @if(count($mergedSocial) > 0)
     <div class="flex justify-center flex-wrap mx-5 my-4 bg-[#342d29] bg-opacity-80 backdrop-blur-lg rounded-lg p-4">
         @foreach($mergedSocial as $so)
             <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
@@ -493,6 +527,7 @@
             </a>
         @endforeach
     </div>
+    @endif
 </div>
 
 
@@ -607,46 +642,54 @@
         </div>
         <div class="modalContent">
             <div class='horaires-container mx-2 my-2 rounded-lg p-2'>
-                @php
-                    $days = $horaires->chunk(2);
-                    $lastColumn = $days->pop();
-                @endphp
-                @foreach($days as $chunk)
-                    <div class="horaires-column">
-                        @foreach($chunk as $horaire)
-                            <div class="horaires-item flex items-center justify-center p-2">
-                                <div class="day text-white p-1 fill-white">
-                                    {{ $horaire->jour }}
+                @if($horaires && count($horaires) > 0)
+                    @php
+                        $days = $horaires->chunk(2);
+                        $lastColumn = $days->pop();
+                    @endphp
+                    @foreach($days as $chunk)
+                        <div class="horaires-column">
+                            @foreach($chunk as $horaire)
+                                <div class="horaires-item flex items-center justify-center p-2">
+                                    <div class="day text-white p-1 fill-white">
+                                        {{ $horaire->jour }}
+                                    </div>
+                                    <div class="hours text-center mt-1">
+                                        @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                            <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                            <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                        @else
+                                            <p>Fermé</p>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="hours text-center mt-1">
-                                    @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
-                                        <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
-                                        <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
-                                    @else
-                                        <p>Fermé</p>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endforeach
-                <div class="horaires-column">
-                    @foreach($lastColumn as $horaire)
-                        <div class="horaires-item flex items-center justify-center p-2">
-                            <div class="day text-white p-1 fill-white">
-                                {{ $horaire->jour }}
-                            </div>
-                            <div class="hours text-center mt-1">
-                                @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
-                                    <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
-                                    <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
-                                @else
-                                    <p>Fermé</p>
-                                @endif
-                            </div>
+                            @endforeach
                         </div>
                     @endforeach
-                </div>
+                    @if($lastColumn)
+                        <div class="horaires-column">
+                            @foreach($lastColumn as $horaire)
+                                <div class="horaires-item flex items-center justify-center p-2">
+                                    <div class="day text-white p-1 fill-white">
+                                        {{ $horaire->jour }}
+                                    </div>
+                                    <div class="hours text-center mt-1">
+                                        @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                            <p> {{ date('H:i', strtotime($horaire->ouverture_matin)) }} - {{ date('H:i', strtotime($horaire->fermeture_matin)) }}</p>
+                                            <p> {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }} - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}</p>
+                                        @else
+                                            <p>Fermé</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                @else
+                    <div class="text-center text-white p-4">
+                        Aucun horaire disponible
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -678,7 +721,7 @@
     // **Script pour la copie du lien**
 
     function shareOrCopyLink() {
-        const linkToShare = "{{ url()->current().'?idCompte='.$carte->compte->idCompte }}";
+            const linkToShare = "{{ url()->current() }}";
 
         if (navigator.share) {
             // Partage natif si disponible

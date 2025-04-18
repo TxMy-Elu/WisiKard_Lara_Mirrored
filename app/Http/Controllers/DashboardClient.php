@@ -56,10 +56,8 @@ class DashboardClient extends Controller
             if ($carte) {
                 // Formatage spécifique des données de la carte
                 $carte->formattedTel = $this->formatPhoneNumber($carte->tel);
-                $horaires = $carte->horaires;
             } else {
                 Log::warning('Aucune carte associée au compte.', ['email' => $emailUtilisateur]);
-                $horaires = collect(); // Retourne une collection vide si aucune carte n'est trouvée
             }
 
             // Rend la vue avec les informations nécessaires
@@ -71,8 +69,7 @@ class DashboardClient extends Controller
                 'couleur2' => $carte->couleur2 ?? null,
                 'titre' => $carte->titre ?? null,
                 'description' => $carte->descriptif ?? null,
-                'idTemplate' => $carte->idTemplate ?? null,
-                'horaires' => $horaires,
+                'idTemplate' => $carte->idTemplate ?? null
             ]);
         } catch (\Exception $e) {
             // Gestion des erreurs avec un message d'enregistrement des logs
@@ -657,7 +654,7 @@ class DashboardClient extends Controller
      */
     public function afficherDashboardClientPDF()
     {
-        // Récupération des informations du compte en session
+        // Récupérer l'ID du compte depuis la session
         $idCompte = session('connexion');
         $emailUtilisateur = Compte::find($idCompte)->email ?? 'Email inconnu'; // Récupère l'email ou retourne par défaut "Email inconnu"
         $carte = Carte::where('idCompte', $idCompte)->first();
@@ -710,8 +707,11 @@ class DashboardClient extends Controller
             'lienSiteWeb' => $lienSiteWeb
         ]);
 
+        // Récupérer les horaires
+        $horaires = Horaires::where('idCarte', $carte->idCarte)->get();
+
         // Retour de la vue avec les données nécessaires
-        return view('Client.dashboardClientPDF', compact('carte', 'images', 'idCompte', 'youtubeUrls', 'logoPath', 'compte'));
+        return view('Client.dashboardClientPDF', compact('carte', 'images', 'idCompte', 'youtubeUrls', 'logoPath', 'compte', 'horaires'));
     }
 
     /**

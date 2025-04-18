@@ -172,8 +172,110 @@
 
                 </div>
             </div>
+            <!-- Galerie photos -->
+            <div class="bg-white rounded-lg shadow-md p-6 h-auto flex flex-col col-span-1 md:col-span-2 row-span-auto md:row-span-3">
+                @if($compte->role == 'starter')
+                    <!-- Message abonnement, centré au-dessus du blur -->
+                    <div class="relative z-50 flex flex-col items-center justify-center">
+                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
+                           target="_blank"
+                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
+                            <p class="text-white text-base">Mettre à niveau</p>
+                            <!-- svg cursor mouse -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
+                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                <path d="M13 13l6 6"></path>
+                            </svg>
+                        </a>
+                    </div>
+                @endif
+                <div class="bg-white rounded-lg shadow-md p-6 h-full @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
+                    <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
+                    <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
+                        <!-- Formulaire d'upload -->
+                        <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
+                              enctype="multipart/form-data"
+                              class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
+                            @csrf
+                            <div>
+                                <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
+                                    Sélectionner des images :
+                                </label>
+                                <input type="file" id="image" name="image[]"
+                                       class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
+                                       accept=".jpg,.jpeg,.png" multiple>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                        class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    enregistrer
+                                </button>
+                            </div>
+                        </form>
 
-            <!-- Formulaire YouTube div3 -->
+                        <!-- Affichage des images dans la galerie -->
+                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
+                            @php
+                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'/slider');
+                                $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
+                            @endphp
+
+                            @if(!empty($sliderImages))
+                                <!-- Galerie photo -->
+                                <div class="flex flex-wrap gap-4">
+                                    @foreach($sliderImages as $image)
+                                        <div class="relative">
+                                            <!-- Miniature -->
+                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'/slider/'. $image) }}"
+                                                 alt="Image"
+                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
+                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'/slider/'. $image) }}')">
+
+                                            <!-- Formulaire de suppression -->
+                                            <form action="{{ route('dashboardClientPDF.deleteSliderImage') }}"
+                                                  method="POST"
+                                                  class="absolute top-2 right-2">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="filename" value="{{ $image }}">
+                                                <button type="submit"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded-lg">
+                                                    <!-- svg poubelle -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                         viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Modal pour afficher les images en grand -->
+                                <div id="imageModal"
+                                     class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
+                                    <div class="relative">
+                                        <button onclick="closeModal()"
+                                                class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
+                                        </button>
+                                        <img id="modalImage" src="" alt="Agrandissement de l'image"
+                                             class="object-contain w-96 h-[90%] rounded-lg">
+                                    </div>
+                                </div>
+                            @else
+                                <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire YouTube -->
             @if($compte->role == 'starter')
                 <div class="relative col-span-1 md:col-span-2 row-span-auto md:row-span-3">
                     <!-- Message abonnement, centré au-dessus du blur -->
@@ -274,7 +376,7 @@
                 </div>
             @endif
 
-            <!-- div 6 -->
+            
             <!-- input lien avis google -->
             <div class="bg-white rounded-lg shadow-md col-span-1 row-span-auto md:row-span-3 p-6">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Lien Avis Google</h2>
@@ -425,110 +527,124 @@
                 @endif
             </div>
 
+        </div>
+        <!-- Horaires d'ouverture -->
+            <div class="col-span-4 row-span-1 bg-white rounded-lg shadow-lg p-4">
+                <form action="{{ route('updateHoraires') }}" method="POST" class="p-6">
+                    @csrf
+                    <div class="flex flex-col space-y-6">
+                        <h2 class="text-lg font-bold text-gray-800">Horaires d'ouverture</h2>
 
-            <!-- Section qui va occuper 2 lignes -->
-            <div class="relative col-span-1 md:col-span-3 row-span-auto md:row-span-3 h-full">
-                @if($compte->role == 'starter')
-                    <!-- Message abonnement, centré au-dessus du blur -->
-                    <div class="relative z-50 flex flex-col items-center justify-center">
-                        <a href="https://wisikard.fr/produit/mise-a-niveau-wisikard-advanced/"
-                           target="_blank"
-                           class="bg-red-500 border-solid border border-red-500 hover:bg-red-900 hover:border-red-900 rounded-xl w-48 h-7 flex items-center justify-center space-x-4">
-                            <p class="text-white text-base">Mettre à niveau</p>
-                            <!-- svg cursor mouse -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 viewBox="0 0 24 24"
-                                 fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" class="feather feather-mouse-pointer">
-                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
-                                <path d="M13 13l6 6"></path>
-                            </svg>
-                        </a>
-                    </div>
-                @endif
-                <div class="bg-white rounded-lg shadow-md p-6 h-full @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
-                    <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Galerie photo</h2>
-                    <div class="flex flex-wrap md:flex-nowrap justify-between items-center space-y-6 md:space-y-0 md:space-x-12 grow">
-                        <!-- Formulaire d'upload -->
-                        <form action="{{ route('dashboardClientPDF.uploadSlider') }}" method="POST"
-                              enctype="multipart/form-data"
-                              class="space-y-4 w-full md:w-1/3 flex flex-col justify-between">
-                            @csrf
-                            <div>
-                                <label for="image" class="block text-sm font-medium text-gray-600 mb-2">
-                                    Sélectionner des images :
-                                </label>
-                                <input type="file" id="image" name="image[]"
-                                       class="block w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 focus:outline-none text-sm"
-                                       accept=".jpg,.jpeg,.png" multiple>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="submit"
-                                        class="w-full md:w-auto px-6 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-md transform transition-transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    enregistrer
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- Affichage des images dans la galerie -->
-                        <div class="w-full flex flex-col justify-center rounded-2xl p-6 bg-gray-100">
-                            @php
-                                $sliderDirectory = public_path('entreprises/'.$carte->idCompte.'/slider');
-                                $sliderImages = file_exists($sliderDirectory) ? array_diff(scandir($sliderDirectory), array('.', '..')) : [];
-                            @endphp
-
-                            @if(!empty($sliderImages))
-                                <!-- Galerie photo -->
-                                <div class="flex flex-wrap gap-4">
-                                    @foreach($sliderImages as $image)
-                                        <div class="relative">
-                                            <!-- Miniature -->
-                                            <img src="{{ asset('entreprises/'.$carte->idCompte.'/slider/'. $image) }}"
-                                                 alt="Image"
-                                                 class="w-32 h-32 object-cover cursor-pointer hover:opacity-80"
-                                                 onclick="openModal('{{ asset('entreprises/'.$carte->idCompte.'/slider/'. $image) }}')">
-
-                                            <!-- Formulaire de suppression -->
-                                            <form action="{{ route('dashboardClientPDF.deleteSliderImage') }}"
-                                                  method="POST"
-                                                  class="absolute top-2 right-2">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="filename" value="{{ $image }}">
-                                                <button type="submit"
-                                                        class="bg-red-500 text-white px-2 py-1 rounded-lg">
-                                                    <!-- svg poubelle -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                         viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              stroke-width="2"
-                                                              d="M6 18L18 6M6 6l12 12"/>
-                                                    </svg>
-                                                </button>
-                                            </form>
+                        <!-- Grille pour les autres jours -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Première colonne : Lundi à Mercredi -->
+                            <div class="flex flex-col space-y-6">
+                                @foreach(['lundi', 'mardi', 'mercredi' ,'jeudi'] as $jour)
+                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+                                        <label for="{{ $jour }}_ouverture_matin"
+                                               class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
+                                            {{ ucfirst($jour) }}
+                                        </label>
+                                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4">
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_matin"
+                                                        id="{{ $jour }}_ouverture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700 "
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_matin"
+                                                        id="{{ $jour }}_fermeture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
+                                                />
+                                            </div>
+                                            <p class="font-semibold text-gray-600">/</p>
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_aprmidi"
+                                                        id="{{ $jour }}_ouverture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_aprmidi"
+                                                        id="{{ $jour }}_fermeture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
+                                                />
+                                            </div>
                                         </div>
-                                    @endforeach
-                                </div>
-
-                                <!-- Modal pour afficher les images en grand -->
-                                <div id="imageModal"
-                                     class="fixed inset-0 flex items-center justify-center bg-zinc-950/99 hidden z-50">
-                                    <div class="relative">
-                                        <button onclick="closeModal()"
-                                                class="absolute top-4 right-4 text-white text-3xl font-bold">&times;
-                                        </button>
-                                        <img id="modalImage" src="" alt="Agrandissement de l'image"
-                                             class="object-contain w-96 h-[90%] rounded-lg">
                                     </div>
-                                </div>
-                            @else
-                                <p class="text-gray-500 italic border-2 p-10">Aucune image disponible.</p>
-                            @endif
+                                @endforeach
+                            </div>
+
+                            <!-- Deuxième colonne : Jeudi à Samedi -->
+                            <div class="flex flex-col space-y-6">
+                                @foreach(['vendredi', 'samedi','dimanche'] as $jour)
+                                    <div class="flex flex-col md:flex-row items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+                                        <label for="{{ $jour }}_ouverture_matin"
+                                               class="w-full md:w-1/4 text-gray-700 font-medium text-sm capitalize">
+                                            {{ ucfirst($jour) }}
+                                        </label>
+                                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-3/4">
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_matin"
+                                                        id="{{ $jour }}_ouverture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_matin ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_matin"
+                                                        id="{{ $jour }}_fermeture_matin"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_matin ?? '' }}"
+                                                />
+                                            </div>
+                                            <p class="font-semibold text-gray-600">/</p>
+                                            <div class="flex items-center space-x-2">
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_ouverture_aprmidi"
+                                                        id="{{ $jour }}_ouverture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->ouverture_aprmidi ?? '' }}"
+                                                />
+                                                <p class="text-sm text-gray-500">à</p>
+                                                <input
+                                                        type="time"
+                                                        name="{{ $jour }}_fermeture_aprmidi"
+                                                        id="{{ $jour }}_fermeture_aprmidi"
+                                                        class="w-full md:w-auto p-2 border border-gray-300 rounded-lg focus:outline-red-500 text-gray-700"
+                                                        value="{{ $horaires->where('jour', $jour)->first()->fermeture_aprmidi ?? '' }}"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button
+                                    type="submit"
+                                    class="mt-6 w-48 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1">
+                                Enregistrer
+                            </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </div>
 
         <script>
             function openModal(imageUrl) {

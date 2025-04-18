@@ -62,7 +62,7 @@
 <div class="flex flex-col md:flex-row">
     @include('menu.menuAdmin') <!-- Inclure le menu admin -->
     <div class="flex-1 md:ml-24 content">
-        @if($messages->isNotEmpty())
+        @if(isset($messages) && $messages->isNotEmpty())
             @foreach($messages as $message)
                 <div class="bg-zinc-400/45 border border-zinc-400 text-zinc-700 px-4 py-3 rounded relative mb-2" 
                      role="alert">
@@ -178,7 +178,7 @@
                         @endif
 
                         <div class="pt-4">
-                            <a href="{{ url('/Kard/' . $entreprise->nomEntreprise .'?idCompte='. $entreprise->idCompte) }}"
+                            <a href="{{ url('/Kard/' . str_replace(' ', '-', $entreprise->nomEntreprise)) }}"
                             target="_blank"
                             class="bg-indigo-500 text-white px-4 py-2 rounded-full mr-2">Voir la carte</a>
                         </div>
