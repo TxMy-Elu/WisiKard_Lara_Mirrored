@@ -6,6 +6,7 @@ use App\Models\Carte;
 use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Message;
+use App\Models\Inscription_attente;
 use Illuminate\Support\Facades\DB;
 
 class Inscription extends Controller
@@ -39,6 +40,12 @@ class Inscription extends Controller
                 $messagesErreur[] = "Cette adresse email a déjà été utilisée";
                 $validationFormulaire = false;
             }
+
+            if (Carte::existeNomEntreprise($_POST["entreprise"])) {
+                $messagesErreur[] = "Ce nom d'entreprise est déjà utilisé";
+                $validationFormulaire = false;
+            }
+
             if ($_POST["motDePasse1"] != $_POST["motDePasse2"]) {
                 $messagesErreur[] = "Les deux mots de passe saisis ne sont pas identiques";
                 $validationFormulaire = false;

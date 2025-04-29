@@ -113,23 +113,17 @@
         }
     @endphp
 
+    <!-- Logo -->
     @if(!empty($logoPath))
         <div class="w-full h-full max-h-24 mx-auto logo-animate">
             <img src="{{ $logoPath }}" alt="Logo de l'entreprise" class="w-full h-full object-contain">
         </div>
     @endif
 
-    <!-- Nom de l'entreprise -->
-    @if($carte['nomEntreprise'] && empty($logoPath))
-        <div class="mt-2 text-animate">
-            <h1 class="text-white text-3xl text-center">{{ $carte['nomEntreprise'] }}</h1>
-        </div>
-    @endif
-
     <!-- Titre de l'entreprise -->
     @if($carte['titre'])
-        <div class="text-animate">
-            <h2 class="text-white text-center text-lg">{{ $carte['titre'] }}</h2>
+        <div class="mt-2 text-animate">
+            <h1 class="text-white text-3xl text-center">{{ $carte['titre'] }}</h2>
         </div>
     @endif
 

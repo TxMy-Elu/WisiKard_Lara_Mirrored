@@ -81,12 +81,10 @@
                      class="w-full h-full object-contain p-2">
             </div>
         </div>
-    @else
-        <h1 class="text-2xl font-bold text-white mb-2">{{ $carte['nomEntreprise'] }}</h1>
     @endif
     
     @if($carte['titre'])
-        <h1 class='text-gray-300 font-bold'>{{ $carte['titre'] }}</h1>
+        <h1 class='text-2xl font-bold text-white mb-2'>{{ $carte['titre'] }}</h1>
     @endif
 
     @if($carte['descriptif'])

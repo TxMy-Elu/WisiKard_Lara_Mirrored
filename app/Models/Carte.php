@@ -54,4 +54,9 @@ class Carte extends Model
     {
         return $this->hasMany(Horaires::class, 'idCarte');
     }
+    
+    public static function existeNomEntreprise($nomEntreprise)
+    {
+        return self::where('nomEntreprise', $nomEntreprise)->exists();
+    }
 }

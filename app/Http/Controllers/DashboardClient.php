@@ -571,43 +571,6 @@ class DashboardClient extends Controller
     }
 
     /**
-     * Télécharge le QR Code de l'entreprise en couleur.
-     *
-     * @return \Illuminate\Http\Response Retourne le téléchargement du QR Code en couleur ou un message d'erreur si le fichier ou la carte n'est pas trouvé.
-     *
-     * Cette méthode gère le téléchargement du QR Code couleur associé à une entreprise.
-     * Si le fichier ou la carte n'existe pas, une erreur est retournée à l'utilisateur.
-     */
-    public function downloadQrCodesColor()
-    {
-        // Récupération des informations de l'utilisateur connecté
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email ?? null; // Email de l'utilisateur ou null si non trouvé
-        $carte = Carte::where('idCompte', $idCompte)->first();
-
-        // Vérification si la carte existe
-        if (!$carte) {
-            Log::info('Carte non trouvée pour idCompte: ' . $idCompte);
-            return redirect()->back()->with('error', 'Carte non trouvée.');
-        }
-
-        $qrCodesPath = public_path("entreprises/{$idCompte}/QR_Codes/QR_Code.svg");
-
-        // Vérification si le fichier QR Code existe
-        if (!File::exists($qrCodesPath)) {
-            Log::info('QR Code non trouvé pour idCompte: ' . $idCompte);
-            return redirect()->back()->with('error', 'Aucun QR Code trouvé.');
-        }
-
-        // Journalisation de l'action de téléchargement
-        Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code Couleur");
-        Log::info('QR Code téléchargé pour idCompte: ' . $idCompte);
-
-        // Téléchargement du fichier QR Code
-        return response()->download($qrCodesPath, 'QR_Code_Couleur.svg');
-    }
-
-    /**
      * Télécharge le QR Code de l'entreprise en noir et blanc.
      *
      * @return \Illuminate\Http\Response Retourne le QR Code généré en noir et blanc pour téléchargement.
@@ -615,34 +578,47 @@ class DashboardClient extends Controller
      * Cette méthode génère un QR Code en fonction d'une URL personnalisée, puis retourne ce QR Code en tant que fichier téléchargeable.
      * Elle journalise également l'action de téléchargement.
      */
-    public function downloadQrCodes()
-    {
-        // Récupération des informations de l'utilisateur connecté
-        $idCompte = session('connexion');
-        $emailUtilisateur = Compte::find($idCompte)->email ?? null; // Email de l'utilisateur ou null si non trouvé
 
-        // Récupération du nom de l'entreprise
-        $carte = Carte::where('idCompte', $idCompte)->first();
-        $entrepriseName = $carte->nomEntreprise;
+        public function downloadQrCodes($colored = false, $format = 'svg')
+        {
+            // Récupération des informations
+            $idCompte = session('connexion');
+            $carte = Carte::where('idCompte', $idCompte)->first();
+            $emailUtilisateur = Compte::find($idCompte)->email ?? null;
+            
+            $entrepriseName = str_replace(' ', '-', $carte->nomEntreprise);
 
-        // Remplacement des espaces dans le nom de l'entreprise par des underscores
-        $entrepriseName = str_replace(' ', '-', $entrepriseName);
+            // Configuration des couleurs selon le paramètre colored (1 ou 0)
+            if ($colored) {
+                $dark = $carte->couleur1;
+                $light = $carte->couleur2;
+                $filename = "{$entrepriseName}_QR_Code_couleur.{$format}";
+            } else {
+                $dark = '000000';
+                $light = 'FFFFFF';
+                $filename = "{$entrepriseName}_QR_Code_nb.{$format}";
+            }
 
-        // Génération de l'URL du QR Code avec les paramètres requis
-        $url = "https://quickchart.io/qr?size=300&dark=000000&light=FFFFFF&format=svg&text=https://app.wisikard.fr/Kard/{$entrepriseName}?idKard=" . $idCompte;
+            // Construction de l'URL du QR Code
+            $url = "https://quickchart.io/qr?" . http_build_query([
+                'size' => 300,
+                'dark' => $dark,
+                'light' => $light,
+                'format' => $format,
+                'text' => "https://app.wisikard.fr/Kard/{$entrepriseName}",
+            ]);
 
-        // Journalisation si les informations d'utilisateur sont valides
-        if (!empty($idCompte) && !empty($emailUtilisateur)) {
-            Log::info('QR Code téléchargé pour idCompte: ' . $idCompte);
-            Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code");
+            // Journalisation si les informations d'utilisateur sont valides
+            if (!empty($idCompte) && !empty($emailUtilisateur)) {
+                Log::info('QR Code téléchargé pour idCompte: ' . $idCompte);
+                Logs::ecrireLog($emailUtilisateur, "Téléchargement QR Code");
+            }
+
+            // Téléchargement du QR Code généré
+            return response()->streamDownload(function () use ($url) {
+                echo file_get_contents($url);
+            }, $filename);
         }
-
-        // Téléchargement du QR Code généré
-        return response()->streamDownload(function () use ($url) {
-            echo file_get_contents($url);
-        }, 'QR_Code.svg');
-    }
-
     /**
      * Affiche le tableau de bord client en PDF.
      *
@@ -921,7 +897,7 @@ class DashboardClient extends Controller
      *
      * @param int $index L'index de la vidéo à supprimer.
      * @return \Illuminate\Http\RedirectResponse Redirige avec un message de succès ou d'erreur.
-     */
+    */
     public function deleteYouTubeVideo($index)
     {
         // Récupération des informations de l'utilisateur connecté
@@ -997,7 +973,7 @@ class DashboardClient extends Controller
      * et actions sont validés et logués.
      *
      * Fonctionnement détaillé :
-     * - Récupère l'ID de compte de l'utilisateur connecté depuis la session.
+     * - Récupère l'ID du compte de l'utilisateur connecté depuis la session.
      * - Trouve la carte correspondante (profil de l'entreprise).
      * - Valide l'existence du répertoire "slider" contenant les images.
      * - Vérifie si le fichier à supprimer existe dans ce répertoire avant d'effectuer l'opération.
@@ -1089,7 +1065,7 @@ class DashboardClient extends Controller
      * de fichiers, ainsi que d'effacer le chemin et le nom du bouton PDF dans la base de données.
      *
      * Fonctionnement détaillé :
-     * - Récupère l'ID de compte de l'utilisateur connecté depuis la session.
+     * - Récupère l'ID de compte de l'utilisateur depuis la session.
      * - Trouve la carte correspondante (les données de l'entreprise).
      * - Vérifie l'existence du fichier PDF sur le système de fichiers.
      * - Supprime le fichier du disque ainsi que les données `pdf` et `nomBtnPdf` dans la table associée.
@@ -1500,7 +1476,6 @@ class DashboardClient extends Controller
             'afficher_email' => 'boolean',
         ]);
 
-
         // Récupération de l'ID de compte depuis la session
         $idCompte = session('connexion');
         $compte = Compte::find($idCompte);
@@ -1519,11 +1494,27 @@ class DashboardClient extends Controller
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
 
-        // Ancien et nouveau noms d'entreprise (gérer potentiels changements)
+        // Ancien et nouveau noms d'entreprise
         $ancienNomEntreprise = $carte->nomEntreprise;
         $nouveauNomEntreprise = $request->nomEntreprise;
+        
+        // Vérifier si le nouveau nom d'entreprise existe déjà (sauf pour l'entreprise actuelle)
+        if ($ancienNomEntreprise !== $nouveauNomEntreprise && 
+            Carte::where('nomEntreprise', $nouveauNomEntreprise)
+                 ->where('idCarte', '!=', $carte->idCarte)
+                 ->exists()) {
+            return redirect()->back()->with('error', 'Ce nom d\'entreprise est déjà utilisé.');
+        }
 
+        // Vérifier si le nouveau nom d'entreprise existe déjà (sauf pour l'entreprise actuelle)
+        if ($ancienNomEntreprise !== $nouveauNomEntreprise && 
+            Carte::where('nomEntreprise', $nouveauNomEntreprise)
+                 ->where('idCarte', '!=', $carte->idCarte)
+                 ->exists()) {
+            return redirect()->back()->with('error', 'Ce nom d\'entreprise est déjà utilisé.');
+        }
 
+        // Continue avec la mise à jour si le nom est disponible
         // Mise à jour des informations restantes
         $carte->tel = $request->tel;
         $carte->ville = $request->adresse;
@@ -1632,7 +1623,7 @@ class DashboardClient extends Controller
         // Vérifier si la carte existe
         if (!$carte) {
             Log::error("Échec : Aucun compte trouvé pour idCompte : {$idCompte}");
-            return redirect()->back()->with('error', 'Compte introuvable.');
+            return redirect()->back()->with('error', 'Compte non trouvé.');
         }
 
         // Construire le chemin de destination pour le PDF
@@ -1690,6 +1681,7 @@ class DashboardClient extends Controller
         } catch (\Exception $e) {
             // Gestion et journalisation des erreurs
             Log::error("Erreur lors du téléchargement du fichier PDF pour idCompte : {$idCompte}. Détails : {$e->getMessage()}");
+            // Ajouter un log d'erreur personnalisé en base de données
             Logs::ecrireLog($carte->compte->email, "Erreur lors du téléchargement du fichier PDF");
 
             // Retourner un message d'erreur
@@ -1703,7 +1695,7 @@ class DashboardClient extends Controller
      * @param bool $colored Si true, utilise les couleurs personnalisées, sinon noir et blanc
      * @return \Illuminate\Http\Response
      */
-    public function downloadQrCodePDF($colored = false)
+    public function downloadQrCodePDF($colored = false, $format = 'svg')
     {
         // Récupération des informations
         $idCompte = session('connexion');
@@ -1718,12 +1710,11 @@ class DashboardClient extends Controller
         if ($colored) {
             $dark = $carte->couleur1 ?? '000000';
             $light = $carte->couleur2 ?? 'FFFFFF';
-            $filename = 'qrcode_color_'.$nomBtnPdf.'.svg';
+            $filename = "qrcode_pdf_color_{$nomBtnPdf}.{$format}";
         } else {
             $dark = '000000';
             $light = 'FFFFFF';
-            
-            $filename = 'qrcode_bw_'.$nomBtnPdf.'.svg';
+            $filename = "qrcode_pdf_bw_{$nomBtnPdf}.{$format}";
         }
         
         // Construction de l'URL
@@ -1731,19 +1722,20 @@ class DashboardClient extends Controller
             'size' => 300,
             'dark' => $dark,
             'light' => $light,
-            'format' => 'svg',
+            'format' => $format,
             'text' => "https://app.wisikard.fr/entreprises/{$idCompte}/pdf/{$nomBtnPdf}.pdf"
         ]);
 
         try {
             $qrCode = file_get_contents($qrCodeUrl);
             return Response::make($qrCode)
-                ->header('Content-Type', 'image/svg+xml')
+                ->header('Content-Type', $format === 'svg' ? 'image/svg+xml' : 'image/png')
                 ->header('Content-Disposition', "attachment; filename=\"{$filename}\"");
         } catch (\Exception $e) {
             Log::error('Erreur lors de la génération du QR code PDF', [
                 'error' => $e->getMessage(),
-                'colored' => $colored
+                'colored' => $colored,
+                'format' => $format
             ]);
             return redirect()->back()->with('error', 'Erreur lors de la génération du QR code.');
         }
@@ -1912,7 +1904,6 @@ class DashboardClient extends Controller
         $carte = Carte::where('idCompte', $idCompte)->first();
 
         if (!$carte) {
-            // Journaliser un avertissement et retourner une erreur
             Log::warning('Carte non trouvée pour mise à jour de la police', ['email' => $emailUtilisateur]);
             return redirect()->back()->with('error', 'Carte non trouvée.');
         }
@@ -2186,8 +2177,9 @@ class DashboardClient extends Controller
      * - "Employé introuvable." : Si l'employé correspondant à `empId` n'est pas trouvé.
      * - "QR Code introuvable sur le serveur." : Si le fichier correspondant au QR Code de l'employé est introuvable.
      *
-     * Exemple de chemin de fichier pour le QR Code :
-     * "entreprises/{idCompte}_{nomEntreprise}/QR_Codes/QR_Code_{idEmp}.svg"
+     * Journalisation :
+     * - En cas de succès, l'adresse e-mail de l'utilisateur est journalisée avec le QR Code téléchargé.
+     * - En cas d'échec, l'erreur est enregistrée avec le détail du problème.
      */
     public function downloadQrCodeEmp(Request $request)
     {

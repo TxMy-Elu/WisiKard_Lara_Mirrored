@@ -104,16 +104,16 @@ Route::middleware([Authentification::class])->group(function () {
     Route::patch('/updateFont', [DashboardClient::class, 'updateFont'])->name('updateFont');
 
     // QrCode pour des fonctionnalités client
-    Route::get('/downloadQrCodes', [DashboardClient::class, 'downloadQrCodes'])->name('downloadQrCodes');
-    Route::get('/downloadQrCodesColor', [DashboardClient::class, 'downloadQrCodesColor'])->name('downloadQrCodesColor');
+    Route::get('/downloadQrCodes/{colored?}/{format?}', [DashboardClient::class, 'downloadQrCodes'])
+        ->name('downloadQrCodes')
+        ->where('colored', '0|1')
+        ->where('format', 'svg|png');
 
     // QrCode pour pdf
-    Route::get('/download-qrcode-pdf-color', [DashboardClient::class, 'downloadQrCodePDF'])
-        ->name('download.qrcode.pdf.color')
-        ->defaults('colored', true);
-    Route::get('/download-qrcode-pdf', [DashboardClient::class, 'downloadQrCodePDF'])
+    Route::get('/download-qrcode-pdf/{colored?}/{format?}', [DashboardClient::class, 'downloadQrCodePDF'])
         ->name('download.qrcode.pdf')
-        ->defaults('colored', false);
+        ->where('colored', '0|1')
+        ->where('format', 'svg|png');
 
     // Gestion Entreprises
     Route::delete('/entreprise/{id}', [Entreprise::class, 'destroy'])->name('entreprise.destroy');

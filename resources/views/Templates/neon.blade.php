@@ -165,7 +165,6 @@
 
 <body>
     <div class="container mx-auto px-4 py-8">
-        <h1 style="color:#ff0000;text-align:center">Modèle en cours de création</h1>
         <!-- Logo et titre -->
         <div class="neon-container text-center mb-8">
             @php
@@ -264,7 +263,91 @@
                 <lord-icon src="https://cdn.lordicon.com/dxnllioo.json" trigger="loop" colors="primary:#ffffff"></lord-icon>
                 Installer
             </button>
+
+            <!-- Horaires -->
+            @if($horaires && count($horaires) > 0)
+                <button onclick="openHorairesModal()" class="cyber-button">
+                    <lord-icon src="https://cdn.lordicon.com/warimioc.json" trigger="loop" colors="primary:#ffffff"></lord-icon>
+                    Horaires
+                </button>
+            @endif
         </div>
+
+        <!-- Modal Horaires -->
+        @if($horaires && count($horaires) > 0)
+            <div id="horairesModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+                <div class="relative bg-black p-6 rounded-lg w-11/12 max-w-lg border-2" style="border-color: {{ $carte->couleur1 }}">
+                    <h2 class="text-2xl font-bold text-center text-white mb-4">Horaires d'ouverture</h2>
+                    <div class="space-y-2">
+                        @foreach($horaires as $jour => $horaire)
+                            @php
+                                $jours = [
+                                    0 => 'Lundi',
+                                    1 => 'Mardi',
+                                    2 => 'Mercredi',
+                                    3 => 'Jeudi',
+                                    4 => 'Vendredi',
+                                    5 => 'Samedi',
+                                    6 => 'Dimanche'
+                                ];
+                            @endphp
+                            <div class="flex justify-between items-center text-white">
+                                <span class="">{{ $jours[$jour] ?? 'Jour inconnu' }}</span>
+                                <span>
+                                    @if($horaire->ouverture_matin && $horaire->fermeture_matin && $horaire->ouverture_aprmidi && $horaire->fermeture_aprmidi)
+                                        {{ date('H:i', strtotime($horaire->ouverture_matin)) }}
+                                        - {{ date('H:i', strtotime($horaire->fermeture_matin)) }} /
+                                        {{ date('H:i', strtotime($horaire->ouverture_aprmidi)) }}
+                                        - {{ date('H:i', strtotime($horaire->fermeture_aprmidi)) }}
+                                    @else
+                                        Fermé
+                                    @endif
+                                </span>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button onclick="closeHorairesModal()" 
+                            class="absolute top-2 right-2 text-white text-xl font-bold p-2">
+                        &times;
+                    </button>
+                </div>
+            </div>
+        @endif
+        
+        <!-- Liens personnalisés -->
+        @if($custom && count($custom) > 0)
+            <div class="neon-container">
+                <h2 class="neon-title text-2xl mb-4">Liens personnalisés</h2>
+                <div class="space-y-4">
+                    @foreach($custom as $link)
+                        <a href="{{ $link['lien'] }}" 
+                           target="_blank" 
+                           class="cyber-button w-full flex items-center justify-between">
+                            <div class="flex items-center">
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/bjxtqill.json"
+                                    trigger="loop"
+                                    delay="1000"
+                                    colors="primary:#ffffff"
+                                    class="w-6 h-6 mr-2">
+                                </lord-icon>
+                                <span>{{ $link['nom'] }}</span>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="2"
+                                 stroke="currentColor"
+                                 class="w-5 h-5">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         
         <!-- Réseaux sociaux -->
         @if(count($mergedSocial) > 0)
@@ -273,7 +356,7 @@
                     @foreach($mergedSocial as $so)
                         <a href="{{ $so['lien'] }}" target="_blank" rel="noopener noreferrer"
                            class="social-icon flex justify-center items-center">
-                            <div class="w-12 h-12 fill-current text-white">
+                            <div class="fill-current text-white">
                                 {!! $so['logo'] !!}
                             </div>
                         </a>
@@ -436,11 +519,21 @@
             modal.classList.add('hidden');
         }
 
+        // Fonctions pour le modal Horaires
+        function openHorairesModal() {
+            document.getElementById('horairesModal').classList.remove('hidden');
+        }
+
+        function closeHorairesModal() {
+            document.getElementById('horairesModal').classList.add('hidden');
+        }
+
         // Fermer les modals avec la touche Echap
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeImageModal();
                 closeVideoModal();
+                closeHorairesModal();
             }
         });
     </script>

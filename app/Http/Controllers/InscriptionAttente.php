@@ -5,7 +5,7 @@ use App\Models\Compte;
 use App\Models\Logs;
 use App\Models\Employer;
 use App\Models\Carte;
-use App\Models\Inscription_attente; // Corrigé ici
+use App\Models\Inscription_attente;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -126,8 +126,15 @@ class InscriptionAttente extends Controller
             }
 
             $mail = $request->input('mail');
-            if (Inscription_attente::where('mail', $mail)->exists()) { // Corrigé ici
+            if (Inscription_attente::where('mail', $mail)->exists()) {
                 $messagesErreur[] = "Cette adresse email a déjà été utilisée";
+                $validationFormulaire = false;
+            }
+
+            // Vérification du nom d'entreprise
+            $nomEntreprise = $request->input('entreprise');
+            if (Carte::existeNomEntreprise($nomEntreprise)) {
+                $messagesErreur[] = "Ce nom d'entreprise est déjà utilisé";
                 $validationFormulaire = false;
             }
 
@@ -151,7 +158,7 @@ class InscriptionAttente extends Controller
                 date_default_timezone_get();
                 $date = date('Y/m/d');
 
-                inscription_attente::create([ // Corrigé ici
+                inscription_attente::create([
                     'nom_entre' => $request->input('entreprise'),
                     'mail' => $request->input('mail'),
                     'mdp' => $motDePasseHashe,
@@ -185,7 +192,7 @@ class InscriptionAttente extends Controller
     {
         try {
             Log::info('Tentative de suppression de l\'inscrit en attente', ['id_inscripAttente' => $id]);
-            $inscription = Inscription_attente::findOrFail($id); // Corrigé ici
+            $inscription = Inscription_attente::findOrFail($id);
             $inscription->delete();
 
             Log::info('Inscription supprimée avec succès', ['id_inscripAttente' => $id]);

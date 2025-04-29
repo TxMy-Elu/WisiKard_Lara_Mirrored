@@ -253,7 +253,7 @@
                     <!-- Modal -->
                     <div id="modalForm"
                          class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden z-50">
-                        <div class="bg-white rounded-lg shadow-xl p-6 w-1/3 relative">
+                        <div class="bg-white rounded-lg shadow-xl p-6 w-2/3 relative">
                             <!-- Bouton de fermeture du modal (croix) -->
                             <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none"
                                     onclick="document.getElementById('modalForm').classList.add('hidden')">
@@ -335,36 +335,60 @@
                     <!-- Download Buttons -->
                     <div class="border-b-2 border-b-gray-200">
                         <div class="flex justify-center space-x-4 mt-4 mb-4">
-                            <a href="{{ route('downloadQrCodesColor') }}"
-                               class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600 @if($compte->role == 'starter') blur-[3px] pointer-events-none opacity-50 @endif">
-                                Couleur
-                                <!-- Espace entre le texte et le SVG -->
-                                <span class="ml-2"></span>
-                                <!-- Download svg -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="feather feather-download">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                            </a>
-                            <a href="{{ route('downloadQrCodes') }}"
-                               class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
-                                Noir / Blanc
-                                <!-- Espace entre le texte et le SVG -->
-                                <span class="ml-2"></span>
-                                <!-- Download svg -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="feather feather-download">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                            </a>
+                            <div class="flex flex-col space-y-2">
+                                <h3 class="text-center font-semibold text-gray-700">Couleur</h3>
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('downloadQrCodes', ['colored' => 1, 'format' => 'svg']) }}"
+                                       class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                                        SVG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('downloadQrCodes', ['colored' => 1, 'format' => 'png']) }}"
+                                       class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                                        PNG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <h3 class="text-center font-semibold text-gray-700">Noir / Blanc</h3>
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('downloadQrCodes', ['colored' => 0, 'format' => 'svg']) }}"
+                                       class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                                        SVG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('downloadQrCodes', ['colored' => 0, 'format' => 'png']) }}"
+                                       class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                                        PNG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @if($carte->lienPdf)
@@ -374,36 +398,60 @@
                         </div>
                         <!-- Download Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 mb-4">
-                            <a href="{{ route('download.qrcode.pdf.color') }}"
-                               class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
-                                Couleur
-                                <!-- Espace entre le texte et le SVG -->
-                                <span class="ml-2"></span>
-                                <!-- Download svg -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="feather feather-download">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                            </a>
-                            <a href="{{ route('download.qrcode.pdf') }}"
-                               class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
-                                Noir / Blanc
-                                <!-- Espace entre le texte et le SVG -->
-                                <span class="ml-2"></span>
-                                <!-- Download svg -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="feather feather-download">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                            </a>
+                            <div class="flex flex-col space-y-2">
+                                <h3 class="text-center font-semibold text-gray-700">Couleur</h3>
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('download.qrcode.pdf', ['colored' => 1, 'format' => 'svg']) }}"
+                                       class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                                        SVG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('download.qrcode.pdf', ['colored' => 1, 'format' => 'png']) }}"
+                                       class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-600">
+                                        PNG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <h3 class="text-center font-semibold text-gray-700">Noir / Blanc</h3>
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('download.qrcode.pdf', ['colored' => 0, 'format' => 'svg']) }}"
+                                       class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                                        SVG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('download.qrcode.pdf', ['colored' => 0, 'format' => 'png']) }}"
+                                       class="flex items-center justify-center px-4 py-2 border border-gray-900 text-gray-900 rounded-lg text-sm hover:bg-gray-100">
+                                        PNG
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="ml-2 feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endif
