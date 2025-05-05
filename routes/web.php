@@ -55,6 +55,8 @@ Route::middleware([Authentification::class])->group(function () {
 
         Route::get('/modifier-mot-de-passe/{id}', [DashboardAdmin::class, 'showModifyPasswordForm'])->name('modifierMdp');
         Route::put('/compte/{id}', [DashboardAdmin::class, 'updateMDP'])->name('updateMDP');
+
+        Route::get('/regenerateManifest/{id}', [DashboardAdmin::class, 'regenerateManifest'])->name('regenerateManifest');
     });
 
     // Groupe réservé aux Clients (après authentification)

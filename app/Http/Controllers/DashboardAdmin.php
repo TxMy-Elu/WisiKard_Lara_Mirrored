@@ -514,4 +514,27 @@ class DashboardAdmin extends Controller
         // Redirection vers le tableau de bord administratif après l'opération
         return redirect()->route('dashboardAdmin');
     }
+
+    /**
+     * Régénère le manifest d'une entreprise.
+     *
+     * @param int $id Identifiant du compte auquel l'entreprise est associée.
+     * @return \Illuminate\Http\RedirectResponse Redirige vers le tableau de bord de l'administrateur après l'opération.
+     *
+     * Cette méthode trouve le compte lié à l'identifiant donné, puis récupère l'entreprise associée à ce compte.
+     * Si une entreprise est trouvée, elle régénère le manifest et consigne le processus dans les journaux.
+     */
+    public function regenerateManifest($id)
+    {
+        $compte = $this->compte->find($id);
+        if ($compte) {
+            $carte = $this->carte->where('idCompte', $compte->idCompte)->first();
+            if ($carte) {
+                Compte::genererManifest($carte->nomEntreprise, $compte->idCompte);
+                Log::info('Manifest regenerated for company: ' . $carte->nomEntreprise);
+                return redirect()->route('dashboardAdmin')->with('success', 'Manifest régénéré avec succès.');
+            }
+        }
+        return redirect()->route('dashboardAdmin')->with('error', 'Impossible de régénérer le manifest.');
+    }
 }

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Ubuntu:wght@400;700&family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;700&family=Bona+Nova:wght@400;700&family=Exo+2:wght@400;700&family=Pacifico&family=Gruppo&family=Rokkitt:wght@400;700&display=swap"
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
     <style>
         .qr-code-container {
             width: 100px;

@@ -205,41 +205,55 @@ class Compte extends Model
             'short_name' => $nomEntreprise . ' - WK',
             'description' => 'La carte de visite numérique Wisikard de ' . $nomEntreprise,
             'start_url' => '/Kard/' . str_replace(' ', '-', $nomEntreprise),
-            'id' => '/Kard/' . str_replace(' ', '-', $nomEntreprise),
+            'id' => str_replace(' ', '-', $nomEntreprise) . '-WISIKARD',
             'display' => 'standalone',
             'display_override' => ['window-controls-overlay'],
             'background_color' => "#ffffff",
             'theme_color' => "#ff0000",
-            'orientation' => 'any',
+            'orientation' => 'portrait',
             'categories' => ['business', 'productivity'],
+            'lang' => 'fr',
             'launch_handler' => [
                 'client_mode' => ['navigate-existing', 'auto']
             ],
-            'scope' => '/',
+            'scope' => 'https://app.wisikard.fr/',
             'icons' => [
                 [
-                    'src' => '../../icons/favicon-16x16.png',
+                    'src' => 'https://app.wisikard.fr/public/icons/favicon-16x16.png',
                     'sizes' => '16x16',
                     'type' => 'image/png'
                 ],
                 [
-                    'src' => '../../icons/favicon-32x32.png',
+                    'src' => 'https://app.wisikard.fr/public/icons/favicon-32x32.png',
                     'sizes' => '32x32',
                     'type' => 'image/png'
                 ],
                 [
-                    'src' => '../../apple-touch-icon.png',
+                    'src' => 'https://app.wisikard.fr/public/apple-touch-icon.png',
                     'sizes' => '180x180',
                     'type' => 'image/png'
                 ],
                 [
-                    'src' => '../../icons/android-chrome-192x192.png',
+                    'src' => 'https://app.wisikard.fr/public/icons/android-chrome-192x192.png',
                     'sizes' => '192x192',
                     'type' => 'image/png'
                 ],
                 [
-                    'src' => '../../icons/android-chrome-384x384.png',
+                    'src' => 'https://app.wisikard.fr/public/icons/android-chrome-384x384.png',
                     'sizes' => '384x384',
+                    'type' => 'image/png'
+                ]
+            ],
+            'screenshots' => [
+                [
+                    'src' => "https://app.wisikard.fr/public/images/desktop-screenshot.jpg",
+                    'sizes' => '1280x720',
+                    'type' => 'image/png',
+                    'form_factor' => 'wide'
+                ],
+                [
+                    'src' => "https://app.wisikard.fr/public/images/mobile-screenshot.jpg",
+                    'sizes' => '720x1280',
                     'type' => 'image/png'
                 ]
             ],
