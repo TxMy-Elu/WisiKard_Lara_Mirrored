@@ -216,7 +216,7 @@
                             </div>
                             <div class="flex justify-end">
                                 <button type="submit"
-                                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full w-48 mt-4">
+                                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full w-48 mt-4" >
                                     Enregistrer
                                 </button>
                             </div>
@@ -322,7 +322,7 @@
                                            value="{{ $couleur2 }}">
                                 </div>
                             </div>
-                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full w-full">
+                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-full w-full" onclick="alert('Le QR Code sera mis à jour dans quelques minutes. Attention : évitez les combinaisons de couleurs trop vives ou contrastées (ex: jaune sur blanc) qui pourraient rendre votre QR code difficile à scanner.')">
                                 Enregistrer
                             </button>
                         </form>
