@@ -481,7 +481,7 @@
                                         </div>
                                     </div>
                                     <div class="p-4">
-                                        <iframe src="https://app.wisikard.fr/iframe?idTemplate=1"
+                                        <iframe src="https://127.0.0.1:9000/iframe?idTemplate=1"
                                             class="w-full rounded-lg border border-gray-200"
                                             loading="lazy">
                                         </iframe>
@@ -522,7 +522,7 @@
                                             </div>
                                         </div>
                                         <div class="p-4">
-                                            <iframe src="https://app.wisikard.fr/iframe?idTemplate={{ $templateId }}"
+                                            <iframe src="https://127.0.0.1:9000/iframe?idTemplate={{ $templateId }}"
                                                 class="w-full rounded-lg border border-gray-200"
                                                 loading="lazy">
                                             </iframe>
